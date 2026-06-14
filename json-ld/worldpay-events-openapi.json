@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Events API",
+  "description": "Receive status updates from Access Worldpay by setting up a webhook.",
+  "version": "1",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/events/openapi",
+  "url": "https://merchant-defined-url.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.1.0",
+  "openapi:paths": [],
+  "keywords": [
+    "Payment",
+    "Payout",
+    "Chargeback"
+  ]
+}

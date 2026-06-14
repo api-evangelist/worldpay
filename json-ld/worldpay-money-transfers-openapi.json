@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Money Transfers API",
+  "description": "Money Transfer OCTs Original Credit Transaction allow funds to be pushed to an eligible card in 30 minutes or less. Withdrawing money from a digital wallet is an example of a Money Transfer OCT.",
+  "version": "1",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/money-transfers/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/moneyTransfers/pushToCard",
+    "/moneyTransfers/query"
+  ],
+  "keywords": []
+}

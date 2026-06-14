@@ -1,0 +1,39 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Parties API",
+  "description": "Create parties, manage your payout instruments and beneficial owners and carry out identity verification checks.",
+  "version": "2025-01-01",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/parties/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.3",
+  "openapi:paths": [
+    "/parties",
+    "/parties/{partyId}",
+    "/parties/{partyId}/deactivation",
+    "/parties/{partyId}/activation",
+    "/parties/{partyId}/balanceAccounts",
+    "/parties/{partyId}/balanceAccounts/{balanceAccountId}",
+    "/parties/{partyId}/beneficialOwners",
+    "/parties/{partyId}/beneficialOwners/{beneficialOwnerId}",
+    "/parties/{partyId}/identityVerification",
+    "/parties/{partyId}/payoutInstruments",
+    "/parties/{partyId}/payoutInstruments/{payoutInstrumentId}"
+  ],
+  "keywords": [
+    "Parties",
+    "Payout instruments",
+    "Balance accounts",
+    "Beneficial owners",
+    "Identity verification"
+  ]
+}

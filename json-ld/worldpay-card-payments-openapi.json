@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Card Payments API",
+  "description": "Take online payments with our Card Payments API.",
+  "version": "7",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/card-payments/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/cardPayments/customerInitiatedTransactions",
+    "/cardPayments/merchantInitiatedTransactions",
+    "/payments/settlements/{linkData}",
+    "/payments/settlements/partials/{linkData}",
+    "/payments/settlements/refunds/full/{linkData}",
+    "/payments/settlements/refunds/partials/{linkData}",
+    "/payments/authorizations/cancellations/{linkData}",
+    "/payments/authorizations/cancellations/partials/{linkData}",
+    "/payments/authorizations/incrementalAuthorizations/{linkData}",
+    "/payments/sales/reversals/{linkData}",
+    "/payments/events/{linkData}",
+    "/payments/events"
+  ],
+  "keywords": []
+}

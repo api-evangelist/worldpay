@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Split Payments API",
+  "description": "Divide funds from a single payment amongst yourself and your parties/sellers.",
+  "version": "2025-06-25",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/split-payments/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/splitPayments",
+    "/splitPayments/{splitPaymentId}/fulfillments",
+    "/splitPayments/{splitPaymentId}/items/{itemId}/fulfillments"
+  ],
+  "keywords": []
+}

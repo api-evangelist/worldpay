@@ -1,0 +1,27 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay FX API",
+  "description": "Manage Foreign Exchange.",
+  "version": "1",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/fx/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/foreignExchange/rates",
+    "/foreignExchange/quote",
+    "/foreignExchange/contract",
+    "/foreignExchange/contract/{contractId}",
+    "/foreignExchange/markup/{entity}"
+  ],
+  "keywords": []
+}

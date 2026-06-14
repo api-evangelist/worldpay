@@ -1,0 +1,2134 @@
+openapi: 3.0.1
+info:
+  title: FraudSight
+  description: >-
+    Request a risk assessment and prevent fraud with this standalone
+    API.<br><br>
+
+
+    __Authentication header__
+
+      ```
+        Authorization: {your_credentials}
+      ```
+      Replace `{your_credentials}` with your base64-encoded Basic Auth username and password given to you by your Worldpay Implementation Manager.
+      <br /> <br />
+      You **must** use the `Authorization` header for any request you send to our FraudSight API.
+      <br /><br />
+      __Accept and Content-Type headers__
+      ```
+      Content-Type: application/vnd.worldpay.fraudsight-v1.hal+json
+      Accept: application/vnd.worldpay.fraudsight-v1.hal+json
+      ```
+
+    We use the Accept header to identify which version of our API you are using.
+    You must use the Accept header for any request you send to our FraudSight
+    API.
+
+    <br /><br />
+
+    We require the Content-Type header if the request you're sending includes a
+    request body, and if the HTTP method is a POST or a PUT.
+
+    <br /><br />
+
+    __DNS whitelisting__
+
+
+    Whitelist the following URLs:
+
+    * `https://try.access.worldpay.com/`
+
+    * `https://access.worldpay.com/`
+
+
+    Please ensure you use DNS whitelisting, not explicit IP whitelisting. When
+    you make a request within Access Worldpay, you should always cache the
+    response returned.
+
+
+    {% admonition type="danger" name="Linking the payment" %}
+
+    You must apply the `riskProfile` from the FraudSight assessment response in
+    the [Card Payments
+    API](/products/card-payments/authorize-a-payment#fraudsight) to link the
+    Worldpay payment. This allows the data model to mature and identify
+    fraudulent transactions. Alternatively make additional [FraudSight
+    update](/products/fraudsight/update) requests. 
+
+
+    See [linking the FraudSight
+    assessment](/products/fraudsight/assessment#linking-the-fraudsight-assessment)
+    for details.
+
+    {% /admonition %}
+  version: v1
+  x-metadata:
+    category:
+      - Risk Assessments
+    business:
+      - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+  - url: https://try.access.worldpay.com
+    description: Test (Try)
+  - url: https://access.worldpay.com
+    description: Live
+paths:
+  /fraudsight/assessment:
+    post:
+      summary: Fraud assessment
+      description: Request a risk assessment
+      operationId: assessment
+      parameters:
+        - in: header
+          name: Content-Type
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+        - in: header
+          name: Accept
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+      requestBody:
+        content:
+          application/vnd.worldpay.fraudsight-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/fraudsight_assess'
+            examples:
+              card/front:
+                $ref: '#/components/examples/assessment-request-card'
+              card/tokenized:
+                $ref: '#/components/examples/assessment-request-token'
+              card/networkToken:
+                $ref: '#/components/examples/assessment-request-network-token'
+              card/plain+masked:
+                $ref: '#/components/examples/assessment-request-card-plain-masked'
+              card/front (request exemption):
+                $ref: '#/components/examples/assessment-request-card-exemption'
+      responses:
+        '200':
+          description: The authentication has been created
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_assess_200_response'
+              examples:
+                lowRisk:
+                  $ref: '#/components/examples/assessment-response-low-risk'
+                review:
+                  $ref: '#/components/examples/assessment-response-review'
+                highRisk:
+                  $ref: '#/components/examples/assessment-response-high-risk'
+                lowRisk (exemption):
+                  $ref: >-
+                    #/components/examples/assessment-response-low-risk-with-exemption
+                review (exemption):
+                  $ref: >-
+                    #/components/examples/assessment-response-review-with-exemption
+                highRisk (exemption):
+                  $ref: >-
+                    #/components/examples/assessment-response-high-risk-with-exemption
+        '400':
+          description: Assessment request contains invalid values
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_assessment_400_response'
+              examples:
+                An assessment request with invalid value in request body:
+                  description: >-
+                    An assessment request using an email which is 2 characters
+                    long
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    validationErrors:
+                      - errorName: stringFailedRegexCheck
+                        message: Email must be a valid email address
+                        jsonPath: $.riskData.account.email
+                      - errorName: stringIsTooShort
+                        message: Email must be between 3 and 254 characters inclusive
+                        jsonPath: $.riskData.account.email
+                    message: The json body provided does not match the expected schema
+                An assessment request using invalid header:
+                  description: An assessment request using invalid 'Content-Type' header
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: A valid 'Content-Type' header must be provided
+                An assessment request using invalid http method:
+                  description: An assessment request using GET method instead of POST
+                  value:
+                    errorName: methodNotAllowed
+                    message: method GET not allowed for this request
+        '401':
+          description: Assessment request is unauthorized
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_assessment_401_response'
+              examples:
+                An assessment request with invalid Authorization header:
+                  description: An assessment request using invalid Authorization header
+                  value:
+                    errorName: unAuthorized
+                    message: Invalid access token
+        '503':
+          description: The requested service is unavailable
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_assessment_503_response'
+              examples:
+                The requested service is unavailable:
+                  description: The requested service is unavailable
+                  value:
+                    errorName: serviceUnavailable
+                    message: Service unavailable
+  /fraudsight/update/payment:
+    post:
+      tags:
+        - Update
+      summary: Provide details of the payment outcome
+      description: >
+        Provide payment outcome information.
+
+
+        __Note:__ This should only be provided if using a different gateway for
+        the payment.
+      operationId: updatePayment
+      parameters:
+        - in: header
+          name: Content-Type
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+        - in: header
+          name: Accept
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+      requestBody:
+        content:
+          application/vnd.worldpay.fraudsight-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/fraudsight_updatePayment'
+            examples:
+              authorized:
+                $ref: '#/components/examples/payment-request-authorized'
+              refused:
+                $ref: '#/components/examples/payment-request-refused'
+      responses:
+        '204':
+          description: Successful update with payment information
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              examples:
+                Payment outcome details are provided to the fraudsight service:
+                  description: >-
+                    Payment outcome details are provided to the fraudsight
+                    service
+                  value: {}
+        '400':
+          description: Update payment request contains invalid values
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_updatePayment_400_response'
+              examples:
+                An update payment request with invalid value in request body:
+                  description: An update payment request with empty `authentication.eci`
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    validationErrors:
+                      - errorName: stringIsTooShort
+                        message: Authentication eci must be 2 characters long
+                        jsonPath: $.authentication.eci
+                      - errorName: fieldHasInvalidValue
+                        message: Authentication eci must be a valid string
+                        jsonPath: $.authentication.eci
+                    message: The json body provided does not match the expected schema
+                An update payment request using invalid http method:
+                  description: An update payment request using GET method instead of POST
+                  value:
+                    errorName: methodNotAllowed
+                    message: method GET not allowed for this request
+                An update payment request with invalid JSON:
+                  description: An update payment request with invalid JSON
+                  value:
+                    errorName: bodyIsNotJson
+                    message: Request contained invalid json
+        '401':
+          description: Update payment request is unauthorized
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_updatePayment_401_response'
+              examples:
+                An update payment request with invalid Authorization header:
+                  description: An update payment request using invalid Authorization header
+                  value:
+                    errorName: unAuthorized
+                    message: Invalid access token
+  /fraudsight/update/fraud:
+    post:
+      tags:
+        - Update
+      summary: Provide details of a payment that resulted in fraud
+      description: Provide payment fraud information.
+      operationId: updateFraud
+      parameters:
+        - in: header
+          name: Content-Type
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+        - in: header
+          name: Accept
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+      requestBody:
+        content:
+          application/vnd.worldpay.fraudsight-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/fraudsight_updateFraud'
+            examples:
+              Provide details of a payment that resulted in fraud:
+                $ref: '#/components/examples/fraud-request'
+      responses:
+        '204':
+          description: Successful update with fraud information
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              examples:
+                Provide details of a payment that resulted in fraud:
+                  description: Provide details of a payment that resulted in fraud
+                  value: {}
+        '400':
+          description: Update fraud request contains invalid values
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_updateFraud_400_response'
+              examples:
+                An update fraud request with invalid value in request body:
+                  description: An update fraud request with empty `acquirerReference`
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    validationErrors:
+                      - errorName: stringIsTooShort
+                        message: >-
+                          Acquirer reference must be between 1 and 128
+                          characters inclusive
+                        jsonPath: $.acquirerReference
+                    message: The json body provided does not match the expected schema
+                An update fraud request using invalid http method:
+                  description: An update fraud request using GET method instead of POST
+                  value:
+                    errorName: methodNotAllowed
+                    message: method GET not allowed for this request
+                An update fraud request with invalid header:
+                  description: An update fraud request with "Content-Type" header of `null`
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: A valid 'Content-Type' header must be provided
+        '401':
+          description: Update fraud request is unauthorized
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_updateFraud_401_response'
+              examples:
+                An update fraud request with invalid Authorization header:
+                  description: An update fraud request using invalid Authorization header
+                  value:
+                    errorName: unAuthorized
+                    message: Invalid access token
+  /fraudsight/update/chargeback:
+    post:
+      tags:
+        - Update
+      summary: Provide details of a payment that resulted in a chargeback
+      description: Provide payment chargeback information.
+      operationId: updateChargeback
+      parameters:
+        - in: header
+          name: Content-Type
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+        - in: header
+          name: Accept
+          required: true
+          schema:
+            type: string
+            example: application/vnd.worldpay.fraudsight-v1.hal+json
+      requestBody:
+        content:
+          application/vnd.worldpay.fraudsight-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/fraudsight_updateChargeback'
+            examples:
+              Provide details of a payment that resulted in a chargeback (fraud):
+                $ref: '#/components/examples/chargeback-request'
+      responses:
+        '204':
+          description: Successful update with chargeback information
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              examples:
+                Provide details of a payment that resulted in a chargeback:
+                  description: Provide details of a payment that resulted in a chargeback
+                  value: {}
+        '400':
+          description: Update payment request contains invalid values
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_updateChargeback_400_response'
+              examples:
+                An update chargeback request with invalid value in request body:
+                  description: An update chargeback request with empty `acquirerReference`
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    validationErrors:
+                      - errorName: stringIsTooShort
+                        message: >-
+                          Acquirer reference must be between 1 and 128
+                          characters inclusive
+                        jsonPath: $.acquirerReference
+                    message: The json body provided does not match the expected schema
+                An update chargeback request using invalid http method:
+                  description: >-
+                    An update chargeback request using GET method instead of
+                    POST
+                  value:
+                    errorName: methodNotAllowed
+                    message: method GET not allowed for this request
+                An update chargeback request with invalid JSON:
+                  description: An update chargeback request with invalid JSON
+                  value:
+                    errorName: bodyIsNotJson
+                    message: Request contained invalid json
+        '401':
+          description: Update chargeback request is unauthorized
+          content:
+            application/vnd.worldpay.fraudsight-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/fraudsight_updateChargeback_401_response'
+              examples:
+                An update chargeback request with invalid Authorization header:
+                  description: >-
+                    An update chargeback request using invalid Authorization
+                    header
+                  value:
+                    errorName: unAuthorized
+                    message: Invalid access token
+components:
+  schemas:
+    firstName:
+      maxLength: 22
+      minLength: 1
+      pattern: ^[a-zA-Z]*$
+      type: string
+      description: Customer's first name.
+    lastName:
+      maxLength: 22
+      minLength: 1
+      pattern: ^[a-zA-Z]*$
+      type: string
+      description: Customer's last name.
+    phoneNumber:
+      maxLength: 20
+      minLength: 4
+      pattern: ^[0-9]*$
+      type: string
+      description: Customer's phone number.
+    shopperId:
+      maxLength: 128
+      minLength: 1
+      type: string
+      description: >-
+        A unique identifier for the customer. Use it to create manual fraud
+        rules and identify your customers.
+    email:
+      maxLength: 254
+      minLength: 3
+      pattern: ^.+@.+$
+      type: string
+      description: The customer's email address.
+    dateOfBirth:
+      maxLength: 20
+      minLength: 1
+      type: string
+      format: date
+      description: The customer's date of birth.
+    entity:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[A-Za-z0-9 ]*$
+      type: string
+      description: >-
+        Used to route the request in Access Worldpay, created as part of
+        on-boarding.
+    transactionReference:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+      type: string
+      description: >-
+        A unique reference for authentication. For example, e-commerce order
+        code.
+    cardHolderName:
+      maxLength: 255
+      minLength: 1
+      type: string
+      description: The name on the customer's card.
+    cardExpiryDate:
+      required:
+        - month
+        - year
+      type: object
+      description: Object containing card expiry information.
+      properties:
+        month:
+          maximum: 12
+          minimum: 1
+          type: integer
+          description: Card expiry month
+        year:
+          maximum: 9999
+          minimum: 1
+          type: integer
+          description: Card expiry year
+    billingAddress:
+      required:
+        - address1
+        - city
+        - postalCode
+        - countryCode
+      type: object
+      description: An object containing the billing address information.
+      properties:
+        city:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Billing address city.
+        address1:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 1.
+        postalCode:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Billing address postal code.
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]{2}$
+          type: string
+          description: Billing address country code.
+        state:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: >-
+            Billing address state. Should only be provided following the
+            `ISO-3611-2` two-character sub division (e.g.“CA” for California).
+        address2:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 2.
+        address3:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 3.
+    shippingAddress:
+      required:
+        - address1
+        - city
+        - postalCode
+        - countryCode
+      type: object
+      description: An object containing the shipping address information.
+      properties:
+        city:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Shipping address city.
+        address1:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Shipping address line 1.
+        postalCode:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Postcode of shipping address.
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]{2}$
+          type: string
+          description: Shipping address country code.
+        state:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: >-
+            Shipping address state. Should only be provided following the
+            `ISO-3611-2` two-character sub division (e.g.“CA” for California).
+        address2:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Shipping address line 2.
+        address3:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Shipping address line 3.
+        phoneNumber:
+          maxLength: 20
+          minLength: 4
+          pattern: ^[0-9]*$
+          type: string
+          description: Shipping recipient's phone number.
+    deviceData:
+      type: object
+      description: Object containing device data information.
+      properties:
+        collectionReference:
+          maxLength: 128
+          minLength: 30
+          pattern: ^[A-Za-z0-9_-]*$
+          type: string
+          description: >-
+            Use the sessionId specified in the ThreatMetrix Device Data
+            Collection to link this data to the assessment.
+        ipAddress:
+          minLength: 1
+          type: string
+          description: >-
+            A unique identifier for your customer's physical location that can
+            be used in a fraud assessment. Must be in IPv4 or IPv6 format.
+    custom:
+      type: object
+      description: >-
+        Additional values specific to your order that can be used to create
+        manual fraud rules.
+      properties:
+        number1:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 1.
+        number2:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 2.
+        number3:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 3.
+        number4:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 4.
+        number5:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 5.
+        number6:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 6.
+        number7:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 7.
+        number8:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 8.
+        number9:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 9.
+        number10:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: Custom number field 10.
+        string1:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 1.
+        string2:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 2.
+        string3:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 3.
+        string4:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 4.
+        string5:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 5
+        string6:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 6.
+        string7:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 7.
+        string8:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 8.
+        string9:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 9.
+        string10:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Custom string field 10.
+    value:
+      required:
+        - amount
+        - currency
+      type: object
+      description: An object that contains information about the value of the assessment.
+      properties:
+        amount:
+          maximum: 99999999999
+          minimum: 0
+          type: integer
+          description: >-
+            The authentication amount. This is a whole number with an exponent,
+            e.g. if exponent is two, 250 is 2.50. You can find the relevant
+            exponent in our [currency
+            table](/products/reference/supported-countries-currencies#iso-currency-codes).
+            The assessment amount should be equal to the authorization amount.
+            We recommend you delay assessment until the amount is known, or
+            ensure it's greater than the total transaction amount.
+        currency:
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: >-
+            The three digit currency code. See list of [supported
+            currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
+    card_front:
+      required:
+        - type
+        - cardNumber
+        - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/front
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          $ref: '#/components/schemas/cardExpiryDate'
+        cardNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: Clear card number (PAN).
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+    card_tokenized:
+      required:
+        - type
+        - href
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/tokenized
+          description: An identifier for the `paymentInstrument` being used.
+        href:
+          minLength: 1
+          type: string
+          description: An `http` address that contains your link to an Access Token
+    card_networktoken:
+      required:
+        - type
+        - tokenNumber
+        - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/networkToken
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          $ref: '#/components/schemas/cardExpiryDate'
+        tokenNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: The network token number
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+    card_plainmasked:
+      required:
+        - type
+        - cardBin
+        - lastFour
+        - reference
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/plain+masked
+          description: An identifier for the `paymentInstrument` being used.
+        cardBin:
+          maxLength: 8
+          minLength: 4
+          pattern: ^[0-9]*$
+          type: string
+          description: BIN range of payment card
+        lastFour:
+          maxLength: 4
+          minLength: 4
+          pattern: ^[0-9]*$
+          type: string
+          description: Last four digits of payment card
+        reference:
+          maxLength: 36
+          minLength: 10
+          type: string
+          description: A unique reference for this payment card
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+    fraudsight_assess:
+      required:
+        - transactionReference
+        - merchant
+        - instruction
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+            - entity
+          type: object
+          description: >-
+            An object that contains information about the merchant and API level
+            configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        exemption:
+          required:
+            - capability
+          type: object
+          description: >-
+            An object that contains information about the `type` and `placement`
+            of the requested exemption.
+          properties:
+            capability:
+              type: string
+              enum:
+                - authorizationOnly
+                - authenticationOnly
+                - authorizationAndAuthentication
+              x-enumDescriptions:
+                authorizationOnly: >-
+                  The SCA Exemptions service can only return a `placement` of
+                  `authorization`.
+                authenticationOnly: >-
+                  The SCA Exemptions service can only return a `placement` of
+                  `authentication` .
+                authorizationAndAuthentication: >-
+                  The SCA Exemptions service can return either a `placement` of
+                  `authorization` or `authentication`.
+              description: >-
+                Indicates whether the exemption requested from us can return a
+                placement of authorization (payment) and/or authentication
+                (3DS).
+            request:
+              type: object
+              description: >-
+                An object used to control the `placement` and `type` of the
+                requested exemption. If not provided, we decide the best
+                placement and type (optimized).
+              properties:
+                placement:
+                  type: string
+                  default: optimized
+                  enum:
+                    - optimized
+                    - authorization
+                    - authentication
+                  x-enumDescriptions:
+                    optimized: We select the best performing placement based on its data.
+                    authorization: >-
+                      A request for an exemption placed within the
+                      authorization.
+                    authentication: >-
+                      A request for an exemption placed within the
+                      authentication (3DS).
+                  description: Defines where the exemption is being requested.
+                type:
+                  type: string
+                  default: optimized
+                  enum:
+                    - optimized
+                    - lowValue
+                    - lowRisk
+                  x-enumDescriptions:
+                    optimized: We select the best performing type based on its data.
+                    lowValue: An exemption for an authorization that is under €30.
+                    lowRisk: >-
+                      An exemption for an authorization that has been through
+                      Transaction Risk Analysis (TRA).
+                  description: Defines which type of exemption is being requested.
+        instruction:
+          required:
+            - value
+            - paymentInstrument
+          type: object
+          description: >-
+            The object that contains all the payment information related to the
+            authentication request.
+          properties:
+            value:
+              $ref: '#/components/schemas/value'
+            paymentInstrument:
+              oneOf:
+                - $ref: '#/components/schemas/card_front'
+                - $ref: '#/components/schemas/card_tokenized'
+                - $ref: '#/components/schemas/card_networktoken'
+                - $ref: '#/components/schemas/card_plainmasked'
+              description: An object that contains the card details or token location.
+              discriminator:
+                mapping:
+                  card/front: '#/components/schemas/card_front'
+                  card/tokenized: '#/components/schemas/card_tokenized'
+                  card/networkToken: '#/components/schemas/card_networktoken'
+                  card/plain+masked: '#/components/schemas/card_plainmasked'
+                propertyName: type
+        requestExemption:
+          type: boolean
+          deprecated: true
+          description: >-
+            __Deprecated, use the `exemption` object.__
+
+
+            Request an SCA Exemption as part of the same request. Only supports
+            a capability of `authorizationOnly`.
+
+
+            __Note:__ Not available for paymentInstrument.type
+            `card/plain+masked`
+        doNotApplyExemption:
+          type: boolean
+          description: >-
+            Request an exemption but don't apply it in the payment. Used for the
+            initial go-live to build up the data model and have more reliable
+            exemption predictions.
+        riskData:
+          type: object
+          description: >-
+            An object that holds risk related information that might help in
+            improving the accuracy of fraud assessment.
+          properties:
+            account:
+              type: object
+              description: Object containing all customer account related risk data.
+              properties:
+                shopperId:
+                  $ref: '#/components/schemas/shopperId'
+                email:
+                  $ref: '#/components/schemas/email'
+                dateOfBirth:
+                  $ref: '#/components/schemas/dateOfBirth'
+            transaction:
+              type: object
+              description: Object containing all customer transaction related risk data.
+              properties:
+                firstName:
+                  $ref: '#/components/schemas/firstName'
+                lastName:
+                  $ref: '#/components/schemas/lastName'
+                phoneNumber:
+                  $ref: '#/components/schemas/phoneNumber'
+            shipping:
+              type: object
+              description: Object containing all data related to how the order is shipped.
+              properties:
+                firstName:
+                  maxLength: 22
+                  minLength: 1
+                  pattern: ^[a-zA-Z]*$
+                  type: string
+                  description: First name of the shipping recipient.
+                lastName:
+                  maxLength: 22
+                  minLength: 1
+                  pattern: ^[a-zA-Z]*$
+                  type: string
+                  description: Last name of the shipping recipient.
+                address:
+                  $ref: '#/components/schemas/shippingAddress'
+            custom:
+              $ref: '#/components/schemas/custom'
+        deviceData:
+          $ref: '#/components/schemas/deviceData'
+    fraudsight_assess_200_response:
+      required:
+        - outcome
+        - transactionReference
+        - riskProfile
+      type: object
+      properties:
+        outcome:
+          enum:
+            - lowRisk
+            - highRisk
+            - review
+          type: string
+          description: >-
+            The outcome of the fraudsight assessment request. To understand more
+            about the outcomes and how to reproduce them, see [FraudSight
+            testing](/products/fraudsight/testing).
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for assessment that was passed in the request.
+        riskProfile:
+          required:
+            - href
+          type: object
+          description: An object that holds the risk profile link.
+          properties:
+            href:
+              maxLength: 1024
+              minLength: 30
+              type: string
+              format: uri
+              description: >
+                A resource to apply in either a [card payment
+                request](/products/card-payments/authorize-a-payment#fraudsight)
+                __OR__ [additional fraudsight
+                requests](/products/fraudsight/update). This represents the
+                outcome of the fraud assessment and exemption. Used to:
+
+                - apply the SCA exemption (if provided)
+
+                - update the data model so future risk assessments are more
+                accurate
+
+
+                __Warning:__ Not providing this will significantly harm the
+                accuracy of future assessments. 
+        score:
+          maximum: 100
+          minimum: 0
+          type: number
+          description: >-
+            Percentage assessment score for the transaction. Higher the value
+            the greater the assessed risk. The outcome value is based on the
+            thresholds configured using this score.
+        reason:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+          description: >
+            Short description of the reason for the outcome. A reason can be
+            returned for any 'outcome', even lowRisk. For example:
+
+            - recent unexpected card activity
+
+            - card unfamiliarity
+
+            - card type often linked to fraud
+
+            - unusual transaction for merchant
+
+            - irregularities in cardholder-entered information
+
+            - high risk email
+
+            - unusual behavior for card
+        exemption:
+          required:
+            - placement
+            - type
+          type: object
+          description: >-
+            An object that holds information about the exemption, if it is
+            granted.
+          properties:
+            placement:
+              enum:
+                - authorization
+                - authentication
+              x-enumDescriptions:
+                authorization: Apply the exemption in the payment authorization.
+                authentication: Apply the exemption in the 3DS authentication.
+              type: string
+              description: >
+                Indicates whether the exemption is provided to be placed in a
+                payment authorization request or 3DS authentication request. 
+            type:
+              enum:
+                - lowValue
+                - lowRisk
+              x-enumDescriptions:
+                lowValue: >-
+                  Apply a lowValue exemption. _(only applicable to a placement
+                  in authorization)_
+                lowRisk: Apply a lowRisk exemption.
+              type: string
+              description: The type of exemption to apply.
+    fraudsight_assessment_400_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+        validationErrors:
+          description: Object containing details of validation errors occurred
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+    fraudsight_assessment_401_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    fraudsight_assessment_503_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    fraudsight_updatePayment:
+      required:
+        - transactionReference
+        - merchant
+        - riskProfile
+        - paymentOutcome
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+            - entity
+          type: object
+          description: >-
+            An object that contains information about the merchant and API level
+            configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        riskProfile:
+          maxLength: 2048
+          minLength: 39
+          type: string
+          format: uri
+          description: >-
+            Represents the outcome of the original fraud assessment. Used to
+            link subsequent Fraud related requests.
+        paymentOutcome:
+          enum:
+            - authorized
+            - refused
+          type: string
+          description: Outcome of the payment authorization.
+        refusalCode:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The refusal response code from the acquirer.
+          example: '5'
+        refusalDescription:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The description of the 'refusalCode'.
+          example: REFUSED
+        cvcResult:
+          enum:
+            - matched
+            - not_matched
+            - not_checked
+            - not_supplied
+          type: string
+          description: Outcome of the CVC check.
+        avsResult:
+          type: object
+          description: Object containing outcome of the address verification service check.
+          properties:
+            address:
+              enum:
+                - matched
+                - not_matched
+                - not_checked
+                - not_supplied
+              type: string
+              description: Outcome of the address check.
+            postcode:
+              enum:
+                - matched
+                - not_matched
+                - not_checked
+                - not_supplied
+              type: string
+              description: Outcome of the postcode check.
+        authentication:
+          type: object
+          description: >-
+            Include this object if 3DS authentication details were part of the
+            payment.
+          properties:
+            version:
+              maxLength: 10
+              minLength: 5
+              pattern: ^([0-9]{1,3})(\.)([0-9]){1,3}(\.)([0-9]{1,3})*$
+              type: string
+              description: 3DS version used by issuer, e.g. `1.0.2`, `2.1.0` or `2.2.0`.
+            eci:
+              maxLength: 2
+              minLength: 2
+              enum:
+                - '00'
+                - '01'
+                - '02'
+                - '05'
+                - '06'
+                - '07'
+              type: string
+              description: >
+                Electronic Commerce Indicator (ECI). Outcome of the 3DS
+                authentication as applied in the payment.
+                  - 02 or 05 - Fully Authenticated Transaction
+                  - 01 or 06 - Attempted Authentication Transaction
+                  - 00 or 07 - Non 3-D Secure Transaction
+                  - Mastercard - 02, 01, 00
+                  - Visa - 05, 06, 07
+                  - Amex - 05, 06, 07
+                  - JCB - 05, 06, 07
+                  - Diners - 05, 06, 07
+    fraudsight_updatePayment_400_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+        validationErrors:
+          description: Object containing details of validation errors occurred
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+    fraudsight_updatePayment_401_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    fraudsight_updateFraud:
+      required:
+        - transactionReference
+        - merchant
+        - riskProfile
+        - source
+        - sourceDate
+        - acquirerReference
+        - fraudReasonCode
+        - value
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+            - entity
+          type: object
+          description: >-
+            An object that contains information about the merchant and API level
+            configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        riskProfile:
+          maxLength: 2048
+          minLength: 39
+          type: string
+          format: uri
+          description: >-
+            Represents the outcome of the original fraud assessment. Used to
+            link subsequent Fraud related requests.
+        source:
+          enum:
+            - SAFE
+            - TC40
+          type: string
+          description: Source format of confirmed fraud cases.
+        sourceDate:
+          maxLength: 20
+          type: string
+          format: date-time
+          description: Date/time of source fraud file (TC40/SAFE).
+        acquirerReference:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: >-
+            Acquirer Reference Number (ARN) - unique value assigned to a credit
+            or debit card transaction.
+        fraudReasonCode:
+          maxLength: 16
+          minLength: 1
+          type: string
+          description: >-
+            Visa and Mastercard reason codes:
+
+
+            | FraudReasonCode | FraudReasonDescription                |   |  
+            |   |
+
+            |-----------------|---------------------------------------|---|---|---|
+
+            | 00              | Lost                                  |   |  
+            |   |
+
+            | 01              | Stolen                                |   |  
+            |   |
+
+            | 02              | Card not received                     |   |  
+            |   |
+
+            | 03              | Fraudulent application                |   |  
+            |   |
+
+            | 04              | Counterfeit                           |   |  
+            |   |
+
+            | 05              | Account Takeover                      |   |  
+            |   |
+
+            | 06              | Cardholder not present                |   |  
+            |   |
+
+            | 07              | Imprinting of multiple sale drafts    |   |  
+            |   |
+
+            | 08              | Other                                 |   |  
+            |   |
+
+            | 900             | Lost                                  |   |  
+            |   |
+
+            | 901             | Stolen                                |   |  
+            |   |
+
+            | 902             | Card not received                     |   |  
+            |   |
+
+            | 903             | Fraudulent application                |   |  
+            |   |
+
+            | 904             | Counterfeit                           |   |  
+            |   |
+
+            | 905             | Account Takeover                      |   |  
+            |   |
+
+            | 906             | Cardholder not present                |   |  
+            |   |
+
+            | 907             | Imprinting of multiple sale drafts    |   |  
+            |   |
+
+            | 908             | Other                                 |   |  
+            |   |
+
+            | 908             | Other                                 |   |  
+            |   |
+
+            | 919             | Other                                 |   |  
+            |   |
+
+            | A               | Incorrect Processing                  |   |  
+            |   |
+
+            | B               | Account or Credentials Takeover Fraud |   |  
+            |   |
+        value:
+          $ref: '#/components/schemas/value'
+    fraudsight_updateFraud_400_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        validationErrors:
+          description: Object containing details of validation errors occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+    fraudsight_updateFraud_401_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    fraudsight_updateChargeback:
+      required:
+        - transactionReference
+        - merchant
+        - riskProfile
+        - sourceDate
+        - acquirerReference
+        - chargebackReasonCode
+        - chargebackCaseReference
+        - chargebackValue
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+            - entity
+          type: object
+          description: >-
+            An object that contains information about the merchant and API level
+            configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        riskProfile:
+          maxLength: 2048
+          minLength: 39
+          type: string
+          format: uri
+          description: >-
+            Represents the outcome of the original fraud assessment. Used to
+            link subsequent fraud related requests.
+        sourceDate:
+          maxLength: 20
+          type: string
+          format: date-time
+          description: Date/time of source fraud file (TC40/SAFE).
+        acquirerReference:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: >-
+            Acquirer Reference Number (ARN) - unique value assigned to a credit
+            or debit card transaction.
+        chargebackReasonCode:
+          maxLength: 4
+          minLength: 2
+          type: string
+          description: Visa and Mastercard reason codes.
+        chargebackCaseReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Case reference for a specific chargeback.
+        chargebackValue:
+          required:
+            - amount
+            - currency
+          type: object
+          description: Object containing value of the chargeback transaction.
+          properties:
+            amount:
+              maximum: 999999999
+              minimum: 0
+              type: integer
+              description: >-
+                The chargeback amount. This is a whole number with an exponent,
+                e.g. if exponent is two, 250 is 2.50.
+            currency:
+              maxLength: 3
+              minLength: 3
+              pattern: ^[A-Z]{3}$
+              type: string
+              description: The three digit currency code.
+    fraudsight_updateChargeback_400_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+        validationErrors:
+          description: Object containing details of validation errors occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+    fraudsight_updateChargeback_401_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    validation_errors:
+      type: object
+      required:
+        - errorName
+        - jsonPath
+        - message
+      properties:
+        errorName:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Unique name of the validation error.
+        jsonPath:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Location of the field in request body for which the error occurred.
+        message:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Error description message.
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  examples:
+    assessment-request-card:
+      description: Assessment using the card instrument
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        instruction:
+          paymentInstrument:
+            type: card/front
+            cardHolderName: Sherlock Holmes
+            cardNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              state: Greater London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+          ipAddress: 192.0.0.0
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1854-01-06'
+            shopperId: id123
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '02031234321'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+          custom:
+            number1: 1
+            number2: 2
+            number3: 3
+            number4: 4
+            number5: 5
+            number6: 6
+            number7: 7
+            number8: 8
+            number9: 9
+            string1: text1
+            string2: text2
+            string3: text3
+            string4: text4
+            string5: text5
+            string6: text6
+            string7: text7
+            string8: text8
+            string9: text9
+    assessment-request-token:
+      description: Assessment using a Worldpay token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        instruction:
+          paymentInstrument:
+            type: card/tokenized
+            href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+          ipAddress: 192.0.0.0
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1854-01-06'
+            shopperId: id123
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '02031234321'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+          custom:
+            number1: 1
+            number2: 2
+            number3: 3
+            number4: 4
+            number5: 5
+            number6: 6
+            number7: 7
+            number8: 8
+            number9: 9
+            string1: text1
+            string2: text2
+            string3: text3
+            string4: text4
+            string5: text5
+            string6: text6
+            string7: text7
+            string8: text8
+            string9: text9
+    assessment-request-network-token:
+      description: Assessment using a network token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        instruction:
+          paymentInstrument:
+            type: card/networkToken
+            tokenNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              state: Greater London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+          ipAddress: 192.0.0.0
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1854-01-06'
+            shopperId: id123
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '02031234321'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+          custom:
+            number1: 1
+            number2: 2
+            number3: 3
+            number4: 4
+            number5: 5
+            number6: 6
+            number7: 7
+            number8: 8
+            number9: 9
+            string1: text1
+            string2: text2
+            string3: text3
+            string4: text4
+            string5: text5
+            string6: text6
+            string7: text7
+            string8: text8
+            string9: text9
+    assessment-request-card-plain-masked:
+      description: >-
+        Assessment using a masked card instrument. Provide the card bin, last 4
+        digits and a unique instrument/customer reference. Perform a risk
+        assessment without the full card number.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        instruction:
+          paymentInstrument:
+            type: card/plain+masked
+            cardBin: '444411'
+            lastFour: '4321'
+            reference: bf94b2ca-ecce-4e6f-bb38-a77dd8a21156
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              state: Greater London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+          ipAddress: 192.0.0.0
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1854-01-06'
+            shopperId: id123
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '02031234321'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+          custom:
+            number1: 1
+            number2: 2
+            number3: 3
+            number4: 4
+            number5: 5
+            number6: 6
+            number7: 7
+            number8: 8
+            number9: 9
+            string1: text1
+            string2: text2
+            string3: text3
+            string4: text4
+            string5: text5
+            string6: text6
+            string7: text7
+            string8: text8
+            string9: text9
+    assessment-request-card-exemption:
+      description: Assessment using the card instrument & requesting an SCA Exemption
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        exemption:
+          capability: authorizationAndAuthentication
+          request:
+            placement: authorization
+            type: lowValue
+        instruction:
+          paymentInstrument:
+            type: card/front
+            cardHolderName: Sherlock Holmes
+            cardNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              state: Greater London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+          ipAddress: 192.0.0.0
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1990-09-09'
+            shopperId: id123
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000000'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+          custom:
+            number1: 1
+            number2: 2
+            number3: 3
+            number4: 4
+            number5: 5
+            number6: 6
+            number7: 7
+            number8: 8
+            number9: 9
+            string1: text1
+            string2: text2
+            string3: text3
+            string4: text4
+            string5: text5
+            string6: text6
+            string7: text7
+            string8: text8
+            string9: text9
+    assessment-response-low-risk:
+      description: Low risk outcome, proceed with the payment
+      value:
+        outcome: lowRisk
+        transactionReference: '123456'
+        score: 44.2
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-review:
+      description: >-
+        Review outcome, review the payment. You may want to proceed with the
+        initial authorization
+      value:
+        outcome: review
+        transactionReference: '123456'
+        reason:
+          - Recent unexpected card activity
+        score: 85.5
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-high-risk:
+      description: High risk outcome, do not proceed with the payment
+      value:
+        outcome: highRisk
+        transactionReference: '123456'
+        reason:
+          - Recent unexpected card activity
+        score: 97.4
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-low-risk-with-exemption:
+      description: >-
+        Low risk outcome. If requested and granted, an SCA Exemption is also
+        returned
+      value:
+        outcome: lowRisk
+        transactionReference: '123456'
+        score: 44.2
+        exemption:
+          placement: authorization
+          type: lowValue
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-review-with-exemption:
+      description: >-
+        Review outcome. If requested and granted, an SCA Exemption is also
+        returned
+      value:
+        outcome: review
+        transactionReference: '123456'
+        reason:
+          - Recent unexpected card activity
+        score: 85.5
+        exemption:
+          placement: authorization
+          type: lowValue
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-high-risk-with-exemption:
+      description: >-
+        High risk outcome. If requested and granted, an SCA Exemption is also
+        returned. Whilst this is unlikely to ever occur, the criteria for fraud
+        analysis and exemption granting is different, so technically possible.
+      value:
+        outcome: highRisk
+        transactionReference: '123456'
+        reason:
+          - Recent unexpected card activity
+        score: 97.4
+        exemption:
+          placement: authorization
+          type: lowValue
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    payment-request-authorized:
+      description: >-
+        Authorized payment outcome details are provided to the FraudSight
+        service. This could be from any Worldpay or 3rd party payment provider.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        riskProfile: >-
+          https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
+        paymentOutcome: authorized
+        cvcResult: matched
+        avsResult:
+          address: matched
+          postcode: matched
+        authentication:
+          version: 2.1.0
+          eci: '05'
+    payment-request-refused:
+      description: >-
+        Refusal payment outcome details are provided to the FraudSight service.
+        This could be from any Worldpay or 3rd party payment provider
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        riskProfile: >-
+          https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
+        paymentOutcome: refused
+        refusalCode: '5'
+        refusalDescription: REFUSED
+        cvcResult: matched
+        avsResult:
+          address: matched
+          postcode: matched
+        authentication:
+          version: 2.1.0
+          eci: '05'
+    fraud-request:
+      description: >-
+        TC40/SAFE fraud information provided to the FraudSight service. This
+        could be from any Worldpay or 3rd party payment provider.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        riskProfile: >-
+          https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
+        source: TC40
+        sourceDate: '2020-12-27T00:00:00Z'
+        acquirerReference: '02691780344910023278387'
+        fraudReasonCode: '5'
+        value:
+          currency: GBP
+          amount: 250
+    chargeback-request:
+      description: >-
+        Chargeback (fraud) information provided to the FraudSight service. This
+        could be from any Worldpay or 3rd party payment provider
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        riskProfile: >-
+          https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
+        sourceDate: '2020-12-27T00:00:00Z'
+        acquirerReference: '02691780344910023278387'
+        chargebackReasonCode: '31'
+        chargebackCaseReference: '123456'
+        chargebackValue:
+          currency: GBP
+          amount: 250
+security:
+  - BasicAuth: []

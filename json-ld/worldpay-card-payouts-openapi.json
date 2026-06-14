@@ -1,0 +1,26 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Card Payouts API",
+  "description": "Send funds to your customer's cards. Standard or using Fast Access.",
+  "version": "4",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/card-payouts/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/payouts/{resource}",
+    "/payouts/query",
+    "/payouts/basicDisbursement",
+    "/payouts/fastAccess"
+  ],
+  "keywords": []
+}

@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Tokens API",
+  "description": "Minimize the exposure of sensitive card details and increase the security of your customer's card details.",
+  "version": "3",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/tokens/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/tokens",
+    "/tokens/{tokenId}",
+    "/tokens/network",
+    "/tokens/network/{id}",
+    "/tokens/network/cryptograms"
+  ],
+  "keywords": [
+    "Token",
+    "Network token"
+  ]
+}

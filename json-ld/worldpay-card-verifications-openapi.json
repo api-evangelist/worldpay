@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Card Verifications API",
+  "description": "Determine the validity of your customer's card to maximize authorization rates.<br><br> Authentication header\n  \n    Authorization: {yourcredentials}\n  \nReplace {yourcredentials} with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager. <br /> <br />\nYou must use the Authorization header for any request you send to our Card Verifications API. <br><br> Accept/Content-Type header for card verifications\n  \n  Content-Type : application/vnd.world",
+  "version": "6",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/card-verifications/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/cardVerifications",
+    "/achVerifications",
+    "/cardVerifications/{linkData}"
+  ],
+  "keywords": []
+}

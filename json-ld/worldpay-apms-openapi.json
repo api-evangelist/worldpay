@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay APMs API",
+  "description": "Pay using eWallets, bank transfers, direct debits, local card schemes, Postpay and eInvoice/ Buy Now Pay Later.",
+  "version": "2024-07-01",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/apms/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/apmPayments",
+    "/apmPayments/status",
+    "/apmPayments/{paymentId}",
+    "/apmPayments/{paymentId}/confirmations",
+    "/apmPayments/{paymentId}/reversals",
+    "/apmPayments/{paymentId}/partialReversals",
+    "/apmPayments/{paymentId}/settlements",
+    "/apmPayments/{paymentId}/partialSettlements"
+  ],
+  "keywords": []
+}

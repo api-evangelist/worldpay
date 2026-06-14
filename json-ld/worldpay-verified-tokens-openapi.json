@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Verified Tokens API",
+  "description": "Verified Tokens ensures that your customer's payment details are valid and CIT compliant when creating a token.",
+  "version": "v3",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/verified-tokens/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/verifiedTokens/cardOnFile",
+    "/verifiedTokens/oneTime"
+  ],
+  "keywords": []
+}

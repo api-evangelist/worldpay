@@ -1,0 +1,2111 @@
+openapi: 3.1.0
+info:
+  title: Events
+  description: >-
+    Receive status updates from Access Worldpay by setting up a webhook.
+
+
+    Contact your Worldpay Implementation Manager to add your webhook URL and
+    enable or disable the events based on your requirement.
+
+
+    The webhook destination (URL) must use an encrypted connection (`https`) and
+    have a certificate signed by a trusted certificate authority. Every
+    certificate within the chain, including the root, must be using a
+    certificate signing algorithm of SHA-256 or better.
+
+
+    Support for certificate chains involving any certs with the SHA-1
+    certificate signing algorithm ends March 2026.
+
+
+    <style>  
+      [class*="tag-post"] {  
+          display: none;
+      }
+    </style>
+  version: '1'
+  x-metadata:
+    category:
+      - Webhooks
+    business:
+      - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+  - url: https://merchant-defined-url.com
+    description: Merchant Webhook Path
+security: []
+externalDocs:
+  description: Developer documentation.
+  url: https://developer.worldpay.com/products/events
+tags:
+  - name: Payment
+    description: 'Receive payment events/webhooks to a URL defined by you. '
+  - name: Payout
+    description: >-
+      Receive **card payout** events/webhooks to a URL defined by you.<br><br>
+      For **account payouts** events please see our [Account Payouts event
+      webhook guide](/products/account-payouts/account-events/).
+  - name: Chargeback
+    description: 'Receive chargeback events/webhooks to a URL defined by you.  '
+webhooks:
+  sentForAuthorization:
+    post:
+      tags:
+        - Payment
+      summary: sentForAuthorization
+      operationId: sentForAuthorizationPayment
+      requestBody:
+        description: >-
+          We've requested permission (from your customer's card issuer) to
+          process your customer's payment.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/sentForAuthorizationPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  authorized:
+    post:
+      tags:
+        - Payment
+      summary: authorized
+      operationId: authorizedPayment
+      requestBody:
+        description: >-
+          The payment has been approved and the funds have been reserved in your
+          customer's account.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              oneOf:
+                - title: Card
+                  type: object
+                  $ref: '#/components/schemas/authorizedPayment'
+                - title: APM - generic
+                  type: object
+                  $ref: '#/components/schemas/authorizedAPMPayment'
+                - title: APM - Klarna
+                  type: object
+                  $ref: '#/components/schemas/authorizedPaymentKlarna'
+                - title: APM - MyBank
+                  type: object
+                  $ref: '#/components/schemas/authorizedPaymentMyBank'
+                - title: APM - iDEAL
+                  type: object
+                  $ref: '#/components/schemas/authorizedPaymentIdeal'
+                - title: APM - Open Banking
+                  type: object
+                  $ref: '#/components/schemas/authorizedPaymentOpenBanking'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  sentForSettlement:
+    post:
+      tags:
+        - Payment
+      summary: sentForSettlement
+      operationId: sentForSettlementPayment
+      requestBody:
+        description: >-
+          You or Access Worldpay have requested to remove the reserved funds in
+          your customer's account and transfer them to your Worldpay account.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              oneOf:
+                - title: Card
+                  type: object
+                  $ref: '#/components/schemas/sentForSettlementPayment'
+                - title: APM - generic
+                  type: object
+                  $ref: '#/components/schemas/sentForSettlementPayment'
+                - title: APM - Pix
+                  type: object
+                  $ref: '#/components/schemas/sentForSettlementPaymentPix'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  settled:
+    post:
+      tags:
+        - Payment
+      summary: settled
+      operationId: settledPayment
+      requestBody:
+        description: >
+          We have received the funds and are preparing to transfer them to your
+          bank account.
+
+          This event is only available in certain use cases. Please speak to
+          your Worldpay Implementation Manager for more details.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/settledPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  settlementFailed:
+    post:
+      tags:
+        - Payment
+      summary: settlementFailed
+      operationId: settlementFailedPayment
+      requestBody:
+        description: >
+          The settlement couldn't be processed and funds have not been
+          transferred to your Worldpay account.
+
+          This event is only available in certain use cases. Please speak to
+          your Worldpay Implementation Manager for more details.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/settlementFailedPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  cancelled:
+    post:
+      tags:
+        - Payment
+      summary: cancelled
+      operationId: cancelledPayment
+      requestBody:
+        description: >
+          You have stopped the transaction before it has been sent for
+          settlement.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/cancelledPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  error:
+    post:
+      tags:
+        - Payment
+      summary: error
+      operationId: errorPayment
+      requestBody:
+        description: >
+          The payment wasn't completed. Your customer may want to reattempt the
+          payment.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/errorPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  expired:
+    post:
+      tags:
+        - Payment
+      summary: expired
+      operationId: expiredPayment
+      requestBody:
+        description: >
+          The authorization period ended before a settlement or cancel request
+          was made.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/expiredPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  refused:
+    post:
+      tags:
+        - Payment
+      summary: refused
+      operationId: refusedPayment
+      requestBody:
+        description: |
+          Your payment request has been declined by a third party.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/refusedPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  sentForRefund:
+    post:
+      tags:
+        - Payment
+      summary: sentForRefund
+      operationId: sentForRefundPayment
+      requestBody:
+        description: >
+          You've requested funds to be sent back to your customer's account. If
+          online authorization was required, this will also contain the
+          `refund.onlineRefundAuthorization`.
+
+          __Payouts through basic disbursement triggers this event.__
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/sentForRefundPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  refunded:
+    post:
+      tags:
+        - Payment
+      summary: refunded
+      operationId: refundedPayment
+      requestBody:
+        description: >
+          The card issuer has received the refund request and they will return
+          the funds to your customer's account. This event is only available in
+          certain use cases. Please speak to your Worldpay Implementation
+          Manager for more details.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/refundedPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  refundFailed:
+    post:
+      tags:
+        - Payment
+      summary: refundFailed
+      operationId: refundFailedPayment
+      requestBody:
+        description: >
+          The refund couldn't be processed and the funds were returned to your
+          account. If online authorization was required, this will also contain
+          the `refund.refusal.code` and `refund.refusal.description`.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/refundFailedPayment'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  tokenCreated:
+    post:
+      tags:
+        - Payment
+      summary: tokenCreated
+      operationId: tokenCreated
+      requestBody:
+        description: >
+          You have successfully created an APM token. For further information on
+          the fields returned see our table.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              oneOf:
+                - title: Card
+                  type: object
+                  $ref: '#/components/schemas/tokenCreatedCard'
+                - title: Klarna
+                  type: object
+                  $ref: '#/components/schemas/tokenCreatedKlarna'
+                - title: iDEAL
+                  type: object
+                  $ref: '#/components/schemas/tokenCreatedIdeal'
+                - title: SEPA
+                  type: object
+                  $ref: '#/components/schemas/tokenCreatedSepa'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  settlementInstructed:
+    post:
+      tags:
+        - Payment
+      summary: settlementInstructed
+      operationId: settlementInstructedPayment
+      requestBody:
+        description: We've received instruction about your settlement.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/settlementInstructed'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  settlementRejected:
+    post:
+      tags:
+        - Payment
+      summary: settlementRejected
+      operationId: settlementRejectedPayment
+      requestBody:
+        description: We've received instruction about your settlement failure.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/settlementRejected'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  topUpAccepted:
+    post:
+      tags:
+        - Payment
+      summary: topUpAccepted
+      operationId: topUpAcceptedPayment
+      requestBody:
+        description: We've received instruction about your top-up request.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/topUpAccepted'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  topUpRejected:
+    post:
+      tags:
+        - Payment
+      summary: topUpRejected
+      operationId: topUpRejectedPayment
+      requestBody:
+        description: We've received instruction about your top-up failure.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/topUpRejected'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  chargedBack:
+    post:
+      tags:
+        - Payment
+      summary: chargedBack
+      operationId: chargedBackPayment
+      requestBody:
+        description: We've received instruction about your charged back request.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/chargedBack'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  cancelledByCustomer:
+    post:
+      tags:
+        - Payment
+      summary: cancelledByCustomer
+      operationId: cancelledByCustomerPayment
+      requestBody:
+        description: We've received instruction about customer's payment cancellation.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/cancelledByCustomer'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  requestExpired:
+    post:
+      tags:
+        - Payment
+      summary: requestExpired
+      operationId: requestExpiredPayment
+      requestBody:
+        description: Your request for APM payment has expired due to customer inactivity.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/requestExpired'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  disbursed:
+    post:
+      tags:
+        - Payout
+      summary: disbursed
+      operationId: disbursedPayout
+      requestBody:
+        description: |
+          Your Fast Access disbursement request has been disbursed.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/disbursedPayout'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  pending:
+    post:
+      tags:
+        - Payout
+      summary: pending
+      operationId: pendingPayout
+      requestBody:
+        description: >
+          Your Fast Access disbursement request has been sent to Visa Direct,
+          and a response is pending. Pending requests usually update to approved
+          or refused within 45 minutes. If no response is received within 48
+          hours, an error is returned.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/pendingPayout'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  refusedPayout:
+    post:
+      tags:
+        - Payout
+      summary: refused
+      operationId: refusedPayout
+      requestBody:
+        description: |
+          Your Fast Access disbursement request was refused.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/refusedPayout'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  requestedPayout:
+    post:
+      tags:
+        - Payout
+      summary: requested
+      operationId: requestedPayout
+      requestBody:
+        description: |
+          Access Payouts has received your Fast Access disbursement request.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/requestedPayout'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  approvedPayout:
+    post:
+      tags:
+        - Payout
+      summary: approved
+      operationId: approvedPayout
+      requestBody:
+        description: >
+          Visa Direct has approved your Fast Access disbursement request. Your
+          customer should receive the funds within 30 minutes if their issuer is
+          Fast Access enabled, or 3-5 working days if they are not.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/approvedPayout'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+  informationRequested:
+    post:
+      tags:
+        - Chargeback
+      summary: informationRequested
+      operationId: informationRequestedChargeback
+      requestBody:
+        description: >
+          Your customer has disputed this payment with their card issuer. The
+          card issuer has requested information about the payment and the
+          disputed funds have been held until the outcome of the dispute. This
+          event is only available in certain use cases. Please speak to your
+          Worldpay Implementation Manager for more details.
+        content:
+          application/vnd.worldpay.events-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/informationRequestedChargeback'
+      responses:
+        '200':
+          description: >-
+            Return a 200 status to indicate that the data was received
+            successfully
+components:
+  schemas:
+    eventId:
+      type: string
+      description: The unique identifier for the event.
+      example: bb55ca5a-e05c-47e1-8e94-e88bac1a0a17
+    eventTimestamp:
+      type: string
+      description: Date of event.
+      example: '2018-06-13T14:18:13.407'
+    amount:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int32
+          description: >-
+            The authorization, partial refund, or the whole or partial
+            settlement amount. This is a whole number with an exponent of 2,
+            e.g. 250 would be 2.50.
+          example: 100
+        currencyCode:
+          type: string
+          description: The currency code.
+          example: EUR
+    downstreamReference:
+      type: string
+      description: A reference you can use for reconciliation purposes.
+      example: '3378792436'
+    transactionReference:
+      type: string
+      description: The transaction reference you supplied in the payment.
+      example: Memory265-13/08/1876
+    date:
+      type: string
+      format: date
+      description: The date you first submitted the payment.
+      example: '2017-11-03'
+    reference:
+      type: string
+      description: >-
+        The unique reference you provided for a partial settlement or partial
+        refund.
+      example: '12345'
+    octReference:
+      type: string
+      description: >-
+        Visa Transaction ID for single-message OCTs to be used for
+        reconciliation and reporting. Can be returned in the `sentForRefund` or
+        `refused` Payment Events.
+      example: '12345'
+    refund:
+      type: object
+      properties:
+        onlineRefundAuthorization:
+          type: string
+          description: >
+            Authorization code from the issuer for online refunds. Additional
+            information returned as part of a Visa and Mastercard mandate to
+            ensure that all purchase returns are submitted for online
+            authorization. 
+          example: '987654'
+    refundRefusal:
+      type: object
+      properties:
+        refusal:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Refusal code for online refund authorization.
+              example: '5'
+            description:
+              type: string
+              description: Refusal description for online refund authorization.
+              example: Do not honor
+    _links:
+      type: object
+      description: Unused currently.
+      properties:
+        payment:
+          type: object
+          properties:
+            href:
+              type: string
+              example: ''
+    sentForAuthorizationPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: sentForAuthorization
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    authorizedPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: authorized
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    authorizedAPMPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: authorized
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    authorizedPaymentKlarna:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: authorized
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: klarna
+                iban:
+                  type: string
+                  example: NL03RABO0123456789
+                accountHolderName:
+                  type: string
+                  example: A Shopper
+                countryCode:
+                  type: string
+                  example: GB
+            _links:
+              $ref: '#/components/schemas/_links'
+    authorizedPaymentMyBank:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: authorized
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: My Bank
+                iban:
+                  type: string
+                  example: NL03RABO0123456789
+                accountHolderName:
+                  type: string
+                  example: A Shopper
+                swiftBic:
+                  type: string
+                  example: RABONL2U
+                countryCode:
+                  type: string
+                  example: GB
+            _links:
+              $ref: '#/components/schemas/_links'
+    authorizedPaymentIdeal:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: authorized
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: iDeal
+                iban:
+                  type: string
+                  example: NL03RABO0123456789
+                accountNumber:
+                  type: string
+                  example: '123456789'
+                accountHolderName:
+                  type: string
+                  example: A Shopper
+                swiftBic:
+                  type: string
+                  example: RABONL2U
+            _links:
+              $ref: '#/components/schemas/_links'
+    authorizedPaymentOpenBanking:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: authorized
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: Open Banking
+                iban:
+                  type: string
+                  example: NL03RABO0123456789
+                accountHolderName:
+                  type: string
+                  example: A Shopper
+                swiftBic:
+                  type: string
+                  example: RABONL2U
+                countryCode:
+                  type: string
+                  example: GB
+                accountNumber:
+                  type: string
+                  example: '04914552'
+                bankCode:
+                  type: string
+                  example: '040004'
+            _links:
+              $ref: '#/components/schemas/_links'
+    sentForSettlementPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: sentForSettlement
+            date:
+              $ref: '#/components/schemas/date'
+            reference:
+              $ref: '#/components/schemas/reference'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    sentForSettlementPaymentPix:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: sentForSettlement
+            date:
+              $ref: '#/components/schemas/date'
+            providerReference:
+              type: string
+              description: >-
+                A reference generated by Celcoin allowing you to trace the
+                payment throughout its lifecycle.
+              example: E9040088820250731140043506446963
+            reference:
+              $ref: '#/components/schemas/reference'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    settledPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: settled
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    settlementFailedPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: settlementFailed
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    cancelledPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: cancelled
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    errorPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: error
+            date:
+              $ref: '#/components/schemas/date'
+            _links:
+              $ref: '#/components/schemas/_links'
+    expiredPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: expired
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    refusedPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: refused
+            date:
+              $ref: '#/components/schemas/date'
+            octReference:
+              $ref: '#/components/schemas/octReference'
+            _links:
+              $ref: '#/components/schemas/_links'
+    sentForRefundPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: sentForRefund
+            date:
+              $ref: '#/components/schemas/date'
+            reference:
+              $ref: '#/components/schemas/reference'
+            refund:
+              $ref: '#/components/schemas/refund'
+            octReference:
+              $ref: '#/components/schemas/octReference'
+            fastRefund:
+              type: string
+              description: Indicates the fast refund attempt.
+              example: attempted
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    refundedPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: refunded
+            date:
+              $ref: '#/components/schemas/date'
+            refund:
+              $ref: '#/components/schemas/refund'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    refundFailedPayment:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            downstreamReference:
+              $ref: '#/components/schemas/downstreamReference'
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: refundFailed
+            date:
+              $ref: '#/components/schemas/date'
+            reference:
+              $ref: '#/components/schemas/reference'
+            refund:
+              $ref: '#/components/schemas/refundRefusal'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'
+    tokenCreatedCard:
+      properties:
+        eventType:
+          type: string
+          description: The event Type of generated event.
+          example: tokenCreated
+        notificationId:
+          type: string
+          description: The unique identifier for the event notification.
+          example: 27e63cba-1f98-44d3-946d-afb6aca3d5e5
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-05-07T18:20:12.111Z'
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            tokenCreatedAt:
+              type: string
+              format: date-time
+              example: '2024-04-23T18:51:28Z'
+            tokenPaymentInstrument:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: card/tokenized
+                href:
+                  type: string
+                  example: >-
+                    https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoibHdJNmQxN01QQ096Rm9QZzhBMS9TK3lqV21QdjBEUk9ORkRqMnRMeTMvUT0ifQ
+            tokenExpiryDateTime:
+              type: string
+              format: date-time
+              example: '2024-04-30T18:51:27Z'
+            description:
+              type: string
+              example: Created token without payment on 2024-04-23
+            tokenId:
+              type: string
+              example: '9981080858023992994'
+            paymentInstrument:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: card/masked
+                cardNumber:
+                  type: string
+                  example: 4622********0875
+                cardHolderName:
+                  type: string
+                  example: Sherlock Holmes
+                cardExpiryDate:
+                  type: object
+                  properties:
+                    month:
+                      type: string
+                      example: '1'
+                    year:
+                      type: string
+                      example: '2025'
+                bin:
+                  type: string
+                  example: '462294'
+                brand:
+                  type: string
+                  example: VISA
+                fundingType:
+                  type: string
+                  example: credit
+                countryCode:
+                  type: string
+                  example: GB
+                billingAddress:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                      example: 221B Baker Street
+                    address2:
+                      type: string
+                      example: Marylebone
+                    address3:
+                      type: string
+                      example: Westminster
+                    postalCode:
+                      type: string
+                      example: NW1 6XE
+                    city:
+                      type: string
+                      example: London
+                    state:
+                      type: string
+                      example: Greater London
+                    countryCode:
+                      type: string
+                      example: GB
+    tokenCreatedKlarna:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            tokenCreatedAt:
+              type: string
+              format: date-time
+              example: '2024-04-23T18:51:28Z'
+            tokenPaymentInstrument:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: token
+                tokenId:
+                  type: string
+                  example: '9981080858023992994'
+            tokenExpiryDateTime:
+              type: string
+              format: date-time
+              example: '2024-04-30T18:51:27Z'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: klarna
+                countryCode:
+                  type: string
+                  example: GB
+                billingAddress:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                      example: 221B Baker Street
+                    address2:
+                      type: string
+                      example: Marylebone
+                    address3:
+                      type: string
+                      example: Westminster
+            productType:
+              type: string
+              enum:
+                - payLater
+              example: payLater
+    tokenCreatedIdeal:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            tokenCreatedAt:
+              type: string
+              format: date-time
+              example: '2024-04-23T18:51:28Z'
+            tokenPaymentInstrument:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: token
+                tokenId:
+                  type: string
+                  example: '9981080858023992994'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: ideal
+                mandateId:
+                  type: string
+                  example: M-100550741-20240619082311781
+                mandateSignatureDate:
+                  type: string
+                  example: '2024-06-19'
+                email:
+                  type: string
+                  example: moriarty@example.com
+            productType:
+              type: string
+              enum:
+                - directDebit
+              example: directDebit
+    tokenCreatedSepa:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            tokenCreatedAt:
+              type: string
+              format: date-time
+              example: '2024-04-23T18:51:28Z'
+            tokenPaymentInstrument:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: token
+                tokenId:
+                  type: string
+                  example: '9981080858023992994'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: sepa
+                mandateId:
+                  type: string
+                  example: M-100550741-20240619082311781
+                mandateSignatureDate:
+                  type: string
+                  example: '2024-06-19'
+                iban:
+                  type: string
+                  example: NL78RABO0133187896
+                accountHolderName:
+                  type: string
+                  example: James Moriarty
+                email:
+                  type: string
+                  example: moriarty@example.com
+            productType:
+              type: string
+              enum:
+                - directDebit
+              example: directDebit
+    settlementInstructed:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            providerReference:
+              type: string
+              description: >-
+                A reference generated by Celcoin allowing you to trace the
+                payment throughout its lifecycle.
+              example: E9040088820250731140043506446963
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: settlementInstructed
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: pix
+                bankCode:
+                  type: string
+                  example: '13935893'
+                branchCode:
+                  type: string
+                  example: '0001'
+                accountName:
+                  type: string
+                  example: John Doe
+                accountNumber:
+                  type: string
+                  example: '30054759318'
+                accountType:
+                  type: string
+                  example: TRAN
+                  description: >-
+                    Type of account. Some examples 'Current Account(CACC)',
+                    'Salary Account(SLRY)', 'Savings Account(SVGS)', 'Payment
+                    Account (TRAN)'.
+                documentNumber:
+                  type: string
+                  example: '43394559000156'
+                  description: >-
+                    Represents the Payer's Tax ID (CPF or CNPJ Number) in
+                    Brazil.
+                bookingDate:
+                  type: string
+                  example: '2025-05-02'
+            _links:
+              $ref: '#/components/schemas/_links'
+    settlementRejected:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: settlementRejected
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: pix
+                bankCode:
+                  type: string
+                  example: '13935893'
+                branchCode:
+                  type: string
+                  example: '0001'
+                accountName:
+                  type: string
+                  example: John Doe
+                accountNumber:
+                  type: string
+                  example: '30054759318'
+                accountType:
+                  type: string
+                  example: TRAN
+                  description: >-
+                    Type of account. Some examples 'Current Account(CACC)',
+                    'Salary Account(SLRY)', 'Savings Account(SVGS)', 'Payment
+                    Account (TRAN)'.
+                documentNumber:
+                  type: string
+                  example: '43394559000156'
+                  description: >-
+                    Represents the Payer's Tax ID (CPF or CNPJ Number) in
+                    Brazil.
+                bookingDate:
+                  type: string
+                  example: '2025-05-02'
+            _links:
+              $ref: '#/components/schemas/_links'
+    topUpAccepted:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: topUpAccepted
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: pix
+                bankCode:
+                  type: string
+                  example: '13935893'
+                branchCode:
+                  type: string
+                  example: '0001'
+                accountName:
+                  type: string
+                  example: John Doe
+                accountNumber:
+                  type: string
+                  example: '30054759318'
+                accountType:
+                  type: string
+                  example: TRAN
+                  description: >-
+                    Type of account. Some examples 'Current Account(CACC)',
+                    'Salary Account(SLRY)', 'Savings Account(SVGS)', 'Payment
+                    Account (TRAN)'.
+                documentNumber:
+                  type: string
+                  example: '43394559000156'
+                  description: >-
+                    Represents the Payer's Tax ID (CPF or CNPJ Number) in
+                    Brazil.
+                bookingDate:
+                  type: string
+                  example: '2025-05-02'
+            _links:
+              $ref: '#/components/schemas/_links'
+    topUpRejected:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: topUpRejected
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: pix
+                bankCode:
+                  type: string
+                  example: '13935893'
+                branchCode:
+                  type: string
+                  example: '0001'
+                accountName:
+                  type: string
+                  example: John Doe
+                accountNumber:
+                  type: string
+                  example: '30054759318'
+                accountType:
+                  type: string
+                  example: TRAN
+                  description: >-
+                    Type of account. Some examples 'Current Account(CACC)',
+                    'Salary Account(SLRY)', 'Savings Account(SVGS)', 'Payment
+                    Account (TRAN)'.
+                documentNumber:
+                  type: string
+                  example: '43394559000156'
+                  description: >-
+                    Represents the Payer's Tax ID (CPF or CNPJ Number) in
+                    Brazil.
+                bookingDate:
+                  type: string
+                  example: '2025-05-02'
+            _links:
+              $ref: '#/components/schemas/_links'
+    chargedBack:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: Type of payment event.
+              example: chargedBack
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: klarna
+            _links:
+              $ref: '#/components/schemas/_links'
+    cancelledByCustomer:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: Type of payment event.
+              example: cancelledByCustomer
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: klarna
+            _links:
+              $ref: '#/components/schemas/_links'
+    requestExpired:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payment
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: Type of payment event.
+              example: requestExpired
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            paymentInstrument:
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: klarna
+            _links:
+              $ref: '#/components/schemas/_links'
+    disbursedPayout:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payout
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: disbursed
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+    pendingPayout:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payout
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: pending
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+    refusedPayout:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payout
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: refused
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+    requestedPayout:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payout
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: requested
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+    approvedPayout:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: payout
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: approved
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+    informationRequestedChargeback:
+      properties:
+        eventId:
+          $ref: '#/components/schemas/eventId'
+        eventTimestamp:
+          $ref: '#/components/schemas/eventTimestamp'
+        eventDetails:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: >-
+                The event category, this can either be payout, payment or
+                chargeback.
+              example: chargeback
+            transactionReference:
+              $ref: '#/components/schemas/transactionReference'
+            type:
+              type: string
+              description: >-
+                Event status. For example, `cancelled` or
+                `sentForAuthorization`.
+              example: informationRequested
+            date:
+              $ref: '#/components/schemas/date'
+            amount:
+              $ref: '#/components/schemas/amount'
+            _links:
+              $ref: '#/components/schemas/_links'

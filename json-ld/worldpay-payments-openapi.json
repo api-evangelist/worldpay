@@ -1,0 +1,36 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Payments API",
+  "description": "Use a single API that orchestrates the payment flow to include FraudSight, 3DS and Token creation.",
+  "version": "2024-06-01",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/payments/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/api/payments/{linkData}",
+    "/api/payments/{linkData}/settlements",
+    "/api/payments/{linkData}/partialSettlements",
+    "/api/payments/{linkData}/refunds",
+    "/api/payments/{linkData}/partialRefunds",
+    "/api/payments/{linkData}/cancellations",
+    "/api/payments",
+    "/api/payments/{linkData}/reversals",
+    "/api/payments/{linkData}/3dsDeviceData",
+    "/api/payments/{linkData}/3dsChallenges"
+  ],
+  "keywords": [
+    "Payment",
+    "3DS actions",
+    "Manage payments"
+  ]
+}

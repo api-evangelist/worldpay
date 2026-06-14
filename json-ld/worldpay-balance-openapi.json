@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "openapi": "https://spec.openapis.org/oas/v3#"
+  },
+  "@type": "WebAPI",
+  "name": "Worldpay Balances API",
+  "description": "Get accounts data. \r\n  \r\n    Authentication header\r\n\r\n      \r\n        Authorization: {yourcredentials}\r\n      \r\n      Replace {yourcredentials} with your base64-encoded Basic Auth username and password given to you by your Worldpay Implementation Manager.\r\n      <br /> <br />\r\n      You must use the Authorization header for any request you send to our Balances API.\r\n      <br /><br />\r\n      WP-Api-Version Header\r\n      \r\n        WP-Api-Version: 2025-01-01\r\n      \r\n\r\n    We use the WP-Api-Versio",
+  "version": "2025-01-01",
+  "provider": {
+    "@type": "Organization",
+    "name": "Worldpay",
+    "url": "https://worldpay.com"
+  },
+  "documentation": "https://docs.worldpay.com/access/products/balance/openapi",
+  "url": "https://try.access.worldpay.com",
+  "termsOfService": "https://docs.worldpay.com/",
+  "openapi:version": "3.0.1",
+  "openapi:paths": [
+    "/accounts/{accountNumber}",
+    "/accounts"
+  ],
+  "keywords": []
+}
