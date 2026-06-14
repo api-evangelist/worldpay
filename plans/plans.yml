@@ -1,0 +1,53 @@
+name: Worldpay API Plans
+description: >-
+  Worldpay does not publish self-serve API pricing tiers publicly. Access to
+  the payment processing APIs requires a merchant account and is subject to
+  negotiated interchange-plus pricing. Developers may access test credentials
+  via the developer portal sandbox environment.
+
+plans:
+  - name: Merchant Account
+    description: >-
+      Standard merchant account providing access to all Worldpay Access APIs in
+      both test and live environments. Pricing is negotiated based on business
+      type, transaction volume, and product mix.
+    url: https://docs.worldpay.com/access/products/card-payments/v5/get-started
+    type: commercial
+    pricing:
+      - description: >-
+          Interchange-plus pricing model. Transaction fees vary by card type,
+          region, and negotiated rates. Monthly account fees typically around
+          $15.95/month. PCI Compliance fee $15–$25/month.
+        unit: per_transaction
+    features:
+      - All Access APIs (Card Payments, Tokens, Payouts, FraudSight, etc.)
+      - Test and live environment credentials
+      - OpenAPI specifications for all products
+      - Dedicated Implementation Manager
+      - WP-CorrelationId support for request tracing
+
+  - name: Sandbox / Test Environment
+    description: >-
+      Free access to the Worldpay test environment for developers to integrate
+      and validate their implementation before going live. Accessed via
+      try.access.worldpay.com using test credentials obtained through the
+      developer onboarding process.
+    url: https://docs.worldpay.com/access/products/card-payments/v5/get-started
+    type: free
+    pricing:
+      - description: No cost for test environment access.
+    features:
+      - Full API access in test mode
+      - Test card numbers and credentials
+      - Postman collection for quick integration
+      - Access to all API documentation and OpenAPI specs
+
+notes: >-
+  For enterprise and platform-level pricing (Worldpay for Platforms), contact
+  Worldpay sales directly. Early termination fees may apply (up to $295) on
+  standard contracts. Contracts typically run three years with automatic
+  one-year renewals.
+
+contact:
+  url: https://www.worldpay.com/en/contact-us
+  email: ""

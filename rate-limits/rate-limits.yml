@@ -1,0 +1,71 @@
+name: Worldpay API Rate Limits
+description: >-
+  Worldpay does not publish specific API rate limit or throttling thresholds in
+  its public documentation. Rate limits are enforced at the platform level and
+  are subject to merchant agreements. The API principles documentation notes
+  that limits are applied but directs merchants to contact their Implementation
+  Manager for specifics.
+
+rate_limits:
+  - name: Access API Default Throttling
+    description: >-
+      Worldpay enforces rate limiting across all Access APIs. Exact per-second
+      or per-minute request thresholds are not publicly documented and are
+      negotiated as part of merchant agreements. High-volume merchants should
+      discuss throughput requirements with their Worldpay Implementation Manager.
+    scope: account
+    documented: false
+    notes: >-
+      Contact your Worldpay Implementation Manager to understand applicable
+      throughput limits for your specific merchant configuration.
+
+  - name: Test Environment Limits
+    description: >-
+      The sandbox environment at try.access.worldpay.com may have reduced
+      throughput limits compared to production to prevent abuse. Specific limits
+      are not publicly documented.
+    scope: account
+    environment: sandbox
+    documented: false
+
+environments:
+  - name: Test / Sandbox
+    baseURL: https://try.access.worldpay.com
+    description: >-
+      Use for integration, testing, and validation before going live.
+
+  - name: Production / Live
+    baseURL: https://access.worldpay.com
+    description: >-
+      Live environment for processing real transactions. Credentials are
+      separate from test environment credentials.
+
+headers:
+  - name: WP-CorrelationId
+    description: >-
+      Response header returned on all API calls. Use this value when contacting
+      Worldpay support to trace individual requests.
+    direction: response
+
+authentication:
+  type: Basic Auth
+  description: >-
+    All Access APIs use a single set of Base64-encoded Basic Auth credentials
+    (username:password). Separate credentials exist for test and live
+    environments. DNS whitelisting required for try.access.worldpay.com and
+    access.worldpay.com — IP whitelisting is not supported.
+  header: Authorization
+
+versioning:
+  type: header
+  header: WP-Api-Version
+  format: YYYY-MM-DD
+  example: "2024-06-01"
+  legacy_type: media_type
+  legacy_example: "application/vnd.worldpay.payments-v5+json"
+
+references:
+  - name: API Principles
+    url: https://docs.worldpay.com/access/products/reference/api-principles
+  - name: Access Worldpay Status
+    url: https://status.access.worldpay.com/

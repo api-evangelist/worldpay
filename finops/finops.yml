@@ -1,0 +1,99 @@
+name: Worldpay API FinOps
+description: >-
+  Financial operations considerations for teams integrating with Worldpay APIs.
+  Worldpay operates an interchange-plus pricing model where costs are driven
+  primarily by transaction volume, card types processed, and geographic markets
+  served. API access itself is bundled with the merchant account — there is no
+  separate per-call API fee.
+
+cost_model:
+  type: interchange_plus
+  description: >-
+    Merchants pay interchange rates set by card networks (Visa, Mastercard,
+    Amex) plus a Worldpay markup. The specific markup is negotiated based on
+    business type, monthly volume, and risk profile.
+
+known_fees:
+  - name: Monthly Account Fee
+    amount: 15.95
+    currency: USD
+    cadence: monthly
+    notes: Standard monthly account maintenance fee.
+
+  - name: PCI Compliance Fee
+    amount_min: 15.00
+    amount_max: 25.00
+    currency: USD
+    cadence: monthly
+    notes: Monthly fee for PCI DSS compliance management.
+
+  - name: Annual IRS 1099 Reporting Fee
+    amount: 69.00
+    currency: USD
+    cadence: annual
+    notes: May be charged for IRS 1099-K reporting services.
+
+  - name: Early Termination Fee
+    amount_max: 295.00
+    currency: USD
+    cadence: one_time
+    notes: >-
+      Charged if the merchant terminates the contract before the standard
+      three-year term ends. Contracts auto-renew annually unless 90-day notice
+      is provided.
+
+  - name: Transaction Fees
+    description: >-
+      Approximately 2.55% + $0.10 per transaction for online card payments.
+      Actual rates vary by card network, card type (debit/credit/corporate),
+      and merchant agreement.
+    currency: USD
+    cadence: per_transaction
+
+optimization_tips:
+  - title: Use Tokenization to Reduce PCI Scope
+    description: >-
+      Leverage the Tokens and Verified Tokens APIs to avoid storing raw card
+      data, which reduces PCI DSS compliance burden and associated costs.
+
+  - title: Implement SCA Exemptions
+    description: >-
+      Use the SCA Exemptions API with issuer insights to maximize frictionless
+      checkout flows, reducing authentication friction and improving conversion
+      rates which directly impacts revenue.
+
+  - title: Use FraudSight Before Authorization
+    description: >-
+      Invoking the FraudSight API to screen transactions before authorization
+      can reduce chargeback fees (typically $15–$25 per chargeback) and
+      associated disputes.
+
+  - title: Batch Payment Queries for Reconciliation
+    description: >-
+      Use the Payment Queries and Statements APIs for automated reconciliation
+      rather than manual processes to reduce operational overhead.
+
+  - title: Leverage Webhooks for Real-Time Updates
+    description: >-
+      Configure the Events API webhooks instead of polling the Payment Queries
+      API, reducing unnecessary API calls and associated processing overhead.
+
+  - title: Negotiate Volume Discounts
+    description: >-
+      Worldpay pricing is negotiated. Higher transaction volumes typically
+      unlock lower interchange-plus markups. Review rates regularly as the
+      business scales.
+
+contract_notes:
+  term: 3 years
+  auto_renewal: annual
+  cancellation_notice: 90 days
+  early_termination_fee_max: 295 USD
+
+references:
+  - name: Worldpay Pricing Overview (Third-party review)
+    url: https://www.nerdwallet.com/article/small-business/worldpay-review
+  - name: Worldpay Developer Portal
+    url: https://docs.worldpay.com/
+  - name: Worldpay Contact
+    url: https://www.worldpay.com/en/contact-us
