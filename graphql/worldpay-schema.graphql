@@ -1,0 +1,1272 @@
+"""
+Worldpay GraphQL Schema
+Derived from the Worldpay REST API covering card payments, tokenization,
+payouts, fraud screening, 3DS authentication, alternative payment methods,
+foreign exchange, and reconciliation.
+"""
+
+# ─────────────────────────────────────────────
+# Scalars
+# ─────────────────────────────────────────────
+
+scalar DateTime
+scalar Date
+scalar Decimal
+scalar JSON
+scalar URL
+
+# ─────────────────────────────────────────────
+# Enums
+# ─────────────────────────────────────────────
+
+enum PaymentStatus {
+  AUTHORIZED
+  CAPTURED
+  PARTIALLY_CAPTURED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+  SETTLED
+  FAILED
+  PENDING
+  REVERSED
+  EXPIRED
+  DISPUTED
+  CHARGEBACK
+}
+
+enum CardBrand {
+  VISA
+  MASTERCARD
+  AMEX
+  DISCOVER
+  DINERS
+  JCB
+  UNIONPAY
+  MAESTRO
+}
+
+enum CardFunding {
+  CREDIT
+  DEBIT
+  PREPAID
+  CHARGE
+}
+
+enum CurrencyCode {
+  USD
+  EUR
+  GBP
+  JPY
+  AUD
+  CAD
+  CHF
+  CNY
+  SEK
+  NOK
+  DKK
+  SGD
+  HKD
+  NZD
+  MXN
+  BRL
+  INR
+  ZAR
+  AED
+  SAR
+}
+
+enum AuthorizationOutcome {
+  AUTHORIZED
+  DECLINED
+  SOFT_DECLINED
+  REFERRED
+  ERROR
+}
+
+enum RefundStatus {
+  PENDING
+  SUBMITTED
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  RETURNED
+}
+
+enum FraudRiskScore {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum FraudRecommendation {
+  PROCEED
+  REVIEW
+  DECLINE
+  CHALLENGE
+}
+
+enum ThreeDSStatus {
+  AUTHENTICATED
+  ATTEMPTED
+  NOT_AUTHENTICATED
+  REJECTED
+  NOT_ENROLLED
+  BYPASSED
+  UNAVAILABLE
+}
+
+enum ThreeDSVersion {
+  V1
+  V2_1
+  V2_2
+}
+
+enum TokenStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+  DELETED
+}
+
+enum PayoutMethod {
+  CARD
+  BANK_ACCOUNT
+  WALLET
+}
+
+enum AlternativePaymentMethod {
+  PAYPAL
+  ALIPAY
+  WECHAT_PAY
+  IDEAL
+  SOFORT
+  GIROPAY
+  BANCONTACT
+  SEPA_DIRECT_DEBIT
+  BACS_DIRECT_DEBIT
+  KLARNA
+  AFTERPAY
+  CLEARPAY
+  APPLE_PAY
+  GOOGLE_PAY
+  SAMSUNG_PAY
+  BOLETO
+  PIX
+  OXXO
+  MULTIBANCO
+  MB_WAY
+}
+
+enum ExchangeRateType {
+  LIVE
+  GUARANTEED
+  INDICATIVE
+}
+
+enum SettlementStatus {
+  PENDING
+  BATCHED
+  TRANSMITTED
+  SETTLED
+  FAILED
+}
+
+enum ChargebackStatus {
+  RECEIVED
+  UNDER_REVIEW
+  WON
+  LOST
+  PRE_ARBITRATION
+  ARBITRATION
+}
+
+enum WebhookEventType {
+  PAYMENT_AUTHORIZED
+  PAYMENT_CAPTURED
+  PAYMENT_CANCELLED
+  PAYMENT_REFUNDED
+  PAYMENT_SETTLED
+  PAYMENT_FAILED
+  PAYOUT_COMPLETED
+  PAYOUT_FAILED
+  CHARGEBACK_RECEIVED
+  FRAUD_ALERT
+  TOKEN_EXPIRED
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum StatementType {
+  SETTLEMENT
+  MONTHLY
+  ANNUAL
+}
+
+enum VerificationStatus {
+  VERIFIED
+  UNVERIFIED
+  PENDING
+  FAILED
+}
+
+# ─────────────────────────────────────────────
+# Core Payment Types
+# ─────────────────────────────────────────────
+
+"""A monetary amount with currency."""
+type Money {
+  value: Decimal!
+  currency: CurrencyCode!
+  exponent: Int
+}
+
+"""A physical or billing address."""
+type Address {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  postalCode: String
+  countryCode: String!
+}
+
+"""Basic card information (masked for security)."""
+type CardDetails {
+  brand: CardBrand!
+  funding: CardFunding
+  lastFour: String!
+  expiryMonth: Int!
+  expiryYear: Int!
+  binRange: String
+  issuerCountry: String
+  issuerName: String
+}
+
+"""A payment card token."""
+type PaymentToken {
+  tokenId: ID!
+  status: TokenStatus!
+  card: CardDetails!
+  billingAddress: Address
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  expiresAt: DateTime
+  merchantTokenReference: String
+  verified: Boolean!
+}
+
+"""Result of a payment authorization."""
+type Authorization {
+  authorizationCode: String
+  outcome: AuthorizationOutcome!
+  responseCode: String
+  responseMessage: String
+  acquirerTransactionId: String
+  networkTransactionId: String
+  avsResult: String
+  cvvResult: String
+  riskId: String
+}
+
+"""Represents a single payment transaction."""
+type Payment {
+  paymentId: ID!
+  merchantReference: String!
+  status: PaymentStatus!
+  amount: Money!
+  capturedAmount: Money
+  refundedAmount: Money
+  authorization: Authorization
+  card: CardDetails
+  token: PaymentToken
+  customer: Customer
+  shippingAddress: Address
+  billingAddress: Address
+  threeDSData: ThreeDSResult
+  fraudScreening: FraudScreeningResult
+  splitPayment: SplitPaymentDetails
+  riskProfile: RiskProfile
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  capturedAt: DateTime
+  settledAt: DateTime
+  descriptor: String
+  statementNarrative: String
+  orderDetails: OrderDetails
+}
+
+"""Customer information linked to a payment."""
+type Customer {
+  customerId: ID
+  email: String
+  phoneNumber: String
+  dateOfBirth: Date
+  billingAddress: Address
+  name: CustomerName
+  ipAddress: String
+  deviceData: DeviceData
+}
+
+"""Customer name components."""
+type CustomerName {
+  title: String
+  firstName: String
+  lastName: String
+  fullName: String
+}
+
+"""Device fingerprint data for fraud screening."""
+type DeviceData {
+  deviceId: String
+  userAgent: String
+  acceptHeader: String
+  javaEnabled: Boolean
+  javascriptEnabled: Boolean
+  screenWidth: Int
+  screenHeight: Int
+  colorDepth: Int
+  timeZone: String
+  language: String
+}
+
+"""Order line-item and metadata details."""
+type OrderDetails {
+  orderId: String
+  orderDescription: String
+  lineItems: [LineItem!]
+  shippingMethod: String
+  taxAmount: Money
+  discountAmount: Money
+}
+
+"""A single line item within an order."""
+type LineItem {
+  itemId: String
+  name: String!
+  description: String
+  quantity: Int!
+  unitPrice: Money!
+  totalPrice: Money!
+  category: String
+  sku: String
+}
+
+# ─────────────────────────────────────────────
+# Refund Types
+# ─────────────────────────────────────────────
+
+"""A refund against a payment."""
+type Refund {
+  refundId: ID!
+  paymentId: ID!
+  merchantReference: String
+  amount: Money!
+  status: RefundStatus!
+  reason: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  completedAt: DateTime
+}
+
+# ─────────────────────────────────────────────
+# Payout Types
+# ─────────────────────────────────────────────
+
+"""A payout to a card or bank account."""
+type Payout {
+  payoutId: ID!
+  merchantReference: String!
+  method: PayoutMethod!
+  amount: Money!
+  status: PayoutStatus!
+  recipient: PayoutRecipient!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  completedAt: DateTime
+  estimatedArrival: DateTime
+  failureReason: String
+}
+
+"""Recipient details for a payout."""
+type PayoutRecipient {
+  name: String!
+  card: CardDetails
+  bankAccount: BankAccount
+  email: String
+  phoneNumber: String
+}
+
+"""Bank account details for payouts."""
+type BankAccount {
+  accountHolderName: String!
+  accountNumber: String
+  routingNumber: String
+  iban: String
+  swiftBic: String
+  sortCode: String
+  bankName: String
+  countryCode: String!
+  verificationStatus: VerificationStatus
+}
+
+# ─────────────────────────────────────────────
+# 3DS Authentication Types
+# ─────────────────────────────────────────────
+
+"""3D Secure authentication result."""
+type ThreeDSResult {
+  status: ThreeDSStatus!
+  version: ThreeDSVersion
+  dsTransactionId: String
+  acsTransactionId: String
+  authenticationValue: String
+  eci: String
+  challengeRequired: Boolean
+  challengeUrl: URL
+  createdAt: DateTime!
+}
+
+"""3DS authentication session."""
+type ThreeDSSession {
+  sessionId: ID!
+  status: ThreeDSStatus!
+  version: ThreeDSVersion!
+  deviceDataCollection: DeviceDataCollectionUrl
+  challengeUrl: URL
+  result: ThreeDSResult
+  createdAt: DateTime!
+  expiresAt: DateTime!
+}
+
+"""URL payload for device data collection."""
+type DeviceDataCollectionUrl {
+  url: URL!
+  jwt: String!
+  bin: String
+}
+
+# ─────────────────────────────────────────────
+# Fraud Screening Types
+# ─────────────────────────────────────────────
+
+"""Result of a FraudSight risk screening."""
+type FraudScreeningResult {
+  riskId: ID!
+  score: Int
+  riskScore: FraudRiskScore
+  recommendation: FraudRecommendation!
+  rules: [FraudRule!]
+  screenedAt: DateTime!
+}
+
+"""An individual fraud rule that fired."""
+type FraudRule {
+  ruleId: String!
+  ruleName: String!
+  action: String!
+  score: Int
+}
+
+"""Risk profile attached to a payment."""
+type RiskProfile {
+  riskProfileId: ID!
+  fraudSightId: String
+  score: Int
+  recommendation: FraudRecommendation
+}
+
+# ─────────────────────────────────────────────
+# Alternative Payment Method Types
+# ─────────────────────────────────────────────
+
+"""A payment using an alternative payment method."""
+type AlternativePayment {
+  apmPaymentId: ID!
+  method: AlternativePaymentMethod!
+  merchantReference: String!
+  amount: Money!
+  status: PaymentStatus!
+  redirectUrl: URL
+  returnUrl: URL
+  cancelUrl: URL
+  customer: Customer
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  completedAt: DateTime
+  metadata: JSON
+}
+
+# ─────────────────────────────────────────────
+# Foreign Exchange Types
+# ─────────────────────────────────────────────
+
+"""A foreign exchange rate quote."""
+type ExchangeRate {
+  quoteId: ID!
+  fromCurrency: CurrencyCode!
+  toCurrency: CurrencyCode!
+  rate: Decimal!
+  rateType: ExchangeRateType!
+  sourceAmount: Money!
+  targetAmount: Money!
+  markup: Decimal
+  quotedAt: DateTime!
+  expiresAt: DateTime!
+}
+
+"""Multi-currency pricing option offered at checkout."""
+type MultiCurrencyPricing {
+  baseCurrency: CurrencyCode!
+  options: [ExchangeRate!]!
+  selectedCurrency: CurrencyCode
+}
+
+# ─────────────────────────────────────────────
+# Split Payment Types
+# ─────────────────────────────────────────────
+
+"""Split payment configuration for marketplaces."""
+type SplitPaymentDetails {
+  splitPaymentId: ID!
+  splits: [PaymentSplit!]!
+  totalAmount: Money!
+}
+
+"""A single split to a sub-merchant or party."""
+type PaymentSplit {
+  splitId: ID!
+  entityId: String!
+  entityName: String
+  amount: Money!
+  reference: String
+  description: String
+}
+
+# ─────────────────────────────────────────────
+# Settlement and Reconciliation Types
+# ─────────────────────────────────────────────
+
+"""A settlement batch."""
+type Settlement {
+  settlementId: ID!
+  merchantId: String!
+  batchReference: String!
+  status: SettlementStatus!
+  amount: Money!
+  grossAmount: Money!
+  fees: Money!
+  netAmount: Money!
+  transactionCount: Int!
+  settledAt: DateTime
+  valuedAt: Date
+  payments: [Payment!]
+  refunds: [Refund!]
+}
+
+"""A merchant account statement."""
+type Statement {
+  statementId: ID!
+  merchantId: String!
+  type: StatementType!
+  periodStart: Date!
+  periodEnd: Date!
+  openingBalance: Money!
+  closingBalance: Money!
+  totalCredits: Money!
+  totalDebits: Money!
+  totalFees: Money!
+  entries: [StatementEntry!]
+  generatedAt: DateTime!
+  downloadUrl: URL
+}
+
+"""A single line in a statement."""
+type StatementEntry {
+  entryId: ID!
+  date: Date!
+  description: String!
+  reference: String
+  credit: Money
+  debit: Money
+  runningBalance: Money!
+  category: String
+}
+
+# ─────────────────────────────────────────────
+# Chargeback Types
+# ─────────────────────────────────────────────
+
+"""A chargeback dispute raised by a cardholder."""
+type Chargeback {
+  chargebackId: ID!
+  paymentId: ID!
+  amount: Money!
+  status: ChargebackStatus!
+  reasonCode: String!
+  reasonDescription: String
+  cardNetwork: CardBrand
+  deadlineDate: Date
+  filedAt: DateTime!
+  updatedAt: DateTime!
+  evidence: [ChargebackEvidence!]
+}
+
+"""Evidence document submitted for a chargeback."""
+type ChargebackEvidence {
+  evidenceId: ID!
+  type: String!
+  description: String
+  fileUrl: URL
+  submittedAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Webhook / Event Types
+# ─────────────────────────────────────────────
+
+"""A configured webhook endpoint."""
+type WebhookEndpoint {
+  endpointId: ID!
+  url: URL!
+  description: String
+  events: [WebhookEventType!]!
+  active: Boolean!
+  signingSecret: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A webhook event delivery record."""
+type WebhookEvent {
+  eventId: ID!
+  endpointId: ID!
+  type: WebhookEventType!
+  payload: JSON!
+  deliveredAt: DateTime
+  responseStatus: Int
+  attempts: Int!
+  createdAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Beneficiary Account Verification Types
+# ─────────────────────────────────────────────
+
+"""Result of a beneficiary bank account verification."""
+type BeneficiaryVerification {
+  verificationId: ID!
+  accountNumber: String
+  iban: String
+  sortCode: String
+  accountHolderName: String!
+  status: VerificationStatus!
+  matchScore: Int
+  verifiedAt: DateTime!
+  failureReason: String
+}
+
+# ─────────────────────────────────────────────
+# Pagination and Connection Types
+# ─────────────────────────────────────────────
+
+"""Pagination metadata for list responses."""
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+  totalCount: Int
+}
+
+"""Paginated list of Payments."""
+type PaymentConnection {
+  edges: [PaymentEdge!]!
+  pageInfo: PageInfo!
+}
+
+type PaymentEdge {
+  node: Payment!
+  cursor: String!
+}
+
+"""Paginated list of Refunds."""
+type RefundConnection {
+  edges: [RefundEdge!]!
+  pageInfo: PageInfo!
+}
+
+type RefundEdge {
+  node: Refund!
+  cursor: String!
+}
+
+"""Paginated list of Payouts."""
+type PayoutConnection {
+  edges: [PayoutEdge!]!
+  pageInfo: PageInfo!
+}
+
+type PayoutEdge {
+  node: Payout!
+  cursor: String!
+}
+
+"""Paginated list of Chargebacks."""
+type ChargebackConnection {
+  edges: [ChargebackEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ChargebackEdge {
+  node: Chargeback!
+  cursor: String!
+}
+
+"""Paginated list of Statements."""
+type StatementConnection {
+  edges: [StatementEdge!]!
+  pageInfo: PageInfo!
+}
+
+type StatementEdge {
+  node: Statement!
+  cursor: String!
+}
+
+# ─────────────────────────────────────────────
+# Input Types
+# ─────────────────────────────────────────────
+
+"""Input for creating a card payment authorization."""
+input CreatePaymentInput {
+  merchantReference: String!
+  amount: MoneyInput!
+  paymentMethod: PaymentMethodInput!
+  customer: CustomerInput
+  billingAddress: AddressInput
+  shippingAddress: AddressInput
+  orderDetails: OrderDetailsInput
+  capture: Boolean
+  descriptor: String
+  statementNarrative: String
+  riskProfile: RiskProfileInput
+  splitPayment: SplitPaymentInput
+  metadata: JSON
+}
+
+"""Input for a monetary amount."""
+input MoneyInput {
+  value: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Payment method selection input."""
+input PaymentMethodInput {
+  tokenId: ID
+  cardDetails: CardPaymentInput
+  applePayToken: String
+  googlePayToken: String
+  alternativeMethod: AlternativePaymentMethod
+}
+
+"""Raw card data (only used in PCI-compliant environments)."""
+input CardPaymentInput {
+  cardNumber: String!
+  expiryMonth: Int!
+  expiryYear: Int!
+  cvv: String
+  cardholderName: String
+}
+
+"""Customer input for a payment."""
+input CustomerInput {
+  customerId: ID
+  email: String
+  phoneNumber: String
+  name: CustomerNameInput
+  ipAddress: String
+  deviceData: DeviceDataInput
+}
+
+input CustomerNameInput {
+  firstName: String
+  lastName: String
+  fullName: String
+}
+
+"""Device data for 3DS / fraud."""
+input DeviceDataInput {
+  deviceId: String
+  userAgent: String
+  acceptHeader: String
+  javaEnabled: Boolean
+  javascriptEnabled: Boolean
+  screenWidth: Int
+  screenHeight: Int
+  colorDepth: Int
+  timeZone: String
+  language: String
+}
+
+"""Address input."""
+input AddressInput {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  postalCode: String
+  countryCode: String!
+}
+
+"""Order details input."""
+input OrderDetailsInput {
+  orderId: String
+  orderDescription: String
+  lineItems: [LineItemInput!]
+  shippingMethod: String
+  taxAmount: MoneyInput
+  discountAmount: MoneyInput
+}
+
+input LineItemInput {
+  itemId: String
+  name: String!
+  description: String
+  quantity: Int!
+  unitPrice: MoneyInput!
+  category: String
+  sku: String
+}
+
+"""Risk profile reference for fraud linking."""
+input RiskProfileInput {
+  fraudSightId: String
+}
+
+"""Split payment configuration."""
+input SplitPaymentInput {
+  splits: [PaymentSplitInput!]!
+}
+
+input PaymentSplitInput {
+  entityId: String!
+  amount: MoneyInput!
+  reference: String
+  description: String
+}
+
+"""Input for capturing an authorized payment."""
+input CapturePaymentInput {
+  paymentId: ID!
+  amount: MoneyInput
+  merchantReference: String
+}
+
+"""Input for cancelling a payment authorization."""
+input CancelPaymentInput {
+  paymentId: ID!
+  reason: String
+}
+
+"""Input for creating a refund."""
+input CreateRefundInput {
+  paymentId: ID!
+  amount: MoneyInput!
+  merchantReference: String
+  reason: String
+}
+
+"""Input for tokenizing a card."""
+input CreateTokenInput {
+  cardDetails: CardPaymentInput!
+  billingAddress: AddressInput
+  merchantTokenReference: String
+  verify: Boolean
+}
+
+"""Input for initiating a card payout."""
+input CreateCardPayoutInput {
+  merchantReference: String!
+  amount: MoneyInput!
+  recipient: CardPayoutRecipientInput!
+  descriptor: String
+  metadata: JSON
+}
+
+input CardPayoutRecipientInput {
+  name: String!
+  tokenId: ID
+  cardDetails: CardPaymentInput
+  email: String
+}
+
+"""Input for initiating a bank account payout."""
+input CreateAccountPayoutInput {
+  merchantReference: String!
+  amount: MoneyInput!
+  recipient: AccountPayoutRecipientInput!
+  metadata: JSON
+}
+
+input AccountPayoutRecipientInput {
+  name: String!
+  bankAccount: BankAccountInput!
+  email: String
+}
+
+input BankAccountInput {
+  accountHolderName: String!
+  accountNumber: String
+  routingNumber: String
+  iban: String
+  swiftBic: String
+  sortCode: String
+  countryCode: String!
+}
+
+"""Input for initiating a 3DS session."""
+input CreateThreeDSSessionInput {
+  paymentId: ID
+  amount: MoneyInput!
+  card: CardPaymentInput!
+  customer: CustomerInput
+  merchantUrl: URL!
+  challengeWindowSize: String
+}
+
+"""Input for a FraudSight screening request."""
+input FraudScreeningInput {
+  merchantReference: String!
+  amount: MoneyInput!
+  card: CardPaymentInput
+  tokenId: ID
+  customer: CustomerInput!
+  billingAddress: AddressInput
+  shippingAddress: AddressInput
+  orderDetails: OrderDetailsInput
+}
+
+"""Input for requesting a foreign exchange quote."""
+input ExchangeRateInput {
+  fromCurrency: CurrencyCode!
+  toCurrency: CurrencyCode!
+  sourceAmount: MoneyInput
+  targetAmount: MoneyInput
+  rateType: ExchangeRateType
+}
+
+"""Input for verifying a beneficiary bank account."""
+input BeneficiaryVerificationInput {
+  accountHolderName: String!
+  accountNumber: String
+  sortCode: String
+  iban: String
+  countryCode: String!
+}
+
+"""Input for creating a webhook endpoint."""
+input CreateWebhookInput {
+  url: URL!
+  description: String
+  events: [WebhookEventType!]!
+  active: Boolean
+}
+
+"""Input for updating a webhook endpoint."""
+input UpdateWebhookInput {
+  url: URL
+  description: String
+  events: [WebhookEventType!]
+  active: Boolean
+}
+
+"""Filters for querying payments."""
+input PaymentFilterInput {
+  status: [PaymentStatus!]
+  currency: [CurrencyCode!]
+  cardBrand: [CardBrand!]
+  merchantReference: String
+  customerId: String
+  fromDate: DateTime
+  toDate: DateTime
+  minAmount: Decimal
+  maxAmount: Decimal
+  settlementId: String
+}
+
+"""Filters for querying payouts."""
+input PayoutFilterInput {
+  status: [PayoutStatus!]
+  method: [PayoutMethod!]
+  currency: [CurrencyCode!]
+  fromDate: DateTime
+  toDate: DateTime
+}
+
+"""Filters for querying chargebacks."""
+input ChargebackFilterInput {
+  status: [ChargebackStatus!]
+  fromDate: DateTime
+  toDate: DateTime
+  currency: [CurrencyCode!]
+}
+
+"""Filters for querying statements."""
+input StatementFilterInput {
+  type: StatementType
+  fromDate: Date
+  toDate: Date
+}
+
+# ─────────────────────────────────────────────
+# Mutation Payload Types
+# ─────────────────────────────────────────────
+
+"""Payload returned after creating a payment."""
+type CreatePaymentPayload {
+  payment: Payment
+  errors: [UserError!]
+}
+
+"""Payload returned after capturing a payment."""
+type CapturePaymentPayload {
+  payment: Payment
+  errors: [UserError!]
+}
+
+"""Payload returned after cancelling a payment."""
+type CancelPaymentPayload {
+  payment: Payment
+  errors: [UserError!]
+}
+
+"""Payload returned after creating a refund."""
+type CreateRefundPayload {
+  refund: Refund
+  errors: [UserError!]
+}
+
+"""Payload returned after creating a token."""
+type CreateTokenPayload {
+  token: PaymentToken
+  errors: [UserError!]
+}
+
+"""Payload returned after creating a payout."""
+type CreatePayoutPayload {
+  payout: Payout
+  errors: [UserError!]
+}
+
+"""Payload returned after initiating a 3DS session."""
+type CreateThreeDSSessionPayload {
+  session: ThreeDSSession
+  errors: [UserError!]
+}
+
+"""Payload returned after a fraud screening."""
+type FraudScreeningPayload {
+  result: FraudScreeningResult
+  errors: [UserError!]
+}
+
+"""Payload returned after requesting an FX quote."""
+type ExchangeRatePayload {
+  quote: ExchangeRate
+  errors: [UserError!]
+}
+
+"""Payload returned after a beneficiary verification."""
+type BeneficiaryVerificationPayload {
+  verification: BeneficiaryVerification
+  errors: [UserError!]
+}
+
+"""Payload returned after creating a webhook."""
+type CreateWebhookPayload {
+  endpoint: WebhookEndpoint
+  errors: [UserError!]
+}
+
+"""Payload returned after updating a webhook."""
+type UpdateWebhookPayload {
+  endpoint: WebhookEndpoint
+  errors: [UserError!]
+}
+
+"""Payload returned after deleting a webhook."""
+type DeleteWebhookPayload {
+  endpointId: ID
+  errors: [UserError!]
+}
+
+"""Payload returned after deleting a token."""
+type DeleteTokenPayload {
+  tokenId: ID
+  errors: [UserError!]
+}
+
+"""User-facing error."""
+type UserError {
+  field: String
+  code: String!
+  message: String!
+}
+
+# ─────────────────────────────────────────────
+# Root Query
+# ─────────────────────────────────────────────
+
+type Query {
+  """Retrieve a payment by its ID."""
+  payment(paymentId: ID!): Payment
+
+  """List payments with optional filters and pagination."""
+  payments(
+    filter: PaymentFilterInput
+    first: Int
+    after: String
+    last: Int
+    before: String
+    sortDirection: SortDirection
+  ): PaymentConnection!
+
+  """Retrieve a refund by its ID."""
+  refund(refundId: ID!): Refund
+
+  """List refunds for a payment."""
+  refunds(
+    paymentId: ID!
+    first: Int
+    after: String
+  ): RefundConnection!
+
+  """Retrieve a payment token by its ID."""
+  token(tokenId: ID!): PaymentToken
+
+  """Retrieve a payout by its ID."""
+  payout(payoutId: ID!): Payout
+
+  """List payouts with optional filters."""
+  payouts(
+    filter: PayoutFilterInput
+    first: Int
+    after: String
+  ): PayoutConnection!
+
+  """Retrieve a 3DS session by its ID."""
+  threeDSSession(sessionId: ID!): ThreeDSSession
+
+  """Retrieve a FraudSight screening result."""
+  fraudScreening(riskId: ID!): FraudScreeningResult
+
+  """Get a live or guaranteed foreign exchange rate."""
+  exchangeRate(input: ExchangeRateInput!): ExchangeRate
+
+  """Retrieve an alternative payment by its ID."""
+  alternativePayment(apmPaymentId: ID!): AlternativePayment
+
+  """Retrieve a chargeback by its ID."""
+  chargeback(chargebackId: ID!): Chargeback
+
+  """List chargebacks with optional filters."""
+  chargebacks(
+    filter: ChargebackFilterInput
+    first: Int
+    after: String
+  ): ChargebackConnection!
+
+  """Retrieve a settlement batch by its ID."""
+  settlement(settlementId: ID!): Settlement
+
+  """Retrieve a statement by its ID."""
+  statement(statementId: ID!): Statement
+
+  """List statements with optional filters."""
+  statements(
+    filter: StatementFilterInput
+    first: Int
+    after: String
+  ): StatementConnection!
+
+  """List configured webhook endpoints."""
+  webhookEndpoints: [WebhookEndpoint!]!
+
+  """Retrieve a webhook endpoint by its ID."""
+  webhookEndpoint(endpointId: ID!): WebhookEndpoint
+
+  """List webhook delivery events for an endpoint."""
+  webhookEvents(
+    endpointId: ID!
+    first: Int
+    after: String
+  ): [WebhookEvent!]!
+
+  """Retrieve a beneficiary verification result."""
+  beneficiaryVerification(verificationId: ID!): BeneficiaryVerification
+}
+
+# ─────────────────────────────────────────────
+# Root Mutation
+# ─────────────────────────────────────────────
+
+type Mutation {
+  """Authorize (and optionally capture) a card payment."""
+  createPayment(input: CreatePaymentInput!): CreatePaymentPayload!
+
+  """Capture a previously authorized payment."""
+  capturePayment(input: CapturePaymentInput!): CapturePaymentPayload!
+
+  """Cancel (void) a payment authorization."""
+  cancelPayment(input: CancelPaymentInput!): CancelPaymentPayload!
+
+  """Create a refund for a captured payment."""
+  createRefund(input: CreateRefundInput!): CreateRefundPayload!
+
+  """Tokenize a payment card for future use."""
+  createToken(input: CreateTokenInput!): CreateTokenPayload!
+
+  """Delete (deactivate) a payment token."""
+  deleteToken(tokenId: ID!): DeleteTokenPayload!
+
+  """Initiate a card payout to a recipient."""
+  createCardPayout(input: CreateCardPayoutInput!): CreatePayoutPayload!
+
+  """Initiate a bank account payout to a recipient."""
+  createAccountPayout(input: CreateAccountPayoutInput!): CreatePayoutPayload!
+
+  """Initiate a 3DS authentication session."""
+  createThreeDSSession(input: CreateThreeDSSessionInput!): CreateThreeDSSessionPayload!
+
+  """Run a standalone FraudSight screening."""
+  screenForFraud(input: FraudScreeningInput!): FraudScreeningPayload!
+
+  """Request a foreign exchange rate quote."""
+  requestExchangeRate(input: ExchangeRateInput!): ExchangeRatePayload!
+
+  """Verify a beneficiary bank account."""
+  verifyBeneficiaryAccount(input: BeneficiaryVerificationInput!): BeneficiaryVerificationPayload!
+
+  """Register a new webhook endpoint."""
+  createWebhookEndpoint(input: CreateWebhookInput!): CreateWebhookPayload!
+
+  """Update an existing webhook endpoint."""
+  updateWebhookEndpoint(endpointId: ID!, input: UpdateWebhookInput!): UpdateWebhookPayload!
+
+  """Delete a webhook endpoint."""
+  deleteWebhookEndpoint(endpointId: ID!): DeleteWebhookPayload!
+}

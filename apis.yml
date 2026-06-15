@@ -1,332 +1,295 @@
 name: Worldpay
-description: >-
-  Worldpay is a global payment processing platform (part of FIS) offering REST
-  APIs for payment acceptance, transaction management, tokenization, recurring
-  billing, fraud prevention, and global acquiring services. It supports card
-  payments, digital wallets, alternative payment methods, payouts, foreign
-  exchange, and hosted payment pages across more than 146 countries.
+description: Worldpay is a global payment processing platform (part of FIS) offering
+  REST APIs for payment acceptance, transaction management, tokenization, recurring
+  billing, fraud prevention, and global acquiring services. It supports card payments,
+  digital wallets, alternative payment methods, payouts, foreign exchange, and hosted
+  payment pages across more than 146 countries.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/worldpay/refs/heads/main/apis.yml
-version: "0.19"
-created: "2026-06-13"
-modified: "2026-06-13"
-
+version: '0.19'
+created: '2026-06-13'
+modified: '2026-06-13'
 tags:
-  - Payments
-  - Payment Processing
-  - Payment Gateway
-  - Tokenization
-  - Fraud Prevention
-  - Recurring Billing
-  - Payouts
-  - Foreign Exchange
-  - Financial Services
-  - Fintech
-
+- Payments
+- Payment Processing
+- Payment Gateway
+- Tokenization
+- Fraud Prevention
+- Recurring Billing
+- Payouts
+- Foreign Exchange
+- Financial Services
+- Fintech
 apis:
-  - name: Worldpay Card Payments API
-    description: >-
-      Accept online card payments via Visa, Mastercard, American Express, and
-      other card networks. Supports one-time authorizations, card-on-file,
-      recurring and subscription payments, Apple Pay, Google Pay, and
-      auto-settlement.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/products/payments
-    baseURL: https://access.worldpay.com
-    tags:
-      - Card Payments
-      - Payment Authorization
-      - Recurring Payments
-      - Digital Wallets
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/products/payments
-      - type: OpenAPI
-        url: https://docs.worldpay.com/access/products/payments/openapi
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-        email: ""
-
-  - name: Worldpay Tokens API
-    description: >-
-      Tokenize and manage payment card data to minimize sensitive data exposure
-      and increase security. Supports creation of tokens from card details,
-      detokenization with masked output, and verified tokens that are CIT
-      compliant.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Tokenization
-      - Card Security
-      - PCI Compliance
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Card Payouts API
-    description: >-
-      Send funds directly to customer cards using Standard or Fast Access
-      options, enabling push payments and disbursements to Visa and Mastercard
-      cards.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Payouts
-      - Disbursements
-      - Push Payments
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Account Payouts API
-    description: >-
-      Send funds to customer bank accounts with search capabilities for
-      tracking. Supports bank transfer payouts with beneficiary account
-      verification integration.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Payouts
-      - Bank Transfers
-      - Account Management
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay FraudSight API
-    description: >-
-      Standalone risk assessment API for advanced fraud prevention. Returns
-      risk scores and recommendations that link with the Card Payments API via
-      riskProfile to reduce chargebacks and fraudulent transactions.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Fraud Prevention
-      - Risk Assessment
-      - Payments Security
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay 3DS API
-    description: >-
-      Identity verification for regulatory compliance supporting 3D Secure
-      authentication. Enables Strong Customer Authentication (SCA) required
-      under PSD2 regulations in Europe.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/products/3ds
-    baseURL: https://access.worldpay.com
-    tags:
-      - 3D Secure
-      - Authentication
-      - Regulatory Compliance
-      - SCA
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/products/3ds
-      - type: Changelog
-        url: https://docs.worldpay.com/access/products/events/changelog
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay APMs API
-    description: >-
-      Accept alternative payment methods including eWallets, bank transfers,
-      direct debits, local card schemes, and Buy Now Pay Later (BNPL) options
-      across multiple geographies.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Alternative Payments
-      - eWallets
-      - BNPL
-      - Local Payment Methods
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay FX API
-    description: >-
-      Manage currency conversion and foreign exchange for international
-      transactions. Available to Account Payouts and Multi-Currency Pricing
-      (MCP) customers.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Foreign Exchange
-      - Currency Conversion
-      - Multi-Currency
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Hosted Payment Pages API
-    description: >-
-      Low-code secure payment integration using hosted payment pages. Minimal
-      PCI scope integration option allowing merchants to embed a secure payment
-      form without handling raw card data.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/products/hosted-payment-pages
-    baseURL: https://access.worldpay.com
-    tags:
-      - Hosted Payments
-      - PCI Compliance
-      - Payment Forms
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/products/hosted-payment-pages
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Events API
-    description: >-
-      Configure webhooks to receive real-time status updates for payment events.
-      Requires HTTPS endpoints with SHA-256 or stronger TLS certificates.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/products/events
-    baseURL: https://access.worldpay.com
-    tags:
-      - Webhooks
-      - Events
-      - Notifications
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/products/events
-      - type: Changelog
-        url: https://docs.worldpay.com/access/products/events/changelog
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Payment Queries API
-    description: >-
-      Query payment data using multiple parameters to retrieve transaction
-      records, reconcile payments, and generate reports on payment history.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Payment Queries
-      - Reporting
-      - Transaction Management
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-      - type: OpenAPI
-        url: https://developer.worldpay.com/products/access/payment-queries/openapi
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Beneficiary Account Verifications API
-    description: >-
-      Validate beneficiary bank account details before initiating payouts to
-      reduce failed transfers and fraud. Supports SSL/TLS client certificate
-      authentication as an alternative method.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Bank Account Verification
-      - Payouts
-      - Fraud Prevention
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Split Payments API
-    description: >-
-      Divide funds from a single payment among the merchant and multiple
-      parties or sellers. Enables marketplace and platform payment splitting
-      scenarios.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Split Payments
-      - Marketplaces
-      - Platforms
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-  - name: Worldpay Statements API
-    description: >-
-      Retrieve account statements with date range filters for financial
-      reconciliation and reporting. Access settlement and transaction statement
-      data programmatically.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.worldpay.com/access/apis
-    baseURL: https://access.worldpay.com
-    tags:
-      - Statements
-      - Reconciliation
-      - Reporting
-    properties:
-      - type: Documentation
-        url: https://docs.worldpay.com/access/apis
-    contact:
-      - FN: Worldpay Developer Support
-        url: https://docs.worldpay.com/
-
-common:
+- name: Worldpay Card Payments API
+  description: Accept online card payments via Visa, Mastercard, American Express,
+    and other card networks. Supports one-time authorizations, card-on-file, recurring
+    and subscription payments, Apple Pay, Google Pay, and auto-settlement.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/products/payments
+  baseURL: https://access.worldpay.com
+  tags:
+  - Card Payments
+  - Payment Authorization
+  - Recurring Payments
+  - Digital Wallets
+  properties:
   - type: Documentation
+    url: https://docs.worldpay.com/access/products/payments
+  - type: OpenAPI
+    url: https://docs.worldpay.com/access/products/payments/openapi
+  - url: graphql/worldpay-graphql.md
+    type: GraphQL
+  contact:
+  - FN: Worldpay Developer Support
     url: https://docs.worldpay.com/
-  - type: Developer Portal
-    url: https://developer.worldpay.com/
-  - type: Sign Up
-    url: https://docs.worldpay.com/access/products/card-payments/v5/get-started
-  - type: Authentication
-    url: https://docs.worldpay.com/access/products/reference/api-principles
-  - type: Status
-    url: https://status.access.worldpay.com/
-  - type: Status
-    url: https://status.worldpay.com/
+    email: ''
+- name: Worldpay Tokens API
+  description: Tokenize and manage payment card data to minimize sensitive data exposure
+    and increase security. Supports creation of tokens from card details, detokenization
+    with masked output, and verified tokens that are CIT compliant.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Tokenization
+  - Card Security
+  - PCI Compliance
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Card Payouts API
+  description: Send funds directly to customer cards using Standard or Fast Access
+    options, enabling push payments and disbursements to Visa and Mastercard cards.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Payouts
+  - Disbursements
+  - Push Payments
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Account Payouts API
+  description: Send funds to customer bank accounts with search capabilities for tracking.
+    Supports bank transfer payouts with beneficiary account verification integration.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Payouts
+  - Bank Transfers
+  - Account Management
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay FraudSight API
+  description: Standalone risk assessment API for advanced fraud prevention. Returns
+    risk scores and recommendations that link with the Card Payments API via riskProfile
+    to reduce chargebacks and fraudulent transactions.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Fraud Prevention
+  - Risk Assessment
+  - Payments Security
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay 3DS API
+  description: Identity verification for regulatory compliance supporting 3D Secure
+    authentication. Enables Strong Customer Authentication (SCA) required under PSD2
+    regulations in Europe.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/products/3ds
+  baseURL: https://access.worldpay.com
+  tags:
+  - 3D Secure
+  - Authentication
+  - Regulatory Compliance
+  - SCA
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/products/3ds
   - type: Changelog
-    url: https://docs.worldpay.com/access/products/releases
-  - type: GitHub
-    url: https://github.com/Worldpay
-  - type: Plans
-    url: plans/plans.yml
-  - type: RateLimits
-    url: rate-limits/rate-limits.yml
-  - type: FinOps
-    url: finops/finops.yml
-
+    url: https://docs.worldpay.com/access/products/events/changelog
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay APMs API
+  description: Accept alternative payment methods including eWallets, bank transfers,
+    direct debits, local card schemes, and Buy Now Pay Later (BNPL) options across
+    multiple geographies.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Alternative Payments
+  - eWallets
+  - BNPL
+  - Local Payment Methods
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay FX API
+  description: Manage currency conversion and foreign exchange for international transactions.
+    Available to Account Payouts and Multi-Currency Pricing (MCP) customers.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Foreign Exchange
+  - Currency Conversion
+  - Multi-Currency
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Hosted Payment Pages API
+  description: Low-code secure payment integration using hosted payment pages. Minimal
+    PCI scope integration option allowing merchants to embed a secure payment form
+    without handling raw card data.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/products/hosted-payment-pages
+  baseURL: https://access.worldpay.com
+  tags:
+  - Hosted Payments
+  - PCI Compliance
+  - Payment Forms
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/products/hosted-payment-pages
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Events API
+  description: Configure webhooks to receive real-time status updates for payment
+    events. Requires HTTPS endpoints with SHA-256 or stronger TLS certificates.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/products/events
+  baseURL: https://access.worldpay.com
+  tags:
+  - Webhooks
+  - Events
+  - Notifications
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/products/events
+  - type: Changelog
+    url: https://docs.worldpay.com/access/products/events/changelog
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Payment Queries API
+  description: Query payment data using multiple parameters to retrieve transaction
+    records, reconcile payments, and generate reports on payment history.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Payment Queries
+  - Reporting
+  - Transaction Management
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  - type: OpenAPI
+    url: https://developer.worldpay.com/products/access/payment-queries/openapi
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Beneficiary Account Verifications API
+  description: Validate beneficiary bank account details before initiating payouts
+    to reduce failed transfers and fraud. Supports SSL/TLS client certificate authentication
+    as an alternative method.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Bank Account Verification
+  - Payouts
+  - Fraud Prevention
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Split Payments API
+  description: Divide funds from a single payment among the merchant and multiple
+    parties or sellers. Enables marketplace and platform payment splitting scenarios.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Split Payments
+  - Marketplaces
+  - Platforms
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+- name: Worldpay Statements API
+  description: Retrieve account statements with date range filters for financial reconciliation
+    and reporting. Access settlement and transaction statement data programmatically.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Statements
+  - Reconciliation
+  - Reporting
+  properties:
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+  contact:
+  - FN: Worldpay Developer Support
+    url: https://docs.worldpay.com/
+common:
+- type: Documentation
+  url: https://docs.worldpay.com/
+- type: Developer Portal
+  url: https://developer.worldpay.com/
+- type: Sign Up
+  url: https://docs.worldpay.com/access/products/card-payments/v5/get-started
+- type: Authentication
+  url: https://docs.worldpay.com/access/products/reference/api-principles
+- type: Status
+  url: https://status.access.worldpay.com/
+- type: Status
+  url: https://status.worldpay.com/
+- type: Changelog
+  url: https://docs.worldpay.com/access/products/releases
+- type: GitHub
+  url: https://github.com/Worldpay
+- type: Plans
+  url: plans/plans.yml
+- type: RateLimits
+  url: rate-limits/rate-limits.yml
+- type: FinOps
+  url: finops/finops.yml
 maintainers:
-  - FN: API Evangelist
-    url: https://apievangelist.com
-    email: info@apievangelist.com
+- FN: API Evangelist
+  url: https://apievangelist.com
+  email: info@apievangelist.com
