@@ -125,7 +125,7 @@ apis:
   properties:
   - type: Documentation
     url: https://docs.worldpay.com/access/products/3ds
-  - type: Changelog
+  - type: ChangeLog
     url: https://docs.worldpay.com/access/products/events/changelog
   contact:
   - FN: Worldpay Developer Support
@@ -194,7 +194,7 @@ apis:
   properties:
   - type: Documentation
     url: https://docs.worldpay.com/access/products/events
-  - type: Changelog
+  - type: ChangeLog
     url: https://docs.worldpay.com/access/products/events/changelog
   contact:
   - FN: Worldpay Developer Support
@@ -269,9 +269,9 @@ apis:
 common:
 - type: Documentation
   url: https://docs.worldpay.com/
-- type: Developer Portal
+- type: DeveloperPortal
   url: https://developer.worldpay.com/
-- type: Sign Up
+- type: Signup
   url: https://docs.worldpay.com/access/products/card-payments/v5/get-started
 - type: Authentication
   url: https://docs.worldpay.com/access/products/reference/api-principles
@@ -279,7 +279,7 @@ common:
   url: https://status.access.worldpay.com/
 - type: Status
   url: https://status.worldpay.com/
-- type: Changelog
+- type: ChangeLog
   url: https://docs.worldpay.com/access/products/releases
 - type: GitHub
   url: https://github.com/Worldpay
