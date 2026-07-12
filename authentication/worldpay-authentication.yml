@@ -1,0 +1,39 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/worldpay-3ds-openapi.yaml, openapi/worldpay-account-payouts-openapi.yaml, openapi/worldpay-apms-openapi.yaml,
+  openapi/worldpay-balance-openapi.yaml, openapi/worldpay-card-payments-openapi.yaml, openapi/worldpay-card-payouts-openapi.yaml,
+  openapi/worldpay-card-verifications-openapi.yaml, openapi/worldpay-fraudsight-openapi.yaml,
+  openapi/worldpay-fx-openapi.yaml, openapi/worldpay-hosted-payment-pages-openapi.yaml, openapi/worldpay-money-transfers-openapi.yaml,
+  openapi/worldpay-parties-openapi.yaml ...
+summary:
+  types:
+  - http
+schemes:
+- name: BasicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/worldpay-3ds-openapi.yaml
+  - openapi/worldpay-account-payouts-openapi.yaml
+  - openapi/worldpay-apms-openapi.yaml
+  - openapi/worldpay-balance-openapi.yaml
+  - openapi/worldpay-card-payments-openapi.yaml
+  - openapi/worldpay-card-payouts-openapi.yaml
+  - openapi/worldpay-card-verifications-openapi.yaml
+  - openapi/worldpay-fraudsight-openapi.yaml
+  - openapi/worldpay-fx-openapi.yaml
+  - openapi/worldpay-money-transfers-openapi.yaml
+  - openapi/worldpay-parties-openapi.yaml
+  - openapi/worldpay-payment-queries-openapi.yaml
+  - openapi/worldpay-payments-openapi.yaml
+  - openapi/worldpay-sca-exemptions-openapi.yaml
+  - openapi/worldpay-split-payments-openapi.yaml
+  - openapi/worldpay-statements-openapi.yaml
+  - openapi/worldpay-tokens-openapi.yaml
+  - openapi/worldpay-transfers-openapi.yaml
+  - openapi/worldpay-verified-tokens-openapi.yaml
+- name: BasicAuth
+  type: http
+  scheme: BasicAuth
+  sources:
+  - openapi/worldpay-hosted-payment-pages-openapi.yaml

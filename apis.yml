@@ -267,6 +267,10 @@ apis:
   - FN: Worldpay Developer Support
     url: https://docs.worldpay.com/
 common:
+- type: DomainSecurity
+  url: security/worldpay-domain-security.yml
+- type: Authentication
+  url: authentication/worldpay-authentication.yml
 - type: Documentation
   url: https://docs.worldpay.com/
 - type: DeveloperPortal
