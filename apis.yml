@@ -267,6 +267,8 @@ apis:
   - FN: Worldpay Developer Support
     url: https://docs.worldpay.com/
 common:
+- type: AgenticAccess
+  url: agentic-access/worldpay-agentic-access.yml
 - type: DomainSecurity
   url: security/worldpay-domain-security.yml
 - type: Authentication
