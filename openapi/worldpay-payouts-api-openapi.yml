@@ -1,71 +1,41 @@
 openapi: 3.0.1
 info:
-  title: Card Payouts
-  version: '4'
+  title: 3DS 3DS actions Payouts API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
   x-metadata:
     category:
-      - Payouts
+    - 3DS
+    - SCA Exemptions
     business:
-      - Enterprise
+    - Enterprise
     catalog-list: true
     generated: false
-  description: >-
-    Send funds to your customer's cards. Standard or using Fast Access.
-
-
-    __Authentication__ 
-
-
-    Set your headers:
-
-      ```
-        Authorization: {your_credentials}
-        Content-Type: application/vnd.worldpay.payouts-v4+json
-        Accept: application/vnd.worldpay.payouts-v4+json
-      ```
-    Replace `{your_credentials}` with your base64-encoded Basic Auth username
-    and password.
-
-
-    <br>
-
-
-    __DNS whitelisting__
-
-
-    Whitelist the following URLs:
-
-    * `https://try.access.worldpay.com/`
-
-    * `https://access.worldpay.com/`
-
-
-    Please ensure you use DNS whitelisting, not explicit IP whitelisting. When
-    you make a request within Access Worldpay, you should always cache the
-    response returned.
 servers:
-  - url: https://try.access.worldpay.com
-    description: Test (Try)
-  - url: https://access.worldpay.com
-    description: Live
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: Payouts
 paths:
   /payouts/{resource}:
     get:
       summary: Retrieve payout details
-      description: >+
-        Retrieve the details of an existing basic disbursement or Fast Access
-        payout.
+      description: 'Retrieve the details of an existing basic disbursement or Fast Access payout.
 
+
+        '
       operationId: getPayoutsDetails
       parameters:
-        - name: resource
-          in: path
-          description: >-
-            The `payouts:payout` href value returned in the response to your
-            basic disbursement or Fast Access payout request.
-          required: true
-          schema:
-            type: string
+      - name: resource
+        in: path
+        description: The `payouts:payout` href value returned in the response to your basic disbursement or Fast Access payout request.
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Payout resource.
@@ -75,9 +45,7 @@ paths:
                 $ref: '#/components/schemas/payouts_payouts_200_response'
               examples:
                 'Basic Disbursement: Successful resource retrieval with outcome requestReceived':
-                  description: >-
-                    Basic Disbursement: Successful resource retrieval with
-                    outcome requestReceived
+                  description: 'Basic Disbursement: Successful resource retrieval with outcome requestReceived'
                   value:
                     outcome: requestReceived
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -85,13 +53,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Basic Disbursement: Successful resource retrieval with outcome refused':
-                  description: >-
-                    Basic Disbursement: Successful resource retrieval with
-                    outcome refused
+                  description: 'Basic Disbursement: Successful resource retrieval with outcome refused'
                   value:
                     outcome: refused
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -99,13 +65,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Basic Disbursement: Successful resource retrieval with outcome error':
-                  description: >-
-                    Basic Disbursement: Successful resource retrieval with
-                    outcome error
+                  description: 'Basic Disbursement: Successful resource retrieval with outcome error'
                   value:
                     outcome: error
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -113,13 +77,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome requested':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome requested
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome requested'
                   value:
                     outcome: requested
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -129,13 +91,11 @@ paths:
                       payouts:update:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome pending':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome pending
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome pending'
                   value:
                     outcome: pending
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -145,13 +105,11 @@ paths:
                       payouts:update:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome approved':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome approved
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome approved'
                   value:
                     outcome: approved
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -164,13 +122,11 @@ paths:
                       payouts:update:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome disbursed':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome disbursed
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome disbursed'
                   value:
                     outcome: disbursed
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -178,13 +134,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome refused':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome refused
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome refused'
                   value:
                     outcome: refused
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -195,13 +149,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome error':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome error
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome error'
                   value:
                     outcome: error
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -209,13 +161,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access Payout: Successful resource retrieval with outcome inReview':
-                  description: >-
-                    Fast Access Payout: Successful resource retrieval with
-                    outcome inReview
+                  description: 'Fast Access Payout: Successful resource retrieval with outcome inReview'
                   value:
                     outcome: inReview
                     receivedAt: '2023-09-01T10:37:36.923Z'
@@ -223,13 +173,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
         '401':
-          description: >-
-            Access to the requested resource has been denied. This may occur if
-            your entity is not configured for card payouts.
+          description: Access to the requested resource has been denied. This may occur if your entity is not configured for card payouts.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -241,9 +189,7 @@ paths:
                     errorName: accessDenied
                     message: Access to the requested resource has been denied
         '404':
-          description: >-
-            We could not find the requested resource. Please check the `path`
-            and try again.
+          description: We could not find the requested resource. Please check the `path` and try again.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -254,44 +200,41 @@ paths:
                   value:
                     errorName: resourceNotFound
                     message: The resource you are trying to access does not exist.
+      tags:
+      - Payouts
   /payouts/query:
     get:
       summary: Retrieve payout details from a historic resource
-      description: |+
-        Query by transaction reference and entity to retrieve a payout.
+      description: 'Query by transaction reference and entity to retrieve a payout.
 
+
+        '
       operationId: queryPayouts
       parameters:
-        - name: transactionReference
-          in: query
-          description: >-
-            A unique reference generated by you, used to identify a payout
-            throughout its lifecycle.
-          required: true
-          schema:
-            type: string
-            example: '12345'
-        - name: entity
-          in: query
-          description: merchant entity
-          required: true
-          schema:
-            type: string
-            example: default
+      - name: transactionReference
+        in: query
+        description: A unique reference generated by you, used to identify a payout throughout its lifecycle.
+        required: true
+        schema:
+          type: string
+          example: '12345'
+      - name: entity
+        in: query
+        description: merchant entity
+        required: true
+        schema:
+          type: string
+          example: default
       responses:
         '200':
-          description: >-
-            Returns a payout resource, provided one matches the transaction and
-            entity references.
+          description: Returns a payout resource, provided one matches the transaction and entity references.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
                 $ref: '#/components/schemas/payouts_query_200_response'
               examples:
                 'Basic Disbursement: An existing resource is retrieved with outcome ''requestReceived''':
-                  description: >-
-                    Basic Disbursement: An existing resource is retrieved with
-                    outcome 'requestReceived'
+                  description: 'Basic Disbursement: An existing resource is retrieved with outcome ''requestReceived'''
                   value:
                     outcome: requestReceived
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -299,13 +242,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Basic Disbursement: An existing resource is retrieved with outcome ''refused''':
-                  description: >-
-                    Basic Disbursement: An existing resource is retrieved with
-                    outcome 'refused'
+                  description: 'Basic Disbursement: An existing resource is retrieved with outcome ''refused'''
                   value:
                     outcome: refused
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -313,13 +254,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Basic Disbursement: An existing resource is retrieved with outcome ''error''':
-                  description: >-
-                    Basic Disbursement: An existing resource is retrieved with
-                    outcome 'error'
+                  description: 'Basic Disbursement: An existing resource is retrieved with outcome ''error'''
                   value:
                     outcome: error
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -327,13 +266,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''requested''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'requested'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''requested'''
                   value:
                     outcome: requested
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -341,13 +278,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''pending''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'pending'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''pending'''
                   value:
                     outcome: pending
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -355,13 +290,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''approved''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'approved'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''approved'''
                   value:
                     outcome: approved
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -372,13 +305,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''disbursed''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'disbursed'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''disbursed'''
                   value:
                     outcome: disbursed
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -386,13 +317,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''refused''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'refused'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''refused'''
                   value:
                     outcome: refused
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -403,13 +332,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''error''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'error'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''error'''
                   value:
                     outcome: error
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -417,13 +344,11 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 'Fast Access: An existing resource is retrieved with outcome ''inReview''':
-                  description: >-
-                    Fast Access: An existing resource is retrieved with outcome
-                    'inReview'
+                  description: 'Fast Access: An existing resource is retrieved with outcome ''inReview'''
                   value:
                     outcome: inReview
                     receivedAt: '2025-08-01T10:37:36.923Z'
@@ -431,9 +356,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
         '400':
           description: We could not process the request due to a client error.
           content:
@@ -442,25 +367,16 @@ paths:
                 $ref: '#/components/schemas/payouts_payouts_400_response'
               examples:
                 Query parameters missing:
-                  description: >-
-                    We could not process the request due to a client error. For
-                    example, one or more of the mandatory query parameters
-                    (`transactionReference` and `entity`) are missing.
+                  description: We could not process the request due to a client error. For example, one or more of the mandatory query parameters (`transactionReference` and `entity`) are missing.
                   value:
                     errorName: urlContainsInvalidValue
                     message: The URL contains a value or values that are invalid.
                     validationErrors:
-                      - errorName: fieldIsMissing
-                        message: >-
-                          A query parameter in the request is missing. This
-                          query parameter is a mandatory element of the request.
-                          The name of the query parameter is in the
-                          queryParameter field.
-                        queryParameter: transactionReference
+                    - errorName: fieldIsMissing
+                      message: A query parameter in the request is missing. This query parameter is a mandatory element of the request. The name of the query parameter is in the queryParameter field.
+                      queryParameter: transactionReference
         '401':
-          description: >-
-            Access to the requested resource has been denied. This may occur if
-            your entity is not configured for card payouts.
+          description: Access to the requested resource has been denied. This may occur if your entity is not configured for card payouts.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -472,9 +388,7 @@ paths:
                     errorName: accessDenied
                     message: Access to the requested resource has been denied
         '404':
-          description: >-
-            We could not find the requested resource. Please check the
-            `transactionReference` query parameter and try again.
+          description: We could not find the requested resource. Please check the `transactionReference` query parameter and try again.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -486,10 +400,7 @@ paths:
                     errorName: resourceNotFound
                     message: The resource you are trying to access does not exist.
         '422':
-          description: >-
-            The request was syntactically valid, but couldn't be processed. For
-            example, your merchant entity is not configured to process card
-            payouts.
+          description: The request was syntactically valid, but couldn't be processed. For example, your merchant entity is not configured to process card payouts.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -499,17 +410,17 @@ paths:
                   description: Card payouts not enabled
                   value:
                     errorName: fieldHasInvalidValue
-                    message: >-
-                      Your merchant boarding process has not enabled payouts for
-                      this merchant entity. Please contact support, or use a
-                      valid entity.
+                    message: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
                     jsonPath: $.merchant.entity
+      tags:
+      - Payouts
   /payouts/basicDisbursement:
     post:
       summary: Standard payout
-      description: |+
-        Disburse funds to a payout instrument.
+      description: 'Disburse funds to a payout instrument.
 
+
+        '
       operationId: basicDisbursement
       requestBody:
         content:
@@ -662,9 +573,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Unsuccessful Payout request:
                   description: Unsuccessful Payout request
                   value:
@@ -674,9 +585,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful Basic Disbursement to a token:
                   description: Successful Basic Disbursement to a token
                   value:
@@ -686,9 +597,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful Basic Disbursement to a networkToken:
                   description: Successful Basic Disbursement to a networkToken
                   value:
@@ -696,16 +607,15 @@ paths:
                     receivedAt: '2024-08-28T13:49:36.956145Z'
                     _links:
                       payouts:payout:
-                        href: >-
-                          https://npe.access.worldpay.com/payouts/MjpkSzMxRnRQT0tqaUplUk1rSG5sWXFRPT06QUVTL0NCQy9QS0NTNVBhZGRpbmc6b0d5RWhlMVNKVUJadWdzeEtBUW9xR1ozTWVZNGcwbUFPMDFpL1F4V1c5cGxOQ0hiVXNnWHZRb0pBZUhhUFg4QjY0dndoNHVpM1NGSjZTcWEvMDhQTVE9PQ==
+                        href: https://npe.access.worldpay.com/payouts/MjpkSzMxRnRQT0tqaUplUk1rSG5sWXFRPT06QUVTL0NCQy9QS0NTNVBhZGRpbmc6b0d5RWhlMVNKVUJadWdzeEtBUW9xR1ozTWVZNGcwbUFPMDFpL1F4V1c5cGxOQ0hiVXNnWHZRb0pBZUhhUFg4QjY0dndoNHVpM1NGSjZTcWEvMDhQTVE9PQ==
                       curies:
-                        - name: payouts
-                          href: https://npe.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
-                    curies:
                       - name: payouts
                         href: https://npe.access.worldpay.com/rels/payouts/{rel}
                         templated: true
+                    curies:
+                    - name: payouts
+                      href: https://npe.access.worldpay.com/rels/payouts/{rel}
+                      templated: true
                 Successful Basic Disbursement to a decrypted applepay token:
                   description: Successful Basic Disbursement to a decrypted applepay token
                   value:
@@ -715,9 +625,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
         '400':
           description: We could not process the request due to a client error.
           content:
@@ -729,21 +639,13 @@ paths:
                   description: A validation error for an unrecognized currency value
                   value:
                     errorName: bodyDoesNotMatchSchema
-                    message: >-
-                      There were field validation errors. The errors that
-                      occurred are within the validationErrors array.
+                    message: There were field validation errors. The errors that occurred are within the validationErrors array.
                     validationErrors:
-                      - errorName: fieldHasInvalidValue
-                        message: >-
-                          The identified field does not contain an expected
-                          value. This field must contain one of the expected
-                          valid values.
-                        jsonPath: $.instruction.value.currency
+                    - errorName: fieldHasInvalidValue
+                      message: The identified field does not contain an expected value. This field must contain one of the expected valid values.
+                      jsonPath: $.instruction.value.currency
         '422':
-          description: >-
-            The request was syntactically valid, but couldn't be processed. For
-            example, your merchant entity is not configured to process card
-            payouts.
+          description: The request was syntactically valid, but couldn't be processed. For example, your merchant entity is not configured to process card payouts.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -753,10 +655,7 @@ paths:
                   description: Card payouts not enabled
                   value:
                     errorName: fieldHasInvalidValue
-                    message: >-
-                      Your merchant boarding process has not enabled payouts for
-                      this merchant entity. Please contact support, or use a
-                      valid entity.
+                    message: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
                     jsonPath: $.merchant.entity
         '500':
           description: Internal server error
@@ -769,15 +668,16 @@ paths:
                   description: Internal error
                   value:
                     errorName: internalErrorOccurred
-                    message: >-
-                      An error occurred within the service (potentially due to
-                      an interaction with a downstream service)
+                    message: An error occurred within the service (potentially due to an interaction with a downstream service)
+      tags:
+      - Payouts
   /payouts/fastAccess:
     post:
       summary: Fast Access payout
-      description: |+
-        Disburse funds to a payout instrument using Fast Access.
+      description: 'Disburse funds to a payout instrument using Fast Access.
 
+
+        '
       operationId: fastAccess
       requestBody:
         content:
@@ -958,9 +858,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful disbursal of funds:
                   description: Successful disbursal of funds
                   value:
@@ -973,9 +873,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful disbursal of funds to a token:
                   description: Successful disbursal of funds to a token
                   value:
@@ -988,9 +888,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful disbursal of funds to a networkToken:
                   description: Successful disbursal of funds to a networkToken
                   value:
@@ -998,12 +898,11 @@ paths:
                     receivedAt: '2024-08-28T13:35:04.823402Z'
                     _links:
                       payouts:payout:
-                        href: >-
-                          https://try.access.worldpay.com/payouts/Mjovc1NvemlnSFhVdUVIc0xjSitSWmhnPT06QUVTL0NCQy9QS0NTNVBhZGRpbmc6YzNiamVrSDMxNThTcDJ5WnJteWRoRjlTSzhXV2RxdUNCaG1TcG9SS21SY1l5WVczZEVWNWlnZTBMWUdHTWtEWEtqTkJVRXBYMGxRYjNVYU1veGdvbGlhcnRPYy8zNnNFWGNDeGErWHhmZ289
+                        href: https://try.access.worldpay.com/payouts/Mjovc1NvemlnSFhVdUVIc0xjSitSWmhnPT06QUVTL0NCQy9QS0NTNVBhZGRpbmc6YzNiamVrSDMxNThTcDJ5WnJteWRoRjlTSzhXV2RxdUNCaG1TcG9SS21SY1l5WVczZEVWNWlnZTBMWUdHTWtEWEtqTkJVRXBYMGxRYjNVYU1veGdvbGlhcnRPYy8zNnNFWGNDeGErWHhmZ289
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful disbursal of funds to a decrypted Apple Pay token:
                   description: Successful disbursal of funds to a decrypted Apple Pay token
                   value:
@@ -1013,9 +912,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Successful Mastercard disbursement:
                   description: Successful Mastercard disbursement
                   value:
@@ -1028,9 +927,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Disbursement refused:
                   description: Disbursement refused by card issuer
                   value:
@@ -1044,9 +943,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
                 Disbursement in review:
                   description: Disbursement is in review
                   value:
@@ -1056,9 +955,9 @@ paths:
                       payouts:payout:
                         href: https://try.access.worldpay.com/payouts/{resource}
                       curies:
-                        - name: payouts
-                          href: https://try.access.worldpay.com/rels/payouts/{rel}
-                          templated: true
+                      - name: payouts
+                        href: https://try.access.worldpay.com/rels/payouts/{rel}
+                        templated: true
         '400':
           description: We could not process the request due to a client error.
           content:
@@ -1070,21 +969,13 @@ paths:
                   description: A validation error for an unrecognized currency value
                   value:
                     errorName: bodyDoesNotMatchSchema
-                    message: >-
-                      There were field validation errors. The errors that
-                      occurred are within the validationErrors array.
+                    message: There were field validation errors. The errors that occurred are within the validationErrors array.
                     validationErrors:
-                      - errorName: fieldHasInvalidValue
-                        message: >-
-                          The identified field does not contain an expected
-                          value. This field must contain one of the expected
-                          valid values.
-                        jsonPath: $.instruction.value.currency
+                    - errorName: fieldHasInvalidValue
+                      message: The identified field does not contain an expected value. This field must contain one of the expected valid values.
+                      jsonPath: $.instruction.value.currency
         '422':
-          description: >-
-            The request was syntactically valid, but couldn't be processed. For
-            example, your merchant entity is not configured to process card
-            payouts.
+          description: The request was syntactically valid, but couldn't be processed. For example, your merchant entity is not configured to process card payouts.
           content:
             application/vnd.worldpay.payouts-v4+json:
               schema:
@@ -1094,10 +985,7 @@ paths:
                   description: Card payouts not enabled
                   value:
                     errorName: fieldHasInvalidValue
-                    message: >-
-                      Your merchant boarding process has not enabled payouts for
-                      this merchant entity. Please contact support, or use a
-                      valid entity.
+                    message: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
                     jsonPath: $.merchant.entity
         '500':
           description: Internal server error
@@ -1110,46 +998,299 @@ paths:
                   description: Internal error
                   value:
                     errorName: internalErrorOccurred
-                    message: >-
-                      An error occurred within the service (potentially due to
-                      an interaction with a downstream service)
+                    message: An error occurred within the service (potentially due to an interaction with a downstream service)
+      tags:
+      - Payouts
 components:
   schemas:
-    scheme:
+    payouts_basicDisbursement_500_response:
       type: object
-      required:
-        - name
       properties:
-        name:
+        errorName:
           type: string
-          description: >-
-            The name of the card scheme that was used to process your payout
-            request
-          enum:
-            - visa
-            - mastercard
-          x-enumDescriptions:
-            visa: Processed with Visa Direct
-            mastercard: Processed with Mastercard Send
-        reference:
+          description: Error name
+          example: internalErrorOccurred
+        message:
           type: string
-          description: The reference returned by the card scheme for your payout request.
-          example: '520000000001'
-    payouts_payouts_200_response:
+          description: Error message
+          example: An error occurred within the service (potentially due to an interaction with a downstream service)
+    payouts_basicDisbursement_201_response:
       required:
-        - outcome
-        - receivedAt
-        - _links
+      - _links
+      - outcome
+      - receivedAt
       type: object
       properties:
         outcome:
           type: string
-          description: Outcome of payout request.
+          description: Outcome of payouts request.
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt.
+        _links:
+          type: object
+          properties:
+            payouts:payout:
+              type: object
+              description: Your card payout resource.
+              properties:
+                href:
+                  type: string
+                  description: Your card payout resource.
+                  example: https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
+    payouts_query_200_response:
+      required:
+      - outcome
+      - receivedAt
+      - _links
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: outcome of payouts query request
         scheme:
           $ref: '#/components/schemas/scheme'
         receivedAt:
           type: string
-          description: A timestamp of receivedAt.
+          description: A timestamp of receivedAt
+    card_networkToken:
+      required:
+      - type
+      - tokenNumber
+      - expiryDate
+      type: object
+      description: Network Payment Token details.
+      properties:
+        type:
+          type: string
+        tokenNumber:
+          type: string
+          description: The network payment token number.
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]*$
+          example: '4444333322221111'
+        expiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: The expiry date of the network token. Must be a date in the future.
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+    payouts_basicDisbursement_400_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          description: Error message
+          example: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+                example: fieldHasInvalidValue
+              message:
+                type: string
+                example: The identified field does not contain an expected value. This field must contain one of the expected valid values.
+              jsonPath:
+                type: string
+                example: $.instruction.value.currency
+    payouts_payouts_404_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: resourceNotFound
+        message:
+          type: string
+          description: Error message
+          example: The resource you are trying to access does not exist.
+    payouts_fastAccess_500_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: internalErrorOccurred
+        message:
+          type: string
+          description: Error message
+          example: An error occurred within the service (potentially due to an interaction with a downstream service)
+    payouts_fastAccess_201_response:
+      required:
+      - _links
+      - outcome
+      - receivedAt
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of payouts request.
+          enum:
+          - requested
+          - pending
+          - approved
+          - disbursed
+          - refused
+          - error
+          - requestReceived
+          - inReview
+          x-enumDescriptions:
+            requested: 'We have received your Fast Access disbursement. Retrieve the payout later to confirm status.
+
+              '
+            pending: 'We have sent your Fast Access disbursement request to Visa Direct/Mastercard Send. If there are no updates within 48 hours then this moves to an `error` outcome.
+
+              '
+            approved: 'Visa/Mastercard has approved your request and the funds are allocated within 30 minutes if the issuer is Fast Access enabled. If not, standard timescales apply.
+
+              '
+            disbursed: 'The transaction is reconciled with Visa/Mastercard’s daily reporting.
+
+              '
+            refused: 'Your Fast Access disbursement request is refused.
+
+              - The card issuer declines the disbursement
+
+              - Visa/Mastercard declines your request because the issuing bank is not responding
+
+              - Disbursements are not allowed in the requested country
+
+              '
+            error: 'There is no response from Visa/Mastercard within 48 hours or Visa/Mastercard returns an error confirming the request has failed.
+
+              '
+            requestReceived: 'We have received your Fast Access disbursement request, but the card does not support Fast Access.
+
+              '
+            inReview: 'We are reviewing your Fast Access disbursement request. If the review is successful, then your payout is processed and moves to an `approved` or `refused` outcome. If the review fails, the payout moves to an `error` outcome.
+
+              '
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        receivedAt:
+          type: string
+          description: A timestamp of when the payout request was received.
+        _links:
+          type: object
+          properties:
+            payouts:payout:
+              type: object
+              description: Your card payout resource.
+              properties:
+                href:
+                  type: string
+                  description: Your card payout resource.
+                  example: https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
+    card_tokenized:
+      required:
+      - type
+      - href
+      type: object
+      description: Tokenized card details.
+      properties:
+        type:
+          type: string
+        href:
+          type: string
+          description: An object that contains your link to an Access Token.
+    applepay_decrypted:
+      required:
+      - type
+      - dpan
+      - cardExpiryDate
+      type: object
+      description: Wallet details.
+      properties:
+        type:
+          type: string
+        dpan:
+          type: string
+          description: The device primary account number (DPAN).
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]*$
+          example: '4444333322221111'
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: The expiry date of the payout DPAN. Must be a date in the future.
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        billingAddress:
+          required:
+          - countryCode
+          - postalCode
+          type: object
+          description: An object containing the billing address information. We recommend you provide `billingAddress` fields for all Payout requests.
+          properties:
+            countryCode:
+              type: string
+              description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+            postalCode:
+              type: string
+            address1:
+              type: string
+              description: First line of the address. Required if `city` is provided.
+            address2:
+              type: string
+              description: Second line of the address.
+            address3:
+              type: string
+              description: Third line of the address.
+            city:
+              type: string
+              description: City. Required if `address1` is provided.
+            state:
+              type: string
+              description: "Billing contact state code.\n\n * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).\n * For all other regions and provinces around the world, this is a free text field.\n\n  Example:\n\n  * `AZ`\n\n * `Cambridgeshire`"
+        cardHolderName:
+          type: string
+          pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
+          description: The name on your customer's card. This is not a mandatory field however it is recommended that you supply this to improve authorization rates. If not supplied, the default is "Not Supplied". Must not contain only numeric characters.
+    payouts_basicDisbursement_422_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: fieldHasInvalidValue
+        message:
+          type: string
+          description: Error message
+          example: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
+        jsonPath:
+          type: string
+          example: $.merchant.entity
+    payouts_payouts_401_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: accessDenied
+        message:
+          type: string
+          description: Error message
+          example: Access to the requested resource has been denied
     payouts_payouts_400_response:
       type: object
       properties:
@@ -1174,56 +1315,34 @@ components:
               message:
                 type: string
                 description: Error message
-                example: >-
-                  A query parameter in the request is missing. This query
-                  parameter is a mandatory element of the request. The name of
-                  the query parameter is in the queryParameter field.
+                example: A query parameter in the request is missing. This query parameter is a mandatory element of the request. The name of the query parameter is in the queryParameter field.
               queryParameter:
                 type: string
                 description: The name of the missing query parameter
                 example: transactionReference
-    payouts_payouts_401_response:
+    scheme:
       type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: accessDenied
-        message:
-          type: string
-          description: Error message
-          example: Access to the requested resource has been denied
-    payouts_payouts_404_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: resourceNotFound
-        message:
-          type: string
-          description: Error message
-          example: The resource you are trying to access does not exist.
-    payouts_query_200_response:
       required:
-        - outcome
-        - receivedAt
-        - _links
-      type: object
+      - name
       properties:
-        outcome:
+        name:
           type: string
-          description: outcome of payouts query request
-        scheme:
-          $ref: '#/components/schemas/scheme'
-        receivedAt:
+          description: The name of the card scheme that was used to process your payout request
+          enum:
+          - visa
+          - mastercard
+          x-enumDescriptions:
+            visa: Processed with Visa Direct
+            mastercard: Processed with Mastercard Send
+        reference:
           type: string
-          description: A timestamp of receivedAt
+          description: The reference returned by the card scheme for your payout request.
+          example: '520000000001'
     card_plain:
       required:
-        - type
-        - cardNumber
-        - cardExpiryDate
+      - type
+      - cardNumber
+      - cardExpiryDate
       type: object
       description: Plain card details.
       properties:
@@ -1237,12 +1356,10 @@ components:
           pattern: ^[0-9]*$
         cardExpiryDate:
           required:
-            - month
-            - year
+          - month
+          - year
           type: object
-          description: >-
-            The expiry date of your customer's card. Must be a date in the
-            future.
+          description: The expiry date of your customer's card. Must be a date in the future.
           properties:
             month:
               type: integer
@@ -1251,25 +1368,17 @@ components:
         cardHolderName:
           type: string
           pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
-          description: >-
-            The name on your customer's card. This is not a mandatory field,
-            however it is recommended that you supply this to improve
-            authorization rates. If not supplied, the default is "Not Supplied".
-            Must not contain only numeric characters.
+          description: The name on your customer's card. This is not a mandatory field, however it is recommended that you supply this to improve authorization rates. If not supplied, the default is "Not Supplied". Must not contain only numeric characters.
         billingAddress:
           required:
-            - countryCode
-            - postalCode
+          - countryCode
+          - postalCode
           type: object
-          description: >-
-            An object containing the billing address information. We recommend
-            you provide `billingAddress` fields for all Payout requests.
+          description: An object containing the billing address information. We recommend you provide `billingAddress` fields for all Payout requests.
           properties:
             countryCode:
               type: string
-              description: >-
-                Must be provided in [ISO 3166-1 Alpha-2
-                format](/products/reference/supported-countries-currencies#iso-country-codes).
+              description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
             postalCode:
               type: string
             address1:
@@ -1286,178 +1395,58 @@ components:
               description: City. Required if `address1` is provided.
             state:
               type: string
-              description: |-
-                Billing contact state code.
-
-                 * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).
-                 * For all other regions and provinces around the world, this is a free text field.
-
-                  Example:
-
-                  * `AZ`
-
-                 * `Cambridgeshire`
-    card_tokenized:
+              description: "Billing contact state code.\n\n * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).\n * For all other regions and provinces around the world, this is a free text field.\n\n  Example:\n\n  * `AZ`\n\n * `Cambridgeshire`"
+    payouts_payouts_200_response:
       required:
-        - type
-        - href
+      - outcome
+      - receivedAt
+      - _links
       type: object
-      description: Tokenized card details.
       properties:
-        type:
+        outcome:
           type: string
-        href:
+          description: Outcome of payout request.
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        receivedAt:
           type: string
-          description: An object that contains your link to an Access Token.
-    card_networkToken:
-      required:
-        - type
-        - tokenNumber
-        - expiryDate
-      type: object
-      description: Network Payment Token details.
-      properties:
-        type:
-          type: string
-        tokenNumber:
-          type: string
-          description: The network payment token number.
-          maxLength: 19
-          minLength: 12
-          pattern: ^[0-9]*$
-          example: '4444333322221111'
-        expiryDate:
-          required:
-            - month
-            - year
-          type: object
-          description: The expiry date of the network token. Must be a date in the future.
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-    applepay_decrypted:
-      required:
-        - type
-        - dpan
-        - cardExpiryDate
-      type: object
-      description: Wallet details.
-      properties:
-        type:
-          type: string
-        dpan:
-          type: string
-          description: The device primary account number (DPAN).
-          maxLength: 19
-          minLength: 12
-          pattern: ^[0-9]*$
-          example: '4444333322221111'
-        cardExpiryDate:
-          required:
-            - month
-            - year
-          type: object
-          description: The expiry date of the payout DPAN. Must be a date in the future.
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-        billingAddress:
-          required:
-            - countryCode
-            - postalCode
-          type: object
-          description: >-
-            An object containing the billing address information. We recommend
-            you provide `billingAddress` fields for all Payout requests.
-          properties:
-            countryCode:
-              type: string
-              description: >-
-                Must be provided in [ISO 3166-1 Alpha-2
-                format](/products/reference/supported-countries-currencies#iso-country-codes).
-            postalCode:
-              type: string
-            address1:
-              type: string
-              description: First line of the address. Required if `city` is provided.
-            address2:
-              type: string
-              description: Second line of the address.
-            address3:
-              type: string
-              description: Third line of the address.
-            city:
-              type: string
-              description: City. Required if `address1` is provided.
-            state:
-              type: string
-              description: |-
-                Billing contact state code.
-
-                 * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).
-                 * For all other regions and provinces around the world, this is a free text field.
-
-                  Example:
-
-                  * `AZ`
-
-                 * `Cambridgeshire`
-        cardHolderName:
-          type: string
-          pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
-          description: >-
-            The name on your customer's card. This is not a mandatory field
-            however it is recommended that you supply this to improve
-            authorization rates. If not supplied, the default is "Not Supplied".
-            Must not contain only numeric characters.
+          description: A timestamp of receivedAt.
     payouts_basicDisbursement:
       required:
-        - instruction
-        - merchant
-        - transactionReference
+      - instruction
+      - merchant
+      - transactionReference
       type: object
       description: Basic disbursement input.
       properties:
         instruction:
           required:
-            - narrative
-            - payoutInstrument
-            - value
+          - narrative
+          - payoutInstrument
+          - value
           type: object
-          description: >-
-            An object that contains all the information related to your payout
-            request.
+          description: An object that contains all the information related to your payout request.
           properties:
             narrative:
               required:
-                - line1
+              - line1
               type: object
-              description: >-
-                An object that contains identification and further details of
-                the merchant.
+              description: An object that contains identification and further details of the merchant.
               properties:
                 line1:
                   type: string
-                  description: >-
-                    First line of text that appears on your customer's
-                    statement.
+                  description: First line of text that appears on your customer's statement.
                 line2:
                   type: string
-                  description: >-
-                    Second line of text that appears on your customer's
-                    statement.
+                  description: Second line of text that appears on your customer's statement.
             payoutInstrument:
               type: object
               description: An object that contains your customer's payout type.
               oneOf:
-                - $ref: '#/components/schemas/card_plain'
-                - $ref: '#/components/schemas/card_tokenized'
-                - $ref: '#/components/schemas/card_networkToken'
-                - $ref: '#/components/schemas/applepay_decrypted'
+              - $ref: '#/components/schemas/card_plain'
+              - $ref: '#/components/schemas/card_tokenized'
+              - $ref: '#/components/schemas/card_networkToken'
+              - $ref: '#/components/schemas/applepay_decrypted'
               discriminator:
                 propertyName: type
                 mapping:
@@ -1467,26 +1456,22 @@ components:
                   card/networkToken+applepay: '#/components/schemas/applepay_decrypted'
             value:
               required:
-                - amount
-                - currency
+              - amount
+              - currency
               type: object
               description: An object that contains payout amount and currency.
               properties:
                 amount:
                   type: integer
-                  description: >-
-                    The payout amount. This is a whole number with an exponent
-                    e.g. if exponent is two, 250 is 2.50.
+                  description: The payout amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
                   example: 250
                 currency:
                   type: string
-                  description: >-
-                    The three character currency code. See list of [supported
-                    currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
+                  description: The three character currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
                   example: USD
         merchant:
           required:
-            - entity
+          - entity
           type: object
           description: An object that contains information about the merchant.
           properties:
@@ -1496,148 +1481,51 @@ components:
               pattern: ^([A-Za-z0-9]+[A-Za-z0-9 ]*)?$
               example: default
               type: string
-              description: >-
-                Direct your payment to assist with billing, reporting and
-                reconciliation. This is mandatory for authentication and
-                queries.
+              description: Direct your payment to assist with billing, reporting and reconciliation. This is mandatory for authentication and queries.
         transactionReference:
           type: string
           maxLength: 64
           minLength: 1
           pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-          description: >-
-            A unique reference generated by you, used to identify a payout
-            throughout its lifecycle.
-    payouts_basicDisbursement_201_response:
-      required:
-        - _links
-        - outcome
-        - receivedAt
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: Outcome of payouts request.
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt.
-        _links:
-          type: object
-          properties:
-            payouts:payout:
-              type: object
-              description: Your card payout resource.
-              properties:
-                href:
-                  type: string
-                  description: Your card payout resource.
-                  example: >-
-                    https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
-    payouts_basicDisbursement_400_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: bodyDoesNotMatchSchema
-        message:
-          type: string
-          description: Error message
-          example: >-
-            There were field validation errors. The errors that occurred are
-            within the validationErrors array.
-        validationErrors:
-          type: array
-          description: Further error details
-          items:
-            type: object
-            properties:
-              errorName:
-                type: string
-                example: fieldHasInvalidValue
-              message:
-                type: string
-                example: >-
-                  The identified field does not contain an expected value. This
-                  field must contain one of the expected valid values.
-              jsonPath:
-                type: string
-                example: $.instruction.value.currency
-    payouts_basicDisbursement_422_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: fieldHasInvalidValue
-        message:
-          type: string
-          description: Error message
-          example: >-
-            Your merchant boarding process has not enabled payouts for this
-            merchant entity. Please contact support, or use a valid entity.
-        jsonPath:
-          type: string
-          example: $.merchant.entity
-    payouts_basicDisbursement_500_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: internalErrorOccurred
-        message:
-          type: string
-          description: Error message
-          example: >-
-            An error occurred within the service (potentially due to an
-            interaction with a downstream service)
+          description: A unique reference generated by you, used to identify a payout throughout its lifecycle.
     payouts_fastAccess:
       required:
-        - instruction
-        - merchant
-        - transactionReference
+      - instruction
+      - merchant
+      - transactionReference
       type: object
       description: Fast access input.
       properties:
         instruction:
           required:
-            - narrative
-            - payoutInstrument
-            - value
+          - narrative
+          - payoutInstrument
+          - value
           type: object
-          description: >-
-            An object that contains all the information related to your payout
-            request.
+          description: An object that contains all the information related to your payout request.
           properties:
             narrative:
               required:
-                - line1
+              - line1
               type: object
-              description: >-
-                An object that contains identification and further details of
-                the merchant.
+              description: An object that contains identification and further details of the merchant.
               properties:
                 line1:
                   type: string
-                  description: >-
-                    First line of text that appears on your customer's
-                    statement.
+                  description: First line of text that appears on your customer's statement.
                 line2:
                   type: string
-                  description: >-
-                    Second line of text that appears on your customer's
-                    statement.
+                  description: Second line of text that appears on your customer's statement.
             payoutInstrument:
               type: object
               description: An object that contains your customer's payout type.
               required:
-                - type
+              - type
               oneOf:
-                - $ref: '#/components/schemas/card_plain'
-                - $ref: '#/components/schemas/card_tokenized'
-                - $ref: '#/components/schemas/card_networkToken'
-                - $ref: '#/components/schemas/applepay_decrypted'
+              - $ref: '#/components/schemas/card_plain'
+              - $ref: '#/components/schemas/card_tokenized'
+              - $ref: '#/components/schemas/card_networkToken'
+              - $ref: '#/components/schemas/applepay_decrypted'
               discriminator:
                 propertyName: type
                 mapping:
@@ -1647,16 +1535,14 @@ components:
                   card/networkToken+applepay: '#/components/schemas/applepay_decrypted'
             value:
               required:
-                - amount
-                - currency
+              - amount
+              - currency
               type: object
               description: An object that contains payout amount and currency.
               properties:
                 amount:
                   type: integer
-                  description: >-
-                    The payment amount. This is a whole number with an exponent
-                    e.g. if exponent is two, 250 is 2.50.
+                  description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
                   example: 250
                 currency:
                   type: string
@@ -1668,31 +1554,18 @@ components:
                 preferredCardBrand:
                   type: string
                   enum:
-                    - maestro
-                    - mastercard
-                  description: >-
-                    Specifies the preferred card brand to be used for routing
-                    the transaction, where a card supports more than one routing
-                    option. If the supplied card brand is not supported by the
-                    card payout instrument, we will route the card payout to the
-                    available route. 
-                     Available for US-domiciled merchants only.
+                  - maestro
+                  - mastercard
+                  description: "Specifies the preferred card brand to be used for routing the transaction, where a card supports more than one routing option. If the supplied card brand is not supported by the card payout instrument, we will route the card payout to the available route. \n Available for US-domiciled merchants only."
                 fallbackToBasic:
                   type: string
                   enum:
-                    - disabled
-                    - enabled
-                  description: >-
-                    We check whether the supplied card supports Visa Direct /
-                    Mastercard Send disbursements. By default, we will fall back
-                    to a [basic
-                    disbursement](/products/card-payouts/payouts#standard-payout)
-                    where we do not get a response from the scheme. Select this
-                    option to disable this behavior and instead receive an
-                    error.
+                  - disabled
+                  - enabled
+                  description: We check whether the supplied card supports Visa Direct / Mastercard Send disbursements. By default, we will fall back to a [basic disbursement](/products/card-payouts/payouts#standard-payout) where we do not get a response from the scheme. Select this option to disable this behavior and instead receive an error.
         merchant:
           required:
-            - entity
+          - entity
           type: object
           description: An object that contains information about the merchant.
           properties:
@@ -1702,90 +1575,13 @@ components:
               pattern: ^([A-Za-z0-9]+[A-Za-z0-9 ]*)?$
               example: default
               type: string
-              description: >-
-                Direct your payment to assist with billing, reporting and
-                reconciliation. This is mandatory for authentication and
-                queries.
+              description: Direct your payment to assist with billing, reporting and reconciliation. This is mandatory for authentication and queries.
         transactionReference:
           type: string
           maxLength: 64
           minLength: 1
           pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-          description: >-
-            A unique reference generated by you, used to identify a payout
-            throughout its lifecycle.
-    payouts_fastAccess_201_response:
-      required:
-        - _links
-        - outcome
-        - receivedAt
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: Outcome of payouts request.
-          enum:
-            - requested
-            - pending
-            - approved
-            - disbursed
-            - refused
-            - error
-            - requestReceived
-            - inReview
-          x-enumDescriptions:
-            requested: >
-              We have received your Fast Access disbursement. Retrieve the
-              payout later to confirm status.
-            pending: >
-              We have sent your Fast Access disbursement request to Visa
-              Direct/Mastercard Send. If there are no updates within 48 hours
-              then this moves to an `error` outcome.
-            approved: >
-              Visa/Mastercard has approved your request and the funds are
-              allocated within 30 minutes if the issuer is Fast Access enabled.
-              If not, standard timescales apply.
-            disbursed: >
-              The transaction is reconciled with Visa/Mastercard’s daily
-              reporting.
-            refused: >
-              Your Fast Access disbursement request is refused.
-
-              - The card issuer declines the disbursement
-
-              - Visa/Mastercard declines your request because the issuing bank
-              is not responding
-
-              - Disbursements are not allowed in the requested country
-            error: >
-              There is no response from Visa/Mastercard within 48 hours or
-              Visa/Mastercard returns an error confirming the request has
-              failed.
-            requestReceived: >
-              We have received your Fast Access disbursement request, but the
-              card does not support Fast Access.
-            inReview: >
-              We are reviewing your Fast Access disbursement request. If the
-              review is successful, then your payout is processed and moves to
-              an `approved` or `refused` outcome. If the review fails, the
-              payout moves to an `error` outcome.
-        scheme:
-          $ref: '#/components/schemas/scheme'
-        receivedAt:
-          type: string
-          description: A timestamp of when the payout request was received.
-        _links:
-          type: object
-          properties:
-            payouts:payout:
-              type: object
-              description: Your card payout resource.
-              properties:
-                href:
-                  type: string
-                  description: Your card payout resource.
-                  example: >-
-                    https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
+          description: A unique reference generated by you, used to identify a payout throughout its lifecycle.
     payouts_fastAccess_400_response:
       type: object
       properties:
@@ -1796,9 +1592,7 @@ components:
         message:
           type: string
           description: Error message
-          example: >-
-            There were field validation errors. The errors that occurred are
-            within the validationErrors array.
+          example: There were field validation errors. The errors that occurred are within the validationErrors array.
         validationErrors:
           type: array
           description: Further error details
@@ -1810,9 +1604,7 @@ components:
                 example: fieldHasInvalidValue
               message:
                 type: string
-                example: >-
-                  The identified field does not contain an expected value. This
-                  field must contain one of the expected valid values.
+                example: The identified field does not contain an expected value. This field must contain one of the expected valid values.
               jsonPath:
                 type: string
                 example: $.instruction.value.currency
@@ -1826,28 +1618,11 @@ components:
         message:
           type: string
           description: Error message
-          example: >-
-            Your merchant boarding process has not enabled payouts for this
-            merchant entity. Please contact support, or use a valid entity.
+          example: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
         jsonPath:
           type: string
           example: $.merchant.entity
-    payouts_fastAccess_500_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: internalErrorOccurred
-        message:
-          type: string
-          description: Error message
-          example: >-
-            An error occurred within the service (potentially due to an
-            interaction with a downstream service)
   securitySchemes:
     BasicAuth:
       type: http
       scheme: basic
-security:
-  - BasicAuth: []

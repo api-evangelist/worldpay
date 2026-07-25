@@ -1,0 +1,2989 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions Manage payments API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: Manage payments
+paths:
+  /payments/settlements/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Settle for full amount
+      description: To receive all the funds from the customer, send us a settle request.
+      operationId: settle
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_settle'
+            examples:
+              Request to fully settle the authorization:
+                description: Request to settle the authorization
+      responses:
+        '202':
+          description: The payment settlement has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_fullSettle_response'
+              examples:
+                Response to fully settle the authorization:
+                  description: Response to fully settle the authorization
+                  value:
+                    paymentId: payT7hS-8vS4h_95A2f7905v0
+                    commandId: cmdp9D1t-ENYQxVnJkh0iPRC0
+                    _links:
+                      cardPayments:refund:
+                        href: /payments/settlements/refunds/full/:linkData
+                      cardPayments:partialRefund:
+                        href: /payments/settlements/refunds/partials/:linkData
+                      cardPayments:reverse:
+                        href: /payments/authorizations/reversals/:linkData
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            aapplication/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/settlements/partials/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Settle for partial amount
+      description: To receive a portion of the funds of a payment, send us a partial settle request.
+      operationId: partialSettlement
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_partialSettle'
+            examples:
+              Request to partially settle the authorization:
+                description: Request to partially settle the authorization
+                value:
+                  sequence:
+                    number: 1
+                    total: 2
+                  value:
+                    amount: 500
+                    currency: EUR
+                  reference: partial-settle-reference
+              Request to partially settle the authorization, with marketplace seller country code:
+                description: Request to partially settle the authorization
+                value:
+                  sequence:
+                    number: 1
+                    total: 2
+                  value:
+                    amount: 500
+                    currency: EUR
+                  reference: partial-settle-reference
+                  merchant:
+                    marketplace:
+                      sellerCountryCode: FR
+              Request to partially settle the authorization, with a split funding reference:
+                description: Request to partially settle the authorization
+                value:
+                  sequence:
+                    number: 1
+                    total: 2
+                  value:
+                    amount: 500
+                    currency: EUR
+                  reference: partial-settle-reference
+                  merchant:
+                    marketplace:
+                      splitFundingReference: my split funding ref
+      responses:
+        '202':
+          description: The partial settlement has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_partialSettle_response'
+              examples:
+                Response to partially settle the authorization:
+                  description: Response to partially settle the authorization
+                  value:
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmdwZ5y_rSi1VmjD6CpgCuXG0
+                    _links:
+                      cardPayments:refund:
+                        href: /payments/settlements/refunds/full/:linkData
+                      cardPayments:partialRefund:
+                        href: /payments/settlements/refunds/partials/:linkData
+                      cardPayments:partialSettle:
+                        href: /payments/settlements/partials/:linkData
+                      cardPayments:reverse:
+                        href: /payments/authorizations/reversals/:linkData
+                      cardPayments:cancel:
+                        href: /payments/authorizations/cancellations/:linkData
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/settlements/refunds/full/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Refund full amount
+      description: "Send a refund request to return the full settled amount to your customer.\n\n  **Note:** No request body is needed for this request."
+      operationId: refund
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_refund'
+      responses:
+        '202':
+          description: The refund request has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_fullRefund_response'
+              examples:
+                Response to refund an authorization:
+                  description: Response to refund an authorization
+                  value:
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmdwZ5y_rSV1VmjD6CpgCuXG0
+                    _links:
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/settlements/refunds/partials/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Refund partial amount
+      description: "Send a partial refund request to return a portion of the settled amount to your customer.\n Send the amount to refund and the authorization currency in the body."
+      operationId: partialRefund
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_partialRefund'
+            examples:
+              Request to perform a partial refund of the settlement:
+                description: Request to perform a partial refund of the settlement
+                value:
+                  value:
+                    amount: 10
+                    currency: EUR
+                  reference: partial-refund-reference
+              Request to perform a partial refund of the settlement, with a split funding reference:
+                description: Request to perform a partial refund of the settlement
+                value:
+                  value:
+                    amount: 500
+                    currency: EUR
+                  reference: partial-refund-reference
+                  merchant:
+                    marketplace:
+                      splitFundingReference: my split funding ref
+      responses:
+        '202':
+          description: The partial refund has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_partialRefund_response'
+              examples:
+                Response to partially refund an authorization:
+                  description: Response to partially refund an authorization
+                  value:
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmdwZ5y_rSV1VmjD6CpgCuXG0
+                    _links:
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/authorizations/cancellations/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Cancel full authorization
+      description: "If you don't want to proceed with a payment, you can send a full cancel request.\n\n **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund."
+      operationId: cancel
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_cancel'
+      responses:
+        '202':
+          description: The cancellation request has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_fullCancel_response'
+              examples:
+                Response to cancel an authorization:
+                  description: Response to cancel an authorization
+                  value:
+                    _links:
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/authorizations/cancellations/partials/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Cancel partial authorization
+      description: "If you don't want to proceed with a payment, you can send a partial cancel request.\n\n  **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund."
+      operationId: partialCancel
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_partialCancel'
+            examples:
+              Request to partially settle the authorization:
+                description: Request to partially cancel the authorization
+                value:
+                  value:
+                    amount: 500
+                    currency: EUR
+                  reference: partial-cancel-reference
+      responses:
+        '202':
+          description: The partial cancellation request has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_partialCancel_response'
+              examples:
+                Response to cancel partial authorization:
+                  description: Response to cancel an authorization
+                  value:
+                    _links:
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      cardPayments:partialCancel:
+                        href: /payments/authorizations/cancellations/partials/:linkData
+                      cardPayments:partialSettle:
+                        href: /payments/settlements/partials/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/authorizations/incrementalAuthorizations/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Increase authorization amount
+      description: "If you want to increase an initial estimated authorization amount (submitted with `estimated` set to `true`), you can send a incremental authorization request.\n\n **Note:** You must use the latest next action links returned by the incremental authorization response to settle (full/partial) and cancel (full/partial) the increased authorized amount. Using the next action links returned in your estimated authorization response will not use any increased amounts."
+      operationId: increaseAuthorize
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/payments_increaseAuthorize'
+            examples:
+              Request to partially settle the authorization:
+                description: Request to increase the initial estimated authorization
+                value:
+                  value:
+                    amount: 500
+                    currency: EUR
+      responses:
+        '202':
+          description: The request to increase the authorization amount has been successfully processed
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/payments_increaseAuthorize_response'
+                - $ref: '#/components/schemas/payments_increaseAuthorize_response_refused'
+                discriminator:
+                  mapping:
+                    authorized: '#/components/schemas/payments_increaseAuthorize_response'
+                    refused: '#/components/schemas/payments_increaseAuthorize_response_refused'
+                  propertyName: outcome
+              examples:
+                Successful response to increase the authorization amount:
+                  description: Successful response to increase an estimated authorization amount
+                  value:
+                    outcome: authorized
+                    amounts:
+                      totalAuthorized: 1100
+                      currency: EUR
+                    issuer:
+                      authorizationCode: T91252
+                    scheme:
+                      reference: MCCRU3I5U0701
+                    _links:
+                      cardPayments:increaseAuthorizedAmount:
+                        href: /payments/authorizations/incrementalAuthorizations/:linkData
+                      cardPayments:cancel:
+                        href: /payments/authorizations/cancellations/:linkData
+                      cardPayments:partialCancel:
+                        href: /payments/authorizations/cancellations/partials/:linkData
+                      cardPayments:settle:
+                        href: /payments/settlements/full/:linkData
+                      cardPayments:partialSettle:
+                        href: /payments/settlements/partials/:linkData
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+                Refused response to increase the authorization amount:
+                  description: Response to increase the authorization amount with a refused outcome due to insufficient funds
+                  value:
+                    outcome: refused
+                    refusalCode: '51'
+                    refusalDescription: Insufficient Funds
+        '400':
+          description: Bad request
+          content:
+            aapplication/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/sales/reversals/{linkData}:
+    post:
+      tags:
+      - Manage payments
+      summary: Reversal
+      description: "Your reversal request is processed as a cancel or refund request. This depends on the time passed after your sale request was submitted. For US entities the payment is refunded after one day after a successful sale request. Any other payment moves to refunded after 15 minutes.\n\n  **Note:** No request body is needed for this request."
+      operationId: reversal
+      parameters:
+      - name: linkData
+        in: path
+        description: Action link that's received in your request.
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      responses:
+        '202':
+          description: The reversal request has been accepted
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/payments_reversal_response'
+              examples:
+                Response to reverse the settlement:
+                  description: Response to reverse the settlement
+                  value:
+                    _links:
+                      cardPayments:events:
+                        href: /payments/events/:linkData
+                      curies:
+                      - name: payments
+                        href: /rels/payments/{rel}
+                        templated: true
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/payments/{linkData}:
+    get:
+      tags:
+      - Manage payments
+      summary: Payment query request
+      description: Query a payment
+      operationId: queryEvents
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryEventsResponse'
+              examples:
+                Query Response Example:
+                  $ref: '#/components/examples/query-202'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse_2'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '04'
+  /api/payments/{linkData}/settlements:
+    post:
+      tags:
+      - Manage payments
+      summary: Submit a payment settle request
+      description: Settle a payment
+      operationId: settle
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentsSettleRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettleResponse'
+              examples:
+                sentForSettlement:
+                  $ref: '#/components/examples/sent-for-settlement-202-2'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '05'
+  /api/payments/{linkData}/partialSettlements:
+    post:
+      tags:
+      - Manage payments
+      summary: Submit a payment partial settle request
+      description: Partially settle a payment
+      operationId: partialSettle
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentsPartialSettleRequest'
+            examples:
+              sentForSettlement:
+                $ref: '#/components/examples/partial-settle'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartialSettleResponse'
+              examples:
+                sentForSettlement:
+                  $ref: '#/components/examples/sent-for-partial-settlement-202'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse_2'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '06'
+  /api/payments/{linkData}/refunds:
+    post:
+      tags:
+      - Manage payments
+      summary: Submit a payment refund request
+      description: Refund a payment
+      operationId: refund
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+              examples:
+                sentForRefund:
+                  $ref: '#/components/examples/sent-for-refund-202'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '07'
+  /api/payments/{linkData}/partialRefunds:
+    post:
+      tags:
+      - Manage payments
+      summary: Submit a payment partial refund request
+      description: Partially refund a payment
+      operationId: partialRefund
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentsPartialRefundRequest'
+            examples:
+              sentForPartialRefund:
+                $ref: '#/components/examples/partial-refund'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartialRefundResponse'
+              examples:
+                sentForPartialRefund:
+                  $ref: '#/components/examples/sent-for-partial-refund-202'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse_2'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: 08
+  /api/payments/{linkData}/cancellations:
+    post:
+      tags:
+      - Manage payments
+      summary: Submit a payment cancel request
+      description: Cancel a payment
+      operationId: cancel
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelResponse'
+              examples:
+                sentForCancellation:
+                  $ref: '#/components/examples/sent-for-cancellation-202'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: 09
+  /api/payments/{linkData}/reversals:
+    post:
+      tags:
+      - Manage payments
+      summary: Submit a payment reverse request
+      description: Reverse a payment
+      operationId: reversal
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentsReversalRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReversalResponse'
+              examples:
+                sentForReversal:
+                  $ref: '#/components/examples/sent-for-reversal-202'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse_2'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  $ref: '#/components/examples/404'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '10'
+components:
+  schemas:
+    ReversalResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForReversal
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+    PaymentsActionReverse:
+      type: object
+      description: Reverse the payment. See [details](/products/payments/openapi/manage-payments/reversal)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    PaymentsPartialSettleRequest:
+      type: object
+      properties:
+        reference:
+          type: string
+          minLength: 1
+        sequence:
+          $ref: '#/components/schemas/PaymentsSequence'
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - reference
+      - value
+    PaymentsSettleRequest: {}
+    CancelResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForCancellation
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+    payments_settle:
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: full-settle-reference
+        value:
+          type: object
+          description: An object that contains information about the value of the payment.
+          properties:
+            surchargeAmount:
+              type: integer
+              description: "The charging amount representing processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n  **Note:** The surcharge fee is included in the total transaction amount, e.g. if the `value.surchargeAmount` is $20 and the total authorization amount was $100, then the actual cost of goods/services is 80."
+        merchant:
+          type: object
+          description: Contains information about the merchant.
+          properties:
+            taxReference:
+              type: string
+              description: Merchant's tax reference.
+        customer:
+          type: object
+          description: Additional customer data.
+          properties:
+            reference:
+              type: string
+              description: Merchant-generated customer reference.
+        shipping:
+          $ref: '#/components/schemas/shipping'
+        order:
+          $ref: '#/components/schemas/order'
+        industryData:
+          $ref: '#/components/schemas/industryData'
+    SettleResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForSettlement
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+        _actions:
+          $ref: '#/components/schemas/SettleActionList'
+    payments_partialRefund_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_partialRefund'
+    payments_fullCancel_response:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/payments_links_list_fullCancel'
+    PaymentsSequence:
+      type: object
+      description: The sequence number and total number of expected partial settlement requests for the payment.
+      properties:
+        number:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+      required:
+      - number
+      - total
+    PaymentsLink:
+      description: Return details about the status of the payment.
+      properties:
+        self:
+          $ref: '#/components/schemas/Self'
+    payments_links_list_reversal:
+      type: object
+      properties:
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    Self:
+      properties:
+        href:
+          type: string
+    Value:
+      type: object
+      description: The value and currency.
+      properties:
+        currency:
+          type: string
+          description: ' The three character currency code. See list of <a href="/products/reference/supported-countries-currencies#iso-currency-codes">supported currencies</a> '
+          example: USD
+          minLength: 1
+        amount:
+          type: integer
+          format: int32
+          description: 'The payment amount. Implied decimal. For example, 250 GBP = £2.50
+
+            When set to `0` will perform a card verification instead of a payment as part of a new `customerAgreement`.'
+          example: 250
+        acceptPartialAmount:
+          type: boolean
+          description: Set to `true` to accept a partial authorization amount. You can charge the remainder of the amount using a different payment credential with a new authorization request.
+      required:
+      - amount
+      - currency
+    PartialRefundActionList:
+      type: object
+      properties:
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+    shipping:
+      type: object
+      description: An object containing shipping details.
+      properties:
+        sender:
+          type: object
+          properties:
+            address:
+              type: object
+              description: An object containing sender's (shipped from) address.
+              properties:
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+        recipient:
+          type: object
+          properties:
+            address:
+              type: object
+              description: An object containing recipient's shipping address.
+              properties:
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+    SettleActionList:
+      type: object
+      properties:
+        refundPayment:
+          $ref: '#/components/schemas/PaymentsActionRefund'
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+        reversePayment:
+          $ref: '#/components/schemas/PaymentsActionReverse'
+    payments_links_list_fullRefund:
+      type: object
+      properties:
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+    payments_partialSettle_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_partialSettle'
+    payments_links_list_fullCancel:
+      type: object
+      properties:
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    industryData:
+      type: object
+      description: An object containing industry specific order data.
+      properties:
+        type:
+          enum:
+          - airline
+          type: string
+        airlineName:
+          type: string
+          description: The name of the airline (displayed as it would be on a bill).
+          example: Cobb Air
+          minLength: 1
+          maxLength: 256
+          pattern: ^[A-Za-z0-9 @!£*#\$()\+\-_=.,\/;:'"]+$
+        ticket:
+          type: object
+          description: An object containing ticket details.
+          properties:
+            number:
+              type: string
+              description: The ticket number.
+              example: '123'
+              minLength: 1
+              maxLength: 16
+              pattern: ^[A-Za-z0-9]+$
+            issuerAddress:
+              type: object
+              description: An object containing the ticket issuer's address.
+              properties:
+                address1:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  pattern: ^[A-Za-z0-9 ]+$
+                city:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  pattern: ^[A-Za-z0-9 ]+$
+                countryCode:
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                  pattern: ^[A-Z]{2}$
+                postalCode:
+                  type: string
+                  minLength: 1
+                  maxLength: 10
+                  pattern: ^[A-Za-z0-9 ]+$
+              required:
+              - address1
+              - city
+              - countryCode
+              - postalCode
+            flightDetails:
+              description: An array with objects containing flight details. Each object represents one leg of a flight and you can submit up to four flight legs within this array.
+              items:
+                type: object
+                properties:
+                  fareClassCode:
+                    type: string
+                    description: The code used by airlines to identity a fare type.
+                    minLength: 1
+                    maxLength: 15
+                    pattern: ^[A-Za-z0-9]+$
+                  departureAirport:
+                    type: string
+                    description: The three letter IATA Airport Code for the departure airport.
+                    example: LHR
+                    minLength: 3
+                    maxLength: 3
+                    pattern: ^[A-Z]{3}$
+                  arrivalAirport:
+                    type: string
+                    description: The three letter IATA Airport Code for the destination airport.
+                    example: SYD
+                    minLength: 3
+                    maxLength: 3
+                    pattern: ^[A-Z]{3}$
+                  carrierCode:
+                    type: string
+                    description: Same as `industryData.airlineCode`, the code represents the airline for the specific flight leg.
+                    example: M1
+                    minLength: 2
+                    maxLength: 2
+                    pattern: ^[A-Z]{2}$
+                  fareBasisCode:
+                    type: string
+                    description: An optional extension to the `fareClassCode` for custom codes.
+                    example: TMYA
+                    minLength: 1
+                    maxLength: 15
+                    pattern: ^[A-Za-z0-9]+$
+                  flightCode:
+                    type: string
+                    description: The flight code.
+                    example: '501'
+                    minLength: 1
+                    maxLength: 5
+                    pattern: ^[0-9]+$
+                  departureDate:
+                    type: object
+                    description: An object containing the date of the departure.
+                    properties:
+                      day:
+                        type: integer
+                      month:
+                        type: integer
+                      year:
+                        type: integer
+                    required:
+                    - day
+                    - month
+                    - year
+                  stopOver:
+                    type: boolean
+                    description: Set to `true` if this flight leg is a stopover, connecting different destinations.
+                  taxAmount:
+                    type: integer
+                    description: The tax amount for this specific flight leg.
+                    example: 3500
+                required:
+                - carrierCode
+                - flightCode
+                - departureAirport
+                - arrivalAirport
+                - departureDate
+                - fareClassCode
+                - taxAmount
+              type: array
+            restricted:
+              type: boolean
+              description: Typically, restricted airfares require approval and e-ticket processing within 24 hours of making the reservation, are not transferable if cancelled, and can have specific requirements on when or whether a cancelled ticket can be rebooked. You must define if the ticket is restricted, but this does not affect the payment flows.
+            issueDate:
+              type: object
+              description: An object containing the ticket's issue date.
+              properties:
+                day:
+                  type: integer
+                month:
+                  type: integer
+                year:
+                  type: integer
+              required:
+              - day
+              - month
+              - year
+          required:
+          - number
+          - restricted
+          - issuerAddress
+        agentName:
+          type: string
+          description: The name of the travel agent.
+          example: J Small and Co
+          minLength: 1
+          maxLength: 26
+          pattern: ^[A-Za-z0-9 @!£*#\$()\+\-_=.,\/;:'"]+$
+        agentCode:
+          type: string
+          description: The IATA travel agency code.
+          example: '12345678'
+          minLength: 1
+          maxLength: 8
+          pattern: ^[0-9]+$
+        invoiceReference:
+          type: string
+          description: Billing Settlement Plan invoice reference.
+          minLength: 1
+          maxLength: 14
+          pattern: ^[A-Za-z0-9]+$
+        airlineCode:
+          type: string
+          description: The two character IATA airline code.
+          example: CA
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        passenger:
+          type: object
+          description: An object containing passenger details.
+          properties:
+            code:
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: ^[A-Za-z0-9]+$
+            firstName:
+              type: string
+              minLength: 1
+              maxLength: 60
+              pattern: ^[A-Za-z @!£*#\$()\+\-_=.,\/;:'"]+$
+            lastName:
+              type: string
+              minLength: 1
+              maxLength: 60
+              pattern: ^[A-Za-z @!£*#\$()\+\-_=.,\/;:'"]+$
+          required:
+          - code
+          - firstName
+          - lastName
+      required:
+      - type
+      - ticket
+      - airlineName
+      - airlineCode
+      - agentCode
+      - passenger
+    payments_increaseAuthorize_response:
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request.
+          example: authorized
+        amounts:
+          type: object
+          description: An object containing transaction amounts.
+          properties:
+            totalAuthorized:
+              type: integer
+              description: The total amount authorized. The sum of the original estimated authorization and all subsequent successful requests to increase the authorized amount.
+            currency:
+              type: string
+              maxLength: 3
+              minLength: 3
+              pattern: ^[A-Z]$
+              description: 'The three character currency code. See list of <a href="/products/reference/supported-countries-currencies#iso-currency-codes">supported currencies</a>. '
+              example: USD
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_increaseAuthorizedAmount'
+    QueryEventsResponse:
+      type: object
+      properties:
+        lastEvent:
+          type: string
+          description: "\nThe lastEvent field represents the latest high‑level outcome of a payment in our Payments API. It reflects the result of the most recent payment command (for example authorization, settlement, or refund) rather than the raw lifecycle event stream. \n\nWe return it in:\n  - `GET` requests made via our Payments API\n  -  responses from our Payment Queries API when querying historical payments\n            \n{% admonition type=\"info\" %}\nOur Payment Queries API exposes lower‑level lifecycle events (`eventName`). We map these to a single Payments API `lastEvent` value.\nFor the full mapping between our Payment Queries API events and Payments API `lastEvent` values, see [lastEvent mapping in the Payment Queries API documentation](/products/payment-queries/query-archive#lastevent-mapping).\n{% /admonition %}"
+          enum:
+          - Authorized
+          - Refused
+          - Sent for Settlement
+          - Sent for Refund
+          - Sent for Cancellation
+          - Refund failed
+          - Settlement failed
+          - Settled
+          - Refunded
+          - Error
+          - Expired
+          x-enumDescriptions:
+            Authorized: The payment has been approved and the funds have been reserved in your customer's account.
+            Sent for Refund: A request has been made to send funds back to your customer's account.
+            Error: The payment wasn't completed. You may want to reattempt the payment.
+            Expired: The authorization validity period ended before a settlement or cancel request was made.
+            Settlement failed: A settlement request couldn't be processed. Funds have not been transferred to your Worldpay account.
+            Refused: Your payment request has been declined.
+            Refund failed: A refund request couldn't be processed and the funds were returned to your account.
+            Sent for Cancellation: A request has been made to cancel the payment without sending it for settlement.
+            Settled: We have received the funds and are preparing to transfer them to your bank account. This event is only available in certain use cases.
+            Sent for Settlement: A request has been made to move the reserved funds in your customer's account and transfer them to your Worldpay account.
+            Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
+        _actions:
+          $ref: '#/components/schemas/QueryActionList'
+    PaymentsPartialRefundRequest:
+      type: object
+      properties:
+        reference:
+          type: string
+          minLength: 1
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - reference
+      - value
+    PartialSettleResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForSettlement
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+        _actions:
+          $ref: '#/components/schemas/PartialSettleActionList'
+    payments_fullRefund_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_fullRefund'
+    order:
+      type: object
+      description: An object containing details about the order.
+      properties:
+        taxExempt:
+          type: boolean
+          description: A flag to indicate whether the purchase is exempt from tax. Must be set to `true` if `order.salesTax` is 0.
+        orderDate:
+          type: object
+          description: Date of the order.
+          properties:
+            day:
+              type: integer
+            month:
+              type: integer
+            year:
+              type: integer
+          required:
+          - day
+          - month
+          - year
+        items:
+          description: Array of order items. You can send up to 99 individual order objects within this array.
+          items:
+            type: object
+            required:
+            - name
+            properties:
+              commodityCode:
+                maxLength: 12
+                minLength: 1
+                type: string
+                description: Commodity code as defined by the National Institute of Governmental Purchasing.
+                pattern: ^[A-Za-z0-9@!£*#$)(-+_=.,/;:'"]{1,12}$
+                example: ABC123@#
+              totalTaxAmount:
+                type: integer
+                description: Total tax amount for the item(s).
+              unitCost:
+                type: integer
+                description: The price of one unit of the item purchased.
+              totalAmount:
+                type: integer
+                description: Total cost of the item(s) including tax.
+              totalAmountNoTax:
+                type: integer
+                description: Total cost of the item(s) excluding tax.
+              unitOfMeasure:
+                maxLength: 8
+                minLength: 1
+                type: string
+                description: The unit of measure of the purchased item. Explains how to interpret `items.quantity` field, e.g. quantity = 15, unitOfMeasure = kg.
+                pattern: ^[A-Za-z0-9@!£*#$)(+_=.,/;:'"-]{1,8}$
+              name:
+                maxLength: 26
+                minLength: 1
+                type: string
+                description: Name of the item(s).
+                pattern: ^[A-Za-z0-9 @!£*#$)(+_=.,/;:'"-]{1,26}$
+              quantity:
+                type: integer
+                description: Number of items purchased.
+              productCode:
+                maxLength: 12
+                minLength: 1
+                type: string
+                description: Merchant defined product code.
+                pattern: ^[A-Za-z0-9@!£*#\$)(+_=.,/;:'"-]{1,12}$
+              totalDiscountAmount:
+                type: integer
+                description: Total discount amount for the item(s).
+          type: array
+        dutyAmount:
+          type: integer
+          description: Total amount of duty costs for the order.
+        salesTax:
+          type: integer
+          description: Total amount of sales tax for the order. Must be provided if `merchant.taxReference` is supplied.
+        shippingAmount:
+          type: integer
+          description: Total amount of shipping costs for the order.
+        invoiceReference:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Invoice reference for the order.
+          pattern: ^[A-Za-z0-9 @!£*#\$)\(+_=.,/;:'"-]{1,15}$
+        discountAmount:
+          type: integer
+          description: Total amount of discounts for the order.
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+              message:
+                type: string
+              jsonPath:
+                type: string
+    payments_partialCancel:
+      required:
+      - value
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: partial-cancellation-reference
+        value:
+          $ref: '#/components/schemas/value'
+    HeaderErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        headerName:
+          type: string
+    PartialSettleActionList:
+      type: object
+      properties:
+        refundPayment:
+          $ref: '#/components/schemas/PaymentsActionRefund'
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+        partiallySettlePayment:
+          $ref: '#/components/schemas/PaymentsActionPartialSettle'
+        cancelPayment:
+          $ref: '#/components/schemas/PaymentsActionCancel'
+        reversePayment:
+          $ref: '#/components/schemas/PaymentsActionReverse'
+    PaymentsActionSettle:
+      type: object
+      description: Fully settle the payment. See [details](/products/payments/openapi/manage-payments/settle)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    payments_increaseAuthorize_response_refused:
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request.
+        refusalCode:
+          type: string
+          description: Response code for the request to increase the authorized amount.
+        refusalDescription:
+          type: string
+          description: Additional context on the refusal.
+          example: Insufficient Funds
+    payments_partialRefund:
+      required:
+      - value
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: partial-refund-reference
+        value:
+          allOf:
+          - $ref: '#/components/schemas/value'
+          - type: object
+            properties:
+              surchargeAmount:
+                type: integer
+                description: "The charging amount representing processing and service fees of the original transaction.\n\n  **Note:** The surcharge fee is included in the partial refund amount, e.g. if the `value.surchargeAmount` was $20 and the `value.amount` was $100, then the actual cost of goods/services was $80."
+              convenienceAmount:
+                type: integer
+                description: "The charging amount representing the offer of a convenient payment method or channel (such as online booking fee) of the original transaction.\n\n  **Note:** Convenience fee is included in the partial refund amount, e.g. if the `value.convenienceAmount` was $20 and the `value.amount` was $100, then the actual cost of goods/services was $80."
+        merchant:
+          type: object
+          description: Contains information about the merchant.
+          properties:
+            marketplace:
+              type: object
+              description: Supply additional data for marketplace use cases.
+              properties:
+                splitFundingReference:
+                  maxLength: 256
+                  minLength: 1
+                  pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+                  type: string
+                  description: A reference that you can use to split acquiring funding into your secondary bank account. Available for marketplaces and other merchant types. Not available for North America or Latin America payments. Contact your Worldpay Implementation Manager to enable.
+        fastRefund:
+          type: object
+          description: Allows you to request a faster refund.
+          required:
+          - enabled
+          properties:
+            enabled:
+              type: boolean
+              description: Set to `true` to request fast refund.
+            fallbackToStandard:
+              type: boolean
+              description: Request to fall back to standard refund processing in case the fast refund fails. Must be present if fast refund is set to `true`.
+    payments_cancel:
+      type: object
+      properties:
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: full-cancellation-reference
+    PaymentsActionRefund:
+      type: object
+      description: Fully refund the payment. See [details](/products/payments/openapi/manage-payments/refund)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    PaymentsReversalRequest: {}
+    payments_partialSettle:
+      required:
+      - value
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: partial-settle-reference
+        value:
+          allOf:
+          - $ref: '#/components/schemas/value'
+          - type: object
+            properties:
+              surchargeAmount:
+                type: integer
+                description: "The charging amount representing the processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n **Note:** The `surchargeAmount` is included in the partial settlement amount, e.g. if the `value.surchargeAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
+        merchant:
+          type: object
+          description: Contains information about the merchant.
+          properties:
+            taxReference:
+              type: string
+              description: Merchant's tax reference.
+            marketplace:
+              type: object
+              description: Supply additional data for marketplace use cases.
+              properties:
+                sellerCountryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]{2}$
+                  type: string
+                  description: Your seller's country code in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes). Required if the seller is located in a different country to the marketplace's domicile.
+                  example: FR
+                splitFundingReference:
+                  maxLength: 256
+                  minLength: 1
+                  pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+                  type: string
+                  description: A reference that you can use to split acquiring funding into your secondary bank account. Available for marketplaces and other merchant types. Not available for North America or Latin America payments. Contact your Worldpay Implementation Manager to enable.
+        customer:
+          type: object
+          description: Additional customer data.
+          properties:
+            reference:
+              type: string
+              description: Merchant-generated customer reference.
+        shipping:
+          $ref: '#/components/schemas/shipping'
+        order:
+          $ref: '#/components/schemas/order'
+        industryData:
+          $ref: '#/components/schemas/industryData'
+        sequence:
+          type: object
+          required:
+          - number
+          - total
+          description: The sequence number and total number of expected partial settlement requests for the payment.
+          properties:
+            number:
+              type: integer
+            total:
+              type: integer
+    QueryActionList:
+      type: object
+      properties:
+        cancelPayment:
+          $ref: '#/components/schemas/PaymentsActionCancel'
+        partiallySettlePayment:
+          $ref: '#/components/schemas/PaymentsActionPartialSettle'
+        settlePayment:
+          $ref: '#/components/schemas/PaymentsActionSettle'
+        refundPayment:
+          $ref: '#/components/schemas/PaymentsActionRefund'
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+        reversePayment:
+          $ref: '#/components/schemas/PaymentsActionReverse'
+    scheme:
+      required:
+      - reference
+      type: object
+      description: An object containing information returned by the card scheme.
+      properties:
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: The reference returned by the scheme for this particular payment authorization. The scheme reference returned in a customer initiated transaction should be provided in all subsequent merchant initiated transactions.
+          example: 'MCCOLXT1C0104  '
+    payments_partialCancel_response:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/payments_links_list_partialCancel'
+    PaymentsActionPartialSettle:
+      type: object
+      description: Partially settle the payment. See [details](/products/payments/openapi/manage-payments/partialsettle) including what to add in the request body.
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    payments_links_list_partialCancel:
+      type: object
+      properties:
+        cardPayments:cancel:
+          type: object
+          description: An action link to cancel the full authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+        cardPayments:partialCancel:
+          type: object
+          description: An action link to cancel a portion of the authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel a portion of the authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
+        cardPayments:settle:
+          type: object
+          description: An action link to send the full authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send the full authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
+        cardPayments:partialSettle:
+          type: object
+          description: An action link to send a portion of the authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send a portion of the authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    issuer:
+      required:
+      - authorizationCode
+      type: object
+      description: An object containing information returned by the issuer.
+      properties:
+        authorizationCode:
+          pattern: ^[a-zA-Z0-9]+$
+          type: string
+          description: A code returned by the card issuer for a successful authorization. Used in reconciliation and dispute management.
+          example: T31306
+    payments_links_list_fullSettle:
+      type: object
+      properties:
+        cardPayments:refund:
+          type: object
+          description: An action link to refund the full settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund the full settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+        cardPayments:partialRefund:
+          type: object
+          description: An action link to refund a portion of the settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund a portion of the settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+        cardPayments:reverse:
+          type: object
+          description: An action link to cancel or refund the full amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel or refund the full amount.
+              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    commandId:
+      maxLength: 36
+      minLength: 21
+      pattern: ^[A-Za-z0-9_-]+$
+      type: string
+      description: Unique identifier generated by us for a single instance of an interaction (command) with the Worldpay API.
+      example: cmdRvD-OxCyXgJLQ9_jbqXAC0
+    paymentId:
+      maxLength: 36
+      minLength: 21
+      pattern: ^[A-Za-z0-9_-]+$
+      type: string
+      description: Unique identifier generated by us for a single payment. Generated at authorization, and maintained through successive payment actions.
+      example: payI-dUcet9fk4_X4qZU0hpU0
+    value:
+      required:
+      - amount
+      - currency
+      type: object
+      description: An object that contains information about the value of the payment.
+      properties:
+        amount:
+          type: integer
+          description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
+          example: 250
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          pattern: ^[A-Z]$
+          description: ' The three character currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).'
+          example: USD
+    PartialRefundResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForPartialRefund
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+        _actions:
+          $ref: '#/components/schemas/PartialRefundActionList'
+    ValidationErrorResponse_2:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        jsonPath:
+          type: string
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorResponse_2'
+    payments_fullSettle_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_fullSettle'
+    PaymentsActionPartialRefund:
+      type: object
+      description: Partially refund the payment. See [details](/products/payments/openapi/manage-payments/partialrefund)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    payments_increaseAuthorize:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/value'
+    PaymentsActionCancel:
+      type: object
+      description: Cancel the payment. See [details](/products/payments/openapi/manage-payments/cancel)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    payments_links_list_partialSettle:
+      type: object
+      properties:
+        cardPayments:refund:
+          type: object
+          description: An action link to refund the full settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund the full settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+        cardPayments:partialRefund:
+          type: object
+          description: An action link to refund a portion of the settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund a portion of the settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+        cardPayments:partialSettle:
+          type: object
+          description: An action link to send a portion of the authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send a portion of the authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+        cardPayments:cancel:
+          type: object
+          description: An action link to cancel the full authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+        cardPayments:reverse:
+          type: object
+          description: An action link to cancel or refund the full amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel or refund the full amount.
+              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    payments_links_list_partialRefund:
+      type: object
+      properties:
+        cardPayments:partialRefund:
+          type: object
+          description: An action link to refund a portion of the settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund a portion of the settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    payments_refund:
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: An optional reference generated by you to identify a payment throughout its lifecycle.
+          example: refund-reference
+        fastRefund:
+          type: object
+          description: Allows you to request a faster refund.
+          required:
+          - enabled
+          properties:
+            enabled:
+              type: boolean
+              description: Set to `true` to request fast refund.
+            fallbackToStandard:
+              type: boolean
+              description: Fall back to standard refund processing in case the fast refund fails. Must be present if fast refund is set to `true`.
+    payments_reversal_response:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/payments_links_list_reversal'
+    payments_links_list_increaseAuthorizedAmount:
+      type: object
+      properties:
+        cardPayments:increaseAuthorizedAmount:
+          type: object
+          description: An action link to increase the authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/incrementalAuthorizations/{linkData}
+        cardPayments:cancel:
+          type: object
+          description: An action link to cancel the full authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+        cardPayments:partialCancel:
+          type: object
+          description: An action link to cancel a portion of the authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel a portion of the authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
+        cardPayments:settle:
+          type: object
+          description: An action link to send the full authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send the full authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
+        cardPayments:partialSettle:
+          type: object
+          description: An action link to send a portion of the authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send a portion of the authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    RefundResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForRefund
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+  examples:
+    query-202:
+      value:
+        lastEvent: Authorized
+        _actions:
+          cancelPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
+            method: POST
+          settlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements
+            method: POST
+          partiallySettlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
+    sent-for-refund-202:
+      value:
+        outcome: sentForRefund
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amp3aEvr3BYtH3ZBei61fRGtglovAih6FUXj2880UCtZGZ21djyVQzY36sEFMZMvXsW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ6i4R8ak4j6oWbsrX5AP4ErD6p2VzRF0yzljcK%2BKWD8%2BEEBcQpn0%3ADcXCJRXfVD0ibZ%3AVhRHFzbbwymcuTiRbNw%3D
+    sent-for-settlement-202-2:
+      value:
+        outcome: sentForSettlement
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5UW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          refundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5UW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds
+            method: POST
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5UW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
+    sent-for-partial-refund-202:
+      value:
+        outcome: sentForPartialRefund
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+    sent-for-partial-settlement-202:
+      value:
+        outcome: sentForSettlement
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5UW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          refundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds
+            method: POST
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+          partiallySettlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
+          cancelPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
+            method: POST
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: A JSON body matching the expected schema must be provided.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: Field at path is not allowed.
+          jsonPath: $.instruction.paymentInstrument.narrative
+    '415':
+      value:
+        errorName: headerHasInvalidValue
+        message: A valid header must be provided.
+        headerName: Content-Type
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: We cannot currently process your request. Please contact support.
+    '406':
+      value:
+        errorName: headerIsMissing
+        message: A valid header must be provided.
+        headerName: Content-Type
+    sent-for-cancellation-202:
+      value:
+        outcome: sentForCancellation
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: f4806b75-89d1-498a-8634-bfa79afca54f
+        schemeReference: '060720116005060'
+        issuer:
+          authorizationCode: '675725'
+        riskFactors:
+        - risk: notMatched
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+        fraud:
+          outcome: lowRisk
+          score: 44
+        threeDS:
+          outcome: authenticated
+          issuerResponse: frictionless
+        paymentInstrument:
+          type: card/plain+masked
+          cardBin: '400000'
+          lastFour: '1000'
+          countryCode: GB
+          expiryDate:
+            year: 2035
+            month: 5
+          cardBrand: mastercard
+          fundingType: debit
+          category: consumer
+          issuerName: BANK LIMITED
+          paymentAccountReference: 3001DBT34Q41D6J7PFC5W0UACOT4C
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Am1abCnrwHIBOLZ%3A8ZpsSaLoyDtB%3A8H%2BxSOOOGjEbko3O%3A%3A7gTMASwaw7KY3SuOCoh4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ3ZOMOj3ix5oo3ctSHv2uo5m6InByzI1XuTONS3N8O%2B1%2BuC8Xk67Ze0uAJk%2BrJN9o7Z%3AVhRHFzbbwymcuTiRbNw%3D
+    '404':
+      value:
+        errorName: endpointNotFound
+        message: Requested endpoint was not found.
+    sent-for-reversal-202:
+      value:
+        outcome: sentForReversal
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amp3aEvr3BYtH3ZBei61fRGtglovAih6FUXj2880UCtZGZ21djyVQzY36sEFMZMvXsW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ6i4R8ak4j6oWbsrX5AP4ErD6p2VzRF0yzljcK%2BKWD8%2BEEBcQpn0%3ADcXCJRXfVD0ibZ%3AVhRHFzbbwymcuTiRbNw%3D
+    partial-settle:
+      value:
+        sequence:
+          number: 1
+          total: 2
+        value:
+          amount: 500
+          currency: GBP
+        reference: partial-settle-reference
+    '401':
+      value:
+        errorName: accessDenied
+        message: Access to the requested resource has been denied.
+    partial-refund:
+      value:
+        value:
+          amount: 10
+          currency: GBP
+        reference: partial-refund-reference
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

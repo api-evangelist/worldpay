@@ -1,60 +1,33 @@
 openapi: 3.0.1
 info:
-  title: Money Transfers
-  version: '1'
+  title: 3DS 3DS actions MoneyTransfers API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
   x-metadata:
     category:
-      - Payouts
+    - 3DS
+    - SCA Exemptions
     business:
-      - Enterprise
+    - Enterprise
     catalog-list: true
     generated: false
-  description: >-
-    Money Transfer OCTs (Original Credit Transaction) allow funds to be pushed
-    to an eligible card in 30 minutes or less. Withdrawing money from a digital
-    wallet is an example of a Money Transfer OCT.
-
-
-    __Authentication__
-
-      Set your headers:
-      ```
-        Authorization: {your_credentials}
-        Content-Type: application/vnd.worldpay.money-transfers-v1+json
-        Accept: application/vnd.worldpay.money-transfers-v1+json
-      ```
-    Replace `{your_credentials}` with your base64-encoded Basic Auth username
-    and password.
-
-
-    <br>
-
-
-    __DNS whitelisting__
-
-
-    Whitelist the following URLs:
-
-    * `https://try.access.worldpay.com/`
-
-    * `https://access.worldpay.com/`
-
-
-    Please ensure you use DNS whitelisting, not explicit IP whitelisting. When
-    you make a request within Access Worldpay, you should always cache the
-    response returned.
 servers:
-  - url: https://try.access.worldpay.com
-    description: Test (Try)
-  - url: https://access.worldpay.com
-    description: Live
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: MoneyTransfers
 paths:
   /moneyTransfers/pushToCard:
     post:
       summary: Push funds to an eligible card
-      description: |+
-        Push funds to an eligible card.
+      description: 'Push funds to an eligible card.
 
+
+        '
       operationId: pushToCard
       requestBody:
         content:
@@ -63,9 +36,7 @@ paths:
               $ref: '#/components/schemas/moneyTransfers_pushToCard'
             examples:
               A pushToCard with all fields for a 'card/plain' paymentInstrument.:
-                description: >-
-                  A pushToCard with all fields for a 'card/plain'
-                  paymentInstrument.
+                description: A pushToCard with all fields for a 'card/plain' paymentInstrument.
                 value:
                   transactionReference: transactionReference
                   merchant:
@@ -100,9 +71,7 @@ paths:
                       fundReference: fundReference
                       fundType: nonStagedDigitalWallet
               A pushToCard with minimal fields for a 'card/plain' paymentInstrument.:
-                description: >-
-                  A pushToCard with minimal fields for a 'card/plain'
-                  paymentInstrument.
+                description: A pushToCard with minimal fields for a 'card/plain' paymentInstrument.
                 value:
                   transactionReference: transactionReference
                   merchant:
@@ -129,9 +98,7 @@ paths:
                       fundReference: fundReference
                       fundType: nonStagedDigitalWallet
               A pushToCard with all fields for a 'card/tokenized' paymentInstrument.:
-                description: >-
-                  A pushToCard with all fields for a 'card/tokenized'
-                  paymentInstrument.
+                description: A pushToCard with all fields for a 'card/tokenized' paymentInstrument.
                 value:
                   transactionReference: transactionReference
                   merchant:
@@ -162,9 +129,7 @@ paths:
                       fundReference: fundReference
                       fundType: nonStagedDigitalWallet
               A pushToCard with minimal fields for a 'card/tokenized' paymentInstrument.:
-                description: >-
-                  A pushToCard with minimal fields for a 'card/tokenized'
-                  paymentInstrument.
+                description: A pushToCard with minimal fields for a 'card/tokenized' paymentInstrument.
                 value:
                   transactionReference: transactionReference
                   merchant:
@@ -192,125 +157,156 @@ paths:
                 $ref: '#/components/schemas/moneyTransfers_pushToCard_201_response'
               examples:
                 A pushToCard with all fields for a 'card/plain' paymentInstrument.:
-                  description: >-
-                    A pushToCard with all fields for a 'card/plain'
-                    paymentInstrument.
+                  description: A pushToCard with all fields for a 'card/plain' paymentInstrument.
                   value:
                     outcome: approved
                     type: pushToCard
                     receivedAt: '2022-01-01T00:00:00Z'
                     _links:
                       self:
-                        href: >-
-                          https://try.access.worldpay.com/moneyTransfers/{resource}
+                        href: https://try.access.worldpay.com/moneyTransfers/{resource}
                 A pushToCard with minimal fields for a 'card/plain' paymentInstrument.:
-                  description: >-
-                    A pushToCard with minimal fields for a 'card/plain'
-                    paymentInstrument.
+                  description: A pushToCard with minimal fields for a 'card/plain' paymentInstrument.
                   value:
                     outcome: approved
                     type: pushToCard
                     receivedAt: '2022-01-01T00:00:00Z'
                     _links:
                       self:
-                        href: >-
-                          https://try.access.worldpay.com/moneyTransfers/{resource}
+                        href: https://try.access.worldpay.com/moneyTransfers/{resource}
                 A pushToCard with all fields for a 'card/tokenized' paymentInstrument.:
-                  description: >-
-                    A pushToCard with all fields for a 'card/tokenized'
-                    paymentInstrument.
+                  description: A pushToCard with all fields for a 'card/tokenized' paymentInstrument.
                   value:
                     outcome: approved
                     type: pushToCard
                     receivedAt: '2022-01-01T00:00:00Z'
                     _links:
                       self:
-                        href: >-
-                          https://try.access.worldpay.com/moneyTransfers/{resource}
+                        href: https://try.access.worldpay.com/moneyTransfers/{resource}
                 A pushToCard with minimal fields for a 'card/tokenized' paymentInstrument.:
-                  description: >-
-                    A pushToCard with minimal fields for a 'card/tokenized'
-                    paymentInstrument.
+                  description: A pushToCard with minimal fields for a 'card/tokenized' paymentInstrument.
                   value:
                     outcome: approved
                     type: pushToCard
                     receivedAt: '2022-01-01T00:00:00Z'
                     _links:
                       self:
-                        href: >-
-                          https://try.access.worldpay.com/moneyTransfers/{resource}
+                        href: https://try.access.worldpay.com/moneyTransfers/{resource}
+      tags:
+      - MoneyTransfers
   /moneyTransfers/query:
     get:
       summary: Query for a money transfer using transactionReference and entity
-      description: |+
-        Query for a money transfer.
+      description: 'Query for a money transfer.
 
+
+        '
       operationId: query
       parameters:
-        - name: transactionReference
-          in: query
-          description: >-
-            A unique reference generated by you, used to identify a payout
-            throughout its lifecycle.
-          required: true
-          schema:
-            type: string
-            example: '12345'
-        - name: entity
-          in: query
-          description: merchant entity.
-          required: true
-          schema:
-            type: string
-            example: default
+      - name: transactionReference
+        in: query
+        description: A unique reference generated by you, used to identify a payout throughout its lifecycle.
+        required: true
+        schema:
+          type: string
+          example: '12345'
+      - name: entity
+        in: query
+        description: merchant entity.
+        required: true
+        schema:
+          type: string
+          example: default
       responses:
         '200':
-          description: >-
-            A query by transactionReference and entity has been performed
-            successfully.
+          description: A query by transactionReference and entity has been performed successfully.
           content:
             application/vnd.worldpay.money-transfers-v1+json:
               schema:
                 $ref: '#/components/schemas/moneyTransfers_query_200_response'
               examples:
                 A query for a pushToCard money transfer with an outcome of approved.:
-                  description: >-
-                    A query for a pushToCard money transfer with an outcome of
-                    approved.
+                  description: A query for a pushToCard money transfer with an outcome of approved.
                   value:
                     outcome: approved
                     type: pushToCard
                     receivedAt: '2022-01-01T00:00:00Z'
                     _links:
                       self:
-                        href: >-
-                          https://try.access.worldpay.com/moneyTransfers/{resource}
+                        href: https://try.access.worldpay.com/moneyTransfers/{resource}
                 A query for a pushToCard money transfer with an outcome of error.:
-                  description: >-
-                    A query for a pushToCard money transfer with an outcome of
-                    error.
+                  description: A query for a pushToCard money transfer with an outcome of error.
                   value:
                     outcome: error
                     receivedAt: '2022-01-01T00:00:00Z'
                     _links:
                       self:
-                        href: >-
-                          https://try.access.worldpay.com/moneyTransfers/{resource}
+                        href: https://try.access.worldpay.com/moneyTransfers/{resource}
+      tags:
+      - MoneyTransfers
 components:
   schemas:
+    moneyTransfers_pushToCard_201_response:
+      required:
+      - _links
+      - outcome
+      - receivedAt
+      - type
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: outcome of moneyTransfers request.
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt.
+        type:
+          type: string
+    _2:
+      required:
+      - href
+      - type
+      type: object
+      properties:
+        href:
+          type: string
+        type:
+          type: string
+        billingAddress:
+          required:
+          - countryCode
+          - postalCode
+          type: object
+          properties:
+            countryCode:
+              type: string
+            postalCode:
+              type: string
+            address1:
+              type: string
+            address2:
+              type: string
+            address3:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+        cvc:
+          type: string
     _1:
       required:
-        - billingAddress
-        - cardExpiryDate
-        - cardHolderName
-        - cardNumber
-        - type
+      - billingAddress
+      - cardExpiryDate
+      - cardHolderName
+      - cardNumber
+      - type
       type: object
       properties:
         billingAddress:
           required:
-            - countryCode
-            - postalCode
+          - countryCode
+          - postalCode
           type: object
           properties:
             countryCode:
@@ -329,8 +325,8 @@ components:
               type: string
         cardExpiryDate:
           required:
-            - month
-            - year
+          - month
+          - year
           type: object
           properties:
             month:
@@ -345,88 +341,61 @@ components:
           type: string
         cvc:
           type: string
-    _2:
+    moneyTransfers_query_200_response:
       required:
-        - href
-        - type
+      - _links
+      - outcome
+      - receivedAt
       type: object
       properties:
-        href:
+        outcome:
           type: string
+          description: outcome of moneyTransfers request.
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt.
         type:
-          type: string
-        billingAddress:
-          required:
-            - countryCode
-            - postalCode
-          type: object
-          properties:
-            countryCode:
-              type: string
-            postalCode:
-              type: string
-            address1:
-              type: string
-            address2:
-              type: string
-            address3:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-        cvc:
           type: string
     moneyTransfers_pushToCard:
       required:
-        - instruction
-        - merchant
-        - transactionReference
+      - instruction
+      - merchant
+      - transactionReference
       type: object
       description: Push to card moneyTransfers input.
       properties:
         instruction:
           required:
-            - narrative
-            - recipient
-            - sender
-            - value
+          - narrative
+          - recipient
+          - sender
+          - value
           type: object
-          description: >-
-            An object that contains all the information related to your
-            moneyTransfers request.
+          description: An object that contains all the information related to your moneyTransfers request.
           properties:
             narrative:
               required:
-                - line1
+              - line1
               type: object
-              description: >-
-                An object that contains identification and further details of
-                the merchant.
+              description: An object that contains identification and further details of the merchant.
               properties:
                 line1:
                   type: string
-                  description: >-
-                    First line of text that appears on your customer's
-                    statement.
+                  description: First line of text that appears on your customer's statement.
                 line2:
                   type: string
-                  description: >-
-                    Second line of text that appears on your customer's
-                    statement.
+                  description: Second line of text that appears on your customer's statement.
             recipient:
               required:
-                - paymentInstrument
+              - paymentInstrument
               type: object
               description: Recipient details.
               properties:
                 paymentInstrument:
-                  description: >-
-                    An object that contains your customer's paymentInstrument
-                    type.
+                  description: An object that contains your customer's paymentInstrument type.
                   oneOf:
-                    - $ref: '#/components/schemas/_1'
-                    - $ref: '#/components/schemas/_2'
+                  - $ref: '#/components/schemas/_1'
+                  - $ref: '#/components/schemas/_2'
                   discriminator:
                     propertyName: type
                 firstName:
@@ -437,8 +406,8 @@ components:
                   description: customer's lastName.
             sender:
               required:
-                - fundReference
-                - fundType
+              - fundReference
+              - fundType
               type: object
               description: Sender details.
               properties:
@@ -447,13 +416,11 @@ components:
                   description: Specifies a reference to the Origin account of the funds.
                 fundType:
                   type: string
-                  description: >-
-                    Specifies the type of funds being used by the sender in the
-                    transaction.
+                  description: Specifies the type of funds being used by the sender in the transaction.
             value:
               required:
-                - amount
-                - currency
+              - amount
+              - currency
               type: object
               description: An object that contains moneyTransfers amount and currency.
               properties:
@@ -465,54 +432,17 @@ components:
                   description: The 3 digit currency code.
         merchant:
           required:
-            - entity
+          - entity
           type: object
           description: An object that contains information about the merchant.
           properties:
             entity:
               type: string
-              description: >-
-                This is mandatory for authentication and queries. Contact your
-                Worldpay Implementation Manager for more information.
+              description: This is mandatory for authentication and queries. Contact your Worldpay Implementation Manager for more information.
         transactionReference:
           type: string
-          description: >-
-            A unique reference generated by you, used to identify a
-            moneyTransfer throughout its lifecycle.
-    moneyTransfers_pushToCard_201_response:
-      required:
-        - _links
-        - outcome
-        - receivedAt
-        - type
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: outcome of moneyTransfers request.
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt.
-        type:
-          type: string
-    moneyTransfers_query_200_response:
-      required:
-        - _links
-        - outcome
-        - receivedAt
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: outcome of moneyTransfers request.
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt.
-        type:
-          type: string
+          description: A unique reference generated by you, used to identify a moneyTransfer throughout its lifecycle.
   securitySchemes:
     BasicAuth:
       type: http
       scheme: basic
-security:
-  - BasicAuth: []

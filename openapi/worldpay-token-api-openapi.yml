@@ -1,0 +1,1352 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions Token API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: Token
+  description: A token representing a payment instrument.
+paths:
+  /tokens:
+    post:
+      tags:
+      - Token
+      summary: Create a new token
+      description: Creating a new token for the payment instrument.
+      operationId: createSecurityToken
+      requestBody:
+        content:
+          application/vnd.worldpay.tokens-v3.hal+json:
+            schema:
+              $ref: '#/components/schemas/token_creation'
+            examples:
+              Creating a Token:
+                description: Creating a token from payment instrument
+                value:
+                  paymentInstrument:
+                    type: card/front
+                    cardHolderName: Testy McTester
+                    cardNumber: '4444333322221111'
+                    cardExpiryDate:
+                      month: 1
+                      year: 2025
+                  merchant:
+                    entity: default
+      responses:
+        '200':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: A URI identifying the created token resource.
+          description: You've already tokenized the card and all data supplied in your create a token request matches the data stored with us.<br/><br/>The existing token resource reference is returned in the tokenPaymentInstrument object.<br><br> **Note:** Sometimes we match a token even if the data doesn't seem quite the same. For example, if we have a billing address on file, this address is retained, if no `billingAddress` object was supplied in your request.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_200_response'
+              examples:
+                Creating a token:
+                  description: A token already exists matching the details in the request.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ
+                    tokenId: '9902480679618049603'
+                    description: Test Token Description
+                    tokenExpiryDateTime: '2021-06-24T09:19:35Z'
+                    paymentInstrument:
+                      type: card/masked
+                      cardNumber: 4444********1111
+                      cardHolderName: Sherlock Holmes
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      billingAddress:
+                        address1: 221B Baker Street
+                        address2: Marylebone
+                        address3: Westminster
+                        postalCode: NW1 6XE
+                        city: London
+                        state: Greater London
+                        countryCode: GB
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ
+                      tokens:description:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9
+                      tokens:cardHolderName:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9
+                      tokens:cardExpiryDate:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9
+                      tokens:billingAddress:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9
+                      tokens:schemeTransactionReference:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+        '201':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: A URI identifying the created token resource.
+          description: Created<br><br>This is the first time you've tokenized this card.</br></br>Your response contains a `tokenPaymentInstrument` object which contains the href to the token resource. The response also includes next available action links, e.g. updating and deleting the token.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_201_response'
+              examples:
+                Token Created:
+                  description: A new token was created.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ
+                    tokenId: '9902480679618049603'
+                    description: Test Token Description
+                    tokenExpiryDateTime: '2021-06-24T09:19:35Z'
+                    paymentInstrument:
+                      type: card/masked
+                      cardNumber: 4444********1111
+                      cardHolderName: Sherlock Holmes
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      billingAddress:
+                        address1: 221B Baker Street
+                        address2: Marylebone
+                        address3: Westminster
+                        postalCode: NW1 6XE
+                        city: London
+                        state: Greater London
+                        countryCode: GB
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ
+                      tokens:description:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9
+                      tokens:cardHolderName:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9
+                      tokens:cardExpiryDate:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9
+                      tokens:billingAddress:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9
+                      tokens:schemeTransactionReference:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+        '400':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: We could not process the request due to a client error.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_400_response'
+              examples:
+                Validation errors:
+                  description: Client error.
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: stringIsTooShort
+                      message: Token description too short - must be between 1 & 255 characters
+                      jsonPath: $.description
+                    - errorName: fieldHasInvalidValue
+                      message: Card expiry month too small - must be between 1 & 12
+                      jsonPath: $.paymentInstrument.cardExpiryDate.month
+                    - errorName: billingAddressMightContainCardNumber
+                      message: Address might contain a card number
+                      jsonPath: $.paymentInstrument.billingAddress.address2
+        '403':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: You've already added the maximum number of tokens to the namespace, 16. Please use an alternative namespace or delete some existing tokens from the namespace.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_403_response'
+              examples:
+                Validation errors:
+                  description: Client error.
+                  value:
+                    errorName: tooManyTokensForNamespace
+                    message: Too many tokens created for this namespace
+        '409':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: A URI identifying the conflicting token resource.
+          description: Conflict<br> You've already tokenized the card, but some of the data supplied in your create a token request is different from the data in the existing token.<br/><br/>This conflict could be caused by a differentiation in the `cardHolderName`, `cardExpiryDate`, `billingAddress` or `schemeTransactionReference` (see note below) fields.<br/><br/>In this case, the data that we have on file is retained. We return the data which caused the conflict in a conflicts object. If you would like to resolve the conflict, you can update the existing token using the "tokens:conflicts" action link returned in the response.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_409_response'
+              examples:
+                Conflict:
+                  description: A token already exists conflicting with some details in the request.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ
+                    tokenId: '9902480679618049603'
+                    description: Test Token Description
+                    tokenExpiryDateTime: '2021-06-24T09:19:35Z'
+                    paymentInstrument:
+                      type: card/masked
+                      cardNumber: 4444********1111
+                      cardHolderName: Sherlock Holmes
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      billingAddress:
+                        address1: 221B Baker Street
+                        address2: Marylebone
+                        address3: Westminster
+                        postalCode: NW1 6XE
+                        city: London
+                        state: Greater London
+                        countryCode: GB
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                    conflicts:
+                      paymentInstrument:
+                        cardHolderName: Sherlock Holmes
+                      conflictsExpiryDateTime: '2019-06-24T09:49:35Z'
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ
+                      tokens:description:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9
+                      tokens:cardHolderName:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9
+                      tokens:cardExpiryDate:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9
+                      tokens:billingAddress:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9
+                      tokens:schemeTransactionReference:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9
+                      tokens:conflicts:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0ODUrN2hvZ0cyK1JvQ3JKdUtFZnU5UTFsdTdwODVHTUcwYy92VW02MDlJd2pHQllvcW0zanhWQ3p3Zk9OUW9CYUZtQ1hNbFhwM3lhSXlkYVlNYWJnQUdQUHFpRVAxVXVpZHM2Y2tvTjEvOGNJdFQ0WkVlVEJIVWF6T1dlWTlQMkpnPT0ifQ
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+        '422':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: The request was syntactically valid, but we couldn't process the request. For example the card number or card brand is not recognized.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_422_response'
+              examples:
+                Card brand not recognized:
+                  description: The request was syntactically valid, but we couldn't process the request.
+                  value:
+                    errorName: unrecognizedCardBrand
+                    message: The card brand is not recognized
+        '500':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: An internal server error occurred.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_500_response'
+              examples:
+                Tokenization not enabled:
+                  description: Internal server error.
+                  value:
+                    errorName: tokenizationNotEnabled
+                    message: Tokenization not enabled
+  /tokens/{tokenId}:
+    get:
+      tags:
+      - Token
+      summary: Retrieve the detail for this token
+      description: A token representing a payment instrument.
+      operationId: getSecurityToken
+      parameters:
+      - name: tokenId
+        in: path
+        description: Access Worldpay encrypted token.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The detail for this token.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_200_response'
+              examples:
+                Retrieve details about a token.:
+                  description: Retrieve details about a token.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ
+                    tokenId: '9925760692793807595'
+                    description: Token Description
+                    tokenExpiryDateTime: '2025-01-23T10:57:01Z'
+                    paymentInstrument:
+                      type: card/masked
+                      cardNumber: 4444********1111
+                      cardHolderName: Card Holder Name
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                      billingAddress:
+                        address1: Address 1
+                        address2: Address 2
+                        address3: Address 3
+                        postalCode: Postal Code
+                        city: City
+                        state: State
+                        countryCode: XX
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ
+                      tokens:description:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXdW9oYzR3RUFEM2FCQnlaejhsZ1poTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9
+                      tokens:cardHolderName:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXT0pLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9
+                      tokens:cardExpiryDate:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXT0pLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9
+                      tokens:billingAddress:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXTlpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9
+                      tokens:schemeTransactionReference:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXTThZcVl5OWJFUHNnbzNpTHd1NlpJSTJxUUNRVXZybWJpRkdyQ0NNQ0g0ZlpsNlBnc1NkL0h5VkRCKyt0Ym9wMGs9In0
+                      tokens:networkToken:
+                        href: https://try.access.worldpay.com/tokens/network
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                Retrieve details about a token with a network payment instrument.:
+                  description: Retrieve details about a token with a network payment instrument.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ
+                    tokenId: '9925760692793807595'
+                    description: Token Description
+                    tokenExpiryDateTime: '2025-01-23T10:57:01Z'
+                    paymentInstrument:
+                      type: card/network+masked
+                      cardNumber: 4818********6530
+                      last4Digits: '6530'
+                      networkType: APPLEPAY
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                Retrieve details about a token with a namespace.:
+                  description: Retrieve details about a token with a namespace.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abnZtYjM3RXppMy84N2J6ZWlXYkhyUiJ9
+                    tokenId: '9925760692793807595'
+                    description: Token Description
+                    tokenExpiryDateTime: '2025-01-23T10:57:01Z'
+                    namespace: my-authenticated-shopper
+                    paymentInstrument:
+                      type: card/masked
+                      cardNumber: 4444********1111
+                      cardHolderName: Card Holder Name
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                      billingAddress:
+                        address1: Address 1
+                        address2: Address 2
+                        address3: Address 3
+                        postalCode: Postal Code
+                        city: City
+                        state: State
+                        countryCode: XX
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abnZtYjM3RXppMy84N2J6ZWlXYkhyUiJ9
+                      tokens:description:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abXlBdGFNaFRIdE1Oc2lybUZQeWFWOTFMR3BqVW1LaDBPdUsrYkczWEdWWWc9PSJ9
+                      tokens:cardHolderName:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSWlTdTNNRkZ2V0NPN09FekprQW15cjlZRk1ySXhqaU1GV1EybnhhMFlpOE09In0
+                      tokens:cardExpiryDate:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSWlTdTNNRkZ2V0NPN09FekprQW15cnhJbEp4ZXFaWHZERExEMk9CYU5iRE09In0
+                      tokens:billingAddress:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSVdVYnFxcG4zdVdMalNSblJLSHJNTmZRVWlIN2ZxaU9kazlrYnNueU50Tjg9In0
+                      tokens:schemeTransactionReference:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSVBHS21Ndld4RDdJS040aThMdW1TQ05xa0FrRkw2NW00aFJxd2dqQWgrSDJaZWo0TEVuZng4bFF3ZnZyVzZLZEoifQ
+                      tokens:networkToken:
+                        href: https://try.access.worldpay.com/tokens/network
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                Retrieve detokenized card details.:
+                  description: Retrieve all card details detokenized.
+                  value:
+                    tokenPaymentInstrument:
+                      type: card/tokenized
+                      href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abnZtYjM3RXppMy84N2J6ZWlXYkhyUiJ9
+                    tokenId: '9925760692793807595'
+                    description: Token Description
+                    tokenExpiryDateTime: '2025-01-23T10:57:01Z'
+                    namespace: my-authenticated-shopper
+                    paymentInstrument:
+                      type: card/front
+                      cardNumber: '4444333322221111'
+                      cardHolderName: Card Holder Name
+                      cardExpiryDate:
+                        month: 5
+                        year: 2035
+                      bin: '444433'
+                      brand: VISA
+                      fundingType: credit
+                      billingAddress:
+                        address1: Address 1
+                        address2: Address 2
+                        address3: Address 3
+                        postalCode: Postal Code
+                        city: City
+                        state: State
+                        countryCode: XX
+                    _links:
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abnZtYjM3RXppMy84N2J6ZWlXYkhyUiJ9
+                      tokens:description:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abXlBdGFNaFRIdE1Oc2lybUZQeWFWOTFMR3BqVW1LaDBPdUsrYkczWEdWWWc9PSJ9
+                      tokens:cardHolderName:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSWlTdTNNRkZ2V0NPN09FekprQW15cjlZRk1ySXhqaU1GV1EybnhhMFlpOE09In0
+                      tokens:cardExpiryDate:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSWlTdTNNRkZ2V0NPN09FekprQW15cnhJbEp4ZXFaWHZERExEMk9CYU5iRE09In0
+                      tokens:billingAddress:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSVdVYnFxcG4zdVdMalNSblJLSHJNTmZRVWlIN2ZxaU9kazlrYnNueU50Tjg9In0
+                      tokens:schemeTransactionReference:
+                        href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXaGdPVU5iVmZ0Rm5TUDZuK3N1Mm5abGFqUW1IQ2k5NWk0SEx3U0JrYWdHSVBHS21Ndld4RDdJS040aThMdW1TQ05xa0FrRkw2NW00aFJxd2dqQWgrSDJaZWo0TEVuZng4bFF3ZnZyVzZLZEoifQ
+                      tokens:networkToken:
+                        href: https://try.access.worldpay.com/tokens/network
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+        '404':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: We could not find the requested resource. This may be returned if the token resource has been deleted.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_404_response'
+              examples:
+                Tokenization not enabled:
+                  description: Internal server error.
+                  value:
+                    errorName: resourceNotFound
+                    message: Requested resource was not found
+        '405':
+          description: Requested method is not allowed.
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_405_response'
+              examples:
+                Method not allowed:
+                  description: Not allowed.
+                  value:
+                    errorName: methodNotAllowed
+                    message: Requested method is not allowed
+        '500':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: An internal server error.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_500_response'
+              examples:
+                Tokenization not enabled:
+                  description: Internal server error.
+                  value:
+                    errorName: tokenizationNotEnabled
+                    message: Tokenization not enabled
+    put:
+      tags:
+      - Token
+      summary: Update this token
+      description: Updating different fields represented by the token.
+      operationId: updateSecurityToken
+      parameters:
+      - name: tokenId
+        in: path
+        description: Access Worldpay encrypted token.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/vnd.worldpay.tokens-v3.hal+json:
+            schema:
+              $ref: '#/components/schemas/tokens_token'
+            examples:
+              Update a billing address.:
+                description: Update a billing address.
+                value:
+                  address1: 1 Test Street
+                  address2: Address line 2
+                  address3: Address line 3
+                  postalCode: TE12 34ST
+                  city: Testville
+                  state: Testshire
+                  countryCode: TS
+              Update a card expiry date.:
+                description: Update a card expiry date.
+                value:
+                  month: 1
+                  year: 2050
+              Update a card holder name.:
+                description: Update a card holder name.
+                value: new name
+              Update a token description.:
+                description: Update a token description.
+                value: new description
+              Update a scheme transaction reference for a token.:
+                description: Update a scheme transaction reference for a token.
+                value: '000000000000020005060720116005060'
+      responses:
+        '204':
+          description: The token was successfully updated.
+        '429':
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          description: A 429 response is returned for too many requests. You can only update one attribute at a time with a maximum of 50 updates in a rolling 30 day period.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_429_response'
+              examples:
+                Tokenization not enabled:
+                  description: Too many requests.
+                  value:
+                    errorName: maximumUpdatesExceeded
+                    message: Maximum number of updates for this token exceeded
+    delete:
+      tags:
+      - Token
+      summary: Delete this token
+      description: Deleting a token based on an encrypted tokenId.
+      operationId: deleteSecurityToken
+      parameters:
+      - name: tokenId
+        in: path
+        description: Access Worldpay encrypted token.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The token was successfully deleted.
+        '405':
+          description: Requested method is not allowed.
+          headers:
+            Accept:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+            Content-Type:
+              schema:
+                type: string
+                description: application/vnd.worldpay.tokens-v3.hal+json
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_token_405_response'
+              examples:
+                Method not allowed:
+                  description: Not allowed.
+                  value:
+                    errorName: methodNotAllowed
+                    message: Requested method is not allowed
+components:
+  schemas:
+    tokens_token_405_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: methodNotAllowed
+        message:
+          type: string
+          example: Requested method is not allowed
+    token_creation:
+      type: object
+      properties:
+        paymentInstrument:
+          type: object
+          description: An object that contains the payment type and details. All sub-fields are mandatory with the exception of billingAddress (see below).
+          properties:
+            type:
+              type: string
+              description: card/front
+            cardHolderName:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The name on your customer's card.
+            cardNumber:
+              type: string
+              maxLength: 19
+              minLength: 10
+              pattern: ^[0-9]*$
+              description: Contains your customer's card number.
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                  maximum: 12
+                  minimum: 1
+                year:
+                  type: integer
+                  maximum: 9999
+                  minimum: 1
+            billingAddress:
+              required:
+              - address1
+              - postalCode
+              - city
+              - countryCode
+              type: object
+              description: Contains the billing address information.
+              properties:
+                address1:
+                  type: string
+                  maxLength: 80
+                  minLength: 1
+                postalCode:
+                  type: string
+                  maxLength: 15
+                  minLength: 1
+                city:
+                  type: string
+                  maxLength: 50
+                  minLength: 1
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                address2:
+                  maxLength: 80
+                  type: string
+                address3:
+                  maxLength: 80
+                  type: string
+                state:
+                  type: string
+                  maxLength: 30
+                  minLength: 1
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about your merchant account.
+          properties:
+            entity:
+              type: string
+              description: Identifies merchant account for billing, reporting and reconciliation. Contact your Worldpay Implementation Manager for more details.
+        description:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: ^[^&<]*$
+          description: A description of your token. If not supplied, a default description is created for you.
+        tokenExpiryDateTime:
+          type: string
+          format: date-time
+          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
+        namespace:
+          type: string
+          minLength: 1
+          maxLength: 64
+          description: A reference to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace. If supplied, must not start with an underscore, must not contain spaces, '&' or '<'.
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+      required:
+      - paymentInstrument
+      - merchant
+    tokens_token_403_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: tooManyTokensForNamespace
+        message:
+          type: string
+          example: Too many tokens created for this namespace
+    tokens_token:
+      type: object
+      properties:
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+        cardHolderName:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The name on your customer's card.
+        description:
+          maxLength: 255
+          minLength: 1
+          pattern: ^[^&<]*$
+          type: string
+        month:
+          maximum: 12
+          minimum: 1
+          type: integer
+        year:
+          maximum: 9999
+          type: integer
+        address1:
+          type: string
+        address2:
+          type: string
+        address3:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]*$
+          type: string
+    tokens_token_409_response:
+      required:
+      - tokenPaymentInstrument
+      - description
+      - tokenExpiryDateTime
+      - paymentInstrument
+      - _links
+      type: object
+      properties:
+        tokenPaymentInstrument:
+          type: object
+          properties:
+            type:
+              type: string
+              description: Indicating the type of this token.
+            href:
+              type: string
+              description: Link to the corresponding token.
+        tokenId:
+          maxLength: 21
+          minLength: 15
+          pattern: ^[0-9A-HJ-NP-Z]+$
+          description: Worldpay's internal identifier for a token. If supplied, must be between 15 and 21 characters, must consist of digits and upper-case characters excluding 'I' and 'O'.
+          type: string
+        description:
+          maxLength: 255
+          minLength: 1
+          pattern: ^[^&<]*$
+          type: string
+          description: A description of your token. If not supplied, a default description is created for you.
+        tokenExpiryDateTime:
+          type: string
+          format: date-time
+          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
+        paymentInstrument:
+          required:
+          - cardNumber
+          - cardExpiryDate
+          type: object
+          properties:
+            cardNumber:
+              maxLength: 19
+              minLength: 10
+              pattern: ^[0-9\*]*$
+              type: string
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  maximum: 12
+                  minimum: 1
+                  type: integer
+                year:
+                  maximum: 9999
+                  type: integer
+            type:
+              type: string
+            cardHolderName:
+              maxLength: 255
+              minLength: 1
+              type: string
+              description: The name on your customer's card.
+            bin:
+              maxLength: 6
+              minLength: 6
+              pattern: \d{6}
+              type: string
+            brand:
+              maxLength: 255
+              minLength: 1
+              type: string
+            fundingType:
+              maxLength: 7
+              minLength: 5
+              type: string
+            billingAddress:
+              required:
+              - address1
+              - postalCode
+              - city
+              - countryCode
+              type: object
+              properties:
+                address1:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                address2:
+                  type: string
+                address3:
+                  type: string
+                state:
+                  type: string
+            networkType:
+              maxLength: 255
+              minLength: 1
+              type: string
+            last4Digits:
+              maxLength: 4
+              minLength: 4
+              type: string
+        namespace:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A reference to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace.
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+        conflicts:
+          type: object
+          properties:
+            conflictsExpiryDateTime:
+              type: string
+              format: date-time
+            paymentInstrument:
+              type: object
+              properties:
+                cardHolderName:
+                  type: string
+                cardExpiryDate:
+                  type: object
+                  properties:
+                    month:
+                      type: integer
+                    year:
+                      type: integer
+                billingAddress:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                    postalCode:
+                      type: string
+                    city:
+                      type: string
+                    countryCode:
+                      maxLength: 2
+                      minLength: 2
+                      type: string
+                    address2:
+                      type: string
+                    address3:
+                      type: string
+                    state:
+                      type: string
+            schemeTransactionReference:
+              maxLength: 56
+              minLength: 1
+              pattern: ^[a-zA-Z0-9 ]*$
+              type: string
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+    tokens_token_200_response:
+      required:
+      - tokenPaymentInstrument
+      - description
+      - tokenExpiryDateTime
+      - paymentInstrument
+      - _links
+      type: object
+      properties:
+        tokenPaymentInstrument:
+          type: object
+          properties:
+            type:
+              type: string
+              description: Indicating the type of this token.
+            href:
+              type: string
+              description: Link to the corresponding token.
+        tokenId:
+          maxLength: 21
+          minLength: 15
+          pattern: ^[0-9A-HJ-NP-Z]+$
+          description: Worldpay's internal identifier for a token. If supplied, must be between 15 and 21 characters, must consist of digits and upper-case characters excluding 'I' and 'O'.
+          type: string
+        description:
+          maxLength: 255
+          minLength: 1
+          pattern: ^[^&<]*$
+          type: string
+          description: A description of your token. If not supplied, a default description is created for you.
+        tokenExpiryDateTime:
+          type: string
+          format: date-time
+          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
+        namespace:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A reference to group up to 16 cards, e.g. for one customer.
+        paymentInstrument:
+          required:
+          - cardNumber
+          - cardExpiryDate
+          type: object
+          properties:
+            cardNumber:
+              maxLength: 19
+              minLength: 10
+              pattern: ^[0-9\*]*$
+              type: string
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  maximum: 12
+                  minimum: 1
+                  type: integer
+                year:
+                  maximum: 9999
+                  type: integer
+            type:
+              type: string
+            cardHolderName:
+              maxLength: 255
+              minLength: 1
+              type: string
+              description: The name on your customer's card.
+            bin:
+              maxLength: 6
+              minLength: 6
+              pattern: \d{6}
+              type: string
+            brand:
+              maxLength: 255
+              minLength: 1
+              type: string
+            fundingType:
+              maxLength: 7
+              minLength: 5
+              type: string
+            billingAddress:
+              required:
+              - address1
+              - postalCode
+              - city
+              - countryCode
+              type: object
+              properties:
+                address1:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                address2:
+                  type: string
+                address3:
+                  type: string
+                state:
+                  type: string
+            networkType:
+              maxLength: 255
+              minLength: 1
+              type: string
+            last4Digits:
+              maxLength: 4
+              minLength: 4
+              type: string
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+    tokens_token_500_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: tokenizationNotEnabled
+        message:
+          type: string
+          example: Tokenization not enabled
+    tokens_token_404_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: resourceNotFound
+        message:
+          type: string
+          example: Requested resource was not found
+    tokens_token_422_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: unrecognizedCardBrand
+        message:
+          type: string
+          example: The card brand is not recognized
+    tokens_token_400_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          example: The json body provided does not match the expected schema
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+                example: fieldHasInvalidValue
+              message:
+                type: string
+                example: Card expiry month too small - must be between 1 & 12
+              jsonPath:
+                type: string
+                example: $.paymentInstrument.cardExpiryDate.month
+    tokens_token_201_response:
+      required:
+      - tokenPaymentInstrument
+      - description
+      - tokenExpiryDateTime
+      - paymentInstrument
+      - _links
+      type: object
+      properties:
+        tokenPaymentInstrument:
+          type: object
+          properties:
+            type:
+              type: string
+              description: Indicating the type of this token.
+            href:
+              type: string
+              description: Link to the corresponding token.
+        tokenId:
+          maxLength: 21
+          minLength: 15
+          pattern: ^[0-9A-HJ-NP-Z]+$
+          description: Worldpay's internal identifier for a token. If supplied, must be between 15 and 21 characters, must consist of digits and upper-case characters excluding 'I' and 'O'.
+          type: string
+        description:
+          maxLength: 255
+          minLength: 1
+          pattern: ^[^&<]*$
+          type: string
+          description: A description of your token. If not supplied, a default description is created for you.
+        tokenExpiryDateTime:
+          type: string
+          format: date-time
+          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
+        paymentInstrument:
+          required:
+          - cardNumber
+          - cardExpiryDate
+          type: object
+          properties:
+            cardNumber:
+              maxLength: 19
+              minLength: 10
+              pattern: ^[0-9\*]*$
+              type: string
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  maximum: 12
+                  minimum: 1
+                  type: integer
+                year:
+                  maximum: 9999
+                  type: integer
+            type:
+              type: string
+            cardHolderName:
+              maxLength: 255
+              minLength: 1
+              type: string
+              description: The name on your customer's card.
+            bin:
+              maxLength: 6
+              minLength: 6
+              pattern: \d{6}
+              type: string
+            brand:
+              maxLength: 255
+              minLength: 1
+              type: string
+            fundingType:
+              maxLength: 7
+              minLength: 5
+              type: string
+            billingAddress:
+              required:
+              - address1
+              - postalCode
+              - city
+              - countryCode
+              type: object
+              properties:
+                address1:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                address2:
+                  type: string
+                address3:
+                  type: string
+                state:
+                  type: string
+            networkType:
+              maxLength: 255
+              minLength: 1
+              type: string
+            last4Digits:
+              maxLength: 4
+              minLength: 4
+              type: string
+        namespace:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A reference to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace.
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+    tokens_token_429_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: maximumUpdatesExceeded
+        message:
+          type: string
+          example: Maximum number of updates for this token exceeded
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

@@ -1,0 +1,743 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions Network token API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: Network token
+  description: A network token representing a payment instrument.
+paths:
+  /tokens/network:
+    post:
+      tags:
+      - Network token
+      summary: Request provisioning for a network token and returns a reference for use later
+      description: 'Request to provision a network token.
+
+
+        '
+      operationId: provisionNetworkToken
+      requestBody:
+        content:
+          application/vnd.worldpay.tokens-v3.hal+json:
+            schema:
+              $ref: '#/components/schemas/tokens_network_provision'
+            examples:
+              Request to provision a network token.:
+                description: Request to provision a network token.
+                value:
+                  paymentInstrument:
+                    cardHolderName: name
+                    type: card/front
+                    cardExpiryDate:
+                      month: 1
+                      year: 2050
+                    cardNumber: '4444333322221111'
+                  merchant:
+                    entity: default
+              Request to provision a network token and the token is ready instantly.:
+                description: Request to provision a network token and the token is ready instantly.
+                value:
+                  paymentInstrument:
+                    cardHolderName: name
+                    type: card/front
+                    cardExpiryDate:
+                      month: 1
+                      year: 2050
+                    cardNumber: '4444333322221111'
+                  merchant:
+                    entity: default
+              Request to turn an access token into a network token.:
+                description: Request to turn an access token into a network token.
+                value:
+                  paymentInstrument:
+                    type: card/tokenized
+                    href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ
+                  merchant:
+                    entity: default
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_provision_200_response'
+              examples:
+                The network token is ready.:
+                  description: The token is ready in the synchronous response.
+                  value:
+                    tokenReference: aa224320-425c-40b6-9781-2cb7df76b0c8
+                    tokenPaymentInstrument:
+                      status: Active
+                      type: card/networkToken
+                      tokenNumber: '4111111111111111'
+                      expiryDate:
+                        month: 12
+                        year: 2025
+                    paymentInstrument:
+                      type: card/masked
+                      firstSix: '444433'
+                      lastFour: '1111'
+                      cardExpiryDate:
+                        month: 1
+                        year: 2050
+                      paymentAccountReference: '41111111111111111111111111111'
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network
+                      tokens:networkTokenLookup:
+                        href: https://try.access.worldpay.com/tokens/network/aa224320-425c-40b6-9781-2cb7df76b0c8
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                The network token is ready, created from an Access token.:
+                  description: The network token has been created with the card details from the Access token.
+                  value:
+                    tokenReference: aa224320-425c-40b6-9781-2cb7df76b0c8
+                    tokenPaymentInstrument:
+                      status: Active
+                      type: card/networkToken
+                      tokenNumber: '4111111111111111'
+                      expiryDate:
+                        month: 12
+                        year: 2025
+                    paymentInstrument:
+                      type: card/masked
+                      firstSix: '444433'
+                      lastFour: '1111'
+                      cardExpiryDate:
+                        month: 1
+                        year: 2050
+                      paymentAccountReference: '41111111111111111111111111111'
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network
+                      tokens:networkTokenLookup:
+                        href: https://try.access.worldpay.com/tokens/network/aa224320-425c-40b6-9781-2cb7df76b0c8
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                The network token is not yet ready, but the request was successful.:
+                  description: The request was successful but the network token is not ready yet. Collect the network token asynchronously.
+                  value:
+                    tokenReference: aa224320-425c-40b6-9781-2cb7df76b0c8
+                    paymentInstrument:
+                      type: card/masked
+                      firstSix: '444433'
+                      lastFour: '1111'
+                      cardExpiryDate:
+                        month: 1
+                        year: 2050
+                      paymentAccountReference: '41111111111111111111111111111'
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network
+                      tokens:networkTokenLookup:
+                        href: https://try.access.worldpay.com/tokens/network/aa224320-425c-40b6-9781-2cb7df76b0c8
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                The request was not successful due to provider errors.:
+                  description: Provider errors have been returned from the card schemes. The network token will not be created.
+                  value:
+                    tokenReference: aa224320-425c-40b6-9781-2cb7df76b0c8
+                    paymentInstrument:
+                      type: card/masked
+                      firstSix: '444433'
+                      lastFour: '1111'
+                      cardExpiryDate:
+                        month: 1
+                        year: 2050
+                      paymentAccountReference: '41111111111111111111111111111'
+                    provisioningErrors:
+                      errorCode: '301'
+                      providerErrorCode: '403'
+                      source: A2T Visa NPT Token Provider Service
+                      context: Provision Token.Processor Error
+                      message: 'Provider error occurred : Further operations for this card are no longer allowed. Contact the bank to resolve this issue.'
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network
+                      tokens:networkTokenLookup:
+                        href: https://try.access.worldpay.com/tokens/network/aa224320-425c-40b6-9781-2cb7df76b0c8
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+        '400':
+          description: Body does not match schema, or some details are incorrect.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_provision_error_with_optional_validation_response'
+              examples:
+                notFound:
+                  description: Cardholder name is missing, correct and re-submit.
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldIsMissing
+                      message: Card holder name must be supplied
+                      jsonPath: $.paymentInstrument.cardHolderName
+                Card number format is incorrect:
+                  description: Card number is incorrect, correct and re-submit.
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: panFailedLuhnCheck
+                      message: Card number is not valid
+                      jsonPath: $.paymentInstrument.cardNumber
+        '401':
+          description: Unauthorized.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_provision_error_response'
+              examples:
+                Account not configured to use NPT:
+                  description: Account not configured to use NPT. Please contact your account manager to board you for this service.
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '403':
+          description: Account not configured to use NPT.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_provision_error_response'
+              examples:
+                Account not configured to use NPT:
+                  description: Account not configured to use NPT. Please contact your account manager to board you for this service.
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Resource not found. Please check the endpoint and headers.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_provision_error_response'
+              examples:
+                Resource not found:
+                  description: Requested resource was not found.
+                  value:
+                    errorName: resourceNotFound
+                    message: Requested resource was not found
+        '500':
+          description: Internal server error. Please retry.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_provision_error_response'
+              examples:
+                Internal server error:
+                  description: Internal server error.
+                  value:
+                    errorName: internalErrorOccurred
+                    message: Internal server error
+  /tokens/network/{id}:
+    get:
+      tags:
+      - Network token
+      summary: Get the actual network token using the network token reference
+      description: Retrieve the detail for this network token.
+      operationId: getNetworkToken
+      parameters:
+      - name: id
+        in: path
+        description: Access Worldpay tokenReference
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_query_200_response'
+              examples:
+                Get a network token after it has been provisioned.:
+                  description: Get a network token after it has been provisioned.
+                  value:
+                    tokenPaymentInstrument:
+                      status: Active
+                      type: card/networkToken
+                      tokenNumber: '4111111111111111'
+                      expiryDate:
+                        month: 12
+                        year: 2025
+                    paymentInstrument:
+                      type: card/masked
+                      firstSix: '411111'
+                      lastFour: '1111'
+                      cardExpiryDate:
+                        month: 12
+                        year: 2025
+                      paymentAccountReference: '41111111111111111111111111111'
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network/aa224320-425c-40b6-9781-2cb7df76b0c8
+                      tokens:networkTokenCryptogram:
+                        href: https://try.access.worldpay.com/tokens/network/cryptograms
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+                Get a network token but it's not ready yet:
+                  description: Get a network token but it's not ready yet
+                  value:
+                    tokenPaymentInstrument:
+                      status: Provision Processor Error
+                      type: card/networkToken
+                    paymentInstrument:
+                      type: card/masked
+                      firstSix: '411111'
+                      lastFour: '1111'
+                      cardExpiryDate:
+                        month: 12
+                        year: 2025
+                      paymentAccountReference: '41111111111111111111111111111'
+                    provisioningErrors:
+                    - errorCode: '301'
+                      providerErrorCode: '400'
+                      source: A2T Visa NPT Token Provider Service
+                      context: Provider error
+                      message: Unexpected provider error.
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network/aa224320-425c-40b6-9781-2cb7df76b0c8
+                      tokens:networkTokenCryptogram:
+                        href: https://try.access.worldpay.com/tokens/network/cryptograms
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+    delete:
+      tags:
+      - Network token
+      summary: Delete a network token
+      description: Deleting a network token based on a token number.
+      operationId: deleteSecurityNetworkToken
+      parameters:
+      - name: id
+        in: path
+        description: Access Worldpay token number.
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The network token was successfully deleted.
+        '400':
+          description: Token Number is invalid.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              examples:
+                notFound:
+                  description: Token Number is invalid.
+                  value:
+                    errorName: fieldHasInvalidValue
+                    message: Token number is not valid
+                Accept header does not match Content-type header:
+                  description: Accept header does not match Content-type header.
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Accept header does not match Content-type header
+        '403':
+          description: Account not configured to use NPT.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              examples:
+                Account not configured to use NPT:
+                  description: Account not configured to use NPT.
+                  value:
+                    errorName: nptConfigurationError
+                    message: Account not configured to use NPT
+        '404':
+          description: Network Token was not found.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              examples:
+                Network Token was not found:
+                  description: Network Token was not found.
+                  value:
+                    errorName: networkProviderError
+                    message: Network Token Provider Error
+        '406':
+          description: Accept header is not supported.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              examples:
+                Accept header is not supported:
+                  description: Accept header is not supported.
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Accept header is not supported
+        '500':
+          description: Provider error.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              examples:
+                Provider error:
+                  description: Provider error.
+                  value:
+                    errorName: networkProviderError
+                    message: Network Token Provider Error
+                Internal server error:
+                  description: Internal server error.
+                  value:
+                    errorName: internalErrorOccurred
+                    message: Internal server error
+        '503':
+          description: Provider error.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              examples:
+                Provider error:
+                  description: Provider error.
+                  value:
+                    errorName: networkProviderError
+                    message: Network Token Provider Error
+                Internal server error:
+                  description: Internal server error.
+                  value:
+                    errorName: internalErrorOccurred
+                    message: Internal server error
+  /tokens/network/cryptograms:
+    post:
+      tags:
+      - Network token
+      summary: Provision a cryptogram for short time use based on a network token
+      description: 'TBD.
+
+
+        '
+      operationId: getNetworkTokenCryptogram
+      requestBody:
+        content:
+          application/vnd.worldpay.tokens-v3.hal+json:
+            schema:
+              $ref: '#/components/schemas/tokens_network_cryptograms'
+            examples:
+              Provision a cryptogram based on a network token:
+                description: Provision a cryptogram based on a network token
+                value:
+                  tokenNumber: '4111111111111111'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/vnd.worldpay.tokens-v3.hal+json:
+              schema:
+                $ref: '#/components/schemas/tokens_network_cryptograms_200_response'
+              examples:
+                Provision a cryptogram based on a network token:
+                  description: Provision a cryptogram based on a network token
+                  value:
+                    cryptogramDetails:
+                      cryptogram: AgAAAAAASFh+gDRt/rq8QOkAAAA=
+                      eci: '07'
+                    _links:
+                      self:
+                        href: https://try.access.worldpay.com/tokens/network/cryptograms
+                      tokens:networkTokenLookup:
+                        href: https://try.access.worldpay.com/tokens/network/{tokenReference}
+                        templated: true
+                      curies:
+                      - href: https://try.access.worldpay.com/rels/tokens/{rel}.json
+                        name: tokens
+                        templated: true
+components:
+  schemas:
+    tokens_network_query_200_response:
+      required:
+      - tokenPaymentInstrument
+      - paymentInstrument
+      - _links
+      type: object
+      properties:
+        tokenPaymentInstrument:
+          required:
+          - status
+          - type
+          type: object
+          properties:
+            status:
+              type: string
+            type:
+              type: string
+            tokenNumber:
+              type: string
+            expiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                year:
+                  type: integer
+        paymentInstrument:
+          required:
+          - type
+          - firstSix
+          - lastFour
+          - cardExpiryDate
+          type: object
+          properties:
+            type:
+              type: string
+            firstSix:
+              type: string
+            lastFour:
+              type: string
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                year:
+                  type: integer
+            paymentAccountReference:
+              type: string
+        provisioningErrors:
+          description: For a full list of provisioning errors, please see [Network token error responses](./network-token-errors.md).
+          type: array
+          items:
+            required:
+            - errorCode
+            - providerErrorCode
+            - source
+            - context
+            - message
+            type: object
+            properties:
+              errorCode:
+                type: string
+              providerErrorCode:
+                type: string
+              source:
+                type: string
+              context:
+                type: string
+              message:
+                type: string
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+    tokens_network_cryptograms:
+      required:
+      - tokenNumber
+      type: object
+      properties:
+        tokenNumber:
+          type: string
+    tokens_network_provision_error_response:
+      required:
+      - errorName
+      - message
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+    tokens_network_provision_200_response:
+      required:
+      - tokenReference
+      - paymentInstrument
+      - _links
+      type: object
+      properties:
+        tokenReference:
+          type: string
+        tokenPaymentInstrument:
+          required:
+          - status
+          - type
+          - tokenNumber
+          - expiryDate
+          type: object
+          properties:
+            status:
+              type: string
+            type:
+              type: string
+            tokenNumber:
+              type: string
+            expiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                year:
+                  type: integer
+        paymentInstrument:
+          required:
+          - type
+          - firstSix
+          - lastFour
+          - cardExpiryDate
+          - paymentAccountReference
+          type: object
+          properties:
+            type:
+              type: string
+            firstSix:
+              type: string
+            lastFour:
+              type: string
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                year:
+                  type: integer
+            paymentAccountReference:
+              type: string
+        provisioningErrors:
+          description: For a full list of provisioning errors, please see [Network token error responses](./network-token-errors.md).
+          type: array
+          items:
+            required:
+            - errorCode
+            - providerErrorCode
+            - source
+            - context
+            - message
+            type: object
+            properties:
+              errorCode:
+                type: string
+              providerErrorCode:
+                type: string
+              source:
+                type: string
+              context:
+                type: string
+              message:
+                type: string
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+    tokens_network_provision:
+      required:
+      - paymentInstrument
+      - merchant
+      type: object
+      properties:
+        paymentInstrument:
+          required:
+          - type
+          type: object
+          properties:
+            type:
+              type: string
+            cardHolderName:
+              type: string
+              description: The name on your customer's card.
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                year:
+                  type: integer
+            cardNumber:
+              type: string
+            href:
+              type: string
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about your merchant account.
+          properties:
+            entity:
+              type: string
+              description: Identifies merchant account for billing, reporting and reconciliation. Contact your Worldpay Implementation Manager for more details.
+    tokens_network_provision_error_with_optional_validation_response:
+      required:
+      - errorName
+      - message
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        validationErrors:
+          type: array
+          items:
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+              message:
+                type: string
+              jsonPath:
+                type: string
+    tokens_network_cryptograms_200_response:
+      required:
+      - cryptogramDetails
+      - _links
+      type: object
+      properties:
+        cryptogramDetails:
+          required:
+          - cryptogram
+          - eci
+          type: object
+          properties:
+            cryptogram:
+              type: string
+            eci:
+              type: string
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

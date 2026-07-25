@@ -1,0 +1,472 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions AchVerifications API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: AchVerifications
+paths:
+  /achVerifications:
+    post:
+      summary: ACH verification
+      description: 'Successful account verification outcome.
+
+
+        '
+      operationId: ACH
+      parameters:
+      - $ref: '#/components/parameters/achAcceptHeader'
+      - $ref: '#/components/parameters/achContentTypeHeader'
+      requestBody:
+        content:
+          application/vnd.worldpay.achVerifications-v6+json:
+            schema:
+              $ref: '#/components/schemas/verifications_ach'
+            examples:
+              Successful account verification outcome.:
+                value:
+                  merchant:
+                    entity: default
+                  transactionReference: '1234567'
+                  paymentInstrument:
+                    type: bankAccountUS
+                    accountType: corporateSavings
+                    accountNumber: '1234567890'
+                    routingNumber: 011400495
+                    companyName: companyName
+                    billToAddress:
+                      firstName: John
+                      lastName: Smith
+                      address1: address1
+                      address2: address2
+                      address3: address3
+                      city: city
+                      region: state
+                      postalCode: postalCode
+                      countryCode: US
+                      telephoneNumber: '4085551212'
+              Refused account verification outcome.:
+                value:
+                  merchant:
+                    entity: default
+                  transactionReference: '1234567'
+                  paymentInstrument:
+                    type: bankAccountUS
+                    accountType: corporateSavings
+                    accountNumber: '12345678901234567890'
+                    routingNumber: 011400495
+                    companyName: companyName
+                    billToAddress:
+                      firstName: John
+                      lastName: Smith
+                      address1: address1
+                      address2: address2
+                      address3: address3
+                      city: city
+                      region: state
+                      postalCode: postalCode
+                      countryCode: US
+                      telephoneNumber: '4085551212'
+      responses:
+        '201':
+          description: The account verification has been successful.
+          content:
+            application/vnd.worldpay.achVerifications-v6+json:
+              schema:
+                $ref: '#/components/schemas/verifications_ach_201_response'
+              examples:
+                Successful account verification outcome.:
+                  value:
+                    outcome: verified
+                    checkedAt: '2021-09-27T18:02:16.475Z'
+                Refused account verification outcome.:
+                  value:
+                    outcome: not verified
+                    description: Invalid account number
+                    checkedAt: '2021-09-27T18:02:16.475Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '415':
+          $ref: '#/components/responses/415'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+      - AchVerifications
+components:
+  responses:
+    '500':
+      description: An error occurred processing the request on our side.
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error500
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - internalServerError
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: internalServerError
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: An internal server error occurred
+    '400':
+      description: Bad Request
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          examples:
+            Validation Error:
+              $ref: '#/components/examples/validationError'
+            Header Error:
+              $ref: '#/components/examples/headerError'
+          schema:
+            title: error400
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - internalErrorOccurred
+                - headerIsMissing
+                - headerHasInvalidValue
+                - bodyIsEmpty
+                - bodyIsNotJson
+                - bodyDoesNotMatchSchema
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: bodyDoesNotMatchSchema
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: A JSON body matching the expected schema must be provided.
+              validationErrors:
+                type: array
+                description: If there were field validation errors, they will be collected in this array
+                items:
+                  $ref: '#/components/schemas/validationError'
+              headerName:
+                type: string
+                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
+                example: Content-Type
+    '401':
+      description: Client is not authorized due to missing or invalid Authorization header.
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error401
+            type: object
+            required:
+            - errorName
+            - message
+            - headerName
+            properties:
+              errorName:
+                type: string
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: accessDenied
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: Access to the requested resource has been denied
+    '404':
+      description: Not Found - unable to locate requested record
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/vnd.worldpay.cardVerifications-v6+json:
+          schema:
+            title: error400
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - resourceNotFound
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: resourceNotFound
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: Unable to verify the historic outcome from the data provided
+          example:
+            errorName: resourceNotFound
+            message: Unable to verify the historic outcome from the data provided
+    '415':
+      description: Invalid content-type HTTP header
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error415
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: headerHasInvalidValue
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: A valid header must be provided.
+              headerName:
+                type: string
+                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
+                example: Content-Type
+  schemas:
+    checkedAt:
+      type: string
+      example: '2024-03-26T19:38:29.543195Z'
+      pattern: ^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3,})Z$
+    verifications_ach:
+      required:
+      - merchant
+      - paymentInstrument
+      - transactionReference
+      type: object
+      properties:
+        merchant:
+          required:
+          - entity
+          type: object
+          properties:
+            entity:
+              type: string
+              description: Used to route the verification request in Access Worldpay, created as part of on-boarding.
+        paymentInstrument:
+          $ref: '#/components/schemas/bankAccountUS'
+        transactionReference:
+          type: string
+    firstName:
+      type: string
+      description: given name
+      maxLength: 85
+      minLength: 1
+      example: Alice
+    verifications_ach_201_response:
+      required:
+      - outcome
+      - checkedAt
+      - _links
+      type: object
+      properties:
+        outcome:
+          type: string
+          enum:
+          - verified
+          - not verified
+          description: This field indicates the status of the transaction.
+        description:
+          type: string
+        checkedAt:
+          $ref: '#/components/schemas/checkedAt'
+    postalCode:
+      type: string
+      description: Recipient's postal code.
+      maxLength: 15
+      minLength: 1
+      example: NW1 6XE
+    validationError:
+      type: object
+      required:
+      - errorName
+      - message
+      properties:
+        errorName:
+          type: string
+          description: A machine and human readable error type for clarity and semantic understanding of the error.
+          enum:
+          - fieldIsMissing
+          - fieldMustBeString
+          - fieldMustBeNumber
+          - fieldMustBeInteger
+          - fieldMustBeBoolean
+          - fieldMustBeObject
+          - fieldMustBeArray
+          - fieldIsNull
+          - fieldIsEmpty
+          - fieldHasInvalidValue
+          - fieldIsNotAllowed
+          - numberIsTooSmall
+          - integerIsTooLarge
+          - stringIsTooShort
+          - stringIsTooLong
+          - stringFailedRegexCheck
+          - panFailedLuhnCheck
+          - dateHasInvalidFormat
+          example: fieldIsNotAllowed
+        message:
+          type: string
+          description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+          example: Field at path is not allowed.
+        jsonPath:
+          type: string
+          description: This field represents the JSON path of the element within the request body associated with the error.
+          example: $.transactionRef
+    lastName:
+      type: string
+      description: surname
+      maxLength: 85
+      minLength: 1
+      example: Holmes
+    bankAccountUS:
+      required:
+      - type
+      - accountType
+      - accountNumber
+      - routingNumber
+      - billToAddress
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of payment instrument, must be "bankAccountUS" for ACH.
+        accountType:
+          type: string
+          enum:
+          - checking
+          - savings
+          - corporate
+          - corporateSavings
+          description: 'Possible values: checking, savings, corporate, corporateSavings.'
+        accountNumber:
+          type: string
+          description: Account number of direct debit account.
+        routingNumber:
+          type: string
+          description: Routing number of direct debit account.
+        companyName:
+          type: string
+          description: Company name if a corporate account.
+        billToAddress:
+          required:
+          - firstName
+          - lastName
+          - address1
+          - city
+          - region
+          - postalCode
+          - countryCode
+          - telephoneNumber
+          type: object
+          properties:
+            firstName:
+              $ref: '#/components/schemas/firstName'
+            lastName:
+              $ref: '#/components/schemas/lastName'
+            address1:
+              type: string
+              description: 'An identifier for the address1 being used. If included you must send at least: [address1,  city, countyCode, postalCode].'
+            address2:
+              type: string
+              description: An identifier for the address2 being used.
+            address3:
+              type: string
+              description: An identifier for the address3 being used.
+            city:
+              type: string
+              description: An identifier for the city being used.
+            region:
+              type: string
+              description: An identifier for the region being used.
+            postalCode:
+              $ref: '#/components/schemas/postalCode'
+            countryCode:
+              type: string
+              description: The alpha-2 ISO-3166 country code of the address.
+              example: GB
+              pattern: ^[A-Z]{2}$
+            telephoneNumber:
+              type: string
+              description: An identifier for the telephoneNumber being used.
+  examples:
+    headerError:
+      value:
+        errorName: headerIsMissing
+        message: A valid header must be provided.
+        headerName: Content-Type
+    validationError:
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: A JSON body matching the expected schema must be provided.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: Field at path is not allowed.
+          jsonPath: $.transactionRef
+  parameters:
+    achAcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/vnd.worldpay.achVerifications-v6+json
+    achContentTypeHeader:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/vnd.worldpay.achVerifications-v6+json
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

@@ -1,0 +1,3494 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions CardPayments API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: CardPayments
+paths:
+  /cardPayments/customerInitiatedTransactions:
+    post:
+      summary: Take a card payment
+      description: Take online card payments using our Card Payments API.
+      operationId: authorize
+      parameters:
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/customerInitiatedTransaction'
+            examples:
+              Card payment authorization:
+                description: Payment authorization for GBP 2.50
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                  channel: ecom
+              Card payment authorization with all optional fields:
+                description: Payment authorization for GBP 2.50 with all optional fields
+                value:
+                  transactionReference: transaction-ref
+                  merchant:
+                    entity: default
+                    mcc: '1234'
+                    paymentFacilitator:
+                      schemeId: '12345'
+                      independentSalesOrganizationId: '12345'
+                      subMerchant:
+                        name: Merchant Plc
+                        reference: '12345'
+                        address:
+                          postalCode: SW1 1AA
+                          street: Regent Street
+                          city: London
+                          countryCode: GB
+                          state: CA
+                        taxReference: '12345'
+                        phoneNumber: 0123456789
+                        email: test@email.com
+                        url: developer.worldpay.com
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    consumerBillPayment: true
+                    debtRepayment: true
+                    narrative:
+                      line1: trading name
+                      line2: order number
+                    value:
+                      currency: GBP
+                      amount: 250
+                      estimated: true
+                      acceptPartialAmount: true
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 12
+                        year: 2024
+                      cardHolderName: John Appleseed
+                      billingAddress:
+                        address1: address line 1
+                        address2: address line 2
+                        address3: address line 3
+                        city: city
+                        state: state
+                        postalCode: '12345'
+                        countryCode: IT
+                      cvc: '123'
+                  riskProfile: https://try.access.worldpay.com/riskProfile/
+                  channel: ecom
+              Card payment authorization using 3DS2 authentication:
+                description: Payment authorization for GBP 2.50 using 3DS2 authentication
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                  channel: ecom
+                  authentication:
+                    threeDS:
+                      version: 2.2.0
+                      eci: '05'
+                      authenticationValue: kBNHXUAy4+HT1gAMBSDajheBcxQh
+                      transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
+              Card payment with a request to store card details:
+                description: Payment authorization with a request to store card on file
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                      cvc: '123'
+                    customerAgreement:
+                      type: cardOnFile
+                      storedCardUsage: first
+                  channel: ecom
+              Tokenized card payment authorization:
+                description: Tokenized card payment authorization
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/token
+                      href: https://try.access.worldpay.com/tokens
+                  channel: ecom
+              Network token payment authorization:
+                description: Network token payment authorization
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/networkToken
+                      tokenNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                  channel: ecom
+                  authentication:
+                    networkToken:
+                      cryptogram: BLIYQ4EA/wLF4/hK9ABFMAABAAA=
+                      eci: '05'
+              Checkout payment authorization:
+                description: Checkout authorization for GBP 2.50
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/checkout
+                      tokenHref: https://try.access.worldpay.com/tokens
+                      cvcHref: https://try.access.worldpay.com/sessions
+                  channel: ecom
+              Apple wallet payment authorization:
+                description: Apple wallet payment authorization for GBP 2.50
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/wallet+applepay
+                      walletToken: token
+                  channel: ecom
+              Google wallet payment authorization:
+                description: Google wallet payment authorization for GBP 2.50
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/wallet+googlepay
+                      walletToken: token
+                  channel: ecom
+              Decrypted Apple Pay authorization:
+                description: Decrypted Apple Pay authorization for GBP 2.50
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/networkToken+applepay
+                      tokenNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                  channel: ecom
+                  authentication:
+                    networkToken:
+                      cryptogram: BLIYQ4EA/wLF4/hK9ABFMAABAAA=
+                      eci: '05'
+              Decrypted Google Pay authorization:
+                description: Decrypted Google Pay authorization for GBP 2.50
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/networkToken+googlepay
+                      tokenNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                  channel: ecom
+                  authentication:
+                    networkToken:
+                      cryptogram: BLIYQ4EA/wLF4/hK9ABFMAABAAA=
+                      eci: '05'
+      responses:
+        '201':
+          description: The payment authorization has been successfully created
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/payments_authorize_201_response'
+                - $ref: '#/components/schemas/payments_sentForSettlement_201_response'
+                - $ref: '#/components/schemas/payments_authorize_201_refusal'
+                discriminator:
+                  mapping:
+                    authorized: '#/components/schemas/payments_authorize_201_response'
+                    Sent for Settlement: '#/components/schemas/payments_sentForSettlement_201_response'
+                    refused: '#/components/schemas/payments_authorize_201_refusal'
+                  propertyName: outcome
+              examples:
+                Successful payment authorization:
+                  description: Payment authorization for GBP 2.50 with a successful outcome
+                  value:
+                    outcome: authorized
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmd-Rjc4HJwnBdj3Ri9v10vT0
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: T75725
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    _links:
+                      cardPayments:cancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/linkData
+                      cardPayments:partialCancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/linkData
+                      cardPayments:settle:
+                        href: https://try.access.worldpay.com/payments/settlements/full/linkData
+                      cardPayments:partialSettle:
+                        href: https://try.access.worldpay.com/payments/settlements/partials/linkData
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/linkData
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Successful payment authorization with estimated authorization amount:
+                  description: Payment authorization for estimated GBP 2.50 with a successful outcome
+                  value:
+                    outcome: authorized
+                    paymentId: pay9iX60mh85-FPnv4ccQ9B40
+                    commandId: cmdwZ5y_rSV1VmjD6CpgCuXG0
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: T75725
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    _links:
+                      cardPayments:cancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/linkData
+                      cardPayments:partialCancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/linkData
+                      cardPayments:increaseAuthorizedAmount:
+                        href: https://try.access.worldpay.com/payments/authorizations/incrementalAuthorizations/linkData
+                      cardPayments:settle:
+                        href: https://try.access.worldpay.com/payments/settlements/full/linkData
+                      cardPayments:partialSettle:
+                        href: https://try.access.worldpay.com/payments/settlements/partials/linkData
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/linkData
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Successful payment authorization (encrypted wallets):
+                  description: Payment authorization for GBP 2.50 with a successful outcome
+                  value:
+                    outcome: authorized
+                    paymentId: pay7FBwk30sgS4fi-Vwapb220
+                    commandId: cmdvn_du3sDMwls94_xG0a_v0
+                    riskFactors:
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: T75725
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/network+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      tokenNumber: 555555******4444
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    _links:
+                      cardPayments:cancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/linkData
+                      cardPayments:partialCancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/linkData
+                      cardPayments:settle:
+                        href: https://try.access.worldpay.com/payments/settlements/full/linkData
+                      cardPayments:partialSettle:
+                        href: https://try.access.worldpay.com/payments/settlements/partials/linkData
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/linkData
+                      tokens:token:
+                        href: https://try.access.worldpay.com/tokens/linkData
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Successful payment authorization (network tokens and decrypted wallets):
+                  description: Payment authorization for GBP 2.50 with a successful outcome
+                  value:
+                    outcome: authorized
+                    paymentId: payM39vAj85naVjwpP28C3800
+                    commandId: cmdRTc29vnWi5-so71qzfN900
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: T75725
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/network+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    _links:
+                      cardPayments:cancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/linkData
+                      cardPayments:partialCancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/linkData
+                      cardPayments:settle:
+                        href: https://try.access.worldpay.com/payments/settlements/full/linkData
+                      cardPayments:partialSettle:
+                        href: https://try.access.worldpay.com/payments/settlements/partials/linkData
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/linkData
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Successful payment authorization (requestAutoSettlement enabled):
+                  description: Payment authorization (requestAutoSettlement enabled) for GBP 2.50 with a successful outcome
+                  value:
+                    outcome: Sent for Settlement
+                    paymentId: pay-Tb29_shVbNM2_78s_hLu0
+                    commandId: cmdCG2tN9863bNw79xB23f7R0
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: T75725
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    _links:
+                      cardPayments:refund:
+                        href: https://try.access.worldpay.com/payments/settlements/refunds/full/linkData
+                      cardPayments:partialRefund:
+                        href: https://try.access.worldpay.com/payments/settlements/refunds/partials/linkData
+                      cardPayments:reverse:
+                        href: https://try.access.worldpay.com/payments/sales/reversals/linkData
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/linkData
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Successful payment authorization for a partial amount:
+                  description: Payment authorization for GBP 2.50 with a successful outcome and GBP 1.99 authorized
+                  value:
+                    outcome: authorized
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmd_83bNq9Df_-x32M-9sB4c0
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: T75725
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    amounts:
+                      requested: 250
+                      totalAuthorized: 199
+                      currency: GBP
+                      partialAuthorization: true
+                    _links:
+                      cardPayments:cancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/linkData
+                      cardPayments:partialCancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/linkData
+                      cardPayments:settle:
+                        href: https://try.access.worldpay.com/payments/settlements/full/linkData
+                      cardPayments:partialSettle:
+                        href: https://try.access.worldpay.com/payments/settlements/partials/linkData
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/linkData
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Refused payment authorization:
+                  description: Payment authorization with a refused outcome
+                  value:
+                    outcome: refused
+                    paymentId: pay98nf27CWQoNxm3fA6KvdY0
+                    commandId: cmdtIhnZ-86r1xAam9-v47fB0
+                    refusalCode: '5'
+                    refusalDescription: REFUSED
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    advice:
+                      code: '01'
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: internalServerError
+                    message: Internal server error
+      tags:
+      - CardPayments
+  /cardPayments/merchantInitiatedTransactions:
+    post:
+      summary: Take a repeat card payment
+      description: Take online payments using our Card Payments API.
+      operationId: recurring
+      parameters:
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          example: application/vnd.worldpay.payments-v7+json
+      requestBody:
+        content:
+          application/vnd.worldpay.payments-v7+json:
+            schema:
+              $ref: '#/components/schemas/merchantInitiatedTransaction'
+            examples:
+              Subscriptions - MIT payment authorization:
+                description: MIT authorization for subscriptions
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                    customerAgreement:
+                      type: subscription
+                      schemeReference: 'MCCOLXT1C0104  '
+              Installments - MIT payment authorization:
+                description: MIT authorization for installments
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                    customerAgreement:
+                      type: installment
+                      installmentType: merchant
+                      schemeReference: 'MCCOLXT1C0104  '
+              Unscheduled - MIT payment authorization:
+                description: MIT authorization for unscheduled payments
+                value:
+                  transactionReference: Memory265-13/08/1876
+                  merchant:
+                    entity: default
+                  instruction:
+                    requestAutoSettlement:
+                      enabled: false
+                    narrative:
+                      line1: MindPalace
+                    value:
+                      currency: GBP
+                      amount: 250
+                    paymentInstrument:
+                      type: card/plain
+                      cardNumber: '4444333322221111'
+                      expiryDate:
+                        month: 5
+                        year: 2035
+                    customerAgreement:
+                      type: unscheduled
+                      schemeReference: 'MCCOLXT1C0104  '
+      responses:
+        '201':
+          description: The payment authorization has been successfully created
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/payments_authorize_201_response_mit'
+                - $ref: '#/components/schemas/payments_sentForSettlement_201_response_mit'
+                - $ref: '#/components/schemas/payments_authorize_201_refusal_mit'
+                discriminator:
+                  mapping:
+                    authorized: '#/components/schemas/payments_authorize_201_response_mit'
+                    Sent for Settlement: '#/components/schemas/payments_sentForSettlement_201_response_mit'
+                    refused: '#/components/schemas/payments_authorize_201_refusal_mit'
+                  propertyName: outcome
+              examples:
+                Successful payment authorization:
+                  description: Payment authorization for GBP 2.50 with a successful outcome
+                  value:
+                    outcome: authorized
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmdJ3o1eC1o3n6n31ol29l4y0
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    issuer:
+                      authorizationCode: '675725'
+                    scheme:
+                      reference: 'MCCOLXT1C0104  '
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                    _links:
+                      cardPayments:cancel:
+                        href: https://try.access.worldpay.com/payments/authorizations/cancellations/
+                      cardPayments:settle:
+                        href: https://try.access.worldpay.com/payments/settlements/full/
+                      cardPayments:partialSettle:
+                        href: https://try.access.worldpay.com/payments/settlements/partials/
+                      cardPayments:events:
+                        href: https://try.access.worldpay.com/payments/events/
+                      curies:
+                      - name: cardPayments
+                        href: https://try.access.worldpay.com/rels/cardPayments/{rel}
+                        templated: true
+                Refused payment authorization:
+                  description: Payment authorization with a refused outcome
+                  value:
+                    outcome: refused
+                    paymentId: payI-dUcet9fk4_X4qZU0hpU0
+                    commandId: cmd9jCb83Nao1N9noa91dJ200
+                    refusalCode: '5'
+                    refusalDescription: REFUSED
+                    riskFactors:
+                    - type: cvc
+                      risk: notSupplied
+                    - type: avs
+                      risk: notChecked
+                      detail: address
+                    - type: avs
+                      risk: notChecked
+                      detail: postcode
+                    advice:
+                      code: '01'
+                    paymentInstrument:
+                      type: card/plain+masked
+                      cardBin: '555555'
+                      lastFour: '4444'
+                      category: consumer
+                      countryCode: GB
+                      expiryDate:
+                        month: 9
+                        year: 2029
+                      cardBrand: mastercard
+                      fundingType: credit
+                      issuerName: AN ISSUING BANK LTD
+                      paymentAccountReference: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+        '400':
+          description: Bad request
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  description: Bad request
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    message: The json body provided does not match the expected schema
+                    validationErrors:
+                    - errorName: fieldMustBeString
+                      message: Element at path must be a string
+                      jsonPath: $.value.currency
+        '401':
+          description: Unauthorized
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  description: Unauthorized
+                  value:
+                    errorName: accessDenied
+                    message: Access to the requested resource has been denied
+        '404':
+          description: Not found
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  description: Not found
+                  value:
+                    errorName: endpointNotFound
+                    message: Requested endpoint was not found.
+        '415':
+          description: Unsupported media type
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupported:
+                  description: Unsupported media type
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: Bad content type
+        '500':
+          description: Internal server error
+          content:
+            application/vnd.worldpay.payments-v7+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - CardPayments
+components:
+  schemas:
+    paymentFacilitator:
+      required:
+      - schemeId
+      - subMerchant
+      type: object
+      description: An object containing Payment Facilitator information. This information is required for every authorization **only if you are a Payment Facilitator**.
+      properties:
+        schemeId:
+          maxLength: 11
+          minLength: 1
+          pattern: '[0-9]*$'
+          type: string
+          description: Your payment facilitator ID received from Visa, Mastercard, or Amex.
+        independentSalesOrganizationId:
+          maxLength: 11
+          minLength: 1
+          pattern: '[0-9]*$'
+          type: string
+        subMerchant:
+          required:
+          - reference
+          - name
+          - address
+          type: object
+          properties:
+            name:
+              maxLength: 25
+              minLength: 1
+              pattern: ^(?!\s*$)[A-Za-z0-9 ]*$
+              type: string
+            reference:
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: ^[A-Za-z0-9]*$
+            address:
+              type: object
+              required:
+              - postalCode
+              - street
+              - city
+              - countryCode
+              properties:
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^(?!\s*$)[a-zA-Z0-9\s]*$
+                  type: string
+                  example: SW1 1AA
+                street:
+                  maxLength: 50
+                  minLength: 1
+                  pattern: ^(?!\s*$)[A-Za-z0-9\s]*$
+                  type: string
+                  example: 221B Baker Street
+                city:
+                  maxLength: 13
+                  minLength: 1
+                  pattern: ^(?!\s*$)[A-Za-z\s-]*$
+                  type: string
+                  example: London
+                state:
+                  maxLength: 3
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9]*$
+                  type: string
+                  description: The state code of the subMerchant in ISO-3166-2 format.
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                  description: Country code of the subMerchant in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+            phoneNumber:
+              maxLength: 20
+              minLength: 4
+              pattern: ^(?!\s*$)[0-9\s()+-/.x]*$
+              type: string
+            taxReference:
+              maxLength: 20
+              minLength: 1
+              pattern: ^(?!\s*$)[a-zA-Z0-9\s-]*$
+              type: string
+            email:
+              maxLength: 40
+              minLength: 1
+              type: string
+              pattern: ^.+@.+$
+            url:
+              maxLength: 255
+              minLength: 1
+              pattern: ^[a-zA-Z0-9@!£*#$)(+-_=.,/;:]*$
+              type: string
+    mit_subscription:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer. A subscription plan occurs at fixed time intervals.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+    card_wallet_applepay:
+      required:
+      - type
+      - walletToken
+      type: object
+      properties:
+        type:
+          enum:
+          - card/wallet+applepay
+          type: string
+        walletToken:
+          type: string
+          description: The encrypted wallet token returned by Apple
+          example: '{"version": "EC_v1","data": "kdHd..GQ==","signature": "MIAGCSqGSIb3DQEH...AAA","header": {"transactionId": "d3b28af..f8","ephemeralPublicKey": "MFkwE..Q==","publicKeyHash": "dxCK..6o="}}'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+    consumerBillPayment:
+      type: boolean
+      description: Consumer Bill Payment is a flag which identifies a bill payment paid by providers on behalf of consumers.
+    mit_reauthorization:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+        storedCardUsage:
+          type: string
+          description: Set to `subsequent` if the transaction is using a stored card.
+          enum:
+          - subsequent
+    payments_authorize_201_response_mit:
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request. `Sent for Settlement` returned only if `requestAutoSettlement` is enabled in the request.
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        paymentInstrument:
+          $ref: '#/components/schemas/responsePaymentInstrument'
+        updatedPaymentInstrument:
+          $ref: '#/components/schemas/updatedPaymentInstrument'
+        amounts:
+          $ref: '#/components/schemas/amounts'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_authorized'
+    transactionReference:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+      type: string
+      description: A unique reference generated by you that is used to identify a payment throughout its lifecycle.
+    payments_sentForSettlement_201_response_mit:
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request. `Sent for Settlement` returned only if `requestAutoSettlement` is enabled in the request.
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        paymentInstrument:
+          $ref: '#/components/schemas/responsePaymentInstrument'
+        updatedPaymentInstrument:
+          $ref: '#/components/schemas/updatedPaymentInstrument'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_sentForSettlement'
+    order:
+      type: object
+      description: An object containing details about the order.
+      properties:
+        taxExempt:
+          type: boolean
+          description: A flag to indicate whether the purchase is exempt from tax. Must be set to `true` if `order.salesTax` is 0.
+        orderDate:
+          type: object
+          description: Date of the order.
+          properties:
+            day:
+              type: integer
+            month:
+              type: integer
+            year:
+              type: integer
+          required:
+          - day
+          - month
+          - year
+        items:
+          description: Array of order items. You can send up to 99 individual order objects within this array.
+          items:
+            type: object
+            required:
+            - name
+            properties:
+              commodityCode:
+                maxLength: 12
+                minLength: 1
+                type: string
+                description: Commodity code as defined by the National Institute of Governmental Purchasing.
+                pattern: ^[A-Za-z0-9@!£*#$)(-+_=.,/;:'"]{1,12}$
+                example: ABC123@#
+              totalTaxAmount:
+                type: integer
+                description: Total tax amount for the item(s).
+              unitCost:
+                type: integer
+                description: The price of one unit of the item purchased.
+              totalAmount:
+                type: integer
+                description: Total cost of the item(s) including tax.
+              totalAmountNoTax:
+                type: integer
+                description: Total cost of the item(s) excluding tax.
+              unitOfMeasure:
+                maxLength: 8
+                minLength: 1
+                type: string
+                description: The unit of measure of the purchased item. Explains how to interpret `items.quantity` field, e.g. quantity = 15, unitOfMeasure = kg.
+                pattern: ^[A-Za-z0-9@!£*#$)(+_=.,/;:'"-]{1,8}$
+              name:
+                maxLength: 26
+                minLength: 1
+                type: string
+                description: Name of the item(s).
+                pattern: ^[A-Za-z0-9 @!£*#$)(+_=.,/;:'"-]{1,26}$
+              quantity:
+                type: integer
+                description: Number of items purchased.
+              productCode:
+                maxLength: 12
+                minLength: 1
+                type: string
+                description: Merchant defined product code.
+                pattern: ^[A-Za-z0-9@!£*#\$)(+_=.,/;:'"-]{1,12}$
+              totalDiscountAmount:
+                type: integer
+                description: Total discount amount for the item(s).
+          type: array
+        dutyAmount:
+          type: integer
+          description: Total amount of duty costs for the order.
+        salesTax:
+          type: integer
+          description: Total amount of sales tax for the order. Must be provided if `merchant.taxReference` is supplied.
+        shippingAmount:
+          type: integer
+          description: Total amount of shipping costs for the order.
+        invoiceReference:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Invoice reference for the order.
+          pattern: ^[A-Za-z0-9 @!£*#\$)\(+_=.,/;:'"-]{1,15}$
+        discountAmount:
+          type: integer
+          description: Total amount of discounts for the order.
+    card_networkToken_applepay:
+      required:
+      - type
+      - tokenNumber
+      - expiryDate
+      type: object
+      properties:
+        type:
+          enum:
+          - card/networkToken+applepay
+          type: string
+        tokenNumber:
+          $ref: '#/components/schemas/tokenNumber'
+        expiryDate:
+          $ref: '#/components/schemas/expiryDateToken'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+              message:
+                type: string
+              jsonPath:
+                type: string
+    fundsTransfer_bankAccount:
+      type: object
+      properties:
+        type:
+          enum:
+          - bankAccount
+          type: string
+        identifierType:
+          type: string
+          enum:
+          - iban
+          - swift
+          - routingNumber
+          - accountNumber
+        iban:
+          maxLength: 34
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: The International Bank Account Number (IBAN) of the recipient. Required if `identifierType` is `iban`.
+          example: IE12BOFI90000112345678
+        accountNumber:
+          maxLength: 39
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: 'The account number of the recipient. Required if `identifierType` is `routingNumber`, `swift` or `accountNumber`. Visa requires the value to be a maximum of 34 characters. '
+          example: '01234567'
+        swiftBic:
+          maxLength: 11
+          minLength: 8
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: The SWIFT Bank Identification Code (BIC) of the recipient. Required if `identifierType` is `swift`. Must be either 8 or 11 alphanumeric characters.
+          example: BEASUS33xxx
+        routingNumber:
+          maxLength: 9
+          minLength: 9
+          pattern: ^[0-9]*$
+          type: string
+          description: The ABA (American Bankers Association) Routing Transit Number (RTN). Identifies the Financial Insititution of the recipient's account. Required if `identifierType` is `routingNumber`. Must be 9 numeric characters.
+          example: '111000025'
+      required:
+      - type
+      - identifierType
+    debtRepayment:
+      type: boolean
+      description: Debt Repayment Indicator is a flag which identifies a payment with the purpose of repaying a debt.
+    exemption:
+      type: object
+      required:
+      - type
+      description: An object for applying exemptions. If you are applying a TRA (Transaction Risk Assessment) exemption granted by us, use the `riskProfile` object
+      oneOf:
+      - $ref: '#/components/schemas/exemption_external'
+      - $ref: '#/components/schemas/exemption_authentication-outage'
+      discriminator:
+        propertyName: type
+        mapping:
+          external: '#/components/schemas/exemption_external'
+          authenticationOutage: '#/components/schemas/exemption_authentication-outage'
+    fundsTransfer_email:
+      type: object
+      properties:
+        type:
+          enum:
+          - email
+          type: string
+        emailAddress:
+          maxLength: 40
+          minLength: 1
+          type: string
+          description: Recipient's email address. Visa requires the value to be a maximum of 34 characters.
+      required:
+      - type
+      - emailAddress
+    cardHolderName:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: The cardholder's name as it appears on their card.
+    mit_resubmission:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+        storedCardUsage:
+          type: string
+          description: Set to `subsequent` if the transaction is using a stored card.
+          enum:
+          - subsequent
+    routing:
+      type: object
+      description: An object containing specific routing preferences.
+      properties:
+        fundingType:
+          type: string
+          description: Specifies the credit or debit functionality of a combo card.
+          enum:
+          - credit
+          - debit
+        preferredCardBrand:
+          type: string
+          enum:
+          - visa
+          - mastercard
+          - maestro
+          - amex
+          - cartesBancaires
+          - diners
+          - dankort
+          - jcb
+          - discover
+          - elo
+          - eftposAU
+          - unionPay
+          description: Specifies your customer's preferred card brand to be used for the transaction using a co-badged card.
+    card_wallet_googlepay:
+      required:
+      - type
+      - walletToken
+      type: object
+      properties:
+        type:
+          enum:
+          - card/wallet+googlepay
+          type: string
+        walletToken:
+          type: string
+          description: The encrypted wallet token returned by Google
+          example: '{"protocolVersion":"ECv1","signature":"MEQCIH6Q4OwQ0jAceFEkGF0JID6sJNXxOEi4r+mA7biRxqBQAiAondqoUpU/bdsrAOpZIsrHQS9nwiiNwOrr24RyPeHA0Q\u003d\u003d","signedMessage":"{\"tag\":\"jpGz1F1Bcoi/fCNxI9n7Qrsw7i7KHrGtTf3NrRclt+U\\u003d\",\"ephemeralPublicKey\":\"BJatyFvFPPD21l8/uLP46Ta1hsKHndf8Z+tAgk+DEPQgYTkhHy19cF3h/bXs0tWTmZtnNm+vlVrKbRU9K8+7cZs\\u003d\",\"encryptedMessage\":\"mKOoXwi8OavZ\"}"}'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+    fundsTransfer:
+      type: object
+      description: Contains details of the funds transfer request, which is a money movement for a reason other than the purchase of goods or services (also known as Account Funding Transaction (AFT)).
+      required:
+      - type
+      properties:
+        type:
+          description: Specifies the type of the funds transfer. {% admonition type="warning" name="Note" %} You may only submit the `fundsTransfer.type` values that relate to the use cases that you have been approved for by the schemes.{% /admonition %}
+          enum:
+          - accountToAccount
+          - cash
+          - disbursement
+          - personToPerson
+          - purchase
+          - topUp
+          - walletLoad
+          type: string
+          x-enumDescriptions:
+            accountToAccount: Move funds to another financial institution account owned by the same person
+            cash: A card is used to fund a transfer where funds are given to the recipient in cash
+            disbursement: A card is used as the source of funds for a disbursement
+            personToPerson: Move funds to an account owned by another person (eg gifts)
+            purchase: For the initial purchase of a reloadable account (such as prepaid or gift card), or direct crypto and liquid asset purchases without an intermediary wallet load
+            topUp: Top up a pre-paid or debit card
+            walletLoad: Move funds to a digital wallet owned by the same person
+        purpose:
+          description: Specifies the purpose of the funds transfer. Required for some regions and use cases (eg crypto).
+          enum:
+          - businessToBusiness
+          - creditCardRepayment
+          - crypto
+          - crowdLending
+          - debitCard
+          - education
+          - emergency
+          - familySupport
+          - gift
+          - giftCard
+          - gaming
+          - highRiskSecurities
+          - liquidAssets
+          - medical
+          - payroll
+          - prepaidCard
+          - salary
+          - savings
+          - travel
+          - other
+          type: string
+        recipient:
+          type: object
+          description: An object containing details about the recipient of funds, including name and address information, as well as recipient account details. In many use cases, the recipient is the same person as the sender (for example if your customer uses their card to load funds into their own crypto exchange or investment account). __Although an optional object in the API schema, `recipient` is required for some regions and use cases.__
+          properties:
+            account:
+              type: object
+              description: An object for the account details of the recipient.
+              oneOf:
+              - $ref: '#/components/schemas/fundsTransfer_bankAccount'
+              - $ref: '#/components/schemas/fundsTransfer_card'
+              - $ref: '#/components/schemas/fundsTransfer_wallet'
+              - $ref: '#/components/schemas/fundsTransfer_storedValueWallet'
+              - $ref: '#/components/schemas/fundsTransfer_stagedDigitalWallet'
+              - $ref: '#/components/schemas/fundsTransfer_merchantWallet'
+              - $ref: '#/components/schemas/fundsTransfer_email'
+              - $ref: '#/components/schemas/fundsTransfer_phone'
+              - $ref: '#/components/schemas/fundsTransfer_socialNetwork'
+              discriminator:
+                propertyName: type
+                mapping:
+                  bankAccount: '#/components/schemas/fundsTransfer_bankAccount'
+                  card: '#/components/schemas/fundsTransfer_card'
+                  wallet: '#/components/schemas/fundsTransfer_wallet'
+                  storedValueWallet: '#/components/schemas/fundsTransfer_storedValueWallet'
+                  stagedDigitalWallet: '#/components/schemas/fundsTransfer_stagedDigitalWallet'
+                  merchantWallet: '#/components/schemas/fundsTransfer_merchantWallet'
+                  email: '#/components/schemas/fundsTransfer_email'
+                  phone: '#/components/schemas/fundsTransfer_phone'
+                  socialNetwork: '#/components/schemas/fundsTransfer_socialNetwork'
+            firstName:
+              maxLength: 35
+              minLength: 1
+              pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+              type: string
+              description: Recipient's first name. Must be supplied if `lastName` or `middleName` are provided.
+            middleName:
+              maxLength: 35
+              minLength: 1
+              pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+              type: string
+              description: Recipient's middle name.
+            lastName:
+              maxLength: 35
+              minLength: 1
+              pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+              type: string
+              description: Recipient's last name. Must be supplied if `firstName` or `middleName` are provided.
+            address:
+              type: object
+              description: The recipient's address.
+              properties:
+                address1:
+                  maxLength: 255
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                  description: Must be supplied if `city` is provided.
+                address2:
+                  maxLength: 255
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                city:
+                  maxLength: 100
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                  description: Must be supplied if `address1` is provided.
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                state:
+                  maxLength: 3
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9]*$
+                  type: string
+                  description: 1-3 alphanumeric characters and spaces.
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                  description: Country code in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+              required:
+              - countryCode
+            dateOfBirth:
+              type: object
+              description: Recipient's date of birth.
+              properties:
+                day:
+                  type: integer
+                month:
+                  type: integer
+                year:
+                  type: integer
+              required:
+              - day
+              - month
+              - year
+            phoneNumber:
+              type: string
+              description: Recipient's phone number.
+              maxLength: 20
+              minLength: 3
+              pattern: ^[0-9 ()+\-/.x]*$
+            documentReference:
+              maxLength: 25
+              minLength: 1
+              type: string
+              description: Recipient's document reference (e.g. Tax ID).
+              pattern: ^[A-Za-z0-9\-\/+.()]*$
+        sender:
+          type: object
+          description: An object containing details about the sender of funds, including name and address information. The sender account is always the card account declared within `instruction.paymentInstrument`. __Although an optional object in the API schema, `sender` is required for some regions and use cases.__
+          properties:
+            firstName:
+              maxLength: 35
+              minLength: 1
+              pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+              type: string
+              description: Sender's first name. Must be supplied if `lastName` or `middleName` are provided.
+            middleName:
+              maxLength: 35
+              minLength: 1
+              pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+              type: string
+              description: Sender's middle name.
+            lastName:
+              maxLength: 35
+              minLength: 1
+              pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+              type: string
+              description: Sender's last name. Must be supplied if `firstName` or `middleName` are provided.
+            address:
+              type: object
+              description: The sender's address.
+              properties:
+                address1:
+                  maxLength: 255
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                  description: Must be supplied if `city` is provided.
+                address2:
+                  maxLength: 255
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                city:
+                  maxLength: 100
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                  description: Must be supplied if `address1` is provided.
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+                state:
+                  maxLength: 3
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9]*$
+                  type: string
+                  description: 1-3 alphanumeric characters and spaces.
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                  description: Country code in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+              required:
+              - countryCode
+            dateOfBirth:
+              type: object
+              description: Sender's date of birth.
+              properties:
+                day:
+                  type: integer
+                month:
+                  type: integer
+                year:
+                  type: integer
+              required:
+              - day
+              - month
+              - year
+            documentReference:
+              maxLength: 25
+              minLength: 1
+              type: string
+              description: Sender's document reference (e.g. Tax ID).
+    paymentId:
+      maxLength: 36
+      minLength: 21
+      pattern: ^[A-Za-z0-9_-]+$
+      type: string
+      description: Unique identifier generated by us for a single payment. Generated at authorization, and maintained through successive payment actions.
+      example: payI-dUcet9fk4_X4qZU0hpU0
+    exemption_authentication-outage:
+      allOf:
+      - $ref: '#/components/schemas/exemption'
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/exemption_type'
+    payments_links_list_sentForSettlement:
+      type: object
+      properties:
+        cardPayments:refund:
+          type: object
+          description: An action link to refund the full settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund the full settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+        cardPayments:partialRefund:
+          type: object
+          description: An action link to refund a portion of the settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund a portion of the settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+        cardPayments:reverse:
+          type: object
+          description: An action link to cancel or refund the full amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel or refund the full amount.
+              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    tokenNumber:
+      type: string
+      maxLength: 19
+      minLength: 12
+      pattern: ^[0-9]+$
+      description: The network token number.
+    card_checkout:
+      required:
+      - type
+      - tokenHref
+      type: object
+      properties:
+        type:
+          enum:
+          - card/checkout
+          type: string
+        tokenHref:
+          type: string
+        cvcHref:
+          type: string
+    fundsTransfer_wallet:
+      type: object
+      properties:
+        type:
+          enum:
+          - wallet
+          type: string
+        walletReference:
+          maxLength: 50
+          minLength: 1
+          pattern: ^[A-Za-z0-9@!£$*#)(+\-_=.,/:;"]*$
+          type: string
+          description: A reference identifying the destination wallet. Visa requires the value to be a maximum of 34 characters.
+      required:
+      - type
+      - walletReference
+    payments_authorize_201_response:
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request. `Sent for Settlement` returned only if `requestAutoSettlement` is enabled in the request.
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        exemption:
+          $ref: '#/components/schemas/exemptionOutcome'
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        paymentInstrument:
+          $ref: '#/components/schemas/responsePaymentInstrument'
+        updatedPaymentInstrument:
+          $ref: '#/components/schemas/updatedPaymentInstrument'
+        amounts:
+          $ref: '#/components/schemas/amounts'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_authorized'
+    cit_cardOnFile:
+      required:
+      - type
+      - storedCardUsage
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        storedCardUsage:
+          type: string
+          description: Set to `first` to store a card or `subsequent` to use a previously stored card.
+          enum:
+          - first
+          - subsequent
+    mit_unscheduled:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+    mit_delayedCharge:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+        storedCardUsage:
+          type: string
+          description: Set to `subsequent` if the transaction is using a stored card.
+          enum:
+          - subsequent
+    mit_installment:
+      required:
+      - type
+      - installmentType
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+        installmentType:
+          type: string
+          description: Defines the type of installments service.
+          enum:
+          - merchant
+    payments_sentForSettlement_201_response:
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request. `Sent for Settlement` returned only if `requestAutoSettlement` is enabled in the request.
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        exemption:
+          $ref: '#/components/schemas/exemptionOutcome'
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        paymentInstrument:
+          $ref: '#/components/schemas/responsePaymentInstrument'
+        updatedPaymentInstrument:
+          $ref: '#/components/schemas/updatedPaymentInstrument'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_sentForSettlement'
+    fundsTransfer_card:
+      type: object
+      properties:
+        type:
+          enum:
+          - card
+          type: string
+        cardNumber:
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]*$
+          type: string
+          description: Recipient's card number.
+      required:
+      - type
+      - cardNumber
+    entity:
+      maxLength: 32
+      minLength: 1
+      pattern: ^([A-Za-z0-9]+[A-Za-z0-9 ]*)?$
+      example: default
+      type: string
+      description: Direct your payment to assist with billing, reporting and reconciliation. This is mandatory for authentication and queries.
+    exemption_type:
+      type: string
+      x-enumDescriptions:
+        external: TRA (Transaction Risk Assessment) exemption provided by a 3rd party provider
+        authenticationOutage: Apply an exemption for recognized downstream 3DS authentication failures. This will increase the likelihood of receiving a successful authorization, but will not provide liability shift.
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+    payments_authorize_201_refusal_mit:
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request.
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        refusalCode:
+          type: string
+          description: Response code for the payment authorization request.
+        gatewayRefusalCode:
+          type: string
+          description: Extended refusal code generated by us, returned only for merchants configured to receive raw scheme response codes in the `refusalCode` field.
+        refusalDescription:
+          type: string
+          description: Additional context on the refusal.
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        advice:
+          $ref: '#/components/schemas/advice'
+        paymentInstrument:
+          $ref: '#/components/schemas/responsePaymentInstrument'
+        updatedPaymentInstrument:
+          $ref: '#/components/schemas/updatedPaymentInstrument'
+    cit_subscription:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer. A subscription plan occurs at fixed time intervals.
+        storedCardUsage:
+          type: string
+          description: Must be set to `first` to begin a new subscription.
+          enum:
+          - first
+    cardNumber:
+      type: string
+      maxLength: 19
+      minLength: 12
+      pattern: ^[0-9]+$
+      description: Your customer's card number. Sometimes referred to as Primary Account Number (PAN).
+    payments_links_list_authorized:
+      type: object
+      properties:
+        cardPayments:cancel:
+          type: object
+          description: An action link to cancel the full authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+        cardPayments:partialCancel:
+          type: object
+          description: An action link to cancel a portion of the authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel a portion of the authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
+        cardPayments:settle:
+          type: object
+          description: An action link to send the full authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send the full authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
+        cardPayments:partialSettle:
+          type: object
+          description: An action link to send a portion of the authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send a portion of the authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+        cardPayments:reverse:
+          type: object
+          description: An action link to cancel or refund the full amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel or refund the full amount.
+              example: https://try.access.worldpay.com/payments/authorizations/reversals/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    card_token:
+      required:
+      - type
+      - href
+      type: object
+      properties:
+        type:
+          enum:
+          - card/token
+          type: string
+          description: An identifier for the `paymentInstrument` being used.
+        href:
+          type: string
+          description: An `http` address that contains your link to an Access Token.
+        cvc:
+          $ref: '#/components/schemas/cvc'
+    issuer:
+      required:
+      - authorizationCode
+      type: object
+      description: An object containing information returned by the issuer.
+      properties:
+        authorizationCode:
+          pattern: ^[a-zA-Z0-9]+$
+          type: string
+          description: A code returned by the card issuer for a successful authorization. Used in reconciliation and dispute management.
+          example: T31306
+    southKorea_corporateAuth:
+      required:
+      - firstTwoOfPin
+      - businessRegistrationNumber
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: Corporate card issued in South Korea.
+          enum:
+          - southKorea/corporate
+        firstTwoOfPin:
+          type: string
+          description: The first two characters of the card's PIN.
+          minLength: 2
+          maxLength: 2
+          example: '34'
+          pattern: ^[0-9]{2}$
+        businessRegistrationNumber:
+          type: string
+          description: A unique identifier assigned to businesses when they register with the Korean tax authorities.
+          minLength: 6
+          maxLength: 10
+    narrative:
+      required:
+      - line1
+      type: object
+      description: The text that appears on your customer's statement. Used to identify the merchant.
+      properties:
+        line1:
+          type: string
+          minLength: 1
+          maxLength: 24
+          pattern: ^[a-zA-Z0-9 _!@#$%()*=.:;?[]{}~/+-,`^&]*$
+          description: The first line of the narrative which appears on your customer's statement (24 characters max. If character is not supported it is replaced with a space).
+        line2:
+          type: string
+          minLength: 1
+          maxLength: 24
+          pattern: ^[a-zA-Z0-9 _!@#$%()*=.:;?[]{}~/+-,`^&]*$
+          description: Additional details about the payment e.g. order number, telephone number.
+    mit_noShow:
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        schemeReference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Used by card schemes to link merchant initiated transactions (MITs) to the original customer initiated transaction (CIT). Supply the value returned by the card scheme in the original CIT.
+          example: 'MCCNDUVST1002  '
+        storedCardUsage:
+          type: string
+          description: Set to `subsequent` if the transaction is using a stored card.
+          enum:
+          - subsequent
+    updatedPaymentInstrument:
+      type: object
+      description: Details of the updated payment instrument.
+      properties:
+        appliedNetworkToken:
+          type: boolean
+          description: Returned if the payment instrument was swapped for a network token.
+        accountUpdaterMessage:
+          type: string
+          description: Details on the type of payment instrument update.
+          enum:
+          - The merchant is not registered in the update program
+          - The account number was changed
+          - The account was closed
+          - TThe expiration date was changed
+          - The issuing bank does not participate in the update program
+          - Contact the cardholder for updated information
+          - No match found
+          - No changes found
+          x-enumDescriptions:
+            The account number was changed: A new card has been issued with a change in the card number. Returned for both Real-Time and Managed Account Updater.
+            The account was closed: The account is closed and the card is no longer valid. Ask your customer for an alternative payment method. Returned for both Real-Time and Managed Account Updater.
+            The expiration date was changed: A new card has been issued with an updated expiry date. In most cases the card number remains unchanged. Returned for both Real-Time and Managed Account Updater.
+            The issuing bank does not participate in the update program: It is not known whether an account update is available. Returned for Managed Account Updater only.
+            Contact the cardholder for updated information: A match was found but you may need to contact the cardholder for updated card details. This could be due to cardholder opt-out or other reasons. Returned for both Real-Time and Managed Account Updater.
+          example: The account number was changed
+        type:
+          type: string
+          example: card/plain+masked
+        cardBin:
+          pattern: ^[0-9*]+$
+          type: string
+          description: The updated card BIN (Bank Identification Number).
+          example: '444433'
+        lastFour:
+          pattern: ^[0-9*]+$
+          type: string
+          description: The four digits of the updated card. Some characters may be obfuscated with a `*` if the PAN length is less than 16 characters.
+          example: 1111
+        cardNumber:
+          type: string
+          description: The full card number of the updated card. Returned only for merchants configured to receive card numbers that are not obfuscated.
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]+$
+        expiryDate:
+          type: object
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        cardBrand:
+          type: string
+          description: The brand of the updated card. In rare circumstances a card may be reissued under a different brand.
+        countryCode:
+          type: string
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]*$
+          description: Country code of the updated card in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+          example: GB
+        fundingType:
+          type: string
+          description: How the card is funded.
+    cvc:
+      type: string
+      maxLength: 4
+      minLength: 3
+      pattern: ^[0-9]+$
+      description: CVC is a unique set of 3 or 4 numbers used to verify the card. Our API checks to see if the CVC supplied matches the CVC held by the issuing bank.
+    advice:
+      type: object
+      description: Advice on the outcome of this request.
+      properties:
+        code:
+          type: string
+          description: 'An advice code returned by the card scheme (currently supported: `mastercard`, `maestro`)'
+      required:
+      - code
+    southKorea_personalAuth:
+      required:
+      - type
+      - firstTwoOfPin
+      - dateOfBirth
+      type: object
+      properties:
+        type:
+          type: string
+          description: Personal card issued in South Korea.
+          enum:
+          - southKorea/personal
+        firstTwoOfPin:
+          type: string
+          description: The first two characters of the card's PIN.
+          minLength: 2
+          maxLength: 2
+          example: '34'
+          pattern: ^[0-9]{2}$
+        dateOfBirth:
+          type: object
+          description: Cardholder's date of birth.
+          required:
+          - day
+          - month
+          - year
+          properties:
+            day:
+              type: integer
+              example: 1
+            month:
+              type: integer
+              example: 1
+            year:
+              type: integer
+              example: 1900
+    amounts:
+      type: object
+      description: An object containing transaction amounts. Returned for partial authorizations.
+      properties:
+        requested:
+          type: integer
+          description: The requested amount.
+          example: 1000
+        totalAuthorized:
+          type: integer
+          description: The total amount authorized by the card issuer.
+          example: 700
+        currency:
+          maxLength: 3
+          minLength: 3
+          type: string
+          pattern: ^[A-Z]$
+          description: The three character currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
+          example: GBP
+        partialAuthorization:
+          type: boolean
+          description: Indicates that the authorized amount is less than what was requested.
+    fundsTransfer_merchantWallet:
+      type: object
+      properties:
+        type:
+          enum:
+          - merchantWallet
+          type: string
+        walletReference:
+          maxLength: 50
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: A reference identifying the destination wallet. Visa requires the value to be a maximum of 34 characters.
+      required:
+      - type
+      - walletReference
+    card_token_mit:
+      required:
+      - type
+      - href
+      type: object
+      properties:
+        type:
+          enum:
+          - card/token
+          type: string
+          description: An identifier for the `paymentInstrument` being used.
+        href:
+          type: string
+          description: An `http` address that contains your link to an Access Token.
+    taxReference:
+      maxLength: 20
+      minLength: 1
+      pattern: ^(?!\s*$)[a-zA-Z0-9\s-]*$
+      type: string
+      description: Merchant's tax reference.
+    card_plain_mit:
+      required:
+      - type
+      - cardNumber
+      - expiryDate
+      type: object
+      properties:
+        type:
+          enum:
+          - card/plain
+          type: string
+          description: An identifier for the `paymentInstrument` being used.
+        cardNumber:
+          $ref: '#/components/schemas/cardNumber'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+        expiryDate:
+          $ref: '#/components/schemas/expiryDateCard'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+    card_networkToken:
+      required:
+      - type
+      - tokenNumber
+      - expiryDate
+      type: object
+      properties:
+        type:
+          enum:
+          - card/networkToken
+          type: string
+          description: An identifier for the `paymentInstrument` being used.
+        tokenNumber:
+          $ref: '#/components/schemas/tokenNumber'
+        expiryDate:
+          $ref: '#/components/schemas/expiryDateToken'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+    card_networkToken_googlepay:
+      required:
+      - type
+      - tokenNumber
+      - expiryDate
+      type: object
+      properties:
+        type:
+          enum:
+          - card/networkToken+googlepay
+          type: string
+        tokenNumber:
+          $ref: '#/components/schemas/tokenNumber'
+        expiryDate:
+          $ref: '#/components/schemas/expiryDateToken'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+    merchantInitiatedTransaction:
+      required:
+      - transactionReference
+      - merchant
+      - instruction
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        orderReference:
+          $ref: '#/components/schemas/orderReference'
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about the merchant.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+            mcc:
+              $ref: '#/components/schemas/mcc'
+            paymentFacilitator:
+              $ref: '#/components/schemas/paymentFacilitator'
+            taxReference:
+              $ref: '#/components/schemas/taxReference'
+        instruction:
+          required:
+          - value
+          - narrative
+          - paymentInstrument
+          - requestAutoSettlement
+          - customerAgreement
+          type: object
+          description: An object that contains all information related to the payment.
+          properties:
+            requestAutoSettlement:
+              type: object
+              description: Indicates whether the transaction should be sent for settlement now `true` or later `false`, at a time of your choosing.
+              properties:
+                enabled:
+                  type: boolean
+            value:
+              allOf:
+              - $ref: '#/components/schemas/value'
+              - type: object
+                properties:
+                  acceptPartialAmount:
+                    type: boolean
+                    description: "Set to `true` to accept partial authorization amount. The remainder of the amount can be charged using a different payment credential via a new authorization request.\n\n **Note:** `requestAutoSettlement` must be `false` for partial authorizations."
+                  surchargeAmount:
+                    type: integer
+                    description: "The charging amount representing processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n  **Note:** The `surchargeAmount` is included in the total transaction amount, e.g. if the `value.surchargeAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
+                  convenienceAmount:
+                    type: integer
+                    description: "The charging amount representing the offer of a convenient payment method or channel (such as online booking fee). Ensure that the `convenienceAmount` complies with local regulations and card network rules before applying.\n\n **Note:** The convenience fee is included in the total transaction amount, e.g. if the `value.convenienceAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
+            narrative:
+              $ref: '#/components/schemas/narrative'
+            paymentInstrument:
+              type: object
+              oneOf:
+              - $ref: '#/components/schemas/card_plain_mit'
+              - $ref: '#/components/schemas/card_token_mit'
+              - $ref: '#/components/schemas/card_networkToken'
+              - $ref: '#/components/schemas/card_networkToken_applepay'
+              - $ref: '#/components/schemas/card_networkToken_googlepay'
+              discriminator:
+                mapping:
+                  card/plain: '#/components/schemas/card_plain_mit'
+                  card/token: '#/components/schemas/card_token_mit'
+                  card/networkToken: '#/components/schemas/card_networkToken'
+                  card/networkToken+applepay: '#/components/schemas/card_networkToken_applepay'
+                  card/networkToken+googlepay: '#/components/schemas/card_networkToken_googlepay'
+                propertyName: type
+            customerAgreement:
+              type: object
+              description: Contains specific customer agreements for the transaction.
+              oneOf:
+              - $ref: '#/components/schemas/mit_subscription'
+              - $ref: '#/components/schemas/mit_installment'
+              - $ref: '#/components/schemas/mit_unscheduled'
+              - $ref: '#/components/schemas/mit_reauthorization'
+              - $ref: '#/components/schemas/mit_resubmission'
+              - $ref: '#/components/schemas/mit_noShow'
+              - $ref: '#/components/schemas/mit_delayedCharge'
+              discriminator:
+                propertyName: type
+                mapping:
+                  subscription: '#/components/schemas/mit_subscription'
+                  installment: '#/components/schemas/mit_installment'
+                  unscheduled: '#/components/schemas/mit_unscheduled'
+                  reauthorization: '#/components/schemas/mit_reauthorization'
+                  resubmission: '#/components/schemas/mit_resubmission'
+                  noShow: '#/components/schemas/mit_noShow'
+                  delayedCharge: '#/components/schemas/mit_delayedCharge'
+            consumerBillPayment:
+              $ref: '#/components/schemas/consumerBillPayment'
+            requestAccountUpdater:
+              $ref: '#/components/schemas/requestAccountUpdater'
+            debtRepayment:
+              $ref: '#/components/schemas/debtRepayment'
+            fundsTransfer:
+              $ref: '#/components/schemas/fundsTransfer'
+            routing:
+              $ref: '#/components/schemas/routing'
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        shipping:
+          $ref: '#/components/schemas/shipping'
+        order:
+          $ref: '#/components/schemas/order'
+        customer:
+          type: object
+          description: Additional customer data.
+          properties:
+            documentReference:
+              type: string
+              description: Required for domestic processing in some Latin American countries.
+              minLength: 1
+              maxLength: 50
+            reference:
+              type: string
+              description: Merchant-generated customer reference.
+              minLength: 1
+              maxLength: 17
+            emailAddress:
+              type: string
+              description: Customer's email address. If enabled by your configuration, your customer will receive the transaction outcome at this email address.
+              minLength: 1
+              maxLength: 128
+        industryData:
+          $ref: '#/components/schemas/industryData'
+        riskProfile:
+          type: string
+          description: Used to update the FraudSight data model to benefit future payments.
+          example: https://try.access.worldpay.com/riskProfile/{linkData}
+    riskFactors:
+      type: array
+      items:
+        required:
+        - type
+        - risk
+        type: object
+        properties:
+          type:
+            enum:
+            - avs
+            - cvc
+            - riskProfile
+            type: string
+          risk:
+            enum:
+            - notChecked
+            - notMatched
+            - notSupplied
+            - verificationFailed
+            type: string
+            description: Result of the verification.
+          detail:
+            enum:
+            - address
+            - postcode
+            type: string
+      description: Any risk factors which have been identified for the authorization. This section will not appear if no risks are identified.
+    expiryDateToken:
+      required:
+      - month
+      - year
+      type: object
+      description: Contains your customer's token expiry date.
+      properties:
+        month:
+          type: integer
+          pattern: ^([1-9]|1[0-2])$
+          example: 7
+        year:
+          type: integer
+          pattern: ^([1-9]{1}[0-9]{3})$
+          example: 2050
+    fundsTransfer_storedValueWallet:
+      type: object
+      properties:
+        type:
+          enum:
+          - storedValueWallet
+          type: string
+        walletReference:
+          maxLength: 50
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: A reference identifying the destination wallet. Visa requires the value to be a maximum of 34 characters.
+      required:
+      - type
+      - walletReference
+    industryData:
+      type: object
+      description: An object containing industry specific order data.
+      properties:
+        type:
+          enum:
+          - airline
+          type: string
+        airlineName:
+          type: string
+          description: The name of the airline (displayed as it would be on a bill).
+          example: Cobb Air
+          minLength: 1
+          maxLength: 256
+          pattern: ^[A-Za-z0-9 @!£*#\$()\+\-_=.,\/;:'"]+$
+        ticket:
+          type: object
+          description: An object containing ticket details.
+          properties:
+            number:
+              type: string
+              description: The ticket number.
+              example: '123'
+              minLength: 1
+              maxLength: 16
+              pattern: ^[A-Za-z0-9]+$
+            issuerAddress:
+              type: object
+              description: An object containing the ticket issuer's address.
+              properties:
+                address1:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  pattern: ^[A-Za-z0-9 ]+$
+                city:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  pattern: ^[A-Za-z0-9 ]+$
+                countryCode:
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                  pattern: ^[A-Z]{2}$
+                postalCode:
+                  type: string
+                  minLength: 1
+                  maxLength: 10
+                  pattern: ^[A-Za-z0-9 ]+$
+              required:
+              - address1
+              - city
+              - countryCode
+              - postalCode
+            flightDetails:
+              description: An array with objects containing flight details. Each object represents one leg of a flight and you can submit up to four flight legs within this array.
+              items:
+                type: object
+                properties:
+                  fareClassCode:
+                    type: string
+                    description: The code used by airlines to identity a fare type.
+                    minLength: 1
+                    maxLength: 15
+                    pattern: ^[A-Za-z0-9]+$
+                  departureAirport:
+                    type: string
+                    description: The three letter IATA Airport Code for the departure airport.
+                    example: LHR
+                    minLength: 3
+                    maxLength: 3
+                    pattern: ^[A-Z]{3}$
+                  arrivalAirport:
+                    type: string
+                    description: The three letter IATA Airport Code for the destination airport.
+                    example: SYD
+                    minLength: 3
+                    maxLength: 3
+                    pattern: ^[A-Z]{3}$
+                  carrierCode:
+                    type: string
+                    description: Same as `industryData.airlineCode`, the code represents the airline for the specific flight leg.
+                    example: M1
+                    minLength: 2
+                    maxLength: 2
+                    pattern: ^[A-Z]{2}$
+                  fareBasisCode:
+                    type: string
+                    description: An optional extension to the `fareClassCode` for custom codes.
+                    example: TMYA
+                    minLength: 1
+                    maxLength: 15
+                    pattern: ^[A-Za-z0-9]+$
+                  flightCode:
+                    type: string
+                    description: The flight code.
+                    example: '501'
+                    minLength: 1
+                    maxLength: 5
+                    pattern: ^[0-9]+$
+                  departureDate:
+                    type: object
+                    description: An object containing the date of the departure.
+                    properties:
+                      day:
+                        type: integer
+                      month:
+                        type: integer
+                      year:
+                        type: integer
+                    required:
+                    - day
+                    - month
+                    - year
+                  stopOver:
+                    type: boolean
+                    description: Set to `true` if this flight leg is a stopover, connecting different destinations.
+                  taxAmount:
+                    type: integer
+                    description: The tax amount for this specific flight leg.
+                    example: 3500
+                required:
+                - carrierCode
+                - flightCode
+                - departureAirport
+                - arrivalAirport
+                - departureDate
+                - fareClassCode
+                - taxAmount
+              type: array
+            restricted:
+              type: boolean
+              description: Typically, restricted airfares require approval and e-ticket processing within 24 hours of making the reservation, are not transferable if cancelled, and can have specific requirements on when or whether a cancelled ticket can be rebooked. You must define if the ticket is restricted, but this does not affect the payment flows.
+            issueDate:
+              type: object
+              description: An object containing the ticket's issue date.
+              properties:
+                day:
+                  type: integer
+                month:
+                  type: integer
+                year:
+                  type: integer
+              required:
+              - day
+              - month
+              - year
+          required:
+          - number
+          - restricted
+          - issuerAddress
+        agentName:
+          type: string
+          description: The name of the travel agent.
+          example: J Small and Co
+          minLength: 1
+          maxLength: 26
+          pattern: ^[A-Za-z0-9 @!£*#\$()\+\-_=.,\/;:'"]+$
+        agentCode:
+          type: string
+          description: The IATA travel agency code.
+          example: '12345678'
+          minLength: 1
+          maxLength: 8
+          pattern: ^[0-9]+$
+        invoiceReference:
+          type: string
+          description: Billing Settlement Plan invoice reference.
+          minLength: 1
+          maxLength: 14
+          pattern: ^[A-Za-z0-9]+$
+        airlineCode:
+          type: string
+          description: The two character IATA airline code.
+          example: CA
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+        passenger:
+          type: object
+          description: An object containing passenger details.
+          properties:
+            code:
+              type: string
+              minLength: 1
+              maxLength: 15
+              pattern: ^[A-Za-z0-9]+$
+            firstName:
+              type: string
+              minLength: 1
+              maxLength: 60
+              pattern: ^[A-Za-z @!£*#\$()\+\-_=.,\/;:'"]+$
+            lastName:
+              type: string
+              minLength: 1
+              maxLength: 60
+              pattern: ^[A-Za-z @!£*#\$()\+\-_=.,\/;:'"]+$
+          required:
+          - code
+          - firstName
+          - lastName
+      required:
+      - type
+      - ticket
+      - airlineName
+      - airlineCode
+      - agentCode
+      - passenger
+    requestAccountUpdater:
+      type: boolean
+      description: Allows you to request a real-time account update when using a previously stored card. You can only use this with `customerAgreement` transactions with a `storedCardUsage` value of `subsequent`. If the stored card details that you provided for the transaction are no longer valid and new credentials are available, the authorization will be processed with the new card and its details will be returned in the `updatedPaymentInstrument` object in the response.
+    scheme:
+      required:
+      - reference
+      type: object
+      description: An object containing information returned by the card scheme.
+      properties:
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: The reference returned by the scheme for this particular payment authorization. The scheme reference returned in a customer initiated transaction should be provided in all subsequent merchant initiated transactions.
+          example: 'MCCOLXT1C0104  '
+    card_plain:
+      required:
+      - type
+      - cardNumber
+      - expiryDate
+      type: object
+      properties:
+        type:
+          enum:
+          - card/plain
+          type: string
+          description: An identifier for the `paymentInstrument` being used.
+        cardNumber:
+          $ref: '#/components/schemas/cardNumber'
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+        expiryDate:
+          $ref: '#/components/schemas/expiryDateCard'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cvc:
+          $ref: '#/components/schemas/cvc'
+    mcc:
+      pattern: ^\d{4}$
+      type: string
+      description: You can apply a merchant category code `mcc` to an individual request. You can only provide an `mcc` if we have enabled the dynamic mcc feature during boarding. If enabled but not provided, `merchant.mcc` defaults to a configured value.
+      maxLength: 4
+      minLength: 4
+    exemptionOutcome:
+      required:
+      - result
+      - reason
+      type: object
+      description: An exemption result and reason if either a risk profile was included in your authorization request, or if you included the `exemption` object in the request.
+      properties:
+        result:
+          enum:
+          - honored
+          - outOfScope
+          - rejected
+          type: string
+          description: The result of the requested exemption.
+        reason:
+          enum:
+          - highRisk
+          - invalid
+          - issuerHonored
+          - issuerRejected
+          - notSubscribed
+          - oneLegOut
+          - unsupportedAcquirer
+          x-enumDescriptions:
+            highRisk: The transaction is deemed high risk by our TRA (Transaction Risk Assessment), and therefore the acquirer exemption cannot be applied.
+            invalid: The exemption is invalid. For example, a `lowValue` exemption was requested for a requested authorization value greater than 30 EUR.
+            issuerHonored: The issuer has accepted the exemption.
+            issuerRejected: The issuer has rejected the exemption. You may retry the authorization in certain circumstances (for example if you receive `refusalCode` 65, you can retry the transaction with valid 3DS `authentication` data).
+            notSubscribed: You are not subscribed to the exemption service. Please contact your Worldpay Implementation Manager.
+            oneLegOut: Either the issuer or the acquirer are located in a region where Strong Customer Authentication is not required. An exemption is not required.
+            unsupportedAcquirer: Exemption processing is not currently supported through the selected acquirer.
+          type: string
+          description: "The reason for the exemption outcome. \n"
+    fundsTransfer_phone:
+      type: object
+      properties:
+        type:
+          enum:
+          - phone
+          type: string
+        phoneNumber:
+          maxLength: 20
+          minLength: 3
+          type: string
+          description: Recipient's phone number.
+          pattern: ^[0-9 ()+\-/.x]+$
+      required:
+      - type
+      - phoneNumber
+    fundsTransfer_stagedDigitalWallet:
+      type: object
+      properties:
+        type:
+          enum:
+          - stagedDigitalWallet
+          type: string
+        walletReference:
+          maxLength: 50
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: A reference identifying the destination wallet. Visa requires the value to be a maximum of 34 characters.
+      required:
+      - type
+      - walletReference
+    expiryDateCard:
+      required:
+      - month
+      - year
+      type: object
+      description: Contains your customer's card expiry date.
+      properties:
+        month:
+          type: integer
+          pattern: ^([1-9]|1[0-2])$
+          example: 7
+        year:
+          type: integer
+          pattern: ^([1-9]{1}[0-9]{3})$
+          example: 2050
+    shipping:
+      type: object
+      description: An object containing shipping details.
+      properties:
+        sender:
+          type: object
+          properties:
+            address:
+              type: object
+              description: An object containing sender's (shipped from) address.
+              properties:
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+        recipient:
+          type: object
+          properties:
+            address:
+              type: object
+              description: An object containing recipient's shipping address.
+              properties:
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+    recipient:
+      type: object
+      description: Additional transaction recipient data.
+      properties:
+        accountReference:
+          maxLength: 10
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: Partial account reference of the primary recipient. Either partial card number (first 6 and last 4, no spaces), or a bank account number
+          example: '4444331111'
+        lastName:
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-zA-Z@!£*#$)(+-_=.,/;:'" ]*$
+          type: string
+          description: The last name of the recipient. If for a business, then use the company name.
+          example: Smith
+        address:
+          type: object
+          description: Address of the recipient.
+          required:
+          - postalCode
+          properties:
+            postalCode:
+              maxLength: 7
+              minLength: 5
+              pattern: ^[A-Z0-9 ]*$
+              type: string
+              description: The postal code of the recipient (UK only)
+        dateOfBirth:
+          type: object
+          description: Birth date of the recipient.
+          required:
+          - day
+          - month
+          - year
+          properties:
+            day:
+              type: integer
+            month:
+              type: integer
+            year:
+              type: integer
+    payments_authorize_201_refusal:
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request.
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        exemption:
+          $ref: '#/components/schemas/exemptionOutcome'
+        refusalCode:
+          type: string
+          description: Response code for the payment authorization request.
+        gatewayRefusalCode:
+          type: string
+          description: Extended refusal code generated by us, returned only for merchants configured to receive raw scheme response codes in the `refusalCode` field.
+        refusalDescription:
+          type: string
+          description: Additional context on the refusal.
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        advice:
+          $ref: '#/components/schemas/advice'
+        paymentInstrument:
+          $ref: '#/components/schemas/responsePaymentInstrument'
+        updatedPaymentInstrument:
+          $ref: '#/components/schemas/updatedPaymentInstrument'
+    billingAddress:
+      required:
+      - postalCode
+      - countryCode
+      type: object
+      description: Contains the billing address information.
+      properties:
+        address1:
+          type: string
+          description: First line of the address. Required if `city` is provided.
+        address2:
+          type: string
+          description: Second line of the address.
+        address3:
+          type: string
+          description: Third line of the address.
+        city:
+          type: string
+          description: City. Required if `address1` is provided.
+        postalCode:
+          type: string
+          description: Post code. Required, but an empty value can be provided for specific countries (e.g., `IE`).
+        state:
+          type: string
+          description: State/province in max 3 characters.
+        countryCode:
+          type: string
+          description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+        phoneNumber:
+          type: string
+          description: Phone number.
+          minLength: 3
+          maxLength: 20
+          pattern: ^[0-9()+-/.x ]+$
+    cit_installment:
+      type: object
+      required:
+      - type
+      - installmentType
+      properties:
+        type:
+          type: string
+          description: The processing arrangement agreed with your customer.
+        installmentType:
+          type: string
+          description: Defines the type of installments service
+          enum:
+          - merchant
+          - latinAmerica
+        installmentPlan:
+          type: object
+          description: Required only for `latinAmerica` installment type.
+          required:
+          - numberOfInstallments
+          properties:
+            numberOfInstallments:
+              type: integer
+              description: Number of installments that the requested amount should be broken into.
+        storedCardUsage:
+          type: string
+          description: Specifies the card on file agreement. Must be set to `first` to begin a new merchant installment (optional for `latinAmerica` installments).
+          enum:
+          - first
+          - subsequent
+    responsePaymentInstrument:
+      type: object
+      description: Details of the paymentInstrument used.
+      properties:
+        type:
+          type: string
+        cardBin:
+          pattern: ^[0-9*]+$
+          type: string
+          description: The card BIN (Bank Identification Number) is the first 6 or 8 digits of the card number, and can be used to identify the card issuer, the card brand(s) (eg Visa, Cartes Bancaires), and the country. Card BINs are used to route transactions, check card capabilities, and in fraud assessments.
+          example: '444433'
+        lastFour:
+          pattern: ^[0-9*]+$
+          type: string
+          description: The last four digits of the card. Some characters may be obfuscated with a `*` if the PAN length is less than 16 characters.
+          example: '1111'
+        category:
+          type: string
+          description: Whether the card is classed as a consumer card or a card for commercial use.
+          enum:
+          - commercial
+          - consumer
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]+$
+          type: string
+          description: The [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes) country code that the card was issued in. May return `N/A` where the country is unknown.
+          example: GB
+        issuerName:
+          type: string
+          description: The name of the card issuer.
+          example: AN ISSUING BANK LTD
+        fundingType:
+          type: string
+          description: How the card is funded.
+          enum:
+          - credit
+          - debit
+          - prepaid
+          - chargeCard
+          - deferredDebit
+          - unknown
+        cardBrand:
+          type: string
+          description: The card brand that the transaction was processed with. Sometimes referred to as the network or scheme.
+          enum:
+          - visa
+          - mastercard
+          - amex
+          - maestro
+          - visaElectron
+          - diners
+          - discover
+          - jcb
+          - argencard
+          - cabal
+          - carteBleue
+          - cartesBancaires
+          - carnet
+          - cencosud
+          - coopeplus
+          - credimas
+          - dankort
+          - elo
+          - eftposAU
+          - hipercard
+          - italcred
+          - naranja
+          - nativa
+          - nevada
+          - nexo
+          - tarjeta
+          - unionPay
+        paymentAccountReference:
+          type: string
+          description: The payment account reference (PAR) is a non-financial reference that uniquely identifies the underlying cardholder account. This allows you to correlate payments made from the same account with differing instruments (e.g. `card/plain` and `card/wallet+applepay`), where the same account funds the transaction. A PAR cannot be used to initiate a payment.
+          example: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+        expiryDate:
+          type: object
+          description: The expiry date of the card or network token (where the supplied paymentInstrument was `card/wallet+applepay`, `card/wallet+googlepay`, `card/networkToken`, `card/networkToken+applepay` or `card/networkToken+googlepay`)
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        debitNetwork:
+          type: string
+          description: The debit network that the transaction was routed through. Returned optionally for subscribing merchants.
+          enum:
+          - accel
+          - affn
+          - alaskaOption
+          - ath
+          - culiancePrime
+          - culiance
+          - interlink
+          - jeanie
+          - maestro
+          - nyce
+          - pavd
+          - pulse
+          - shazam
+          - star
+          - starAccess
+    exemption_external:
+      allOf:
+      - $ref: '#/components/schemas/exemption'
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/exemption_type'
+        request:
+          type: object
+          description: The type of exemption to apply
+          properties:
+            placement:
+              enum:
+              - authorization
+              - authentication
+              x-enumDescriptions:
+                authorization: Apply the exemption in the payment authorization
+                authentication: The exemption has been applied in 3DS authentication
+              type: string
+              description: "Indicates whether the exemption should be placed in a payment authorization or 3DS authentication. \n"
+            type:
+              enum:
+              - lowValue
+              - lowRisk
+              x-enumDescriptions:
+                lowValue: Apply a lowValue exemption (authorization exemption only)
+                lowRisk: Apply a lowRisk exemption
+              type: string
+              description: The type of exemption to apply.
+    commandId:
+      maxLength: 36
+      minLength: 21
+      pattern: ^[A-Za-z0-9_-]+$
+      type: string
+      description: Unique identifier generated by us for a single instance of an interaction (command) with the Worldpay API.
+      example: cmdRvD-OxCyXgJLQ9_jbqXAC0
+    value:
+      required:
+      - amount
+      - currency
+      type: object
+      description: An object that contains information about the value of the payment.
+      properties:
+        amount:
+          type: integer
+          description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
+          example: 250
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          pattern: ^[A-Z]$
+          description: ' The three character currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).'
+          example: USD
+    fundsTransfer_socialNetwork:
+      type: object
+      properties:
+        type:
+          enum:
+          - socialNetwork
+          type: string
+        socialNetworkReference:
+          maxLength: 50
+          minLength: 1
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: A reference identifying recipient's social network account. Visa requires the value to be a maximum of 34 characters.
+      required:
+      - type
+      - socialNetworkReference
+    orderReference:
+      type: string
+      description: 'A reference that you can apply to one or more payments according to your business needs. You may reuse the same reference across multiple payments, for example where:
+
+        - the total amount for a single order is split across multiple payments
+
+        - you use a single reference for each payment in a recurring agreement or split shipment scenario '
+      maxLength: 64
+      minLength: 1
+      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~/+]*$
+      example: order-12345
+    customerInitiatedTransaction:
+      required:
+      - transactionReference
+      - merchant
+      - instruction
+      - channel
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        orderReference:
+          $ref: '#/components/schemas/orderReference'
+        channel:
+          enum:
+          - ecom
+          - moto
+          type: string
+          description: 'Interaction between the cardholder and you. Supply a value of `ecom` to process an eCommerce authorization. Supply a value of `moto` to process an authorization as a Mail Order or Telephone Order transaction. Note: 3DS `authentication` cannot be supplied for MOTO payments.'
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about the merchant.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+            mcc:
+              $ref: '#/components/schemas/mcc'
+            paymentFacilitator:
+              $ref: '#/components/schemas/paymentFacilitator'
+            taxReference:
+              $ref: '#/components/schemas/taxReference'
+        instruction:
+          required:
+          - value
+          - narrative
+          - paymentInstrument
+          - requestAutoSettlement
+          type: object
+          description: An object that contains all information related to the payment.
+          properties:
+            requestAutoSettlement:
+              type: object
+              description: Indicates whether the transaction should be sent for settlement now `true` or later `false`, at a time of your choosing.
+              properties:
+                enabled:
+                  type: boolean
+            value:
+              allOf:
+              - $ref: '#/components/schemas/value'
+              - type: object
+                properties:
+                  estimated:
+                    type: boolean
+                    description: "Set to `true` for an estimated authorization value, which you can [increase at a later stage](/products/card-payments/manage-payments#increase-an-authorization).\n\n **Note:** `requestAutoSettlement` must be `false` for estimated authorizations."
+                  acceptPartialAmount:
+                    type: boolean
+                    description: "Set to `true` to accept partial authorization amount. You can charge the remainder of the amount using a different payment credential with a new authorization request.\n\n  **Note:** `requestAutoSettlement` must be `false` for partial authorizations."
+                  surchargeAmount:
+                    type: integer
+                    description: "The charging amount representing processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n  **Note:** The surcharge fee is included in the total transaction amount, e.g. if the `value.surchargeAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
+                  convenienceAmount:
+                    type: integer
+                    description: "The charging amount representing the offer of a convenient payment method or channel (such as online booking fee). Ensure that the `convenienceAmount` complies with local regulations and card network rules before applying.\n\n  **Note:** The convenience fee is included in the total transaction amount, e.g. if the `value.convenienceAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
+            narrative:
+              $ref: '#/components/schemas/narrative'
+            paymentInstrument:
+              type: object
+              oneOf:
+              - $ref: '#/components/schemas/card_plain'
+              - $ref: '#/components/schemas/card_token'
+              - $ref: '#/components/schemas/card_networkToken'
+              - $ref: '#/components/schemas/card_checkout'
+              - $ref: '#/components/schemas/card_wallet_applepay'
+              - $ref: '#/components/schemas/card_wallet_googlepay'
+              - $ref: '#/components/schemas/card_networkToken_applepay'
+              - $ref: '#/components/schemas/card_networkToken_googlepay'
+              discriminator:
+                mapping:
+                  card/plain: '#/components/schemas/card_plain'
+                  card/token: '#/components/schemas/card_token'
+                  card/networkToken: '#/components/schemas/card_networkToken'
+                  card/checkout: '#/components/schemas/card_checkout'
+                  card/wallet+applepay: '#/components/schemas/card_wallet_applepay'
+                  card/wallet+googlepay: '#/components/schemas/card_wallet_googlepay'
+                  card/networkToken+applepay: '#/components/schemas/card_networkToken_applepay'
+                  card/networkToken+googlepay: '#/components/schemas/card_networkToken_googlepay'
+                propertyName: type
+            customerAgreement:
+              type: object
+              description: Contains specific customer agreements for the transaction.
+              oneOf:
+              - $ref: '#/components/schemas/cit_cardOnFile'
+              - $ref: '#/components/schemas/cit_subscription'
+              - $ref: '#/components/schemas/cit_installment'
+              discriminator:
+                propertyName: type
+                mapping:
+                  cardOnFile: '#/components/schemas/cit_cardOnFile'
+                  subscription: '#/components/schemas/cit_subscription'
+                  installment: '#/components/schemas/cit_installment'
+            consumerBillPayment:
+              $ref: '#/components/schemas/consumerBillPayment'
+            debtRepayment:
+              $ref: '#/components/schemas/debtRepayment'
+            requestAccountUpdater:
+              $ref: '#/components/schemas/requestAccountUpdater'
+            fundsTransfer:
+              $ref: '#/components/schemas/fundsTransfer'
+            routing:
+              $ref: '#/components/schemas/routing'
+        riskProfile:
+          type: string
+          description: "Used to apply the SCA exemption in the payment request and update the FraudSight data model to benefit future payments. \n\nIf using either the [FraudSight](/products/fraudsight/assessment#linking-the-fraudsight-assessment) or [Exemptions](/products/sca-exemptions/assessment#applying-the-exemption) API you __must__ provide this.\n"
+          example: https://try.access.worldpay.com/riskProfile/{linkData}
+        authentication:
+          description: An object containing authentication details.
+          properties:
+            threeDS:
+              type: object
+              description: 3DS authentication data. Only allowed for `card/plain`, `card/token`, `card/checkout`, `card/networkToken` payment instruments.
+              required:
+              - version
+              - eci
+              properties:
+                version:
+                  maxLength: 10
+                  minLength: 5
+                  type: string
+                  description: The version of 3DS used to process the transaction.
+                  example: 2.2.0
+                eci:
+                  maxLength: 2
+                  minLength: 2
+                  type: string
+                  description: Electronic Commerce Indicator (ECI).
+                  example: '05'
+                  pattern: ^[0-9]{2}$
+                authenticationValue:
+                  maxLength: 40
+                  minLength: 1
+                  type: string
+                  description: Required, if `authentication.eci` value is 01, 02, 05 or 06.  A cryptographic value that provides evidence of the outcome of a 3DS verification.
+                  example: kBNHXUAy4+HT1gAMBSDajheBcxQh
+                transactionId:
+                  maxLength: 36
+                  minLength: 36
+                  type: string
+                  description: Required, if `authentication.eci` value is 01, 02, 05 or 06.  A unique authentication transaction identifier, generated by the issuer.
+                  example: b8fb4ecc-7e2e-4b1c-816d-0149849776b8
+                  format: RFC 4122 UUID
+                cryptogramAlgorithm:
+                  type: integer
+                  description: Indicates the algorithm used to generate the cryptogram. For Cartes Bancaires authorizations only.
+                  example: 2
+                challengePreference:
+                  type: string
+                  description: Indicates the preferred challenge behavior. For Cartes Bancaires authorizations only. Must contain one of the following values.
+                  enum:
+                  - noPreference
+                  - noChallengeRequested
+                  - challengeRequested
+                  - challengeMandated
+                  - noChallengeRequestedTRAPerformed
+                authenticationFlow:
+                  type: string
+                  description: Set to `challenge` if your customer was redirected to their bank to complete authentication, or `frictionless` if your customer completed authentication without needing to be redirected to their bank. For Cartes Bancaires authorizations only. Must contain one of the following values.
+                  enum:
+                  - challenge
+                  - frictionless
+                  - frictionlessDelegated
+                status:
+                  type: string
+                  description: "Indicates the outcome of the authentication or verification request.\n - `Y` - Successful authentication\n - `N` - Failed authentication\n - `U` - Unable to complete authentication\n - `A` - Successful attempts authentication\n - `I` - Exemption acknowledged\n\n For Cartes Bancaires authorizations only."
+                statusReason:
+                  type: string
+                  description: Provides further information relating to the outcome of the authentication. Returned for failed authentications only. For Cartes Bancaires authorizations only.
+                cancellationIndicator:
+                  type: string
+                  description: An indicator as to why the authentication was cancelled. For Cartes Bancaires authorizations only.
+                  minLength: 2
+                  maxLength: 2
+                  pattern: ^[0-9]{2}$
+                  example: '01'
+                networkScore:
+                  type: string
+                  description: The global score calculated by the Cartes Bancaires scoring platform. For Cartes Bancaires authorizations only.
+                  minLength: 1
+                  maxLength: 2
+                  pattern: ^[0-9]{1,2}$
+                  example: '7'
+                brand:
+                  type: string
+                  description: The card brand used in the authentication. For Cartes Bancaires authorizations only.
+                  enum:
+                  - cartesBancaires
+            networkToken:
+              type: object
+              description: Network Token authentication. Only allowed for `card/networkToken` transactions.
+              required:
+              - cryptogram
+              properties:
+                cryptogram:
+                  type: string
+                  minLength: 1
+                  maxLength: 40
+                  example: BLIYQ4EA/wLF4/hK9ABFMAABAAA=
+                  description: A payment specific value generated during authentication.
+                eci:
+                  maxLength: 2
+                  minLength: 2
+                  type: string
+                  description: Electronic Commerce Indicator (ECI).
+                  example: '05'
+                  pattern: ^[0-9]{2}$
+            customerData:
+              type: object
+              description: Additional customer details necessary to meet local authentication, as required by country-specific regulations. Currently, this object is used solely for domestic transactions in South Korea and applicable to `card/plain`, `card/token` and `card/checkout` instruments only.
+              oneOf:
+              - $ref: '#/components/schemas/southKorea_personalAuth'
+              - $ref: '#/components/schemas/southKorea_corporateAuth'
+              discriminator:
+                mapping:
+                  southKorea/personal: '#/components/schemas/southKorea_personalAuth'
+                  southKorea/corporate: '#/components/schemas/southKorea_corporateAuth'
+                propertyName: type
+        exemption:
+          $ref: '#/components/schemas/exemption'
+        shipping:
+          $ref: '#/components/schemas/shipping'
+        order:
+          $ref: '#/components/schemas/order'
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        customer:
+          type: object
+          description: Additional customer data.
+          properties:
+            documentReference:
+              type: string
+              description: Required for domestic processing in some Latin American countries.
+              minLength: 1
+              maxLength: 50
+              pattern: ^[A-Za-z0-9_\-\/\\*~+.,&()]{1,50}$
+            reference:
+              type: string
+              description: Merchant-generated customer reference.
+              minLength: 1
+              maxLength: 17
+              pattern: ^[A-Za-z0-9 @!£*#$()\+\-_=.,/;:'"]{1,17}$
+            ipAddress:
+              type: string
+              description: Customer's IP address. Required for certain jurisdictions and/or MCCs.
+              minLength: 1
+              maxLength: 50
+              pattern: ^[a-zA-Z0-9\-:.]+$
+            emailAddress:
+              type: string
+              description: Customer's email address. If enabled, your customer will receive the transaction outcome to this email address.
+              minLength: 1
+              maxLength: 128
+              pattern: ^(?=(?:[^@]*@){1}[^@]*$)[\x20-\x7E]{1,128}$
+        industryData:
+          $ref: '#/components/schemas/industryData'
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

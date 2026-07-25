@@ -1,0 +1,1052 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions Accounts API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: Accounts
+paths:
+  /accounts/{accountNumber}:
+    get:
+      summary: Get account details
+      description: Retrieve the details of one specific account.
+      operationId: ReceiveTransferRequestForAccount
+      parameters:
+      - name: accountNumber
+        in: path
+        description: The account number.
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: Represents the version of the API.
+        required: true
+        schema:
+          type: string
+        example: '2025-01-01'
+      - name: WP-CorrelationId
+        in: header
+        description: Optional ID to trace requests, if not provided, it is generated.
+        schema:
+          type: string
+        example: 15cd16b2-7b82-41cb-9b11-21be9dacad88
+      - name: Accept
+        in: header
+        schema:
+          type: string
+        example: application/json
+      responses:
+        '200':
+          description: OK response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+              example:
+                entity: Test
+                accounts:
+                - accountNumber: '01012145214562214'
+                  accountName: TestDisplayName
+                  currency: GBP
+                  clearedBalance: 36
+                  unclearedBalance: 2
+                  balance: 38
+                  accountStatus: Active
+        '400':
+          description: BAD REQUEST response if the request is incorrectly validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorName: urlContainsInvalidValue
+                message: The URL contains a value or values that are invalid
+                validationErrors:
+                - errorName: fieldHasInvalidValue
+                  message: accountNumber must contain 16 characters
+                  queryParameter: accountNumber
+                - errorName: fieldIsNull
+                  message: accountNumber is mandatory
+                  queryParameter: accountNumber
+        '401':
+          description: UNAUTHORIZED response if JWT is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: unauthorized
+                message: Invalid token
+        '403':
+          description: FORBIDDEN response if you are not authorized to access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Provided Identity is not valid
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Unexpected issue occured
+      tags:
+      - Accounts
+  /accounts:
+    get:
+      summary: Get details for all your accounts
+      description: Retrieve account details for all your accounts.
+      operationId: ReceiveTransferRequest
+      parameters:
+      - name: entity
+        in: query
+        description: Unique ID given during the on-boarding process.
+        required: true
+        schema:
+          maxLength: 32
+          minLength: 1
+          pattern: ^[a-zA-Z\s-]{1,32}$
+          type: string
+          description: Unique ID given during the on-boarding process.
+      - name: currency
+        in: query
+        description: The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account.
+        schema:
+          type: string
+          description: The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account.
+      - name: partyReference
+        in: query
+        description: Your reference for this party, must be unique within an entity. Allowed values string 3 to 64 characters a-z, A-Z, 0-9, spaces and hyphens.
+        schema:
+          type: string
+          description: Your reference for this party, must be unique within an entity. Allowed values string 3 to 64 characters a-z, A-Z, 0-9, spaces and hyphens.
+      - name: status
+        in: query
+        description: 'Get accounts on the bases of account status. '
+        schema:
+          type: string
+          description: 'Get accounts on the bases of account status. '
+          example: Active/Inactive
+      - name: pageNumber
+        in: query
+        description: Positive whole number indicating which page of the account to return.
+        schema:
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+          description: Positive whole number indicating which page of the account to return.
+          format: int32
+      - name: pageSize
+        in: query
+        description: Positive whole number indicating the number of account to return in each page.
+        schema:
+          type: integer
+          description: Positive whole number indicating the number of account to return in each page.
+          format: int32
+      - name: WP-Api-Version
+        in: header
+        description: Represents the version of the API.
+        required: true
+        schema:
+          type: string
+        example: '2025-01-01'
+      - name: WP-CorrelationId
+        in: header
+        description: Optional ID to trace requests, if not provided, it is generated.
+        schema:
+          type: string
+        example: 15cd16b2-7b82-41cb-9b11-21be9dacad88
+      - name: Accept
+        in: header
+        schema:
+          type: string
+        example: application/json
+      responses:
+        '200':
+          description: OK response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountByEntityResponse'
+              example:
+                entity: Test
+                accounts:
+                - accountNumber: '01012145214562214'
+                  accountName: TestDisplayName
+                  currency: GBP
+                  clearedBalance: 36
+                  unclearedBalance: 2
+                  balance: 38
+                  accountStatus: Active
+                pagination:
+                  pageNumber: 1
+                  recordsPerPage: 10
+                  totalPages: 1
+                  totalNumberOfRecords: 1
+        '400':
+          description: BAD REQUEST response if the request is incorrectly validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorName: urlContainsInvalidValue
+                message: The URL contains a value or values that are invalid
+                validationErrors:
+                - errorName: fieldHasInvalidValue
+                  message: entity must contain 32 characters
+                  queryParameter: Entity
+                - errorName: fieldHasInvalidValue
+                  message: status is invalid
+                  queryParameter: Status
+        '401':
+          description: UNAUTHORIZED response if JWT is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: unauthorized
+                message: Invalid token
+        '403':
+          description: FORBIDDEN response if you are not authorized to access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Provided Identity is not valid
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Unexpected issue occured
+      tags:
+      - Accounts
+  /accounts/statements:
+    get:
+      summary: Query account statement items
+      operationId: GetStatements
+      parameters:
+      - name: startDate
+        in: query
+        description: An ISO 8601 date-time string. From date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future.
+        required: true
+        schema:
+          type: string
+          description: An ISO 8601 date-time string. From date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future.
+          format: date-time
+          example: '2022-05-01T15:16:30Z'
+      - name: endDate
+        in: query
+        description: An ISO 8601 date-time string. To date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future.
+        required: true
+        schema:
+          type: string
+          description: An ISO 8601 date-time string. To date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future.
+          format: date-time
+          example: '2022-05-05T15:16:30Z'
+      - name: accountNumber
+        in: query
+        description: 'The account number. You must use this if you are an Account Payout customer. You can use this for a Marketplaces flow.
+
+          {% admonition type="warning" %}
+
+          `accountNumber` or `partyReference` must be provided. <br><br>
+
+          {% /admonition %}
+
+          <br>  '
+        schema:
+          maxLength: 16
+          minLength: 16
+          type: string
+          description: The account number.
+          example: '0005553123712133'
+      - name: partyReference
+        in: query
+        description: 'Your reference for this party, must be unique within an entity. Typically used for a Marketplaces flow and used to retrieve information about your onboarded party. Allowed values: a-z, A-Z, 0-9, spaces and hyphens.
+
+          {% admonition type="warning" %}
+
+          `accountNumber` or `partyReference` must be provided. <br><br>
+
+          If `partyReference` is provided you must also include `entity` and `currency`.
+
+          {% /admonition %}
+
+          <br>  '
+        schema:
+          maxLength: 63
+          minLength: 3
+          type: string
+          description: Your reference for this party, must be unique within an entity. Allowed values a-z, A-Z, 0-9, spaces and hyphens.
+          example: Hosaka2738491
+      - name: entity
+        in: query
+        description: Used to route the request in Access Worldpay, created as part of on-boarding.
+        schema:
+          maxLength: 36
+          minLength: 1
+          type: string
+          description: Used to route the request in Access Worldpay, created as part of on-boarding.
+          example: default
+      - name: currency
+        in: query
+        description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes) for the account associated with the party.
+        schema:
+          maxLength: 3
+          minLength: 3
+          type: string
+          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes) for the account associated with the party
+          example: GBP
+      - name: pageNumber
+        in: query
+        description: The page number of the results. Default is 1 if no value is provided. This value specifies the exact page of each list of statements that you want to retrieve.
+        schema:
+          minLength: 1
+          type: integer
+          description: The page number of the results. Default is 1 if no value is provided. This value specifies the exact page of each list of statements that you want to retrieve.
+          format: int32
+      - name: pageSize
+        in: query
+        description: Exact number of records per page to be shown. Max 500 items/rows. Value must be between 1-500. Default is 500 if no value is provided.
+        schema:
+          maxLength: 500
+          minLength: 1
+          type: integer
+          description: Exact number of records per page to be shown. Max 500 items/rows. Value must be between 1-500. Default is 1 if no value is provided.
+          format: int32
+      - name: fundingType
+        in: query
+        description: Credit or debit operation. Value can be credit or debit. If no value is passed, the statement includes both credits and debits.
+        schema:
+          enum:
+          - credit
+          - debit
+          type: string
+          description: Credit or debit operation. Value can be credit or debit. If no value is passed, the statement includes both credits and debits.
+      - name: transferType
+        in: query
+        description: Type of the transaction used to filter out statement entries. Alphanumeric only. Special characters are restricted.
+        schema:
+          pattern: ^[a-zA-Z0-9 ._-]*$
+          description: Type of the transaction used to filter out statement entries. Alphanumeric only. Special characters are restricted.
+          enum:
+          - ACQUIRING SETTLEMENT
+          - BANKIN
+          - BANKIN_REFUND
+          - BANKOUT
+          - BENEFICIARY PAYOUT
+          - BENEFICIARY_FUNDING
+          - CHARGEBACK
+          - COMMISSION
+          - CORRECTION
+          - CREDIT
+          - DEBIT
+          - DEDUCTION
+          - EFTIN
+          - EFTIN_REFUND
+          - FFX PAYOUT
+          - FFX PAYOUT RETURNED
+          - FFX PAYOUT REVERSAL
+          - FX DEAL
+          - INTERNAL LIQUIDITY
+          - LIQUIDITY
+          - PAYIN
+          - PAYIN_REFUND
+          - PAYIN REVERSAL
+          - PAYOUT
+          - PAYOUT RETURNED
+          - PAYOUT REVERSAL
+          - REFUND
+          - SPLIT PAYMENT
+          - SPLIT PAYOUT
+          - STREAMLINE TRANSFER
+          x-enumDescriptions:
+            ACQUIRING SETTLEMENT: null
+            BANKIN: Non-US customers only
+            BANKIN_REFUND: Non-US customers only
+            BANKOUT: Non-US customers only
+            BENEFICIARY PAYOUT: Used in Marketplaces
+            BENEFICIARY_FUNDING: Used in Marketplaces
+            CHARGEBACK: Used in Marketplaces
+            COMMISSION: Used in Marketplaces
+            CORRECTION: null
+            CREDIT: Used in Marketplaces
+            DEBIT: Used in Marketplaces
+            DEDUCTION: null
+            EFTIN: null
+            EFTIN_REFUND: null
+            FFX PAYOUT: null
+            FFX PAYOUT RETURNED: null
+            FFX PAYOUT REVERSAL: null
+            FX DEAL: null
+            INTERNAL LIQUIDITY: null
+            LIQUIDITY: null
+            PAYIN: US-merchants only
+            PAYIN_REFUND: US-merchants only
+            PAYIN REVERSAL: null
+            PAYOUT: US-merchants only
+            PAYOUT RETURNED: null
+            PAYOUT REVERSAL: null
+            REFUND: null
+            SPLIT PAYMENT: null
+            SPLIT PAYOUT: null
+            STREAMLINE TRANSFER: null
+      - name: countryCode
+        in: query
+        description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes) of the transaction.
+        schema:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[a-zA-Z0-9]*$
+          type: string
+          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes) of the transaction.
+      - name: amount
+        in: query
+        description: The transaction amount.
+        schema:
+          type: number
+          description: The transaction amount.
+          format: double
+      - name: transactionReference
+        in: query
+        description: Your unique reference for the payment request. This can be a "like" search (exact or partial match). Special characters are allowed. For the list, please see our [formatting guide](/products/reference/formatting.md).
+        schema:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Your unique reference for the payment request. This can be a "like" search (exact or partial match). Special characters are allowed. For the list, please see our [formatting guide](/products/reference/formatting.md).
+      - name: WP-Api-Version
+        in: header
+        description: Represents the version of the API.
+        required: true
+        schema:
+          type: string
+        example: '2025-01-01'
+      - name: WP-CorrelationId
+        in: header
+        description: Optional ID to trace requests, if not provided, it is generated.
+        schema:
+          type: string
+        example: 15cd16b2-7b82-41cb-9b11-21be9dacad88
+      - name: WP-CallerId
+        in: header
+        description: An ID used for logging purposes.
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Accept header is optional and must be application/json if provided.
+        schema:
+          type: string
+        example: application/json
+      responses:
+        '200':
+          description: OK response if the request is valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalStatementResponseV2'
+        '204':
+          description: No content for valid request
+        '400':
+          description: BAD REQUEST response if the request is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedAccessErrorResponse'
+              examples:
+                InvalidUser:
+                  summary: This example shows an invalid format error.
+                  value:
+                    errorName: urlContainsInvalidValue
+                    message: The URL contains a value or values that are invalid.
+                    validationErrors:
+                    - errorName: numberIsTooLarge
+                      message: AccountNumber is mandatory
+                      queryParameter: accountNumber
+                noFutureDates:
+                  summary: noFutureDates
+                  value:
+                    errorName: urlContainsInvalidValue
+                    message: The URL contains a value or values that are invalid.
+                    validationErrors:
+                    - errorName: fieldHasInvalidValue
+                      message: Request date shouldn't be a future date
+                      queryParameter: endDate
+                DateLimitIntervalExceeded:
+                  summary: DateLimitIntervalExceeded
+                  value:
+                    errorName: urlContainsInvalidValue
+                    message: The URL contains a value or values that are invalid.
+                    validationErrors:
+                    - errorName: fieldHasInvalidValue
+                      message: Date interval limit exceeded in the request. Max interval is 31 days
+                      queryParameter: startDate
+                ExceededMaxLimit:
+                  summary: ExceededMaxLimit
+                  value:
+                    errorName: urlContainsInvalidValue
+                    message: The URL contains a value or values that are invalid.
+                    validationErrors:
+                    - errorName: fieldHasInvalidValue
+                      message: pageSize limit exceeded in the request. Maximum number of pageSize is 500
+                      queryParameter: startDate
+        '401':
+          description: UNAUTHORIZED response if JWT is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_2'
+              example:
+                errorName: accessDenied
+                message: Access to the requested resource has been denied
+        '403':
+          description: FORBIDDEN response if Entitlements are not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_2'
+              example:
+                errorName: forbidden
+                message: AccessWorldpayId value not available in context
+        '404':
+          description: NOT FOUND response if the AccountNumber or Page was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_2'
+              example:
+                errorName: notFound
+                message: The requested page was not found. The page number requested is outside the value of the total number of pages.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_2'
+              example:
+                errorName: internalServerError
+                message: An internal server error occurred
+      tags:
+      - Accounts
+  /accounts/transfer:
+    post:
+      summary: Transfer funds between your accounts
+      description: Transfer funds between your accounts.
+      operationId: ReceiveTransferRequest
+      parameters:
+      - name: WP-Api-Version
+        in: header
+        description: Represents the version of the API.
+        required: true
+        schema:
+          type: string
+        example: '2025-01-01'
+      - name: WP-CorrelationId
+        in: header
+        description: Optional ID to trace requests, if not provided, it is generated.
+        schema:
+          type: string
+        example: 15cd16b2-7b82-41cb-9b11-21be9dacad88
+      - name: WP-CallerId
+        in: header
+        description: An ID used for logging purposes.
+        schema:
+          type: string
+          default: swagger
+      - name: Accept
+        in: header
+        schema:
+          type: string
+        example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedAccessErrorResponse_2'
+              examples:
+                InvalidUser:
+                  summary: This example shows an invalid format error.
+                  value:
+                    errorName: BodyIsEmpty
+                    message: The json body provided does not match the expected schema.
+                    validationErrors:
+                    - errorName: fieldHasInvalidValue
+                      message: Target AccountNumber is mandatory
+                      jsonPath: $.targetAccountNumber
+                FieldHasInvalidValue:
+                  summary: FieldHasInvalidValue
+                  value:
+                    errorName: BodyIsEmpty
+                    message: The json body provided does not match the expected schema.
+                    validationErrors:
+                    - errorName: numberIsTooLarge
+                      message: Amount should have a maximum of 7 digits before the decimal place
+                      jsonPath: $.amount
+                NotHaveMinimumLimit:
+                  summary: NotHaveMinimumLimit
+                  value:
+                    errorName: BodyIsEmpty
+                    message: The json body provided does not match the expected schema.
+                    validationErrors:
+                    - errorName: stringIsTooShort
+                      message: Narrative must be at least 6 characters
+                      jsonPath: $.narrative
+                ExceededMaxLimit:
+                  summary: ExceededMaxLimit
+                  value:
+                    errorName: BodyIsEmpty
+                    message: The json body provided does not match the expected schema.
+                    validationErrors:
+                    - errorName: stringIsTooLong
+                      message: Narrative limit exceeded in the request. Narrative must be no more than 34 characters
+                      jsonPath: $.narrative
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_3'
+              example:
+                errorName: Access to the requested resource has been denied
+                message: AccessDenied
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_3'
+              example:
+                errorName: AccessWorldpayId value not available in context
+                message: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_3'
+              example:
+                errorName: The requested page was not found. The page number requested is outside the value of the total number of pages.
+                message: NotFound
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse_3'
+              example:
+                errorName: An internal server error occurred
+                message: InternalServerError
+      tags:
+      - Accounts
+components:
+  schemas:
+    ValidationErrors_2:
+      type: object
+      properties:
+        errorName:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        jsonPath:
+          type: string
+          nullable: true
+      additionalProperties: false
+    PageInformation:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        recordsPerPage:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        totalNumberOfRecords:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ExternalStatementResponseV2:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: The account number.
+          nullable: true
+        currency:
+          type: string
+          description: The currency, determined by the first item in the list. The currency is the same for all items.
+          nullable: true
+        accountStatementItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAccountStatementItemsV2'
+          description: A collection of account statement items.
+          nullable: true
+        pageNumber:
+          type: integer
+          description: The page number. Default is 1 if no value is provided. This value specifies the exact page of each list of statements that you want to retrieve.
+          format: int32
+        pageSize:
+          type: integer
+          description: The exact number of records per page to be shown. Max 500 items/rows. Value must be between 1-500. Default is 500 if no value is provided.
+          format: int32
+        pageCount:
+          type: integer
+          description: The total number of pages.
+          format: int32
+        totalNumberOfRecords:
+          type: integer
+          description: The total number of records.
+          format: int32
+      additionalProperties: false
+    ValidationErrors:
+      type: object
+      properties:
+        errorName:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        queryParameter:
+          type: string
+          nullable: true
+      additionalProperties: false
+    BaseAccessErrorResponse_2:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Unique response code for this endpoint.
+          nullable: true
+        message:
+          type: string
+          description: Error message.
+          nullable: true
+        headerName:
+          type: string
+          description: Error message.
+          nullable: true
+      additionalProperties: false
+    ExtendedAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Unique response code for this endpoint.
+          nullable: true
+        message:
+          type: string
+          description: Error message.
+          nullable: true
+        headerName:
+          type: string
+          description: Error message.
+          nullable: true
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrors'
+          description: Collection of error details. This field may be omitted from the response depending on the nature of the error.
+          nullable: true
+      additionalProperties: false
+    AccountByEntityResponse:
+      type: object
+      properties:
+        entity:
+          type: string
+          nullable: true
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+          nullable: true
+        pagination:
+          $ref: '#/components/schemas/PageInformation'
+      additionalProperties: false
+    AwQueryParameterErrorModel:
+      type: object
+      properties:
+        errorName:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        queryParameter:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ExternalAccountStatementItemsV2:
+      type: object
+      properties:
+        transactionReference:
+          type: string
+          description: Your unique reference for the transaction.
+          nullable: true
+        transferType:
+          type: string
+          description: The transfer type.
+          nullable: true
+        amount:
+          type: number
+          description: The amount.
+          format: double
+        timestamp:
+          type: string
+          description: The posting date of the specific statement item.
+          format: date-time
+        fundingType:
+          type: string
+          description: A credit or debit operation. Value can be `credit` or `debit`.
+          nullable: true
+        rate:
+          type: number
+          description: The rate applied for FX conversion.
+          format: double
+          nullable: true
+        cleared:
+          type: string
+          description: Cleared balance or uncleared balance. Value can be `yes` or `no`.
+          nullable: true
+        description:
+          type: string
+          description: The description of this statement item.
+          nullable: true
+        statementItemId:
+          type: string
+          description: The statement identifier.
+          format: uuid
+        balance:
+          type: number
+          description: The balance that resulted from this statement item's transaction.
+          format: double
+        statementNumber:
+          type: integer
+          description: The statement number.
+          format: int64
+        narrative:
+          $ref: '#/components/schemas/ExternalNarrativeV2'
+        countryCode:
+          type: string
+          description: The country code.
+          nullable: true
+        originalCurrency:
+          type: string
+          description: "For statement items (debits/credits) with no FX conversion involved, `originalCurrency` value will be null.\r\n\r\nIn case an FX conversion is involved, then:\r\n\r\n - For debit items, `originalCurrency` shows the target currency.\r\n - For credit items, `originalCurrency` shows the source currency."
+          nullable: true
+        originalAmount:
+          type: number
+          description: "For statement items (debits/credits) with no FX conversion involved, `originalAmount` value will be null.\r\n\r\nIn case an FX conversion is involved, then:\r\n\r\n - For debit items, `originalAmount` shows the target amount.\r\n - For credit items, `originalAmount` shows the source amount."
+          format: double
+          nullable: true
+      additionalProperties: false
+    BaseAccessErrorResponse_3:
+      type: object
+      properties:
+        errorName:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Unique response code
+          nullable: true
+        message:
+          type: string
+          description: Error message
+          nullable: true
+        headerName:
+          type: string
+          description: Header Name
+          nullable: true
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwQueryParameterErrorModel'
+          description: Collection of error details
+          nullable: true
+      additionalProperties: false
+    TransferRequest:
+      required:
+      - amount
+      - narrative
+      - sourceAccountNumber
+      - targetAccountNumber
+      type: object
+      properties:
+        sourceAccountNumber:
+          maxLength: 16
+          minLength: 16
+          type: string
+          description: The source account number.
+          example: '1111550000000001'
+        targetAccountNumber:
+          maxLength: 16
+          minLength: 16
+          type: string
+          description: The target account number.
+          example: '1111550000000002'
+        amount:
+          type: number
+          description: The amount. A maximum of seven digits before the decimal place. A maximum of two decimal places.
+          format: double
+          example: '77.22'
+        narrative:
+          maxLength: 34
+          minLength: 6
+          pattern: ^[a-zA-Z0-9\s-]
+          type: string
+          description: You can use this to describe what the transfer is for.
+          example: A narrative
+        quoteId:
+          type: string
+          description: The `quoteId` returned by the [FX API](/products/fx/create-fxquote).
+          nullable: true
+          example: QuoteId
+      additionalProperties: false
+    BaseAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Unique response code
+          nullable: true
+        message:
+          type: string
+          description: Error message
+          nullable: true
+        headerName:
+          type: string
+          description: Header Name
+          nullable: true
+      additionalProperties: false
+    AccountResponse:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Unique ID given during the on-boarding process.
+          nullable: true
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+          description: Collection of the account details
+          nullable: true
+      additionalProperties: false
+      description: The Get Account response
+    ExtendedAccessErrorResponse_2:
+      type: object
+      properties:
+        errorName:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrors_2'
+          nullable: true
+      additionalProperties: false
+    TransferResponse:
+      type: object
+      additionalProperties: false
+    Account:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: The account number.
+          nullable: true
+        accountName:
+          type: string
+          description: Name of the account given to you as part of on-boarding.
+          nullable: true
+        currency:
+          type: string
+          description: The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account.
+          nullable: true
+        clearedBalance:
+          type: number
+          description: The cleared balance.
+          format: double
+        unclearedBalance:
+          type: number
+          description: The uncleared balance.
+          format: double
+        balance:
+          type: number
+          description: The total balance.
+          format: double
+        accountStatus:
+          type: string
+          description: The status of the account.
+          nullable: true
+      additionalProperties: false
+    ExternalNarrativeV2:
+      type: object
+      properties:
+        line1:
+          type: string
+          nullable: true
+      additionalProperties: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

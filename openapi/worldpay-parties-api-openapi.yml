@@ -1,0 +1,4152 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions Parties API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: Parties
+  description: Create and maintain parties.
+paths:
+  /parties:
+    post:
+      tags:
+      - Parties
+      summary: Create a party
+      operationId: createAccount
+      parameters:
+      - name: WP-Api-Version
+        in: header
+        description: The API version.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2025-01-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/Company'
+              - $ref: '#/components/schemas/Person'
+              - $ref: '#/components/schemas/SoleTrader'
+            examples:
+              Create a party for a person (modular):
+                $ref: '#/components/examples/Create_Party_Person_modular'
+              Create a party for a person with previous home address (orchestrated):
+                $ref: '#/components/examples/Create_Party_Person_orchestrated'
+              Create a party for a sole trader with trading address (modular):
+                $ref: '#/components/examples/Create_Party_SoleTrader_with_TradingAddress_modular'
+              Create a party for a sole trader without trading address (orchestrated):
+                $ref: '#/components/examples/Create_Party_SoleTrader_without_TradingAddress_orchestrated'
+              Create a party for a company with trading address different than legal address (orchestrated):
+                $ref: '#/components/examples/Create_Party_Company_with_TradingAddress_orchestrated'
+              Create a party for a company without trading address (modular):
+                $ref: '#/components/examples/Create_Party_Company_without_TradingAddress_modular'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                - $ref: '#/components/schemas/Person'
+                - $ref: '#/components/schemas/SoleTrader'
+                - $ref: '#/components/schemas/Company'
+              examples:
+                Create a party for a person (modular):
+                  $ref: '#/components/examples/Person_created_201_modular'
+                Create a party for a person with previous home address (orchestrated):
+                  $ref: '#/components/examples/Person_created_201_orchestrated'
+                Create a party for a sole trader with trading address (modular):
+                  $ref: '#/components/examples/SoleTrader_with_TradingAddress_created_201_modular'
+                Create a party for a sole trader without trading address (orchestrated):
+                  $ref: '#/components/examples/SoleTrader_without_TradingAddress_created_201_orchestrated'
+                Create a party for a company with tradingAddress different than legalAddress (orchestrated):
+                  $ref: '#/components/examples/Company_with_TradingAddress_created_201_orchestrated'
+                Create a party for a company without trading address (modular):
+                  $ref: '#/components/examples/Company_without_TradingAddress_created_201_modular'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+                URL with invalid value:
+                  $ref: '#/components/examples/400_Invalid_Url'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal error occurred:
+                  $ref: '#/components/examples/500'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Service Unavailable:
+                  $ref: '#/components/examples/503'
+    get:
+      tags:
+      - Parties
+      summary: Browse parties
+      description: Browse parties and optionally filtered by criteria. Results are paginated.
+      operationId: browseParties
+      parameters:
+      - name: page
+        in: query
+        description: Positive whole number indicating which page of the selected parties to return. Greater than 0.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+          description: Positive whole number indicating which page of the selected parties to return. Greater than 0.
+          example: 5
+          minimum: 0
+        example: 5
+      - name: size
+        in: query
+        description: Number of items listed per page.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+          description: Number of items listed per page.
+          example: 10
+          maximum: 100
+          minimum: 1
+        example: 10
+      - name: entity
+        in: query
+        description: Entity or entities to filter parties by.
+        required: false
+        schema:
+          type: array
+          description: entity or entities to filter parties by
+          items:
+            type: string
+            description: entity or entities to filter parties by
+            example: Entity123
+        example:
+        - Entity123
+        - Entity456
+      - name: active
+        in: query
+        description: Returns parties that are active when set to `true`.
+        required: false
+        schema:
+          type: boolean
+          description: Return parties that are active when set to `true`.
+          example: true
+      - name: type
+        in: query
+        description: Type of parties to return.
+        required: false
+        schema:
+          type: string
+          enum:
+          - person
+          - soleTrader
+          - company
+          description: Type of parties to return.
+          example:
+          - soleTrader
+          - company
+      - name: WP-Api-Version
+        in: header
+        description: The API version.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2025-01-01'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowsePartiesPage'
+              examples:
+                Browse parties:
+                  $ref: '#/components/examples/Browse_Parties_200'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                URL with invalid value:
+                  $ref: '#/components/examples/400_Invalid_Url'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal error occurred:
+                  $ref: '#/components/examples/500'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Service Unavailable:
+                  $ref: '#/components/examples/503'
+  /parties/{partyId}:
+    get:
+      tags:
+      - Parties
+      summary: View a party
+      description: Retrieve information about a party.
+      operationId: partyQuery
+      parameters:
+      - name: partyId
+        in: path
+        description: A unique identifier for the party generated by us. This is sent in the response of your party creation call.
+        required: true
+        schema:
+          type: string
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+        example: parV1StGXR8_Z5jdHi6B-myF0
+      - name: WP-Api-Version
+        in: header
+        description: The API version.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2025-01-01'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                - $ref: '#/components/schemas/Person'
+                - $ref: '#/components/schemas/SoleTrader'
+                - $ref: '#/components/schemas/Company'
+                title: party
+              examples:
+                'Get a party for a person ':
+                  $ref: '#/components/examples/Get_Party_Person_200_orchestrated'
+                Get a party for a sole trader:
+                  $ref: '#/components/examples/Get_Party_SoleTrader_200_orchestrated'
+                Get a party for a company:
+                  $ref: '#/components/examples/Get_Party_Company_200_orchestrated'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                URL with invalid value:
+                  $ref: '#/components/examples/400_Invalid_Url'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal error occurred:
+                  $ref: '#/components/examples/500'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Service Unavailable:
+                  $ref: '#/components/examples/503'
+    put:
+      tags:
+      - Parties
+      summary: Update a party
+      operationId: updateParty
+      parameters:
+      - name: partyId
+        in: path
+        description: A unique identifier for the party generated by us. This is sent in the response of your party creation call.
+        required: true
+        schema:
+          type: string
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+      - name: WP-Api-Version
+        in: header
+        description: The API version.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2025-01-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/Company'
+              - $ref: '#/components/schemas/Person'
+              - $ref: '#/components/schemas/SoleTrader'
+            examples:
+              Update a party for a person:
+                $ref: '#/components/examples/Update_Party_Person_orchestrated'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                - $ref: '#/components/schemas/Person'
+                - $ref: '#/components/schemas/SoleTrader'
+                - $ref: '#/components/schemas/Company'
+                title: party
+              examples:
+                Update Party:
+                  $ref: '#/components/examples/Update_Party_Person_200_orchestrated'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+                URL with invalid value:
+                  $ref: '#/components/examples/400_Invalid_Url'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal error occurred:
+                  $ref: '#/components/examples/500'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Service Unavailable:
+                  $ref: '#/components/examples/503'
+  /parties/{partyId}/deactivation:
+    post:
+      tags:
+      - Parties
+      summary: Deactivate a party
+      operationId: deactivateParty
+      parameters:
+      - name: partyId
+        in: path
+        description: A unique identifier for the party generated by us. This is sent in the response of your party creation call.
+        required: true
+        schema:
+          type: string
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+      - name: WP-Api-Version
+        in: header
+        description: The API version.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2025-01-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeactivateParty'
+            examples:
+              Deactivate a party:
+                $ref: '#/components/examples/Deactivate_Party_Person_modular'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeactivateParty'
+              examples:
+                Deactivate a party:
+                  $ref: '#/components/examples/Deactivate_Party_Person_200_modular'
+        '400':
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal error occurred:
+                  $ref: '#/components/examples/500'
+  /parties/{partyId}/activation:
+    post:
+      tags:
+      - Parties
+      summary: Reactivate a party
+      operationId: reactivateParty
+      parameters:
+      - name: partyId
+        in: path
+        description: A unique identifier for the party generated by us. This is sent in the response of your party creation call.
+        required: true
+        schema:
+          type: string
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+      - name: WP-Api-Version
+        in: header
+        description: The API version.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2025-01-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReactivateParty'
+            examples:
+              Reactivate a party:
+                $ref: '#/components/examples/Reactivate_Party_Person_modular'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactivateParty'
+              examples:
+                Reactivate a party:
+                  $ref: '#/components/examples/Reactivate_Party_Person_200_modular'
+        '400':
+          description: Bad Request
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal error occurred:
+                  $ref: '#/components/examples/500'
+components:
+  examples:
+    Company_without_TradingAddress_created_201_modular:
+      description: party for a company without trading address (modular)
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Genesis829
+        partyType: beneficiary
+        type: company
+        partyId: par1Gya_pV7rRYUMI3Ep_ssX0
+        companyDetails:
+          merchantCategoryCode: '5734'
+          merchantCategoryCodeDescription: Computer Software Stores
+          isTradingAddressSameAsPrimary: true
+          website: https://www.example.com
+          legalName: Tessier-Ashpool Systems Ltd.
+          tradingName: Example.co.uk
+          registrationNumber: '7564389201'
+          taxIdentifier: GB-987654321
+          companyType: publicLimitedCompany
+          dateOfIncorporation: '1977-07-04'
+          legalAddress:
+            address1: 7 Straylight Complex
+            address2: Corporate District, Level 99
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          customerReference: CustRefZA98765
+        email: info@example.com
+        phones:
+        - prefix: '81'
+          number: '8475932'
+        identityDocuments: []
+        balanceAccounts: []
+        dateTimeCreated: '2025-04-24T18:05:40.908Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-24T18:05:40.908Z'
+        payoutInstruments: []
+        beneficialOwners: []
+    Create_Party_Person_modular:
+      value:
+        merchant:
+          entity: default
+        partyReference: 5htNU0XQ7V
+        partyType: beneficiary
+        type: person
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Henry Smith
+          socialSecurityNumber: 333-75-6666
+          residentialStatus: resident
+          dateOfBirth: '1983-10-12'
+          address:
+            address1: 1847 Kingsbury Court
+            address2: Unit 42
+            type: home
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+        email: case.mitchell@example.com
+        phones:
+        - number: 02079461234
+          prefix: '44'
+    Deactivate_Party_Person_modular:
+      value:
+        deactivationReason: partyDormant
+        dispositionOfFunds: payoutToParty
+    Create_Party_Company_with_TradingAddress_orchestrated:
+      value:
+        merchant:
+          entity: default
+        partyReference: BGy1nSxvSw
+        partyType: beneficiary
+        type: company
+        companyDetails:
+          legalName: Tessier-Ashpool Systems Ltd.
+          tradingName: Example.co.uk
+          customerReference: CustRefZA98765
+          registrationNumber: '7564389201'
+          taxIdentifier: GB-987654321
+          companyType: publicLimitedCompany
+          dateOfIncorporation: '1977-07-04'
+          merchantCategoryCode: '5734'
+          merchantCategoryCodeDescription: Computer Software Stores
+          isTradingAddressSameAsPrimary: false
+          website: https://www.example.com
+          legalAddress:
+            address1: 7 Straylight Complex
+            address2: Corporate District, Level 99
+            type: business
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+          tradingAddress:
+            address1: 789 Freeside Blvd
+            address2: Villa Straylight
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+            type: poBox
+        email: info@example.com
+        phones:
+        - number: '8475932'
+          prefix: '81'
+        balanceAccounts:
+        - currency: GBP
+        - currency: EUR
+          scheduledPayoutDay: thursday
+          frequency: monthly
+          recurrence: third
+          payoutInstrumentReference: primaryBusinessAccount2
+        payoutInstruments:
+        - accountHolderName: Tessier-Ashpool Systems Ltd.
+          payoutInstrumentType: bankAccount
+          swiftBic: FSFCGB33
+          bankCode: '045110'
+          branchCode: Barclays Branch
+          accountNumber: '12345678'
+          accountType: savings
+          iban: GB33TASS12345678901234
+          bankName: Freeside Financial Corporation
+          payoutInstrumentReference: primaryBusinessAccount2
+          currency: EUR
+          address:
+            address1: 3 Villa Straylight
+            address2: Freeside
+            type: business
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+        beneficialOwners:
+        - beneficialOwnerReference: 39XaAW8hCf
+          personalDetails:
+            title: Dr
+            firstName: Peter
+            middleName: Illusionet
+            lastName: Riviera
+            alias: Peter Smith
+            socialSecurityNumber: 383-55-6666
+            residentialStatus: nonResident
+            dateOfBirth: '1972-03-22'
+            nationality: GB
+            address:
+              address1: 789 Downing Street
+              address2: Flat 404
+              city: London
+              type: home
+              countryCode: GB
+              postalCode: SW1A 2AA
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 123 Oxford Street
+              address2: Flat 101
+              city: London
+              type: home
+              countryCode: GB
+              postalCode: W1D 1LP
+          relationshipToBusiness:
+            ownershipPercentage: 10
+            director: false
+            position: partner
+          identityDocuments:
+          - type: passport
+            number: B98765432
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2018-05-15'
+            validTo: '2028-05-15'
+          email: peter.riviera@example.com
+          phones:
+          - number: 0205556789
+            prefix: '44'
+        - beneficialOwnerReference: A9CuJNpryM
+          personalDetails:
+            title: Ms
+            firstName: Molly
+            middleName: Puppet
+            lastName: Millions
+            alias: Molly Smith
+            socialSecurityNumber: 313-55-6666
+            residentialStatus: resident
+            dateOfBirth: '1980-05-15'
+            nationality: GB
+            address:
+              address1: 456 Sprawl Street
+              address2: Flat 101
+              city: Burbank
+              countryCode: GB
+              postalCode: RM1 4PL
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 789 Night City Blvd
+              address2: Flat 303
+              city: Night City
+              countryCode: GB
+              postalCode: RM2 3PL
+          relationshipToBusiness:
+            ownershipPercentage: 25
+            director: false
+            position: officeManager
+          identityDocuments:
+          - type: passport
+            number: A12345678
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2020-01-01'
+            validTo: '2030-01-01'
+          email: molly.millions@example.com
+          phones:
+          - number: 02079461234
+            prefix: '44'
+    Reactivate_Party_Person_modular:
+      value:
+        active: true
+    Create_Party_Company_without_TradingAddress_modular:
+      value:
+        merchant:
+          entity: default
+        partyReference: BGy1nSxvSw
+        partyType: beneficiary
+        type: company
+        companyDetails:
+          legalName: Tessier-Ashpool Systems Ltd.
+          tradingName: Example.co.uk
+          customerReference: CustRefZA98765
+          registrationNumber: '7564389201'
+          taxIdentifier: GB-987654321
+          companyType: publicLimitedCompany
+          dateOfIncorporation: '1977-07-04'
+          merchantCategoryCode: '5734'
+          merchantCategoryCodeDescription: Computer Software Stores
+          isTradingAddressSameAsPrimary: true
+          website: https://www.example.com
+          legalAddress:
+            address1: 7 Straylight Complex
+            address2: Corporate District, Level 99
+            type: business
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+        email: info@example.com
+        phones:
+        - number: '8475932'
+          prefix: '81'
+    Create_Party_Person_orchestrated:
+      value:
+        merchant:
+          entity: default
+        partyReference: VuzvLew4y7
+        partyType: beneficiary
+        type: person
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Case Smith
+          socialSecurityNumber: 333-55-9666
+          residentialStatus: resident
+          dateOfBirth: '1983-10-12'
+          currentAddressLessThanThreeYears: true
+          address:
+            address1: 1847 Kingsbury Court
+            address2: Unit 42
+            type: home
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+          previousHomeAddress:
+            address1: 1847 Morrison Court
+            address2: Unit 55
+            type: home
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+        email: case.mitchell@example.com
+        phones:
+        - number: 02079461234
+          prefix: '44'
+        balanceAccounts:
+        - currency: GBP
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          payoutInstrumentReference: personalCheckingAccount
+        payoutInstruments:
+        - accountHolderName: Case H. Mitchell
+          payoutInstrumentType: bankAccount
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          branchCode: Taunton Branch
+          accountNumber: '23198765'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: HSBC UK BANK PLC
+          payoutInstrumentReference: personalCheckingAccount
+          currency: GBP
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            type: business
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+        identityDocuments:
+        - type: passport
+          number: NEO456789
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2022-08-01'
+          validTo: '2032-08-01'
+        - type: nationalId
+          number: ZAIBATSU-00792
+          issuingInstitution: Zaibatsu Holding HR Dept.
+          issuingCountry: GB
+          validFrom: '2025-01-01'
+          validTo: '2030-12-31'
+        performIdentityVerification: true
+    400_Invalid_Url:
+      value:
+        errorName: urlContainsInvalidValue
+        message: The URL contains a value or values that are invalid.
+        validationErrors:
+        - errorName: fieldHasInvalidValue
+          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
+          jsonPath: $.partyId
+    Person_created_201_modular:
+      description: Create a party for a person (modular)
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Frank118
+        partyType: beneficiary
+        type: person
+        partyId: parpI1tAL2bK8Lb-52Rfblg30
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Case Smith
+          socialSecurityNumber: 353-55-6666
+          dateOfBirth: '1983-10-12'
+          address:
+            address1: 1847 Kingsbury Court
+            address2: Unit 42
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+            type: home
+          residentialStatus: resident
+          currentAddressLessThanThreeYears: false
+        email: case.mitchell@example.com
+        phones:
+        - prefix: '44'
+          number: 02079461234
+        identityDocuments: []
+        balanceAccounts: []
+        dateTimeCreated: '2025-04-07T20:42:17.292Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-07T20:42:17.292Z'
+        payoutInstruments: []
+    Update_Party_Person_orchestrated:
+      value:
+        merchant:
+          entity: default
+        partyReference: 8X87XwQ7Fv
+        partyType: beneficiary
+        type: person
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Case Smith
+          socialSecurityNumber: 393-55-6666
+          residentialStatus: resident
+          dateOfBirth: '1983-10-12'
+          address:
+            address1: 2025 Kingsbury Court
+            address2: Unit 42
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+        email: case.mitchell@example.com
+        phones:
+        - number: 02079461234
+          prefix: '44'
+        identityDocuments:
+        - type: passport
+          number: NEO456789
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2022-08-01'
+          validTo: '2032-08-01'
+        - type: nationalId
+          number: ZAIBATSU-00792
+          issuingInstitution: Zaibatsu Holding HR Dept.
+          issuingCountry: GB
+          validFrom: '2025-01-01'
+          validTo: '2030-12-31'
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: The identified field is present when it is explicitly not allowed in the request.
+          jsonPath: $.additionalData
+    Reactivate_Party_Person_200_modular:
+      description: Activate an deactivated party (modular)
+      value:
+        active: true
+        dateTimeActivated: '2025-07-29T17:34:01.621Z'
+    Browse_Parties_200:
+      description: Browse parties
+      value:
+        parties:
+        - identityVerificationState: notVerified
+          identityVerificationMethod: identityVerificationService
+          merchant:
+            entity: default
+          partyReference: ts6SfP8eNv
+          partyType: beneficiary
+          type: person
+          partyId: parJnf1XbmhV6j2cizaFQ54L0
+          email: zH5O.V20XrO71@yWPtULl.cl4
+          phones:
+          - prefix: '44'
+            number: km86YWLfjyL
+          identityDocuments:
+          - type: passport
+            number: zuggHJuTi
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '1901-03-20'
+            validTo: '1931-07-31'
+          - type: nationalId
+            number: f1wlKPlz-8mXmh
+            issuingInstitution: Zaibatsu Holding HR Dept.
+            issuingCountry: GB
+            validFrom: '1915-09-06'
+            validTo: '1988-04-03'
+          balanceAccounts: []
+          dateTimeCreated: '2025-09-02T15:51:53.868Z'
+          dateTimeUpdated: '2025-09-03T15:51:54.257Z'
+          version: 2
+          payoutInstruments: []
+          active: true
+          dateTimeDeactivated: '2025-09-03T15:51:54.211Z'
+          dateTimeActivated: '2025-09-02T15:51:54.257Z'
+          personalDetails:
+            title: Mr
+            firstName: sa7h
+            middleName: G3d3c
+            lastName: eFGwfD84
+            alias: John bailey
+            socialSecurityNumber: 333-55-1666
+            dateOfBirth: '2059-01-03'
+            address:
+              address1: T6cF ubKLq1oMt xWHke
+              address2: lDdv v5
+              city: Manchester
+              countryCode: GB
+              postalCode: XF 9wj
+              type: home
+            residentialStatus: resident
+            currentAddressLessThanThreeYears: false
+        - identityVerificationState: started
+          identityVerificationMethod: identityVerificationService
+          merchant:
+            entity: default
+          partyReference: Z4AS5O3gVA
+          partyType: beneficiary
+          type: person
+          partyId: parBCjKONvmeYaSK--v_NJK40
+          email: zH5O.V20XrO71@yWPtULl.cl4
+          phones:
+          - prefix: '44'
+            number: km86YWLfjyL
+          identityDocuments:
+          - type: passport
+            number: zuggHJuTi
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '1901-03-20'
+            validTo: '1931-07-31'
+          - type: nationalId
+            number: f1wlKPlz-8mXmh
+            issuingInstitution: Zaibatsu Holding HR Dept.
+            issuingCountry: GB
+            validFrom: '1915-09-06'
+            validTo: '1988-04-03'
+          balanceAccounts:
+          - currency: GBP
+            payoutInstrumentReference: UtwzOwGHMM
+            scheduledPayoutDay: thursday
+            frequency: weekly
+            balanceAccountId: parVUdr_mDPwl1EY3Pb5y-Cp0
+            dateTimeCreated: '2026-03-02T15:51:54.638Z'
+            version: 0
+            accountNumber: '12343242'
+            nextPayoutDate: '2026-03-19'
+          - currency: EUR
+            payoutInstrumentReference: hCpcT6vTPB
+            scheduledPayoutDay: thursday
+            frequency: monthly
+            recurrence: third
+            balanceAccountId: paruowtxO9OPFIGjx9gYl5iE0
+            dateTimeCreated: '2026-03-02T15:51:58.314Z'
+            version: 0
+            accountNumber: '12343242'
+            nextPayoutDate: '2026-04-19'
+          - currency: INR
+            payoutInstrumentReference: hCpcT6vTPB
+            frequency: daily
+            balanceAccountId: paruowtCO9OPFIGjx9gYl5iE0
+            dateTimeCreated: '2026-03-02T15:51:54.638Z'
+            version: 0
+            accountNumber: '12343242'
+            nextPayoutDate: '2026-03-03'
+          dateTimeCreated: '2026-03-02T15:51:54.638Z'
+          version: 0
+          payoutInstruments:
+          - payoutInstrumentReference: hCpcT6vTPB
+            payoutInstrumentId: par35uirx_fJZ9bjGu24UBB50
+            payoutInstrumentType: bankAccount
+            currency: EUR
+            dateTimeCreated: '2025-09-02T15:51:56.889Z'
+            version: 0
+            accountHolderName: UVfn D. kQdAzJRB
+            swiftBic: 1i08of9G
+            bankCode: b4ZM5E
+            accountNumber: xL60ChVg
+            accountType: checking
+            iban: WU0jAupifqjpgZ8pPIYb
+            bankName: Metro Bank
+            address:
+              address1: bY o7a-IOeFVa rsxklGj8g 5FCB7
+              address2: ohXty YYBO
+              city: London
+              countryCode: GB
+              postalCode: Bs4j IqO
+              type: business
+            branchCode: Barclays Branch
+          - payoutInstrumentReference: UtwzOwGHMM
+            payoutInstrumentId: parAh7-5xjnkGUp4TmvJ0Vj00
+            payoutInstrumentType: bankAccount
+            currency: GBP
+            dateTimeCreated: '2025-09-02T15:51:54.638Z'
+            version: 0
+            accountHolderName: UVfn D. kQdAzJRB
+            swiftBic: 1i08of9G
+            bankCode: b4ZM5E
+            accountNumber: xL60ChVg
+            accountType: checking
+            iban: WU0jAupifqjpgZ8pPIYb
+            bankName: HSBC UK BANK PLC
+            address:
+              address1: bY o7a-IOeFVa rsxklGj8g 5FCB7
+              address2: ohXty YYBO
+              city: London
+              countryCode: GB
+              postalCode: Bs4j IqO
+              type: business
+            branchCode: Taunton Branch
+          active: true
+          dateTimeActivated: '2026-03-02T15:51:54.638Z'
+          personalDetails:
+            title: Mr
+            firstName: sa7h
+            middleName: G3d3c
+            lastName: eFGwfD84
+            alias: John bailey
+            socialSecurityNumber: 333-55-1666
+            dateOfBirth: '2059-01-03'
+            address:
+              address1: T6cF ubKLq1oMt xWHke
+              address2: lDdv v5
+              city: Manchester
+              countryCode: GB
+              postalCode: XF 9wj
+              type: home
+            residentialStatus: resident
+            currentAddressLessThanThreeYears: false
+        - identityVerificationState: notVerified
+          identityVerificationMethod: identityVerificationService
+          merchant:
+            entity: default
+          partyReference: xHyFiJS9zo
+          partyType: beneficiary
+          type: soleTrader
+          partyId: parqZvn1ritjWZbD4yRxEpCd0
+          email: A4P.X6MrD@4zKMG8L.AeB
+          phones:
+          - prefix: '81'
+            number: mSaIgVfwZw
+          identityDocuments:
+          - type: taxRegistrationCode
+            number: jdZ
+            issuingInstitution: HMRC
+            issuingCountry: GB
+            validFrom: '1945-06-07'
+            validTo: '2078-12-08'
+          - type: passport
+            number: 7P6
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2060-03-27'
+            validTo: '2067-03-22'
+          balanceAccounts:
+          - currency: GBP
+            balanceAccountId: pare151tM6polLGHRMSQsWeO0
+            dateTimeCreated: '2025-09-02T15:51:55.144Z'
+            version: 0
+            accountNumber: 0000550000085002
+          - currency: USD
+            payoutInstrumentReference: kNiuKzkNlO
+            scheduledPayoutDay: thursday
+            frequency: weekly
+            balanceAccountId: parr9a1J5alvURV2KrWFi8880
+            dateTimeCreated: '2025-09-02T15:51:58.578Z'
+            version: 0
+            accountNumber: 0000550000085002
+            nextPayoutDate: '2026-03-19'
+          dateTimeCreated: '2025-09-02T15:51:55.144Z'
+          version: 0
+          payoutInstruments:
+          - payoutInstrumentReference: kNiuKzkNlO
+            payoutInstrumentId: parlnjkdCvxRKCEdXO6QWbYG0
+            payoutInstrumentType: bankAccount
+            currency: USD
+            dateTimeCreated: '2025-09-02T15:51:57.484Z'
+            version: 0
+            accountHolderName: UVfn D. kQdAzJRB
+            swiftBic: 1i08of9G
+            bankCode: b4ZM5E
+            accountNumber: xL60ChVg
+            accountType: checking
+            iban: WU0jAupifqjpgZ8pPIYb
+            bankName: Metro Bank
+            address:
+              address1: bY o7a-IOeFVa rsxklGj8g 5FCB7
+              address2: ohXty YYBO
+              city: London
+              countryCode: GB
+              postalCode: Bs4j IqO
+              type: business
+            branchCode: Barclays Branch
+          - payoutInstrumentReference: O6zUzth3o6
+            payoutInstrumentId: parrTlcspjYj2bqeYIez_tMz0
+            payoutInstrumentType: bankAccount
+            currency: GBP
+            dateTimeCreated: '2025-09-02T15:51:55.144Z'
+            version: 0
+            accountHolderName: 51B6k qmw
+            swiftBic: n45SZCRQ
+            bankCode: 6c1tT8
+            accountNumber: utJkHSus
+            accountType: savings
+            iban: mUWBqpkz8lHlBLKAF5WdUR5
+            bankName: Lloyds Bank
+            address:
+              address1: roQ UHnZ87 V5x52Q
+              address2: xpWWt 6I
+              city: London
+              countryCode: GB
+              postalCode: AD 9Tz
+              type: other
+            branchCode: Bradford Branch
+          active: true
+          dateTimeActivated: '2025-09-02T15:51:55.144Z'
+          personalDetails:
+            title: Ms
+            firstName: hm70O
+            middleName: OSoc
+            lastName: 52M
+            tradingName: Linda Lee
+            alias: John bailey
+            socialSecurityNumber: 333-55-1666
+            taxIdentifier: TX-12354567
+            dateOfBirth: '2040-01-09'
+            address:
+              address1: yWh bzP9Fa luw8GI
+              address2: sqdo Rtt
+              city: Chester
+              countryCode: GB
+              postalCode: Ib4 VJk
+              type: home
+            residentialStatus: resident
+            customerReference: customerrefSoleTrader
+            nationality: lw
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: xQ6 ZfG8qm YD0fTH
+              address2: SWMR G2f
+              city: Chester
+              countryCode: GB
+              postalCode: gV5 35W
+              type: other
+            website: https://www.example.com/
+            merchantCategoryCode: '5411'
+            merchantCategoryCodeDescription: Grocery Stores, Supermarkets
+        - identityVerificationState: started
+          identityVerificationMethod: identityVerificationService
+          merchant:
+            entity: default
+          partyReference: G5ohEB3lUc
+          partyType: beneficiary
+          type: company
+          partyId: par7anQCsbhS0yKZNIFpUtkI0
+          email: info@example.com
+          phones:
+          - prefix: '81'
+            number: '8475932'
+          identityDocuments: []
+          balanceAccounts:
+          - currency: EUR
+            payoutInstrumentReference: mHWwfCJRCS
+            scheduledPayoutDay: thursday
+            frequency: weekly
+            balanceAccountId: parKwY5ezX2R4QaUGQ47cGYi0
+            dateTimeCreated: '2025-09-02T15:51:55.678Z'
+            dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+            version: 1
+            accountNumber: '12343242'
+            nextPayoutDate: '2026-03-19'
+          - currency: USD
+            payoutInstrumentReference: u8MamGFmEo
+            scheduledPayoutDay: thursday
+            frequency: weekly
+            balanceAccountId: parUoWq2uerKMrdAPFeBLqy80
+            dateTimeCreated: '2025-09-02T15:51:58.849Z'
+            dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+            version: 1
+            accountNumber: '12343242'
+            nextPayoutDate: '2026-03-19'
+          - currency: GBP
+            balanceAccountId: parfnsCbzM7Og3xIdfa48tAZ0
+            dateTimeCreated: '2025-09-02T15:51:55.678Z'
+            version: 0
+            accountNumber: '12343242'
+          dateTimeCreated: '2025-09-02T15:51:56.295Z'
+          dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+          version: 2
+          payoutInstruments:
+          - payoutInstrumentReference: u8MamGFmEo
+            payoutInstrumentId: parSALwf8D8drIikDp0aQTrG0
+            payoutInstrumentType: bankAccount
+            currency: USD
+            dateTimeCreated: '2025-09-02T15:51:57.887Z'
+            dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+            version: 1
+            accountHolderName: f3T5owE-5hZQQVR rYYIJel eOt.
+            swiftBic: pogwBatv
+            bankCode: b4ZM5E
+            accountNumber: iZOB5YkF
+            accountType: savings
+            iban: 5YHuGEWGF61PlsAUAKkryp
+            bankName: Freeside Financial Corporation
+            address:
+              address1: q fbyli 0kyimLrIfq
+              address2: 7NOmwxh7
+              city: York
+              state: NA
+              countryCode: GB
+              postalCode: HJMW DKJn
+              type: business
+            branchCode: Muswell Hill Branch
+          - payoutInstrumentReference: mHWwfCJRCS
+            payoutInstrumentId: parpxxzfRTafscKcMwvERKGf0
+            payoutInstrumentType: bankAccount
+            currency: EUR
+            dateTimeCreated: '2025-09-02T15:51:55.677Z'
+            dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+            version: 1
+            accountHolderName: f3T5owE-5hZQQVR rYYIJel eOt.
+            swiftBic: QnDYJdbt
+            bankCode: b4ZM5E
+            accountNumber: utJkHSus
+            accountType: savings
+            iban: 5YHuGEWGF61PlsAUAKkryp
+            bankName: Freeside Financial Corporation
+            address:
+              address1: q fbyli 0kyimLrIfq
+              address2: 7NOmwxh7
+              city: London
+              countryCode: GB
+              postalCode: Bs4j IqO
+              type: business
+            branchCode: Barclays Branch
+          active: true
+          dateTimeActivated: '2025-09-02T15:51:56.295Z'
+          companyDetails:
+            merchantCategoryCode: '5734'
+            merchantCategoryCodeDescription: Computer Software Stores
+            website: https://www.example.com
+            legalName: Tessier-Ashpool Systems Ltd.
+            tradingName: Example.co.uk
+            registrationNumber: '7564389201'
+            taxIdentifier: GB-987654321
+            companyType: publicLimitedCompany
+            dateOfIncorporation: '1977-07-04'
+            legalAddress:
+              address1: 7 Straylight Complex
+              address2: Corporate District, Level 99
+              city: London
+              countryCode: GB
+              postalCode: EC1A 1BB
+              type: business
+            tradingAddress:
+              address1: 789 Freeside Blvd
+              address2: Villa Straylight
+              city: Manchester
+              countryCode: GB
+              postalCode: M1 1AA
+              type: poBox
+            customerReference: CustRefZA98765
+          beneficialOwners:
+          - identityVerificationState: started
+            identityVerificationMethod: identityVerificationService
+            beneficialOwnerReference: GJbPJVtqFz
+            beneficialOwnerId: par5BsbOKDecm8uWVgzYUor-0
+            personalDetails:
+              title: Ms
+              firstName: John
+              middleName: LVrVLk
+              lastName: Bailer
+              alias: John bailey
+              socialSecurityNumber: 333-55-1666
+              dateOfBirth: '1946-09-13'
+              address:
+                address1: YZ7 1V7iJh xnZhNA
+                address2: 8DD6 7fg
+                city: Burbank
+                countryCode: GB
+                postalCode: rmL v0W
+              residentialStatus: resident
+              nationality: lw
+              currentAddressLessThanThreeYears: true
+              previousHomeAddress:
+                address1: xgi osd16 bsMJ 1nnj
+                address2: SWMR G2f
+                city: Night City
+                countryCode: GB
+                postalCode: s2W CV6
+            relationshipToBusiness:
+              ownershipPercentage: 25
+              director: false
+              isPrincipalOwner: true
+              position: officeManager
+            email: UucOR.ppaJ1rdP@4BLu9KX.54i
+            phones:
+            - prefix: '44'
+              number: km86YWLfjyL
+            identityDocuments:
+            - type: passport
+              number: sJCY65PyZ
+              issuingInstitution: UK Passport Office
+              issuingCountry: GB
+              validFrom: '1922-10-07'
+              validTo: '2043-06-08'
+            dateTimeCreated: '2025-09-02T15:51:55.678Z'
+            dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+            version: 1
+          - identityVerificationState: started
+            identityVerificationMethod: identityVerificationService
+            beneficialOwnerReference: YezTTwoVHR
+            beneficialOwnerId: parIrzObRP9_nc7Y5R29fgoC0
+            personalDetails:
+              title: Dr
+              firstName: Johny
+              middleName: tusFSTLKvR
+              lastName: pkw1XH1
+              alias: John bailey
+              socialSecurityNumber: 333-55-1666
+              dateOfBirth: '2062-04-19'
+              address:
+                address1: AI6 TyzGI5B YprQ7Y
+                address2: 05uX xGG
+                city: London
+                countryCode: GB
+                postalCode: Dv4T erT
+                type: home
+              residentialStatus: nonResident
+              nationality: lw
+              currentAddressLessThanThreeYears: true
+              previousHomeAddress:
+                address1: CIo U0wJ3a 1k3rwN
+                address2: 8DD6 7fg
+                city: London
+                countryCode: GB
+                postalCode: bZX TqF
+                type: home
+            relationshipToBusiness:
+              ownershipPercentage: 10
+              director: false
+              position: partner
+            email: PuDnv.iX8XrhV@X8RQ3S5.4IC
+            phones:
+            - prefix: '44'
+              number: Z0avBNjMlS
+            identityDocuments:
+            - type: passport
+              number: v2OhZxguD
+              issuingInstitution: UK Passport Office
+              issuingCountry: GB
+              validFrom: '1989-06-06'
+              validTo: '2028-03-19'
+            dateTimeCreated: '2025-09-02T15:51:55.678Z'
+            dateTimeUpdated: '2025-09-03T15:51:55.678Z'
+            version: 1
+          - identityVerificationState: started
+            identityVerificationMethod: identityVerificationService
+            beneficialOwnerReference: zHCxMG8x4T
+            beneficialOwnerId: parT4dazXixMu5npZGQL0iwH0
+            personalDetails:
+              title: Dr
+              firstName: Jenly
+              middleName: tusFSTLKvR
+              lastName: Morris
+              alias: John bailey
+              socialSecurityNumber: 333-55-1666
+              dateOfBirth: '1918-01-01'
+              address:
+                address1: NLv QCTjBRt P4cpVy
+                address2: 05uX xGG
+                city: London
+                countryCode: GB
+                postalCode: Dv4T erT
+                type: home
+              residentialStatus: nonResident
+              nationality: lw
+              currentAddressLessThanThreeYears: true
+              previousHomeAddress:
+                address1: ceR 7DcVj9 qP6wd4
+                address2: 8DD6 7fg
+                city: London
+                countryCode: GB
+                postalCode: bZX TqF
+                type: home
+            relationshipToBusiness:
+              ownershipPercentage: 10
+              director: false
+              position: partner
+            email: 9UFJ.oVZsgU@laUTWaJ.rs0
+            phones:
+            - prefix: '44'
+              number: Z0avBNjMlS
+            identityDocuments:
+            - type: passport
+              number: v2OhZxguD
+              issuingInstitution: UK Passport Office
+              issuingCountry: GB
+              validFrom: '1989-06-06'
+              validTo: '2028-03-19'
+            dateTimeCreated: '2025-09-02T15:51:56.294Z'
+            dateTimeUpdated: '2025-09-03T15:51:56.294Z'
+            version: 1
+        pagination:
+          page: 0
+          size: 10
+          pageCount: 1
+          totalNumberOfRecords: 4
+    Update_Party_Person_200_orchestrated:
+      description: Update party of a person (orchestrated)
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Lela300
+        partyType: beneficiary
+        type: person
+        partyId: par4733xO8y2YI9HSOTG-kba0
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Case Smith
+          socialSecurityNumber: 343-55-6666
+          dateOfBirth: '1983-10-12'
+          address:
+            address1: 2025 Kingsbury Court
+            address2: Unit 42
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+          residentialStatus: resident
+          currentAddressLessThanThreeYears: false
+        email: case.mitchell@example.com
+        phones:
+        - prefix: '44'
+          number: 02079461234
+        identityDocuments:
+        - type: passport
+          number: NEO456789
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2022-08-01'
+          validTo: '2032-08-01'
+        - type: nationalId
+          number: ZAIBATSU-00792
+          issuingInstitution: Zaibatsu Holding HR Dept.
+          issuingCountry: GB
+          validFrom: '2025-01-01'
+          validTo: '2030-12-31'
+        balanceAccounts:
+        - currency: GBP
+          payoutInstrumentReference: personalCheckingAccount
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: parXRSh-RDDLU5NyGZpQhyNb0
+          dateTimeCreated: '2025-04-21T20:11:08.699Z'
+          version: 0
+          accountNumber: '23198765'
+          nextPayoutDate: '2026-03-19'
+        - currency: EUR
+          payoutInstrumentReference: personalCheckingAccount2
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: parBTwBk8J3s3nhgbo1vNyvJ0
+          dateTimeCreated: '2025-04-21T20:11:12.991Z'
+          version: 0
+          accountNumber: '23198765'
+          nextPayoutDate: '2026-03-19'
+        dateTimeCreated: '2025-04-21T20:11:08.695Z'
+        dateTimeUpdated: '2025-04-21T20:11:15.341Z'
+        version: 1
+        active: true
+        dateTimeActivated: '2025-04-24T17:55:56.283Z'
+        payoutInstruments:
+        - payoutInstrumentReference: personalCheckingAccount
+          payoutInstrumentId: paru47L8iaV-cm7doWxO7oWm0
+          payoutInstrumentType: bankAccount
+          currency: GBP
+          dateTimeCreated: '2025-04-21T20:11:08.698Z'
+          version: 0
+          accountHolderName: Case H. Mitchell
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          accountNumber: '23198765'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: HSBC UK BANK PLC
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Taunton Branch
+        - payoutInstrumentReference: personalCheckingAccount
+          payoutInstrumentId: parbQkpoZT3adRASZB9Zp9e-0
+          payoutInstrumentType: bankAccount
+          currency: EUR
+          dateTimeCreated: '2025-04-21T20:11:11.251Z'
+          version: 0
+          accountHolderName: Case H. Mitchell
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          accountNumber: '23198765'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: Metro Bank
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Barclays Branch
+    Person_created_201_orchestrated:
+      description: Create party for a person with previous home address (orchestrated)
+      value:
+        identityVerificationState: started
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Heidi197
+        partyType: beneficiary
+        type: person
+        partyId: parMbuHucAsLeLL0BhDpWdjE0
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Case Smith
+          socialSecurityNumber: 333-55-6656
+          dateOfBirth: '1983-10-12'
+          address:
+            address1: 1847 Kingsbury Court
+            address2: Unit 42
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+            type: home
+          previousHomeAddress:
+            address1: 1847 Morrison Court
+            address2: Unit 55
+            type: home
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+          residentialStatus: resident
+          currentAddressLessThanThreeYears: true
+        email: case.mitchell@example.com
+        phones:
+        - prefix: '44'
+          number: 02079461234
+        identityDocuments:
+        - type: passport
+          number: NEO456789
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2022-08-01'
+          validTo: '2032-08-01'
+        - type: nationalId
+          number: ZAIBATSU-00792
+          issuingInstitution: Zaibatsu Holding HR Dept.
+          issuingCountry: GB
+          validFrom: '2025-01-01'
+          validTo: '2030-12-31'
+        balanceAccounts:
+        - currency: GBP
+          payoutInstrumentReference: personalCheckingAccount
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: par3GymZO5MtP18qe5NFaaPp0
+          dateTimeCreated: '2025-04-16T20:46:24.122Z'
+          version: 0
+          accountNumber: '23198765'
+          nextPayoutDate: '2026-03-19'
+        dateTimeCreated: '2025-04-16T20:46:24.122Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-16T20:46:24.122Z'
+        payoutInstruments:
+        - payoutInstrumentReference: personalCheckingAccount
+          payoutInstrumentId: parclOAFlaOX-H_2UBp9tWbd0
+          payoutInstrumentType: bankAccount
+          currency: GBP
+          dateTimeCreated: '2025-04-16T20:46:24.122Z'
+          version: 0
+          accountHolderName: Case H. Mitchell
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          accountNumber: '23198765'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: HSBC UK BANK PLC
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Taunton Branch
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+    Get_Party_Person_200_orchestrated:
+      description: Get a party for person
+      value:
+        identityVerificationState: pending
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Heidi197
+        partyType: beneficiary
+        type: person
+        partyId: parMbuHucAsLeLL0BhDpWdjE0
+        personalDetails:
+          title: Mr
+          firstName: Case
+          middleName: Henry
+          lastName: Mitchell
+          alias: Henry Smith
+          socialSecurityNumber: 333-55-6666
+          dateOfBirth: '1983-10-12'
+          address:
+            address1: 1847 Kingsbury Court
+            address2: Unit 42
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+            type: home
+          residentialStatus: resident
+          currentAddressLessThanThreeYears: false
+        email: case.mitchell@example.com
+        phones:
+        - prefix: '44'
+          number: 02079461234
+        identityDocuments:
+        - type: passport
+          number: NEO456789
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2022-08-01'
+          validTo: '2032-08-01'
+        - type: nationalId
+          number: ZAIBATSU-00792
+          issuingInstitution: Zaibatsu Holding HR Dept.
+          issuingCountry: GB
+          validFrom: '2025-01-01'
+          validTo: '2030-12-31'
+        balanceAccounts:
+        - currency: EUR
+          payoutInstrumentReference: personalCheckingAccount
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: pareBH4YMkUx7MA2X7bnS4750
+          dateTimeCreated: '2025-04-16T20:46:26.727Z'
+          version: 0
+          accountNumber: '12645678'
+          nextPayoutDate: '2026-03-19'
+        - currency: GBP
+          payoutInstrumentReference: personalCheckingAccount2
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: par3GymZO5MtP18qe5NFaaPp0
+          dateTimeCreated: '2025-04-16T20:46:24.122Z'
+          version: 0
+          accountNumber: '2319876543210'
+          nextPayoutDate: '2026-03-19'
+        dateTimeCreated: '2025-04-16T20:46:24.122Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-24T17:55:56.283Z'
+        payoutInstruments:
+        - payoutInstrumentReference: personalCheckingAccount
+          payoutInstrumentId: parclOAFlaOX-H_2UBp9tWbd0
+          payoutInstrumentType: bankAccount
+          currency: GBP
+          dateTimeCreated: '2025-04-16T20:46:24.122Z'
+          version: 0
+          accountHolderName: Case H. Mitchell
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          accountNumber: '23198765'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: HSBC UK BANK PLC
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Taunton Branch
+        - payoutInstrumentReference: personalCheckingAccount2
+          payoutInstrumentId: parKsh3dSA_VRckwEDRHLzOR0
+          payoutInstrumentType: bankAccount
+          currency: EUR
+          dateTimeCreated: '2025-04-16T20:46:26.235Z'
+          version: 0
+          accountHolderName: Case H. Mitchell
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          accountNumber: '2319876543210'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: Metro Bank
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Barclays Branch
+    Deactivate_Party_Person_200_modular:
+      description: Deactivate an active party (modular)
+      value:
+        deactivationReason: partyDormant
+        dispositionOfFunds: payoutToParty
+        active: false
+        dateTimeDeactivated: '2025-07-29T17:34:01.621Z'
+    '503':
+      value:
+        errorName: serviceUnavailable
+        message: Service cannot fulfil the request even though service functions witout internal errors.
+    SoleTrader_without_TradingAddress_created_201_orchestrated:
+      description: Create a party for a sole trader without trading address (orchestrated)
+      value:
+        identityVerificationState: started
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Anderson736
+        partyType: beneficiary
+        type: soleTrader
+        partyId: parUbyQnnkuOPHFiHsVutAru0
+        personalDetails:
+          merchantCategoryCode: '5411'
+          merchantCategoryCodeDescription: Grocery Stores, Supermarkets
+          website: https://www.example.com/
+          title: Ms
+          firstName: Linda
+          middleName: Liam
+          lastName: Lee
+          tradingName: Linda's Supplies
+          alias: Linda Smith
+          socialSecurityNumber: 343-55-6666
+          taxIdentifier: GB-123456789
+          dateOfBirth: '1990-07-15'
+          address:
+            address1: 123 Sprawl Avenue
+            address2: Flat 202
+            city: Chester
+            countryCode: GB
+            postalCode: CH1 4PL
+            type: home
+          residentialStatus: resident
+          customerReference: customerrefSoleTrader
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          isTradingAddressSameAsPrimary: true
+          previousHomeAddress:
+            address1: 456 Sprawl Avenue
+            address2: Flat 303
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+        email: lee.linda@example.com
+        phones:
+        - prefix: '81'
+          number: '9098765432'
+        identityDocuments:
+        - type: passport
+          number: '789'
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2021-01-01'
+          validTo: '2031-01-01'
+        - type: taxRegistrationCode
+          number: '123'
+          issuingInstitution: HMRC
+          issuingCountry: GB
+          validFrom: '2023-11-30'
+          validTo: '2030-12-30'
+        balanceAccounts:
+        - currency: GBP
+          payoutInstrumentReference: primaryBusinessAccount
+          frequency: daily
+          balanceAccountId: par3GymZO5MtP18qe5NFaaPp0
+          dateTimeCreated: '2025-04-16T20:46:24.122Z'
+          version: 0
+          accountNumber: '23198765'
+          nextPayoutDate: '2026-03-19'
+        dateTimeCreated: '2025-04-16T20:46:25.444Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-16T20:46:25.444Z'
+        payoutInstruments:
+        - payoutInstrumentReference: primaryBusinessAccount
+          payoutInstrumentId: parclOAFlaOX-H_2UBp9tWbd0
+          payoutInstrumentType: bankAccount
+          currency: GBP
+          dateTimeCreated: '2025-04-16T20:46:24.122Z'
+          version: 0
+          accountHolderName: Linda Lee
+          swiftBic: LLOYGB21
+          bankCode: '000112'
+          branchCode: Bradford Branch
+          accountNumber: '12345678'
+          accountType: savings
+          iban: P123000400003123456789
+          bankName: Lloyds Bank
+          address:
+            address1: 789 Sakura Street
+            address2: Suite 5A
+            city: London
+            countryCode: GB
+            postalCode: E1 6AN
+            type: other
+    Create_Party_SoleTrader_without_TradingAddress_orchestrated:
+      value:
+        merchant:
+          entity: default
+        partyReference: Anderson736
+        partyType: beneficiary
+        type: soleTrader
+        personalDetails:
+          merchantCategoryCode: '5411'
+          merchantCategoryCodeDescription: Grocery Stores, Supermarkets
+          website: https://www.example.com/
+          title: Ms
+          firstName: Linda
+          middleName: Liam
+          lastName: Lee
+          tradingName: Linda's Supplies
+          alias: Linda Smith
+          socialSecurityNumber: 333-57-6666
+          taxIdentifier: GB-123456789
+          dateOfBirth: '1990-07-15'
+          address:
+            address1: 123 Sprawl Avenue
+            address2: Flat 202
+            city: Chester
+            countryCode: GB
+            postalCode: CH1 4PL
+            type: home
+          residentialStatus: resident
+          customerReference: customerrefSoleTrader
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          isTradingAddressSameAsPrimary: true
+          previousHomeAddress:
+            address1: 456 Sprawl Avenue
+            address2: Flat 303
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+        email: lee.linda@example.com
+        phones:
+        - prefix: '81'
+          number: '9098765432'
+        identityDocuments:
+        - type: passport
+          number: '789'
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2021-01-01'
+          validTo: '2031-01-01'
+        - type: taxRegistrationCode
+          number: '123'
+          issuingInstitution: HMRC
+          issuingCountry: GB
+          validFrom: '2023-11-30'
+          validTo: '2030-12-30'
+        balanceAccounts:
+        - currency: GBP
+          frequency: daily
+          payoutInstrumentReference: primaryBusinessAccount
+        payoutInstruments:
+        - payoutInstrumentReference: primaryBusinessAccount
+          payoutInstrumentType: bankAccount
+          currency: GBP
+          accountHolderName: Linda Lee
+          swiftBic: LLOYGB21
+          bankCode: '000112'
+          branchCode: Bradford Branch
+          accountNumber: '12345678'
+          accountType: savings
+          iban: JP123000400003123456789
+          bankName: Lloyds Bank
+          address:
+            address1: 789 Sakura Street
+            address2: Suite 5A
+            city: London
+            countryCode: GB
+            postalCode: E1 6AN
+            type: other
+    SoleTrader_with_TradingAddress_created_201_modular:
+      description: Create a party for a sole trader with trading address (modular)
+      value:
+        identityVerificationState: started
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: CGeC6vSmyb
+        partyType: beneficiary
+        type: soleTrader
+        partyId: parUbyQnnkuOPHFiHsVutAru0
+        personalDetails:
+          merchantCategoryCode: '5411'
+          merchantCategoryCodeDescription: Grocery Stores, Supermarkets
+          isTradingAddressSameAsPrimary: false
+          website: https://www.example.com/
+          title: Ms
+          firstName: Linda
+          middleName: Liam
+          lastName: Lee
+          tradingName: Linda's Supplies
+          alias: Linda Smith
+          socialSecurityNumber: 343-55-6666
+          taxIdentifier: GB-123456789
+          dateOfBirth: '1990-07-15'
+          address:
+            address1: 123 Sprawl Avenue
+            address2: Flat 202
+            city: Chester
+            countryCode: GB
+            postalCode: CH1 4PL
+            type: home
+          tradingAddress:
+            address1: 999 Sprawl lane
+            address2: Flat 509
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+          residentialStatus: resident
+          customerReference: customerrefSoleTrader
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          previousHomeAddress:
+            address1: 456 Sprawl Avenue
+            address2: Flat 303
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+        email: lee.linda@example.com
+        phones:
+        - prefix: '81'
+          number: '9098765432'
+        identityDocuments: []
+        balanceAccounts: []
+        payoutInstruments: []
+        dateTimeCreated: '2025-04-16T20:46:25.444Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-16T20:46:25.444Z'
+    Get_Party_Company_200_orchestrated:
+      description: Get a party for company
+      value:
+        identityVerificationState: pending
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Genesis829
+        partyType: beneficiary
+        type: company
+        partyId: par1Gya_pV7rRYUMI3Ep_ssX0
+        companyDetails:
+          merchantCategoryCode: '5734'
+          merchantCategoryCodeDescription: Computer Software Stores
+          isTradingAddressSameAsPrimary: false
+          website: https://www.example.com
+          legalName: Tessier-Ashpool Systems Ltd.
+          tradingName: Example.co.uk
+          registrationNumber: '7564389201'
+          taxIdentifier: GB987654321
+          companyType: publicLimitedCompany
+          dateOfIncorporation: '1977-07-04'
+          legalAddress:
+            address1: 7 Straylight Complex
+            address2: Corporate District, Level 99
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          tradingAddress:
+            address1: 789 Freeside Blvd
+            address2: Villa Straylight
+            city: Manchester
+            countryCode: GB
+            postalCode: M1 1AA
+            type: poBox
+          customerReference: CustRefZA98765
+        email: info@example.com
+        phones:
+        - prefix: '81'
+          number: '8475932'
+        identityDocuments: []
+        balanceAccounts:
+        - currency: GBP
+          balanceAccountId: parFwA0DbiCax4y5mzj6207T0
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+          accountNumber: '12345678'
+        - currency: EUR
+          payoutInstrumentReference: primaryBusinessAccount
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: parKXSsjAGYuzsJ6AnD_NSCD0
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+          accountNumber: '123459978'
+          nextPayoutDate: '2026-04-30'
+        - currency: USD
+          payoutInstrumentReference: primaryBusinessAccount2
+          frequency: daily
+          balanceAccountId: par0yJR1v3RBd8B1CrEYDpTx0
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          dateTimeUpdated: '2026-04-25T18:05:40.908Z'
+          version: 1
+          accountNumber: '1234567128'
+          nextPayoutDate: '2026-04-27'
+        dateTimeCreated: '2026-04-24T18:05:40.908Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2026-04-24T18:05:40.908Z'
+        payoutInstruments:
+        - payoutInstrumentReference: primaryBusinessAccount
+          payoutInstrumentId: parxYYu5sdO559Yo60Ud4ep50
+          payoutInstrumentType: bankAccount
+          currency: EUR
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+          accountHolderName: Tessier-Ashpool Systems Ltd.
+          swiftBic: FSFCGB33
+          bankCode: '045110'
+          accountNumber: '1234567890'
+          accountType: savings
+          iban: GB33TASS12345678901234
+          bankName: Freeside Financial Corporation
+          address:
+            address1: 3 Villa Straylight
+            address2: Freeside
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Barclays Branch
+        - payoutInstrumentReference: primaryBusinessAccount2
+          payoutInstrumentId: parbLmHCft8cLP8XXsay63fQ0
+          payoutInstrumentType: bankAccount
+          currency: USD
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+          accountHolderName: Tessier-Ashpool Systems Ltd.
+          swiftBic: FSFCUS33
+          bankCode: '045110'
+          accountNumber: '2276581'
+          accountType: savings
+          iban: GB33TASS12345678901234
+          bankName: Freeside Financial Corporation
+          address:
+            address1: 3 Villa Straylight
+            address2: Freeside
+            city: York
+            state: NA
+            countryCode: GB
+            postalCode: L502 MK54
+            type: business
+          branchCode: Muswell Hill Branch
+        beneficialOwners:
+        - identityVerificationState: pending
+          identityVerificationMethod: identityVerificationService
+          beneficialOwnerReference: Jennings377
+          beneficialOwnerId: parrLsIhp6pE9VQmWG2Y8wKm0
+          personalDetails:
+            title: Dr
+            firstName: Peter
+            middleName: Illusionet
+            lastName: Riviera
+            alias: Peter Smith
+            socialSecurityNumber: 323-55-6666
+            dateOfBirth: '1972-03-22'
+            address:
+              address1: 789 Downing Street
+              address2: Flat 404
+              city: London
+              countryCode: GB
+              postalCode: SW1A 2AA
+              type: home
+            residentialStatus: nonResident
+            nationality: GB
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 123 Oxford Street
+              address2: Flat 101
+              city: London
+              countryCode: GB
+              postalCode: W1D 1LP
+              type: home
+          relationshipToBusiness:
+            ownershipPercentage: 10
+            director: false
+            isPrincipalOwner: false
+            position: partner
+          email: peter.riviera@example.com
+          phones:
+          - prefix: '44'
+            number: 0205556789
+          identityDocuments:
+          - type: passport
+            number: B98765432
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2018-05-15'
+            validTo: '2028-05-15'
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+        - identityVerificationState: pending
+          identityVerificationMethod: identityVerificationService
+          beneficialOwnerReference: Orpha684
+          beneficialOwnerId: parjDSIhcZTkdGD31KwawOrn0
+          personalDetails:
+            title: Dr
+            firstName: John
+            middleName: Illusionet
+            lastName: Bailey
+            alias: John Smith
+            socialSecurityNumber: 343-55-6666
+            dateOfBirth: '1972-05-22'
+            address:
+              address1: 200 Downing Street
+              address2: Flat 404
+              city: London
+              countryCode: GB
+              postalCode: SW1A 2AA
+              type: home
+            residentialStatus: nonResident
+            nationality: GB
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 425 Oxford Street
+              address2: Flat 101
+              city: London
+              countryCode: GB
+              postalCode: W1D 1LP
+              type: home
+          relationshipToBusiness:
+            ownershipPercentage: 10
+            director: false
+            isPrincipalOwner: true
+            position: partner
+          email: John.bailey@example.com
+          phones:
+          - prefix: '44'
+            number: 0205556789
+          identityDocuments:
+          - type: passport
+            number: B98765432
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2018-05-15'
+            validTo: '2028-05-15'
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+        - identityVerificationState: pending
+          identityVerificationMethod: identityVerificationService
+          beneficialOwnerReference: Dana455
+          beneficialOwnerId: parC3Po42KDFr1SRgu351Ncy0
+          personalDetails:
+            title: Ms
+            firstName: Molly
+            middleName: Puppet
+            lastName: Millions
+            alias: Molly Smith
+            socialSecurityNumber: 332-55-6666
+            dateOfBirth: '1980-05-15'
+            address:
+              address1: 456 Sprawl Street
+              address2: Flat 101
+              city: Burbank
+              countryCode: GB
+              postalCode: RM1 4PL
+            residentialStatus: resident
+            nationality: GB
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 789 Night City Blvd
+              address2: Flat 303
+              city: Night City
+              countryCode: GB
+              postalCode: RM2 3PL
+          relationshipToBusiness:
+            ownershipPercentage: 25
+            director: false
+            isPrincipalOwner: true
+            position: officeManager
+          email: molly.millions@example.com
+          phones:
+          - prefix: '44'
+            number: 02079461234
+          identityDocuments:
+          - type: passport
+            number: A12345678
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2020-01-01'
+            validTo: '2030-01-01'
+          dateTimeCreated: '2026-04-24T18:05:40.908Z'
+          version: 0
+    Get_Party_SoleTrader_200_orchestrated:
+      description: Get a party for soleTrader
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Anderson736
+        partyType: beneficiary
+        type: soleTrader
+        partyId: parUbyQnnkuOPHFiHsVutAru0
+        personalDetails:
+          merchantCategoryCode: '5411'
+          merchantCategoryCodeDescription: Grocery Stores, Supermarkets
+          isTradingAddressSameAsPrimary: true
+          website: https://www.example.com/
+          title: Ms
+          firstName: Linda
+          middleName: Liam
+          lastName: Lee
+          alias: Linda Smith
+          socialSecurityNumber: 133-55-6666
+          taxIdentifier: GB-123456789
+          tradingName: Linda's Supplies
+          dateOfBirth: '1990-07-15'
+          address:
+            address1: 123 Sprawl Avenue
+            address2: Flat 202
+            city: Chester
+            countryCode: GB
+            postalCode: CH1 4PL
+            type: home
+          residentialStatus: resident
+          customerReference: customerrefSoleTrader
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          previousHomeAddress:
+            address1: 456 Sprawl Avenue
+            address2: Flat 303
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+        email: lee.linda@example.com
+        phones:
+        - prefix: '81'
+          number: '9098765432'
+        identityDocuments:
+        - type: taxRegistrationCode
+          number: '123'
+          issuingInstitution: HMRC
+          issuingCountry: GB
+          validFrom: '2023-11-30'
+          validTo: '2030-12-30'
+        - type: passport
+          number: '789'
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2021-01-01'
+          validTo: '2031-01-01'
+        balanceAccounts:
+        - currency: USD
+          payoutInstrumentReference: primaryBusinessAccount
+          scheduledPayoutDay: thursday
+          frequency: weekly
+          balanceAccountId: parApcraCq1bmBuCotAMoyss0
+          dateTimeCreated: '2025-04-16T20:46:26.852Z'
+          version: 0
+          accountNumber: '12345678'
+          nextPayoutDate: '2026-03-19'
+        - currency: GBP
+          balanceAccountId: parQj9Y4leX3ysLFSQ7DXm1z0
+          dateTimeCreated: '2025-04-16T20:46:25.444Z'
+          version: 0
+          accountNumber: '12345676'
+        dateTimeCreated: '2025-04-16T20:46:25.444Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-24T17:55:56.283Z'
+        payoutInstruments:
+        - payoutInstrumentReference: primaryBusinessAccount
+          payoutInstrumentId: parFrc7XcecQ7zVXbAodFe6m0
+          payoutInstrumentType: bankAccount
+          currency: GBP
+          dateTimeCreated: '2025-04-16T20:46:25.444Z'
+          version: 0
+          accountHolderName: Linda Lee
+          swiftBic: LLOYGB21
+          bankCode: '000112'
+          accountNumber: '12345678'
+          accountType: savings
+          iban: JP123000400003123456789
+          bankName: Lloyds Bank
+          address:
+            address1: 789 Sakura Street
+            address2: Suite 5A
+            city: London
+            countryCode: GB
+            postalCode: E1 6AN
+            type: other
+          branchCode: Bradford Branch
+        - payoutInstrumentReference: primaryBusinessAccount2
+          payoutInstrumentId: parnHhcim1r9IYtG8I7Twbbc0
+          payoutInstrumentType: bankAccount
+          currency: USD
+          dateTimeCreated: '2025-04-16T20:46:26.420Z'
+          version: 0
+          accountHolderName: Case H. Mitchell
+          swiftBic: BUKBGB22
+          bankCode: '045110'
+          accountNumber: '23198765'
+          accountType: checking
+          iban: GB892019000123456789
+          bankName: Metro Bank
+          address:
+            address1: 17 Neo-London Financial Tower
+            address2: Suite 1288
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Barclays Branch
+    Company_with_TradingAddress_created_201_orchestrated:
+      description: Party for a Company with trading address different than legal address (orchestrated)
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        merchant:
+          entity: default
+        partyReference: Genesis829
+        partyType: beneficiary
+        type: company
+        partyId: par1Gya_pV7rRYUMI3Ep_ssX0
+        companyDetails:
+          merchantCategoryCode: '5734'
+          merchantCategoryCodeDescription: Computer Software Stores
+          isTradingAddressSameAsPrimary: true
+          website: https://www.example.com
+          legalName: Tessier-Ashpool Systems Ltd.
+          tradingName: Example.co.uk
+          registrationNumber: '7564389201'
+          taxIdentifier: GB-987654321
+          companyType: publicLimitedCompany
+          dateOfIncorporation: '1977-07-04'
+          legalAddress:
+            address1: 7 Straylight Complex
+            address2: Corporate District, Level 99
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          customerReference: CustRefZA98765
+        email: info@example.com
+        phones:
+        - prefix: '81'
+          number: '8475932'
+        identityDocuments: []
+        balanceAccounts:
+        - currency: GBP
+          balanceAccountId: parFwA0DbiCax4y5mzj6207T0
+          dateTimeCreated: '2025-04-24T18:05:40.908Z'
+          version: 0
+          accountNumber: '23198765'
+        - currency: EUR
+          payoutInstrumentReference: primaryBusinessAccount
+          scheduledPayoutDay: thursday
+          frequency: monthly
+          recurrence: third
+          balanceAccountId: parKXSsjAGYuzsJ6AnD_NSCD0
+          dateTimeCreated: '2025-04-24T18:05:40.908Z'
+          version: 0
+          accountNumber: '23198765'
+          nextPayoutDate: '2026-03-19'
+        dateTimeCreated: '2025-04-24T18:05:40.908Z'
+        version: 0
+        active: true
+        dateTimeActivated: '2025-04-24T18:05:40.908Z'
+        payoutInstruments:
+        - payoutInstrumentReference: primaryBusinessAccount
+          payoutInstrumentId: parxYYu5sdO559Yo60Ud4ep50
+          payoutInstrumentType: bankAccount
+          currency: EUR
+          dateTimeCreated: '2025-04-24T18:05:40.908Z'
+          version: 0
+          accountHolderName: Tessier-Ashpool Systems Ltd.
+          swiftBic: FSFCGB33
+          bankCode: '045110'
+          accountNumber: '1234567890'
+          accountType: savings
+          iban: GB33TASS12345678901234
+          bankName: Freeside Financial Corporation
+          address:
+            address1: 3 Villa Straylight
+            address2: Freeside
+            city: London
+            countryCode: GB
+            postalCode: EC1A 1BB
+            type: business
+          branchCode: Barclays Branch
+        beneficialOwners:
+        - identityVerificationState: notVerified
+          identityVerificationMethod: identityVerificationService
+          beneficialOwnerReference: Jennings377
+          beneficialOwnerId: parrLsIhp6pE9VQmWG2Y8wKm0
+          personalDetails:
+            title: Dr
+            firstName: Peter
+            middleName: Illusionet
+            alias: Peter Smith
+            socialSecurityNumber: 333-15-6666
+            lastName: Riviera
+            dateOfBirth: '1972-03-22'
+            address:
+              address1: 789 Downing Street
+              address2: Flat 404
+              city: London
+              countryCode: GB
+              postalCode: SW1A 2AA
+              type: home
+            residentialStatus: nonResident
+            nationality: GB
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 123 Oxford Street
+              address2: Flat 101
+              city: London
+              countryCode: GB
+              postalCode: W1D 1LP
+              type: home
+          relationshipToBusiness:
+            ownershipPercentage: 10
+            director: false
+            isPrincipalOwner: true
+            position: partner
+          email: peter.riviera@example.com
+          phones:
+          - prefix: '44'
+            number: 0205556789
+          identityDocuments:
+          - type: passport
+            number: B98765432
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2018-05-15'
+            validTo: '2028-05-15'
+          dateTimeCreated: '2025-04-24T18:05:40.908Z'
+          version: 0
+        - identityVerificationState: notVerified
+          identityVerificationMethod: identityVerificationService
+          beneficialOwnerReference: Dana455
+          beneficialOwnerId: parC3Po42KDFr1SRgu351Ncy0
+          personalDetails:
+            title: Ms
+            firstName: Molly
+            middleName: Puppet
+            lastName: Millions
+            alias: Molly Smith
+            socialSecurityNumber: 353-55-6666
+            dateOfBirth: '1980-05-15'
+            address:
+              address1: 456 Sprawl Street
+              address2: Flat 101
+              city: Burbank
+              countryCode: GB
+              postalCode: RM1 4PL
+            residentialStatus: resident
+            nationality: GB
+            currentAddressLessThanThreeYears: true
+            previousHomeAddress:
+              address1: 789 Night City Blvd
+              address2: Flat 303
+              city: Night City
+              countryCode: GB
+              postalCode: RM2 3PL
+          relationshipToBusiness:
+            ownershipPercentage: 25
+            director: false
+            isPrincipalOwner: true
+            position: officeManager
+          email: molly.millions@example.com
+          phones:
+          - prefix: '44'
+            number: 02079461234
+          identityDocuments:
+          - type: passport
+            number: A12345678
+            issuingInstitution: UK Passport Office
+            issuingCountry: GB
+            validFrom: '2020-01-01'
+            validTo: '2030-01-01'
+          dateTimeCreated: '2025-04-24T18:05:40.908Z'
+          version: 0
+    Create_Party_SoleTrader_with_TradingAddress_modular:
+      value:
+        merchant:
+          entity: default
+        partyReference: CGeC6vSmyb
+        partyType: beneficiary
+        type: soleTrader
+        personalDetails:
+          merchantCategoryCode: '5411'
+          merchantCategoryCodeDescription: Grocery Stores, Supermarkets
+          website: https://www.example.com/
+          title: Ms
+          firstName: Linda
+          middleName: Liam
+          lastName: Lee
+          tradingName: Linda's Supplies
+          alias: Linda Smith
+          socialSecurityNumber: 333-57-6666
+          taxIdentifier: GB-123456789
+          dateOfBirth: '1990-07-15'
+          address:
+            address1: 123 Sprawl Avenue
+            address2: Flat 202
+            city: Chester
+            countryCode: GB
+            postalCode: CH1 4PL
+            type: home
+          residentialStatus: resident
+          customerReference: customerrefSoleTrader
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          isTradingAddressSameAsPrimary: false
+          previousHomeAddress:
+            address1: 456 Sprawl Avenue
+            address2: Flat 303
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+          tradingAddress:
+            address1: 999 Sprawl lane
+            address2: Flat 509
+            city: Chester
+            countryCode: GB
+            postalCode: CH2 4PL
+            type: other
+        email: lee.linda@example.com
+        phones:
+        - prefix: '81'
+          number: '9098765432'
+  schemas:
+    IdentityDocument:
+      type: object
+      description: An identity document.
+      properties:
+        type:
+          type: string
+          description: The type of the identity document.
+          enum:
+          - passport
+          - nationalId
+          - driverLicence
+          - workPermit
+          - employmentPass
+          - studentPass
+          - permanentResidentCard
+          - companyRegistrationNumber
+          - companyVATNumber
+          - citizenshipCard
+          - taxId
+          - nationalInsurance
+          - other
+          - legalIdentityCard
+          - taxRegistrationCode
+        number:
+          type: string
+          minLength: 1
+        issuingInstitution:
+          type: string
+          description: The name of the institution that issued this document.
+          example: State Department
+        issuingCountry:
+          type: string
+          description: The country code of the issuing country specified in [ISO 3166-1 Alpha-2 code](/products/reference/supported-countries-currencies#iso-country-codes) format.
+          example: JP
+          minLength: 1
+        validFrom:
+          type: string
+          description: The ISO 8601 date since when this document is valid from.
+          example: '2023-11-22'
+        validTo:
+          type: string
+          description: The ISO 8601 date until which this document is valid to.
+          example: '2023-11-22'
+      required:
+      - issuingCountry
+      - number
+      - type
+      title: identityDocument
+    PersonalDetailsForBeneficialOwner:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title for this `person`/`soleTrader`.
+          enum:
+          - Mr
+          - Mrs
+          - Miss
+          - Ms
+          - Dr
+          - Mx
+          - Misc
+          example: Mr
+        firstName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s first name.
+
+            '
+          example: Case
+          maxLength: 35
+          minLength: 2
+          pattern: ^[\p{L}\-.,'()&]{2,}$
+        middleName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s middle name or initial.
+
+
+            '
+          example: Henry
+          maxLength: 35
+          minLength: 1
+          pattern: ^(?:\p{L}\.?)*+$
+        lastName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s last name.
+
+
+            '
+          example: Mitchell
+          maxLength: 35
+          minLength: 2
+          pattern: ^(?:[\p{L}\-.,'()&]{2,} *)*+$
+        alias:
+          type: string
+          description: An alternative or commonly-used name for the individual (e.g., preferred or informal name). Does not replace the legal name.
+          example: Junior Case
+          maxLength: 35
+          minLength: 2
+          pattern: ^[\p{L}\-.,'()&]++(?:\s++[\p{L}\-.,'()&]++)*+$
+        socialSecurityNumber:
+          type: string
+          description: The individual’s U.S. Social Security Number (SSN), required for U.S.-based tax or identity checks.
+          example: 004-54-6578
+          pattern: ^\d{3}-\d{2}-\d{4}$
+        dateOfBirth:
+          type: string
+          description: 'The date the `person`/`soleTrader` was born.
+
+
+            '
+          example: '1983-10-12'
+        address:
+          $ref: '#/components/schemas/Address'
+          description: The address of the `person`/`soleTrader`.
+        residentialStatus:
+          type: string
+          description: The residential status of the `person`/`soleTrader`.
+          enum:
+          - resident
+          - nonResident
+          - other
+        customerReference:
+          type: string
+          description: Unique reference provided by the payee. Only required for certain payout destinations.
+          example: '7564389201'
+          maxLength: 255
+          minLength: 1
+        nationality:
+          type: string
+          description: The nationality of the `person`/`soleTrader`.
+        currentAddressLessThanThreeYears:
+          type: boolean
+        previousHomeAddress:
+          $ref: '#/components/schemas/Address'
+          description: The previous home address of the `person`/`soleTrader`.
+        website:
+          type: string
+          description: The URL of the merchant's website.
+          example: https://example.com/
+      required:
+      - address
+      - firstName
+      - lastName
+      - title
+    Person:
+      description: A party represents the overall party record of your beneficiary (seller, vendor, provider). You can use this to store information about the party, to perform either an identity verification check, a split payment, or a payout.
+      allOf:
+      - type: object
+      properties:
+        type:
+          type: string
+          description: "What the party represents:\n\n`person` - an individual \n\n`soleTrader` - a single person enterprise \n\n`company` - a corporation or partnership with multiple owners\n\n"
+          enum:
+          - company
+          - person
+          - soleTrader
+        identityVerificationState:
+          type: string
+          enum:
+          - verified
+          - notVerified
+          - pending
+          - rejected
+          - notApplicable
+          - started
+          - startedAction
+          - pendingStepUpAction
+          - pendingManualReview
+          - stepUpReceived
+          readOnly: true
+        identityVerificationMethod:
+          type: string
+          enum:
+          - merchantCompliant
+          - identityVerificationService
+          readOnly: true
+        identityVerificationDate:
+          type: string
+          format: date
+          description: A valid date as YYYY-MM-DD
+          example: '2033-11-22'
+          readOnly: true
+        url:
+          type: string
+          description: The link returned from Identity Verification Status (IVS) used to retrieve additional details from the user.
+          readOnly: true
+        message:
+          type: string
+          description: The message associated with link returned from Identity Verification Status (IVS).
+          readOnly: true
+        partyReference:
+          type: string
+          description: 'Your reference for this party, must be unique within an entity.
+
+            '
+          example: Hosaka27384910
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        partyType:
+          type: string
+          description: 'The type of this party.
+
+            `beneficiary` - the person or business that will receive funds
+
+            `payer` - a transmitter of funds to a third party'
+          enum:
+          - beneficiary
+          - payer
+        partyId:
+          type: string
+          description: A unique identifier for the party generated by us.
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: An email address for this party.
+        merchant:
+          $ref: '#/components/schemas/Merchant'
+          description: An object that contains information about the merchant.
+        phones:
+          type: array
+          description: A list of phone numbers associated with this party.
+          items:
+            $ref: '#/components/schemas/Phone'
+        identityDocuments:
+          type: array
+          description: A list of identity documents for this party.
+          items:
+            $ref: '#/components/schemas/IdentityDocument'
+        balanceAccounts:
+          type: array
+          description: A list of balance accounts that have been set up for this party.
+          items:
+            $ref: '#/components/schemas/BalanceAccount'
+        dateTimeCreated:
+          type: string
+          description: The date and time that the party was created, as an ISO 8601 zoned date time.
+          example: 2025-01-23T12:23:445.222Z
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time that the party was last updated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+          readOnly: true
+        payoutInstruments:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccount'
+        performIdentityVerification:
+          type: boolean
+          writeOnly: true
+        active:
+          type: boolean
+          description: Indicates whether the party is active or not.
+          example: true
+          readOnly: true
+        dateTimeDeactivated:
+          type: string
+          description: The date and time that the party was last deactivated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        deactivationReason:
+          type: string
+          description: The reason for deactivating a party.
+          example: partyDormant
+          readOnly: true
+        dispositionOfFunds:
+          type: string
+          description: The disposition of funds for deactivated party.
+          example: payoutToParty
+          readOnly: true
+        dateTimeActivated:
+          type: string
+          description: The date and time that the party was last activated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        personalDetails:
+          $ref: '#/components/schemas/PersonalDetailsImplForPerson'
+      required:
+      - merchant
+      - partyReference
+      - partyType
+      - personalDetails
+      - type
+    ReactivateParty:
+      type: object
+      description: Object containing party reactivation information.
+      properties:
+        active:
+          type: boolean
+        dateTimeActivated:
+          type: string
+          description: The date and time that the party was last activated, as an ISO 8601 zoned date time
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+    SoleTrader:
+      description: A party represents the overall party record of your beneficiary (seller, vendor, provider). You can use this to store information about the party, to perform either an identity verification check, a split payment, or a payout.
+      allOf:
+      - type: object
+      properties:
+        type:
+          type: string
+          description: "What the party represents:\n\n`person` - an individual \n\n`soleTrader` - a single person enterprise \n\n`company` - a corporation or partnership with multiple owners\n\n"
+          enum:
+          - company
+          - person
+          - soleTrader
+        identityVerificationState:
+          type: string
+          enum:
+          - verified
+          - notVerified
+          - pending
+          - rejected
+          - notApplicable
+          - started
+          - startedAction
+          - pendingStepUpAction
+          - pendingManualReview
+          - stepUpReceived
+          readOnly: true
+        identityVerificationMethod:
+          type: string
+          enum:
+          - merchantCompliant
+          - identityVerificationService
+          readOnly: true
+        identityVerificationDate:
+          type: string
+          format: date
+          description: A valid date as YYYY-MM-DD
+          example: '2033-11-22'
+          readOnly: true
+        url:
+          type: string
+          description: The link returned from Identity Verification Status (IVS) used to retrieve additional details from the user.
+          readOnly: true
+        message:
+          type: string
+          description: The message associated with link returned from Identity Verification Status (IVS).
+          readOnly: true
+        partyReference:
+          type: string
+          description: 'Your reference for this party, must be unique within an entity.
+
+            '
+          example: Hosaka27384910
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        partyType:
+          type: string
+          description: 'The type of this party.
+
+            `beneficiary` - the person or business that will receive funds
+
+            `payer` - a transmitter of funds to a third party'
+          enum:
+          - beneficiary
+          - payer
+        partyId:
+          type: string
+          description: A unique identifier for the party generated by us.
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: An email address for this party.
+        merchant:
+          $ref: '#/components/schemas/Merchant'
+          description: An object that contains information about the merchant.
+        phones:
+          type: array
+          description: A list of phone numbers associated with this party.
+          items:
+            $ref: '#/components/schemas/Phone'
+        identityDocuments:
+          type: array
+          description: A list of identity documents for this party.
+          items:
+            $ref: '#/components/schemas/IdentityDocument'
+        balanceAccounts:
+          type: array
+          description: A list of balance accounts that have been set up for this party.
+          items:
+            $ref: '#/components/schemas/BalanceAccount'
+        dateTimeCreated:
+          type: string
+          description: The date and time that the party was created, as an ISO 8601 zoned date time.
+          example: 2025-01-23T12:23:445.222Z
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time that the party was last updated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+          readOnly: true
+        payoutInstruments:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccount'
+        performIdentityVerification:
+          type: boolean
+          writeOnly: true
+        active:
+          type: boolean
+          description: Indicates whether the party is active or not.
+          example: true
+          readOnly: true
+        dateTimeDeactivated:
+          type: string
+          description: The date and time that the party was last deactivated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        deactivationReason:
+          type: string
+          description: The reason for deactivating a party.
+          example: partyDormant
+          readOnly: true
+        dispositionOfFunds:
+          type: string
+          description: The disposition of funds for deactivated party.
+          example: payoutToParty
+          readOnly: true
+        dateTimeActivated:
+          type: string
+          description: The date and time that the party was last activated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        personalDetails:
+          $ref: '#/components/schemas/PersonalDetailsImplForSoleTrader'
+      required:
+      - merchant
+      - partyReference
+      - partyType
+      - personalDetails
+      - type
+    CompanyDetails:
+      type: object
+      description: Object containing details about a company. Required for company.
+      properties:
+        merchantCategoryCode:
+          type: string
+          description: A 4-digit code to represent the merchant category. Only provide this where `typeCode` is `soleTrader` or `company`.
+          example: '5411'
+          maxLength: 4
+          minLength: 4
+          pattern: ^\d{4}$
+        merchantCategoryCodeDescription:
+          type: string
+          description: A description to describe the merchant category code. Only provide this where `typeCode` is `soleTrader` or `company`.
+          example: Grocery Stores
+          maxLength: 255
+          minLength: 1
+        website:
+          type: string
+          description: The URL of the merchant's website.
+          example: https://example.com/
+        legalName:
+          type: string
+          description: The legal name of the company.
+          example: Tessier-Ashpool Systems Ltd.
+          maxLength: 140
+          minLength: 2
+          pattern: '^(?: *[\p{L}\p{N}+&\/\-.()])*+(?: *[\p{L}\p{N}\-.,\/&()@#'']{2,140})*+(?: *[\p{L}\p{N}&\/\-.()])*+ *$'
+        tradingName:
+          type: string
+          description: The trading common name of the company.
+          example: TASynth.com
+          maxLength: 140
+          minLength: 2
+          pattern: '^(?: *[\p{L}\p{N}+&\/\-.()])*+(?: *[\p{L}\p{N}\-.,\/&()@#'']{2,140})*+(?: *[\p{L}\p{N}&\/\-.()])*+ *$'
+        registrationNumber:
+          type: string
+          description: The registration number for the company. What should be supplied in this field may differ by country, for instance in the United States it will be a Tax ID Number (TIN).
+          example: '7564389201'
+          maxLength: 15
+          minLength: 1
+          pattern: '[a-zA-Z0-9-]*'
+        taxIdentifier:
+          type: string
+          description: The entity’s tax registration number (VAT, GST, EIN, TIN, or equivalent), depending on jurisdiction.
+          example: JP-987654321
+          maxLength: 35
+          minLength: 2
+          pattern: ^[a-zA-Z0-9-]*$
+        companyType:
+          type: string
+          description: A description of the type of company.
+          enum:
+          - charity
+          - government
+          - publicLimitedCompany
+          - limitedCompanyShares
+          - limitedLiabilityPartnership
+          - partnership
+          - limitedCompanyGuarantee
+          - trust
+          - regulatedFinancialAndCreditInstitutions
+          - unlistedCorporate
+          - publicBodies
+          - subsidiaryOfPubliclyListedCorporate
+          - nonProfit
+          - estatesOfDeceasedPerson
+          - secRegistered
+          - clubsOrSocieties
+          - subsidiaryOfRegulatedFinancialAndCreditInstitutions
+          - other
+          example: publicLimitedCompany
+        dateOfIncorporation:
+          type: string
+          description: The incorporation date for the company.
+          example: '1977-07-04'
+        isTradingAddressSameAsPrimary:
+          type: boolean
+          description: Indicates whether the trading address is the same as the primary address.
+          example: true
+        legalAddress:
+          $ref: '#/components/schemas/Address'
+          description: The legal address of this company.
+        tradingAddress:
+          $ref: '#/components/schemas/TradingAddress'
+          description: 'The trading address of this company.
+
+
+            **Note:** If "isTradingAddressSameAsPrimary" is set to true, no "tradingAddress" must be provided. If "isTradingAddressSameAsPrimary" is set to  false, "tradingAddress" must be provided.
+
+            '
+        customerReference:
+          type: string
+          description: Unique reference provided by the payee. Only required for certain payout destinations.
+          example: '7564389201'
+          maxLength: 255
+          minLength: 1
+        countryOfIncorporation:
+          type: string
+          description: The country code specified in [ISO 3166-1 Alpha-2 code](/products/reference/supported-countries-currencies#iso-country-codes) format.
+          example: GB
+      required:
+      - legalAddress
+      - legalName
+      - tradingName
+      - isTradingAddressSameAsPrimary
+    ErrorResponseItem:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        jsonPath:
+          type: string
+        queryParameter:
+          type: string
+        pathParameter:
+          type: string
+    DeactivateParty:
+      type: object
+      description: Object containing deactivation information.
+      properties:
+        deactivationReason:
+          type: string
+          description: The reason for deactivating a party.
+          enum:
+          - partyDormant
+          - partyClosed
+          - partySanctioned
+          example: partyDormant
+        dispositionOfFunds:
+          type: string
+          description: The disposition of funds for deactivated party.
+          enum:
+          - payoutToParty
+          example: payoutToParty
+        active:
+          type: boolean
+          description: Indicates whether the party is active or not.
+          example: false
+          readOnly: true
+        dateTimeDeactivated:
+          type: string
+          description: The date and time that the party was last deactivated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+      required:
+      - deactivationReason
+    BrowsePartiesPage:
+      type: object
+      description: A page of parties with pagination information.
+      properties:
+        parties:
+          type: array
+          description: List of parties on the current page.
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Company'
+            - $ref: '#/components/schemas/Person'
+            - $ref: '#/components/schemas/SoleTrader'
+          readOnly: true
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      readOnly: true
+      required:
+      - pagination
+      - parties
+    Phone:
+      type: object
+      description: Object containing phone information.
+      properties:
+        prefix:
+          type: string
+          description: The dialing prefix for the phone number.
+          example: '44'
+          pattern: ^[0-9]{1,3}$
+        number:
+          type: string
+          description: The phone number, without dashes.
+          example: '4281234'
+          pattern: '[0-9]{1,20}'
+      required:
+      - number
+      - prefix
+    BankAccount:
+      type: object
+      properties:
+        payoutInstrumentReference:
+          type: string
+          description: 'A reference of the `payoutInstrument` created by you. This
+
+            field holds the beneficiary bank details. Use this to direct payouts to
+
+            the relevant beneficiary. This must be unique within an entity.
+
+            '
+          example: primaryBusinessAccount
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        payoutInstrumentId:
+          type: string
+          description: An ID generated by us to identify a payout instrument. You receive this in the response after successfully creating a payout instrument.
+          example: parOk0YlPtQogrqQdz7_fKXs0
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+        payoutInstrumentType:
+          type: string
+          description: The type of the payout instrument.
+          enum:
+          - bankAccount
+          - wallet
+          - card
+        currency:
+          type: string
+          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
+          example: GBP
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]*$
+        dateTimeCreated:
+          type: string
+          description: The date and time the `payoutInstrument` was created, as an ISO 8601 zoned date time.
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time the `payoutInstrument` was updated, as an ISO 8601 zoned date time.
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+        accountHolderName:
+          type: string
+        swiftBic:
+          type: string
+        bankCode:
+          type: string
+          description: The bankCode must be exactly 6 digits.
+          example: '184758'
+        accountNumber:
+          type: string
+        accountType:
+          type: string
+          enum:
+          - checking
+          - savings
+          - moneyMarket
+          - certificateOfDeposit
+          - vista
+          - other
+        iban:
+          type: string
+        bankName:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        branchCode:
+          type: string
+      required:
+      - currency
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: An ordinal error type that is part of the API contract. It is machine readable, but also human readable for clarity and semantic understanding of the error.
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          description: A human readable message giving a corrective action for the error. THIS IS NOT FOR MACHINE CONSUMPTION.
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseItem'
+        pathParameter:
+          type: string
+        queryParameter:
+          type: string
+        jsonPath:
+          type: string
+      readOnly: true
+      title: Error Response
+    TradingAddress:
+      type: object
+      description: 'Object containing details about the address.
+
+
+        **Note:** If `isTradingAddressSameAsPrimary` is set to `true`, do not provide `tradingAddress`. If `isTradingAddressSameAsPrimary` is `false`, you must provide `tradingAddress`.'
+      properties:
+        address1:
+          type: string
+          description: 'The address.
+
+
+            Must consist of at least two letters, two words, and one number.'
+          example: 1847 Kingsbury Court
+          maxLength: 35
+          minLength: 2
+        address2:
+          type: string
+          description: Line two of the address.
+          example: Unit 42
+          maxLength: 35
+          minLength: 2
+        city:
+          type: string
+          description: The city of this address.
+          example: London
+          maxLength: 35
+          minLength: 1
+        state:
+          type: string
+          description: The state of this address.
+          example: Greater London
+          maxLength: 35
+          minLength: 2
+        countryCode:
+          type: string
+          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes).
+          example: GB
+          maxLength: 2
+          minLength: 2
+        postalCode:
+          type: string
+          description: The postal code of this address.
+          example: NW9 0RR
+          maxLength: 20
+          minLength: 1
+        type:
+          type: string
+          description: Identifies the type of this address.
+          enum:
+          - home
+          - business
+          - poBox
+          - other
+          example: home
+      required:
+      - address1
+      - city
+      - countryCode
+    BalanceAccount:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
+          example: GBP
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]*$
+        payoutInstrumentReference:
+          type: string
+          description: 'A reference of the `payoutInstrument` created by you. This
+
+            field holds the beneficiary bank details. Use this to direct payouts to
+
+            the relevant beneficiary. This must be unique within an entity.
+
+            '
+          example: primaryBusinessAccount
+        scheduledPayoutDay:
+          type: string
+          description: The scheduled payout day for this `balanceAccount`. You must provide this for "weekly" and "monthly" `frequency`.
+          enum:
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          example: friday
+        frequency:
+          type: string
+          description: 'Scheduled payout frequency for this `balanceAccount`:\
+
+            **daily** - payouts are processed every business day\
+
+            **weekly** - you must include `scheduledPayoutDay`\
+
+            **monthly** - you must include `scheduledPayoutDay` and `recurrence`
+
+            '
+          enum:
+          - daily
+          - weekly
+          - monthly
+          example: weekly
+        recurrence:
+          type: string
+          description: The week of the month the payout is paid out. You must provide this for "monthly" `frequency`.
+          enum:
+          - first
+          - second
+          - third
+          - fourth
+          example: first
+        nextPayoutDate:
+          type: string
+          description: The next scheduled payout date for this balance account.
+          example: '2025-02-14'
+          readOnly: true
+        balanceAccountId:
+          type: string
+          description: Unique ID created by us to identify a balance account. This is sent in the response after `balanceAccount` creation.
+          readOnly: true
+        accountNumber:
+          type: string
+          description: The number of your balanceAccount.
+          readOnly: true
+        dateTimeCreated:
+          type: string
+          description: The date and time that the balance account was created, as an ISO 8601 zoned date time.
+          example: 2025-01-23T12:23:445.222Z
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time that the balance account was last updated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T02:43:499.202Z
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+          readOnly: true
+      required:
+      - currency
+    Company:
+      description: A party represents the overall party record of your beneficiary (seller, vendor, provider). You can use this to store information about the party, to perform either an identity verification check, a split payment, or a payout.
+      allOf:
+      - type: object
+      properties:
+        type:
+          type: string
+          description: "What the party represents:\n\n`person` - an individual \n\n`soleTrader` - a single person enterprise \n\n`company` - a corporation or partnership with multiple owners\n\n"
+          enum:
+          - company
+          - person
+          - soleTrader
+        identityVerificationState:
+          type: string
+          enum:
+          - verified
+          - notVerified
+          - pending
+          - rejected
+          - notApplicable
+          - started
+          - startedAction
+          - pendingStepUpAction
+          - pendingManualReview
+          - stepUpReceived
+          readOnly: true
+        identityVerificationMethod:
+          type: string
+          enum:
+          - merchantCompliant
+          - identityVerificationService
+          readOnly: true
+        identityVerificationDate:
+          type: string
+          format: date
+          description: A valid date as YYYY-MM-DD
+          example: '2033-11-22'
+          readOnly: true
+        url:
+          type: string
+          description: The link returned from Identity Verification Status (IVS) used to retrieve additional details from the user.
+          readOnly: true
+        message:
+          type: string
+          description: The message associated with link returned from Identity Verification Status (IVS).
+          readOnly: true
+        partyReference:
+          type: string
+          description: 'Your reference for this party, must be unique within an entity.
+
+            '
+          example: Hosaka27384910
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        partyType:
+          type: string
+          description: 'The type of this party.
+
+            `beneficiary` - the person or business that will receive funds
+
+            `payer` - a transmitter of funds to a third party'
+          enum:
+          - beneficiary
+          - payer
+        partyId:
+          type: string
+          description: A unique identifier for the party generated by us.
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: An email address for this party.
+        merchant:
+          $ref: '#/components/schemas/Merchant'
+          description: An object that contains information about the merchant.
+        phones:
+          type: array
+          description: A list of phone numbers associated with this party.
+          items:
+            $ref: '#/components/schemas/Phone'
+        identityDocuments:
+          type: array
+          description: A list of identity documents for this party.
+          items:
+            $ref: '#/components/schemas/IdentityDocument'
+        balanceAccounts:
+          type: array
+          description: A list of balance accounts that have been set up for this party.
+          items:
+            $ref: '#/components/schemas/BalanceAccount'
+        dateTimeCreated:
+          type: string
+          description: The date and time that the party was created, as an ISO 8601 zoned date time.
+          example: 2025-01-23T12:23:445.222Z
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time that the party was last updated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+          readOnly: true
+        payoutInstruments:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccount'
+        performIdentityVerification:
+          type: boolean
+          writeOnly: true
+        active:
+          type: boolean
+          description: Indicates whether the party is active or not.
+          example: true
+          readOnly: true
+        dateTimeDeactivated:
+          type: string
+          description: The date and time that the party was last deactivated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        deactivationReason:
+          type: string
+          description: The reason for deactivating a party.
+          example: partyDormant
+          readOnly: true
+        dispositionOfFunds:
+          type: string
+          description: The disposition of funds for deactivated party.
+          example: payoutToParty
+          readOnly: true
+        dateTimeActivated:
+          type: string
+          description: The date and time that the party was last activated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+        companyDetails:
+          $ref: '#/components/schemas/CompanyDetails'
+        beneficialOwners:
+          type: array
+          items:
+            $ref: '#/components/schemas/BeneficialOwners'
+      required:
+      - companyDetails
+      - merchant
+      - partyReference
+      - partyType
+      - type
+    BeneficialOwners:
+      type: object
+      properties:
+        identityVerificationState:
+          type: string
+          enum:
+          - verified
+          - notVerified
+          - pending
+          - rejected
+          - notApplicable
+          - started
+          - startedAction
+          - pendingStepUpAction
+          - pendingManualReview - stepUpReceived
+          readOnly: true
+        identityVerificationMethod:
+          type: string
+          enum:
+          - merchantCompliant
+          - identityVerificationService
+          readOnly: true
+        identityVerificationDate:
+          type: string
+          format: date
+          description: A valid date as YYYY-MM-DD
+          example: '2033-11-22'
+          readOnly: true
+        url:
+          type: string
+          description: The link returned from Identity Verification Status (IVS) used to retrieve additional details from the user.
+          readOnly: true
+        message:
+          type: string
+          description: The message associated with link returned from Identity Verification Status (IVS).
+          readOnly: true
+        beneficialOwnerReference:
+          type: string
+          description: 'Your reference for this beneficial owner, must be unique within an entity.
+
+
+            '
+          example: Hosaka27384910
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        beneficialOwnerId:
+          type: string
+          description: A unique identifier for the beneficial owner generated by us.
+          readOnly: true
+        personalDetails:
+          $ref: '#/components/schemas/PersonalDetailsForBeneficialOwner'
+        relationshipToBusiness:
+          $ref: '#/components/schemas/RelationshipToBusiness'
+        email:
+          type: string
+          format: email
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        identityDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentityDocument'
+        dateTimeCreated:
+          type: string
+          description: The date and time that the beneficial owner was created, as an ISO 8601 zoned date time.
+          example: 2025-01-23T12:23:445.222Z
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: 'The date and time that the beneficial owner was last updated, as an ISO 8601 zoned date time.
+
+
+            '
+          example: 2025-01-25T14:57:012.302Z
+          readOnly: true
+      required:
+      - beneficialOwnerReference
+      - personalDetails
+      - relationshipToBusiness
+    Pagination:
+      type: object
+      description: Pagination information for browsing.
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Positive whole number indicating which page of the selected parties to return. Greater than 0.
+          example: 5
+          readOnly: true
+        size:
+          type: integer
+          format: int32
+          description: Number of items listed per page.
+          example: 10
+          readOnly: true
+        pageCount:
+          type: integer
+          format: int32
+          description: Total number of pages.
+          example: 3
+          readOnly: true
+        totalNumberOfRecords:
+          type: integer
+          format: int64
+          description: Total number of records in the database for the selected parties.
+          example: 1227
+          readOnly: true
+      readOnly: true
+      required:
+      - page
+      - size
+    Merchant:
+      type: object
+      description: An object that contains information about the merchant.
+      properties:
+        entity:
+          type: string
+          description: Used to route the request in Access Worldpay, created as part of on-boarding.
+          example: default
+          maxLength: 36
+          minLength: 1
+          pattern: '[a-zA-Z0-9- ]*'
+      required:
+      - entity
+      title: Merchant
+    PersonalDetailsImplForPerson:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title for this `person`/`soleTrader`.
+          enum:
+          - Mr
+          - Mrs
+          - Miss
+          - Ms
+          - Dr
+          - Mx
+          - Misc
+          example: Mr
+        firstName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s first name.
+
+            '
+          example: Case
+          maxLength: 35
+          minLength: 2
+          pattern: ^[\p{L}\-.,'()&]{2,}$
+        middleName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s middle name or initial.
+
+
+            '
+          example: Henry
+          maxLength: 35
+          minLength: 1
+          pattern: ^(?:\p{L}\.?)*+$
+        lastName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s last name.
+
+
+            '
+          example: Mitchell
+          maxLength: 35
+          minLength: 2
+          pattern: ^(?:[\p{L}\-.,'()&]{2,} *)*+$
+        alias:
+          type: string
+          description: An alternative or commonly-used name for the individual (e.g., preferred or informal name). Does not replace the legal name.
+          example: Junior Henry
+          maxLength: 35
+          minLength: 2
+          pattern: ^[\p{L}\-.,'()&]++(?:\s++[\p{L}\-.,'()&]++)*+$
+        socialSecurityNumber:
+          type: string
+          description: The individual's U.S. Social Security Number (SSN), required for U.S.-based tax or identity checks.
+          example: 004-54-6578
+          pattern: ^\d{3}-\d{2}-\d{4}$
+        dateOfBirth:
+          type: string
+          description: 'The date the `person`/`soleTrader` was born.
+
+
+            '
+          example: '1983-10-12'
+        address:
+          $ref: '#/components/schemas/Address'
+          description: The address of the `person`/`soleTrader`.
+        residentialStatus:
+          type: string
+          description: The residential status of the `person`/`soleTrader`.
+          enum:
+          - resident
+          - nonResident
+          - other
+        customerReference:
+          type: string
+          description: Unique reference provided by the payee. Only required for certain payout destinations.
+          example: '7564389201'
+          maxLength: 255
+          minLength: 1
+        nationality:
+          type: string
+          description: The nationality of the `person`/`soleTrader`.
+        currentAddressLessThanThreeYears:
+          type: boolean
+        previousHomeAddress:
+          $ref: '#/components/schemas/Address'
+          description: The previous home address of the `person`/`soleTrader`.
+        website:
+          type: string
+          description: The URL of the merchant's website.
+          example: https://example.com/
+      required:
+      - address
+      - firstName
+      - lastName
+      - title
+    PersonalDetailsImplForSoleTrader:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title for this `person`/`soleTrader`.
+          enum:
+          - Mr
+          - Mrs
+          - Miss
+          - Ms
+          - Dr
+          - Mx
+          - Misc
+          example: Mr
+        firstName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s first name.
+
+            '
+          example: Case
+          maxLength: 35
+          minLength: 2
+          pattern: ^[\p{L}\-.,'()&]{2,}$
+        middleName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s middle name or initial.
+
+
+            '
+          example: Henry
+          maxLength: 35
+          minLength: 1
+          pattern: ^(?:\p{L}\.?)*+$
+        lastName:
+          type: string
+          description: 'The `person`''s/`soleTrader`''s last name.
+
+
+            '
+          example: Mitchell
+          maxLength: 35
+          minLength: 2
+          pattern: ^(?:[\p{L}\-.,'()&]{2,} *)*+$
+        tradingName:
+          type: string
+          description: The trading common name of the SoleTrader.
+          example: WorldpayFusion
+          maxLength: 140
+          minLength: 2
+          pattern: '^(?: *[\p{L}\p{N}+&\/\-.()])*+(?: *[\p{L}\p{N}\-.,\/&()@#'']{2,140})*+(?: *[\p{L}\p{N}&\/\-.()])*+ *$'
+        alias:
+          type: string
+          description: An alternative or commonly-used name for the individual (e.g., preferred or informal name). Does not replace the legal name.
+          example: WP Mitchell
+          maxLength: 35
+          minLength: 2
+          pattern: ^[\p{L}\-.,'()&]++(?:\s++[\p{L}\-.,'()&]++)*+$
+        socialSecurityNumber:
+          type: string
+          description: The individual's U.S. Social Security Number (SSN), required for U.S.-based tax or identity checks.
+          example: 004-54-6578
+          pattern: ^\d{3}-\d{2}-\d{4}$
+        dateOfBirth:
+          type: string
+          description: 'The date the `person`/`soleTrader` was born.
+
+
+            '
+          example: '1983-10-12'
+        address:
+          $ref: '#/components/schemas/Address'
+          description: The address of the `person`/`soleTrader`.
+        tradingAddress:
+          description: The trading address of this soleTrader.
+          $ref: '#/components/schemas/TradingAddress'
+        residentialStatus:
+          type: string
+          description: The residential status of the `person`/`soleTrader`.
+          enum:
+          - resident
+          - nonResident
+          - other
+        customerReference:
+          type: string
+          description: Unique reference provided by the payee. Only required for certain payout destinations.
+          example: '7564389201'
+          maxLength: 255
+          minLength: 1
+        nationality:
+          type: string
+          description: The nationality of the `person`/`soleTrader`.
+        currentAddressLessThanThreeYears:
+          type: boolean
+        isTradingAddressSameAsPrimary:
+          type: boolean
+          description: Indicates whether the trading address is the same as the primary address.
+          example: true
+        previousHomeAddress:
+          $ref: '#/components/schemas/Address'
+          description: The previous home address of the `person`/`soleTrader`.
+        website:
+          type: string
+          description: The URL of the merchant's website.
+          example: https://example.com/
+        merchantCategoryCode:
+          type: string
+          description: A 4-digit code to represent the merchant category. Only provide this where `typeCode` is `soleTrader` or `company`.
+          example: '5411'
+          maxLength: 4
+          minLength: 4
+          pattern: ^\d{4}$
+        merchantCategoryCodeDescription:
+          type: string
+          description: A description to describe the merchant category code. Only provide this where `typeCode` is `soleTrader` or `company`.
+          example: Grocery Stores
+          maxLength: 255
+          minLength: 1
+        taxIdentifier:
+          type: string
+          description: The entity's tax registration number (VAT, GST, EIN, TIN, or equivalent), depending on jurisdiction.
+          example: JP-987654321
+          maxLength: 35
+          minLength: 2
+          pattern: ^[a-zA-Z0-9-]*$
+      required:
+      - address
+      - firstName
+      - lastName
+      - title
+      - tradingName
+      - isTradingAddressSameAsPrimary
+    Address:
+      type: object
+      description: Object containing details about the address.
+      properties:
+        address1:
+          type: string
+          description: 'The address.
+
+
+            Must consist of at least two letters, two words, and one number.'
+          example: 1847 Kingsbury Court
+          maxLength: 35
+          minLength: 2
+        address2:
+          type: string
+          description: Line two of the address.
+          example: Unit 42
+          maxLength: 35
+          minLength: 2
+        city:
+          type: string
+          description: The city of this address.
+          example: London
+          maxLength: 35
+          minLength: 1
+        state:
+          type: string
+          description: The state of this address.
+          example: Greater London
+          maxLength: 35
+          minLength: 2
+        countryCode:
+          type: string
+          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes).
+          example: GB
+          maxLength: 2
+          minLength: 2
+        postalCode:
+          type: string
+          description: The postal code of this address.
+          example: NW9 0RR
+          maxLength: 20
+          minLength: 1
+        type:
+          type: string
+          description: Identifies the type of this address.
+          enum:
+          - home
+          - business
+          - poBox
+          - other
+          example: home
+      required:
+      - address1
+      - city
+      - countryCode
+    RelationshipToBusiness:
+      type: object
+      properties:
+        ownershipPercentage:
+          type: number
+          description: Percentage of the ownership of the beneficial owner over the company.
+          format: double
+          maximum: 100
+        director:
+          type: boolean
+          description: 'A flag indicating if the beneficial owner is also a director for the company.
+
+            '
+        isPrincipalOwner:
+          type: boolean
+          description: 'A flag indicating if the beneficial owner is also a principal owner for the company.<br>
+
+            **Note:** You can set no more than **one** beneficial owner per party record of type `company`, as principal owner.
+
+            '
+          example: true
+        position:
+          type: string
+          description: Type of position of the beneficial owner within the company.
+          enum:
+          - soleTrader
+          - accountant
+          - bursar
+          - chairman
+          - chairwoman
+          - chiefExecutiveOfficer
+          - clerk
+          - companySecretary
+          - creditController
+          - deputyLeader
+          - generalManager
+          - leader
+          - manager
+          - managingDirector
+          - master
+          - guarantor
+          - mayor
+          - officeManager
+          - operationsManager
+          - president
+          - principal
+          - proprietor
+          - townClerk
+          - director
+          - apportionmentAndOversight
+          - chiefExecutive
+          - complianceOversight
+          - directorUnincorporatedAssociate
+          - nonExecutiveDirector
+          - significantManagement
+          - smallFriendlySociety
+          - chairperson
+          - designatedMember
+          - secretary
+          - trustee
+          - treasurer
+          - businessRepresentative
+          - authorisedSignatory
+          - signatory
+          - technicalContact
+          - contractSignatory
+          - publicOfficer
+          - controller
+          - beneficialOwner
+          - partner
+          - shareholder
+          - chiefFinancialOfficer
+          - chiefOperatingOfficer
+          - beneficiary
+          - charitySecretary
+          - member
+          - protector
+          - settlor
+          - soleProprietor
+          - nonDesignatedMember
+      required:
+      - director
+      - ownershipPercentage
+      - position
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

@@ -1,0 +1,733 @@
+openapi: 3.0.1
+info:
+  title: 3DS 3DS actions API
+  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  version: '3'
+  x-metadata:
+    category:
+    - 3DS
+    - SCA Exemptions
+    business:
+    - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+- url: https://try.access.worldpay.com
+  description: Test (Try)
+- url: https://access.worldpay.com
+  description: Live
+security:
+- BasicAuth: []
+tags:
+- name: 3DS actions
+  description: If 3DS is enabled additional actions are required
+paths:
+  /api/payments/{linkData}/3dsDeviceData:
+    post:
+      tags:
+      - 3DS actions
+      summary: Supply 3DS device data
+      description: Gather additional device data
+      operationId: supply3dsDeviceData
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceDataRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDataResponse201'
+              examples:
+                3dsChallenged:
+                  $ref: '#/components/examples/3ds-challenged-201'
+                authorized:
+                  $ref: '#/components/examples/authorized-3ds-frictionless-201'
+                refused:
+                  $ref: '#/components/examples/refused-201'
+                3dsUnavailable:
+                  $ref: '#/components/examples/3ds-unavailable-201'
+                3dsAuthenticationFailed:
+                  $ref: '#/components/examples/3ds-authentication-failed-201'
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDataResponse202'
+              examples:
+                sentForSettlement:
+                  $ref: '#/components/examples/sent-for-settlement-3ds-frictionless-202'
+                sentForCancellation:
+                  $ref: '#/components/examples/sent-for-cancellation-202'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '2'
+  /api/payments/{linkData}/3dsChallenges:
+    post:
+      tags:
+      - 3DS actions
+      summary: Continue with the payment after a 3DS challenge
+      description: Verify authentication challenge
+      operationId: complete3dsChallenge
+      parameters:
+      - name: linkData
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: WP-Api-Version
+        in: header
+        description: The API version
+        required: true
+        schema:
+          type: string
+          description: The API version
+          enum:
+          - '2024-06-01'
+          example: '2024-06-01'
+        example: '2024-06-01'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeResponse201'
+              examples:
+                authorized:
+                  $ref: '#/components/examples/authorized-3ds-challenged-201'
+                refused:
+                  $ref: '#/components/examples/refused-201'
+                3dsUnavailable:
+                  $ref: '#/components/examples/3ds-unavailable-201'
+                3dsAuthenticationFailed:
+                  $ref: '#/components/examples/3ds-authentication-failed-201'
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeResponse202'
+              examples:
+                sentForSettlement:
+                  $ref: '#/components/examples/sent-for-settlement-3ds-challenged-202'
+                sentForCancellation:
+                  $ref: '#/components/examples/sent-for-cancellation-202'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              examples:
+                Bad request:
+                  $ref: '#/components/examples/400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unauthorized:
+                  $ref: '#/components/examples/401'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderErrorResponse'
+              examples:
+                Not acceptable:
+                  $ref: '#/components/examples/406'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Unsupported media type:
+                  $ref: '#/components/examples/415'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Internal server error:
+                  $ref: '#/components/examples/500'
+      x-orderingPosition: '3'
+components:
+  examples:
+    3ds-unavailable-201:
+      description: 3DS is unavailable when attempting authentication. If `/3dsChallenges` is called without completing the challenge this response may also be returned.
+      value:
+        transactionReference: 2d287869-0f31-4662-8c98-1abcea5f9247
+        outcome: 3dsUnavailable
+        authentication:
+          eci: '07'
+          version: 2.2.0
+    refused-201:
+      description: 'Example of a refused response.
+
+        '
+      value:
+        outcome: refused
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: Memory265-13/08/1876
+        refusalDescription: REFUSED
+        refusalCode: '5'
+        advice:
+          code: '01'
+        riskFactors:
+        - risk: notChecked
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+    '401':
+      value:
+        errorName: accessDenied
+        message: Access to the requested resource has been denied.
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: A JSON body matching the expected schema must be provided.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: Field at path is not allowed.
+          jsonPath: $.instruction.paymentInstrument.narrative
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: We cannot currently process your request. Please contact support.
+    sent-for-settlement-3ds-frictionless-202:
+      description: "Example of a sentForSettlement response following a 3DS authentication without a challenge (frictionless)\n* auto settlement was enabled in the payments request\n* includes fraud, token and threeDS objects \n"
+      value:
+        outcome: sentForSettlement
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: Memory265-13/08/1876
+        schemeReference: '060720116005060'
+        issuer:
+          authorizationCode: '675725'
+        riskFactors:
+        - risk: notChecked
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+        fraud:
+          outcome: lowRisk
+          score: 44.6
+        threeDS:
+          outcome: authenticated
+          issuerResponse: frictionless
+          version: 2.2.0
+          eci: '02'
+          acsTransactionId: 559c8bd8-edfb-417a-9f98-99018596242d
+          dsTransactionId: 220403a5-62f8-4df0-9418-abfa092775c9
+          status: Y
+          challengePreference: noChallengeRequested
+        token:
+          href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ
+          tokenId: '9968110159504301628'
+          tokenExpiryDateTime: '2024-04-11T15:59:23Z'
+          cardNumber: 4000********1000
+          cardHolderName: test
+          cardExpiry:
+            year: 2035
+            month: 5
+          bin: '400000'
+          fundingType: debit
+          schemeReference: '060720116005060'
+          conflicts:
+            conflictsExpiryDateTime: '2024-07-04T06:40:32.310316518Z'
+            paymentInstrument:
+              cardHolderName: John Snow
+        paymentInstrument:
+          type: card/plain+masked
+          cardBin: '400000'
+          lastFour: '1000'
+          countryCode: GB
+          expiryDate:
+            year: 2035
+            month: 5
+          cardBrand: mastercard
+          fundingType: debit
+          category: consumer
+          issuerName: BANK LIMITED
+          paymentAccountReference: 3001DBT34Q41D6J7PFC5W0UACOT4C
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          refundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds
+            method: POST
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+    '415':
+      value:
+        errorName: headerHasInvalidValue
+        message: A valid header must be provided.
+        headerName: Content-Type
+    sent-for-cancellation-202:
+      value:
+        outcome: sentForCancellation
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: f4806b75-89d1-498a-8634-bfa79afca54f
+        schemeReference: '060720116005060'
+        issuer:
+          authorizationCode: '675725'
+        riskFactors:
+        - risk: notMatched
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+        fraud:
+          outcome: lowRisk
+          score: 44
+        threeDS:
+          outcome: authenticated
+          issuerResponse: frictionless
+        paymentInstrument:
+          type: card/plain+masked
+          cardBin: '400000'
+          lastFour: '1000'
+          countryCode: GB
+          expiryDate:
+            year: 2035
+            month: 5
+          cardBrand: mastercard
+          fundingType: debit
+          category: consumer
+          issuerName: BANK LIMITED
+          paymentAccountReference: 3001DBT34Q41D6J7PFC5W0UACOT4C
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Am1abCnrwHIBOLZ%3A8ZpsSaLoyDtB%3A8H%2BxSOOOGjEbko3O%3A%3A7gTMASwaw7KY3SuOCoh4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ3ZOMOj3ix5oo3ctSHv2uo5m6InByzI1XuTONS3N8O%2B1%2BuC8Xk67Ze0uAJk%2BrJN9o7Z%3AVhRHFzbbwymcuTiRbNw%3D
+    '406':
+      value:
+        errorName: headerIsMissing
+        message: A valid header must be provided.
+        headerName: Content-Type
+    3ds-challenged-201:
+      description: As an additional fraud measure the issuer requests a [3DS challenge](../enable-3ds-authentication/web/#challenge--verification) to be performed
+      value:
+        outcome: 3dsChallenged
+        transactionReference: Memory265-13/08/1876
+        authentication:
+          version: 2.1.0
+        challenge:
+          reference: 706hovL8DK1tIGGzQUV1
+          url: https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp
+          jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiI2NjAzMDA3YWJlMjMxZTM1ZTNmNTRjODkiLCJPYmplY3RpZnlQYXlsb2FkIjpmYWxzZSwiaXNzIjoiNjYwMzAwN2ExNmRkOWE3ZTZhMDMzNDA3IiwiUmV0dXJuVXJsIjoiaHR0cDovL3BheW1lbnQuZXhhbXBsZS5jb20iLCJQYXlsb2FkIjoie1wiUGF5bG9hZFwiOlwiZXlKdFpYTnpZV2RsVkhsd1pTSTZJa05TWlhFaUxDSnRaWE56WVdkbFZtVnljMmx2YmlJNklqSXVNUzR3SWl3aWRHaHlaV1ZFVTFObGNuWmxjbFJ5WVc1elNVUWlPaUppTkRKbE5UWmpaaTAyWkRrMkxUUXpNek10T0dJMk5DMWlNbVU0TldZMFpURTFaVGtpTENKaFkzTlVjbUZ1YzBsRUlqb2laV1ZqWldZeE1ETXRNRE13TVMwMFpUbGtMVGsxTmpFdE56ZGlNbVkzTlRFMk5HUmhJaXdpWTJoaGJHeGxibWRsVjJsdVpHOTNVMmw2WlNJNklqQTBJbjBcIixcIkFDU1VybFwiOlwiaHR0cHM6XFwvXFwvMW1lcmNoYW50YWNzc3RhZy5jYXJkaW5hbGNvbW1lcmNlLmNvbVxcL01lcmNoYW50QUNTV2ViXFwvY3JlcS5qc3BcIixcIlRyYW5zYWN0aW9uSWRcIjpcIjcwNmhvdkw4REsxdElHR3pRVVYxXCJ9IiwiZXhwIjoxNzEyMzA2MDk0LCJpYXQiOjE3MTIzMDU0OTQsImp0aSI6IjE4YTIwYzNkLTZhZmMtNDA5My04NGEwLTQ2OGEyYTY5MTE0OCJ9.YEpOuTxnqrXRiHan-givWBd6FfTDJOfNg-h2dF2yA6A
+          payload: eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMS4wIiwidGhyZWVEU1NlcnZlclRyYW5zSUQiOiJiNDJlNTZjZi02ZDk2LTQzMzMtOGI2NC1iMmU4NWY0ZTE1ZTkiLCJhY3NUcmFuc0lEIjoiZWVjZWYxMDMtMDMwMS00ZTlkLTk1NjEtNzdiMmY3NTE2NGRhIiwiY2hhbGxlbmdlV2luZG93U2l6ZSI6IjA0In0
+        _actions:
+          complete3dsChallenge:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoxLCJkIjoiZXlOaXNtU0lzQnVLTm5BQkt1WjEyMVFxeXg2bUZtb2hEcEpFeDdyYXZ3SDE3NFBpUTBsWUpwekptbW9hR3VVSyJ9/3dsChallenges
+            method: POST
+    authorized-3ds-frictionless-201:
+      description: "Example of an authorized response following a 3DS authentication without a challenge (frictionless). Use the action `settlePayment` to complete the transaction\n* includes fraud, token and threeDS objects \n"
+      value:
+        outcome: authorized
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: Memory265-13/08/1876
+        riskFactors:
+        - risk: notChecked
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+        fraud:
+          outcome: lowRisk
+          score: 44.6
+        threeDS:
+          outcome: authenticated
+          issuerResponse: frictionless
+          version: 2.2.0
+          eci: '02'
+          acsTransactionId: 559c8bd8-edfb-417a-9f98-99018596242d
+          dsTransactionId: 220403a5-62f8-4df0-9418-abfa092775c9
+          status: Y
+          challengePreference: noChallengeRequested
+        token:
+          href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ
+          tokenId: '9968110159504301628'
+          tokenExpiryDateTime: '2024-04-11T15:59:23Z'
+          cardNumber: 4000********1000
+          cardHolderName: test
+          cardExpiry:
+            year: 2035
+            month: 5
+          bin: '400000'
+          fundingType: debit
+          schemeReference: '060720116005060'
+          conflicts:
+            conflictsExpiryDateTime: '2024-07-04T06:40:32.310316518Z'
+            paymentInstrument:
+              cardHolderName: John Snow
+        paymentInstrument:
+          type: card/plain+masked
+          cardBin: '400000'
+          lastFour: '1000'
+          countryCode: GB
+          expiryDate:
+            year: 2035
+            month: 5
+          cardBrand: mastercard
+          fundingType: debit
+          category: consumer
+          issuerName: BANK LIMITED
+          paymentAccountReference: 3001DBT34Q41D6J7PFC5W0UACOT4C
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          cancelPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
+            method: POST
+          settlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements
+            method: POST
+          partiallySettlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
+    authorized-3ds-challenged-201:
+      description: "Example of a authorized response following a successful 3DS challenge, use the action `settlePayment` to complete the transaction\n* includes fraud, token and threeDS objects \n"
+      value:
+        outcome: authorized
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: Memory265-13/08/1876
+        riskFactors:
+        - risk: notChecked
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+        fraud:
+          outcome: lowRisk
+          score: 44.6
+        threeDS:
+          outcome: authenticated
+          issuerResponse: challenged
+          version: 2.2.0
+          eci: '05'
+          acsTransactionId: 559c8bd8-edfb-417a-9f98-99018596242d
+          dsTransactionId: 220403a5-62f8-4df0-9418-abfa092775c9
+          status: Y
+          challengePreference: noPreference
+        token:
+          href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ
+          tokenId: '9968110159504301628'
+          tokenExpiryDateTime: '2024-04-11T15:59:23Z'
+          cardNumber: 4000********1000
+          cardHolderName: test
+          cardExpiry:
+            year: 2035
+            month: 5
+          bin: '400000'
+          fundingType: debit
+          schemeReference: '060720116005060'
+          conflicts:
+            conflictsExpiryDateTime: '2024-07-04T06:40:32.310316518Z'
+            paymentInstrument:
+              cardHolderName: John Snow
+        paymentInstrument:
+          type: card/plain+masked
+          cardBin: '400000'
+          lastFour: '1000'
+          countryCode: GB
+          expiryDate:
+            year: 2035
+            month: 5
+          cardBrand: mastercard
+          fundingType: debit
+          category: consumer
+          issuerName: BANK LIMITED
+          paymentAccountReference: 3001DBT34Q41D6J7PFC5W0UACOT4C
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          cancelPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
+            method: POST
+          settlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements
+            method: POST
+          partiallySettlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
+    sent-for-settlement-3ds-challenged-202:
+      description: "Example of a sentForSettlement response following a successful 3DS challenge\n* auto settlement was enabled in the payments request\n* includes fraud, token and threeDS objects \n"
+      value:
+        outcome: sentForSettlement
+        paymentId: payI-dUcet9fk4_X4qZU0hpU0
+        transactionReference: Memory265-13/08/1876
+        schemeReference: '060720116005060'
+        issuer:
+          authorizationCode: '675725'
+        riskFactors:
+        - risk: notChecked
+          type: cvc
+        - risk: notChecked
+          detail: address
+          type: avs
+        - risk: notChecked
+          detail: postcode
+          type: avs
+        fraud:
+          outcome: lowRisk
+          score: 44.6
+        threeDS:
+          outcome: authenticated
+          issuerResponse: challenged
+          version: 2.2.0
+          eci: '05'
+          acsTransactionId: 559c8bd8-edfb-417a-9f98-99018596242d
+          dsTransactionId: 220403a5-62f8-4df0-9418-abfa092775c9
+          status: Y
+          challengePreference: noPreference
+        token:
+          href: https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ
+          tokenId: '9968110159504301628'
+          tokenExpiryDateTime: '2024-04-11T15:59:23Z'
+          cardNumber: 4000********1000
+          cardHolderName: test
+          cardExpiry:
+            year: 2035
+            month: 5
+          bin: '400000'
+          fundingType: debit
+          schemeReference: '060720116005060'
+          conflicts:
+            conflictsExpiryDateTime: '2024-07-04T06:40:32.310316518Z'
+            paymentInstrument:
+              cardHolderName: John Snow
+        paymentInstrument:
+          type: card/plain+masked
+          cardBin: '400000'
+          lastFour: '1000'
+          countryCode: GB
+          expiryDate:
+            year: 2035
+            month: 5
+          cardBrand: mastercard
+          fundingType: debit
+          category: consumer
+          issuerName: BANK LIMITED
+          paymentAccountReference: 3001DBT34Q41D6J7PFC5W0UACOT4C
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          refundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds
+            method: POST
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+    3ds-authentication-failed-201:
+      description: Authentication failed by the issuer as part of a frictionless flow or the challenge (identity check) was attempted but failed by the customer
+      value:
+        transactionReference: f71d7212-584f-421b-b977-a05e41ab5d0d
+        outcome: 3dsAuthenticationFailed
+        authentication:
+          version: 2.1.0
+          eci: '07'
+          transactionId: 8ccd2246-ac18-4d25-8394-aec2b8eed92e
+  schemas:
+    DeviceDataResponse202:
+      type: object
+      discriminator:
+        propertyName: outcome
+        mapping:
+          sentForSettlement: '#/components/schemas/SentForSettlementResponse'
+          sentForCancellation: '#/components/schemas/SentForCancellationResponse'
+      properties:
+        outcome:
+          type: string
+        transactionReference:
+          type: string
+          description: ' A unique reference generated by you that is used to identify a payment throughout its lifecycle. '
+          maxLength: 64
+          minLength: 1
+          pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+    DeviceDataResponse201:
+      type: object
+      discriminator:
+        propertyName: outcome
+        mapping:
+          authorized: '#/components/schemas/CardAuthorizedPaymentResponse'
+          refused: '#/components/schemas/PaymentRefusedResponse'
+          3dsChallenged: '#/components/schemas/ChallengedResponse'
+          3dsAuthenticationFailed: '#/components/schemas/UnsuccessfulAuthenticationResponse'
+          3dsUnavailable: '#/components/schemas/UnavailableAuthenticationResponse'
+      properties:
+        outcome:
+          type: string
+        transactionReference:
+          type: string
+          description: ' A unique reference generated by you that is used to identify a payment throughout its lifecycle. '
+          maxLength: 64
+          minLength: 1
+          pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        jsonPath:
+          type: string
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorResponse'
+    HeaderErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        headerName:
+          type: string
+    ChallengeResponse202:
+      discriminator:
+        propertyName: outcome
+        mapping:
+          sentForSettlement: '#/components/schemas/SentForSettlementResponse'
+          sentForCancellation: '#/components/schemas/SentForCancellationResponse'
+    DeviceDataRequest:
+      type: object
+      properties:
+        collectionReference:
+          type: string
+          description: Add the `sessionId` provided in the [postMessage for the device data collection form (web)](/products/payments/enable-features/3ds-authentication/web) or for native (iOS/Android), returned as `consumerSessionId` as part of [SDK initialization](/products/payments/enable-features/3ds-authentication/android-ios). <br><br>__Note:__ If device data collection fails you can attempt the payment without this value, but you will see an increased number of `challenged` and even `authenticationFailed` outcomes, if this happens for a lot of requests.
+    ChallengeResponse201:
+      type: object
+      discriminator:
+        propertyName: outcome
+        mapping:
+          authorized: '#/components/schemas/CardAuthorizedPaymentResponse'
+          refused: '#/components/schemas/PaymentRefusedResponse'
+          3dsAuthenticationFailed: '#/components/schemas/UnsuccessfulAuthenticationResponse'
+          3dsUnavailable: '#/components/schemas/PaymentsResponse'
+      properties:
+        outcome:
+          type: string
+        transactionReference:
+          type: string
+          description: ' A unique reference generated by you that is used to identify a payment throughout its lifecycle. '
+          maxLength: 64
+          minLength: 1
+          pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
