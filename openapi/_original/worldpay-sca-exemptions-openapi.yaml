@@ -1,0 +1,1041 @@
+openapi: 3.0.1
+info:
+  title: SCA Exemptions
+  description: >-
+    Maximize a frictionless checkout experience by using issuer data insights to
+    apply exemptions. Exemptions are supported for Visa, Mastercard and
+    Maestro.<br><br> __Authentication header__
+      ```
+        Authorization: {your_credentials}
+      ```
+    Replace `{your_credentials}` with your base64-encoded Basic Auth username
+    and password given to your by your Worldpay Implementation Manager. <br />
+    <br />
+
+    You **must** use the `Authorization` header for any request you send to our
+    Exemptions API. <br><br> __Accept/Content-Type header__
+      ```
+      Content-Type: application/vnd.worldpay.exemptions-v1.hal+json
+      Accept: application/vnd.worldpay.exemptions-v1.hal+json
+      ```
+      <br>
+
+    We use the Accept header to identify which version of our API you are using.
+    You must use the Accept header for any request you send to our Exemptions
+    API. <br><br> We require the Content-Type header if the request you're
+    sending includes a request body, and if the HTTP method is a `POST` or a
+    `PUT`. <br /><br />
+
+    __DNS whitelisting__ <br><br> Whitelist the following URLs:<br><br> *
+    `https://try.access.worldpay.com/`<br> *
+    `https://access.worldpay.com/`<br><br>
+
+    Please ensure you use DNS whitelisting, not explicit IP whitelisting.
+
+    {% admonition type="danger" name="Applying the exemption" %} You must apply
+    the `riskProfile` from the exemption assessment response in the [Card
+    Payments API](/products/card-payments/authorize-a-payment#sca-exemptions) to
+    link the Worldpay payment and apply the exemption that was granted. 
+
+    See [applying the
+    exemption](/products/sca-exemptions/assessment#applying-the-exemption) for
+    details. {% /admonition %}
+  version: '1'
+  x-metadata:
+    category:
+      - 3DS
+      - SCA Exemptions
+    business:
+      - Enterprise
+    catalog-list: true
+    generated: false
+servers:
+  - url: https://try.access.worldpay.com
+    description: Test (Try)
+  - url: https://access.worldpay.com
+    description: Live
+paths:
+  /exemptions/assessment:
+    post:
+      summary: Exemption assessment
+      description: Assess for exemption.
+      operationId: assessment
+      parameters:
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            example: application/vnd.worldpay.exemptions-v1.hal+json
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            example: application/vnd.worldpay.exemptions-v1.hal+json
+      requestBody:
+        content:
+          application/vnd.worldpay.exemptions-v1.hal+json:
+            schema:
+              $ref: '#/components/schemas/exemptions_assessment'
+            examples:
+              card/front:
+                $ref: '#/components/examples/assessment-request-card'
+              card/tokenized:
+                $ref: '#/components/examples/assessment-request-token'
+              card/networkToken:
+                $ref: '#/components/examples/assessment-request-networkToken'
+      responses:
+        '200':
+          description: The authentication has been created
+          content:
+            application/vnd.worldpay.exemptions-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/exemptions_assessment_200_response'
+              examples:
+                No exemption is granted:
+                  $ref: '#/components/examples/assessment-response-no-exemption'
+                Exemption granted - lowValue/authorization:
+                  $ref: >-
+                    #/components/examples/assessment-response-exemption-authorization-lowvalue
+                Exemption granted - lowRisk/authorization:
+                  $ref: >-
+                    #/components/examples/assessment-response-exemption-authorization-lowrisk
+                Exemption granted - lowRisk/authentication:
+                  $ref: >-
+                    #/components/examples/assessment-response-exemption-authentication-lowrisk
+        '400':
+          description: Assessment request contains invalid values
+          content:
+            application/vnd.worldpay.exemptions-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/exemptions_assessment_400_response'
+              examples:
+                An Exemption assessment request with invalid value in request body:
+                  description: >-
+                    An Exemption assessment request using an email which is 2
+                    characters long
+                  value:
+                    errorName: bodyDoesNotMatchSchema
+                    validationErrors:
+                      - errorName: stringFailedRegexCheck
+                        message: Email must be a valid email address
+                        jsonPath: $.riskData.account.email
+                      - errorName: stringIsTooShort
+                        message: Email must be between 3 and 254 characters inclusive
+                        jsonPath: $.riskData.account.email
+                    message: The json body provided does not match the expected schema
+                An Exemption assessment request using invalid header:
+                  description: >-
+                    An Exemption assessment request using invalid 'Content-Type'
+                    header
+                  value:
+                    errorName: headerHasInvalidValue
+                    message: A valid 'Content-Type' header must be provided
+                An Exemption assessment request using invalid http method:
+                  description: >-
+                    An Exemption assessment request using GET method instead of
+                    POST
+                  value:
+                    errorName: methodNotAllowed
+                    message: method GET not allowed for this request
+        '401':
+          description: Assessment request is unauthorized
+          content:
+            application/vnd.worldpay.exemptions-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/exemptions_assessment_401_response'
+              examples:
+                An Exemption assessment request with invalid Authorization header:
+                  description: >-
+                    An Exemption assessment request using invalid Authorization
+                    header
+                  value:
+                    errorName: unAuthorized
+                    message: Invalid access token
+        '503':
+          description: The requested service is unavailable
+          content:
+            application/vnd.worldpay.exemptions-v1.hal+json:
+              schema:
+                $ref: '#/components/schemas/exemptions_assessment_503_response'
+              examples:
+                The requested service is unavailable:
+                  description: The requested service is unavailable
+                  value:
+                    errorName: serviceUnavailable
+                    message: Service unavailable
+components:
+  schemas:
+    billingAddress:
+      required:
+        - address1
+        - city
+        - postalCode
+        - countryCode
+      type: object
+      description: An object containing the billing address information.
+      properties:
+        city:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Billing address city
+        address1:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 1
+        postalCode:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Billing address postal code
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]{2}$
+          type: string
+          description: Billing address country code
+        state:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: >-
+            Billing address state. Should only be provided following the
+            `ISO-3611-2` two-character sub division (e.g.“CA” for California).
+        address2:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 2
+        address3:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 3
+    card_front:
+      required:
+        - type
+        - cardNumber
+        - cardHolderName
+        - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/front
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          required:
+            - month
+            - year
+          type: object
+          description: Object containing card expiry information
+          properties:
+            month:
+              maximum: 12
+              minimum: 1
+              type: integer
+              description: Card expiry month
+            year:
+              maximum: 9999
+              minimum: 1
+              type: integer
+              description: Card expiry year
+        cardNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: Clear card number (PAN).
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The name on the customer's card.
+    card_tokenized:
+      required:
+        - type
+        - href
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/tokenized
+          description: An identifier for the `paymentInstrument` being used.
+        href:
+          minLength: 1
+          type: string
+          description: An `http` address that contains your link to an Access Token
+    card_networktoken:
+      required:
+        - type
+        - tokenNumber
+        - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/networkToken
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          required:
+            - month
+            - year
+          type: object
+          description: Object containing card expiry information
+          properties:
+            month:
+              maximum: 12
+              minimum: 1
+              type: integer
+              description: Card expiry month
+            year:
+              maximum: 9999
+              minimum: 1
+              type: integer
+              description: Card expiry year
+        tokenNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: The network token number
+        cardHolderName:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The name on the customer's card.
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+    exemptions_assessment:
+      required:
+        - transactionReference
+        - merchant
+        - instruction
+      type: object
+      properties:
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+          type: string
+          description: >-
+            A unique reference for authentication. For example, e-commerce order
+            code.
+        merchant:
+          required:
+            - entity
+          type: object
+          description: >-
+            An object that contains information about the merchant and API level
+            configuration.
+          properties:
+            entity:
+              maxLength: 64
+              minLength: 1
+              pattern: ^[A-Za-z0-9 ]*$
+              type: string
+              description: >-
+                Used to route the request in Access Worldpay, created as part of
+                on-boarding.
+        exemption:
+          required:
+            - capability
+          type: object
+          default: authorizationOnly
+          description: >
+            An object that contains information about the `type` and `placement`
+            of the requested exemption. 
+
+
+            _Note: If this object is not used in the request the `capability` is
+            limited to `authorizationOnly`_.
+          properties:
+            capability:
+              type: string
+              enum:
+                - authorizationOnly
+                - authenticationOnly
+                - authorizationAndAuthentication
+              x-enumDescriptions:
+                authorizationOnly: >-
+                  The SCA Exemptions service can only return a `placement` of
+                  `authorization`.
+                authenticationOnly: >-
+                  The SCA Exemptions service can only return a `placement` of
+                  `authentication`.
+                authorizationAndAuthentication: >-
+                  The SCA Exemptions service can return either a `placement` of
+                  `authorization` or `authentication`.
+              description: >-
+                Indicates whether the exemption requested from us, can return a
+                placement of authorization (payment) and/or authentication
+                (3DS).
+            request:
+              type: object
+              description: >-
+                An object used to control the `placement` and `type` of the
+                requested exemption. If not provided, we decide the best
+                placement and type (optimized).
+              properties:
+                placement:
+                  type: string
+                  default: optimized
+                  enum:
+                    - optimized
+                    - authorization
+                    - authentication
+                  x-enumDescriptions:
+                    optimized: We select the best performing placement based on its data.
+                    authorization: >-
+                      A request for an exemption placed within the
+                      authorization.
+                    authentication: >-
+                      A request for an exemption placed within the
+                      authentication (3DS).
+                  description: Defines where the exemption is being requested.
+                type:
+                  type: string
+                  default: optimized
+                  enum:
+                    - optimized
+                    - lowValue
+                    - lowRisk
+                  x-enumDescriptions:
+                    optimized: We select the best performing type based on its data.
+                    lowValue: An exemption for an authorization that is under €30.
+                    lowRisk: >-
+                      An exemption for an authorization that has been through
+                      Transaction Risk Analysis (TRA).
+                  description: Defines which type of exemption is being requested.
+        instruction:
+          required:
+            - value
+            - paymentInstrument
+          type: object
+          description: >-
+            The object that contains all the payment information related to the
+            authentication request.
+          properties:
+            value:
+              required:
+                - amount
+                - currency
+              type: object
+              description: >-
+                An object that contains information about the value of the
+                authentication.
+              properties:
+                amount:
+                  maximum: 999999999
+                  minimum: 0
+                  type: integer
+                  description: >-
+                    The authentication amount. This is a whole number with an
+                    exponent.
+                currency:
+                  maxLength: 3
+                  minLength: 3
+                  pattern: ^[A-Z]{3}$
+                  type: string
+                  description: The three digit currency code.
+            paymentInstrument:
+              oneOf:
+                - $ref: '#/components/schemas/card_front'
+                - $ref: '#/components/schemas/card_tokenized'
+                - $ref: '#/components/schemas/card_networktoken'
+              description: An object that contains the card details or token location.
+              discriminator:
+                mapping:
+                  card/front: '#/components/schemas/card_front'
+                  card/tokenized: '#/components/schemas/card_tokenized'
+                  card/networkToken: '#/components/schemas/card_networktoken'
+                propertyName: type
+        doNotApplyExemption:
+          type: boolean
+          description: >-
+            Request an exemption but don't apply it in the payment. Used for the
+            initial go-live to build up the data model and have more reliable
+            exemption predictions.
+        riskData:
+          type: object
+          description: >-
+            An object that holds risk related information that might help in
+            improving the accuracy of fraud assessment.
+          properties:
+            account:
+              type: object
+              description: Object containing all customer account related risk data.
+              properties:
+                email:
+                  maxLength: 254
+                  minLength: 3
+                  pattern: ^.+@.+$
+                  type: string
+                  description: The customer's email address.
+                dateOfBirth:
+                  maxLength: 20
+                  minLength: 1
+                  type: string
+                  format: date
+                  description: The customer's date of birth.
+                shopperId:
+                  maxLength: 128
+                  minLength: 1
+                  type: string
+                  description: >-
+                    A unique identifier for the customer. Use it to create
+                    manual fraud rules and identify your customers.
+            transaction:
+              type: object
+              description: Object containing all customer transaction related risk data.
+              properties:
+                firstName:
+                  maxLength: 22
+                  minLength: 1
+                  pattern: ^[a-zA-Z]*$
+                  type: string
+                  description: Customer's first name.
+                lastName:
+                  maxLength: 22
+                  minLength: 1
+                  pattern: ^[a-zA-Z]*$
+                  type: string
+                  description: Customer's last name.
+                phoneNumber:
+                  maxLength: 20
+                  minLength: 4
+                  pattern: ^[0-9]*$
+                  type: string
+                  description: Customer's phone number.
+            shipping:
+              type: object
+              description: Object containing all data related to how the order is shipped.
+              properties:
+                firstName:
+                  maxLength: 22
+                  minLength: 1
+                  pattern: ^[a-zA-Z]*$
+                  type: string
+                  description: First name of the shipping recipient.
+                lastName:
+                  maxLength: 22
+                  minLength: 1
+                  pattern: ^[a-zA-Z]*$
+                  type: string
+                  description: Last name of the shipping recipient.
+                address:
+                  required:
+                    - address1
+                    - city
+                    - postalCode
+                    - countryCode
+                  type: object
+                  description: An object containing the shipping address information.
+                  properties:
+                    city:
+                      maxLength: 50
+                      minLength: 1
+                      type: string
+                      description: Shipping address city
+                    address1:
+                      maxLength: 80
+                      minLength: 1
+                      type: string
+                      description: Shipping address line 1
+                    postalCode:
+                      maxLength: 15
+                      minLength: 1
+                      type: string
+                      description: Postcode of shipping address
+                    countryCode:
+                      maxLength: 2
+                      minLength: 2
+                      pattern: ^[A-Z]{2}$
+                      type: string
+                      description: Shipping address country code
+                    state:
+                      maxLength: 30
+                      minLength: 1
+                      type: string
+                      description: >-
+                        Shipping address state. Should only be provided
+                        following the `ISO-3611-2` two-character sub division
+                        (e.g.“CA” for California).
+                    address2:
+                      maxLength: 80
+                      minLength: 1
+                      type: string
+                      description: Shipping address line 2
+                    address3:
+                      maxLength: 80
+                      minLength: 1
+                      type: string
+                      description: Shipping address line 3
+                    phoneNumber:
+                      maxLength: 20
+                      minLength: 4
+                      pattern: ^[0-9]*$
+                      type: string
+                      description: Shipping recipient's phone number.
+            custom:
+              type: object
+              description: Object containing custom fields
+              properties:
+                number1:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 1
+                number2:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 2
+                number3:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 3
+                number4:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 4
+                number5:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 5
+                number6:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 6
+                number7:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 7
+                number8:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 8
+                number9:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 9
+                number10:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: Custom number field 10
+                string1:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 1
+                string2:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 2
+                string3:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 3
+                string4:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 4
+                string5:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 5
+                string6:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 6
+                string7:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 7
+                string8:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 8
+                string9:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 9
+                string10:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                  description: Custom string field 10
+        deviceData:
+          type: object
+          description: Object containing device data information.
+          properties:
+            collectionReference:
+              maxLength: 128
+              minLength: 30
+              pattern: ^[A-Za-z0-9_-]*$
+              type: string
+              description: >-
+                Use the sessionId specified in the ThreatMetrix Device Data
+                Collection to link this data to the assessment.
+    exemptions_assessment_200_response:
+      required:
+        - outcome
+        - transactionReference
+        - riskProfile
+      type: object
+      properties:
+        outcome:
+          enum:
+            - noExemption
+            - exemption
+          x-enumDescriptions:
+            noExemption: no exemption granted, proceed to 3DS authentication
+            exemption: exemption granted, follow placement and type
+          type: string
+          description: The outcome of the exemption assessment request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for assessment that was passed in the request.
+        riskProfile:
+          required:
+            - href
+          type: object
+          description: >
+            A resource you can use in the payment authorization request that
+            represents the outcome of the exemption assessment. Used to:
+
+            - apply the exemption (if provided)
+
+            - update the data model so future assessments are more accurate
+          properties:
+            href:
+              maxLength: 1024
+              minLength: 30
+              type: string
+              format: uri
+              description: >-
+                A link to a resource to be used in the payment authorisation
+                request that represents the outcome of exemption assessment.
+        exemption:
+          required:
+            - placement
+            - type
+          type: object
+          description: >-
+            An object that holds information about the exemption if it is
+            granted.
+          properties:
+            placement:
+              enum:
+                - authorization
+                - authentication
+              x-enumDescriptions:
+                authorization: Apply the exemption in the payment authorization
+                authentication: Apply the exemption in the 3DS authentication
+              type: string
+              description: >
+                Indicates whether the exemption is provided to be placed in a
+                payment authorization request or 3DS authentication request.
+            type:
+              enum:
+                - lowValue
+                - lowRisk
+              x-enumDescriptions:
+                lowValue: >-
+                  Apply a lowValue exemption, _(only applicable to a placement
+                  in authorization)_
+                lowRisk: Apply a lowRisk exemption.
+              type: string
+              description: The type of exemption to apply.
+    exemptions_assessment_400_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        validationErrors:
+          description: Object containing details of validation errors occurred
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+    exemptions_assessment_401_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+    exemptions_assessment_503_response:
+      required:
+        - message
+        - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+    validation_errors:
+      type: object
+      required:
+        - errorName
+        - jsonPath
+        - message
+      properties:
+        errorName:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Unique name of the validation error
+        jsonPath:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Location of the field in request body for which the error occurred
+        message:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Error description message
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  examples:
+    assessment-request-card:
+      description: Exemption assessment using the card instrument
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        doNotApplyExemption: false
+        exemption:
+          capability: authorizationAndAuthentication
+          request:
+            placement: authorization
+            type: lowValue
+        instruction:
+          paymentInstrument:
+            type: card/front
+            cardHolderName: Sherlock Holmes
+            cardNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              state: Greater London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1990-09-09'
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000000'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+    assessment-request-token:
+      description: Exemption assessment using a Worldpay Token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        doNotApplyExemption: false
+        exemption:
+          capability: authorizationAndAuthentication
+          request:
+            placement: authorization
+            type: lowValue
+        instruction:
+          paymentInstrument:
+            type: card/tokenized
+            href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+        riskData:
+          account:
+            email: test@test.com
+            dateOfBirth: '1990-09-09'
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '02031234321'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+    assessment-request-networkToken:
+      description: Exemption assessment using a network token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        doNotApplyExemption: false
+        exemption:
+          capability: authorizationAndAuthentication
+          request:
+            placement: authorization
+            type: lowValue
+        instruction:
+          paymentInstrument:
+            type: card/networkToken
+            tokenNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              state: Greater London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+            dateOfBirth: '1990-09-09'
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000000'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: '01911234321'
+    assessment-response-no-exemption:
+      description: No exemption is granted, use 3DS authentication
+      value:
+        outcome: noExemption
+        transactionReference: Memory265-13/08/1876
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-exemption-authorization-lowvalue:
+      description: >-
+        lowValue exemption granted to be applied in payment authorization
+        request
+      value:
+        outcome: exemption
+        transactionReference: Memory265-13/08/1876
+        exemption:
+          placement: authorization
+          type: lowValue
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-exemption-authorization-lowrisk:
+      description: lowRisk exemption granted to be applied in payment authorization request
+      value:
+        outcome: exemption
+        transactionReference: Memory265-13/08/1876
+        exemption:
+          placement: authorization
+          type: lowRisk
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-exemption-authentication-lowrisk:
+      description: lowRisk exemption granted to be applied in 3DS authentication request
+      value:
+        outcome: exemption
+        transactionReference: Memory265-13/08/1876
+        exemption:
+          placement: authentication
+          type: lowRisk
+        riskProfile:
+          href: >-
+            https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+security:
+  - BasicAuth: []

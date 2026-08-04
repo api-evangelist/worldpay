@@ -1,0 +1,402 @@
+openapi: 3.0.1
+info:
+  title: Balances
+  description: "Get accounts data. \r\n  \r\n    __Authentication header__\r\n\r\n      ```\r\n        Authorization: {your_credentials}\r\n      ```\r\n      Replace `{your_credentials}` with your base64-encoded Basic Auth username and password given to you by your Worldpay Implementation Manager.\r\n      <br /> <br />\r\n      You **must** use the `Authorization` header for any request you send to our Balances API.\r\n      <br /><br />\r\n      __WP-Api-Version Header__\r\n      ```\r\n        WP-Api-Version: 2025-01-01\r\n      ```\r\n\r\n    We use the WP-Api-Version header to identify which version of our API you are using. You must use the WP-Api-Version header for any request you send.\r\n    <br /><br />\r\n    __DNS whitelisting__\r\n\r\n    Whitelist the following URLs:\r\n    * `https://try.access.worldpay.com/`\r\n    * `https://access.worldpay.com/`\r\n\r\n    Please ensure you use DNS whitelisting, not explicit IP whitelisting. When you make a request within Access Worldpay, you should always cache the response returned."
+  version: '2025-01-01'
+  x-metadata:
+    business:
+      - Enterprise
+      - Marketplaces
+    catalog-list: true
+    category:
+      - Accounts
+    generated: true
+servers:
+  - url: https://try.access.worldpay.com
+    description: Test (Try)
+  - url: https://access.worldpay.com
+    description: Live
+paths:
+  /accounts/{accountNumber}:
+    get:
+      summary: Get account details
+      description: Retrieve the details of one specific account.
+      operationId: ReceiveTransferRequestForAccount
+      parameters:
+        - name: accountNumber
+          in: path
+          description: The account number.
+          required: true
+          schema:
+            type: string
+        - name: WP-Api-Version
+          in: header
+          description: Represents the version of the API.
+          required: true
+          schema:
+            type: string
+          example: '2025-01-01'
+        - name: WP-CorrelationId
+          in: header
+          description: Optional ID to trace requests, if not provided, it is generated.
+          schema:
+            type: string
+          example: 15cd16b2-7b82-41cb-9b11-21be9dacad88
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+              example:
+                entity: Test
+                accounts:
+                  - accountNumber: '01012145214562214'
+                    accountName: TestDisplayName
+                    currency: GBP
+                    clearedBalance: 36
+                    unclearedBalance: 2
+                    balance: 38
+                    accountStatus: Active
+        '400':
+          description: BAD REQUEST response if the request is incorrectly validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorName: urlContainsInvalidValue
+                message: The URL contains a value or values that are invalid
+                validationErrors:
+                  - errorName: fieldHasInvalidValue
+                    message: accountNumber must contain 16 characters
+                    queryParameter: accountNumber
+                  - errorName: fieldIsNull
+                    message: accountNumber is mandatory
+                    queryParameter: accountNumber
+        '401':
+          description: UNAUTHORIZED response if JWT is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: unauthorized
+                message: Invalid token
+        '403':
+          description: FORBIDDEN response if you are not authorized to access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Provided Identity is not valid
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Unexpected issue occured
+  /accounts:
+    get:
+      summary: Get details for all your accounts
+      description: Retrieve account details for all your accounts.
+      operationId: ReceiveTransferRequest
+      parameters:
+        - name: entity
+          in: query
+          description: Unique ID given during the on-boarding process.
+          required: true
+          schema:
+            maxLength: 32
+            minLength: 1
+            pattern: ^[a-zA-Z\s-]{1,32}$
+            type: string
+            description: Unique ID given during the on-boarding process.
+        - name: currency
+          in: query
+          description: >-
+            The [ISO 4217 currency
+            codes](/products/reference/supported-countries-currencies#iso-currency-codes)
+            of the account.
+          schema:
+            type: string
+            description: >-
+              The [ISO 4217 currency
+              codes](/products/reference/supported-countries-currencies#iso-currency-codes)
+              of the account.
+        - name: partyReference
+          in: query
+          description: >-
+            Your reference for this party, must be unique within an entity.
+            Allowed values string 3 to 64 characters a-z, A-Z, 0-9, spaces and
+            hyphens.
+          schema:
+            type: string
+            description: >-
+              Your reference for this party, must be unique within an entity.
+              Allowed values string 3 to 64 characters a-z, A-Z, 0-9, spaces and
+              hyphens.
+        - name: status
+          in: query
+          description: 'Get accounts on the bases of account status. '
+          schema:
+            type: string
+            description: 'Get accounts on the bases of account status. '
+            example: Active/Inactive
+        - name: pageNumber
+          in: query
+          description: >-
+            Positive whole number indicating which page of the account to
+            return.
+          schema:
+            maximum: 2147483647
+            minimum: 1
+            type: integer
+            description: >-
+              Positive whole number indicating which page of the account to
+              return.
+            format: int32
+        - name: pageSize
+          in: query
+          description: >-
+            Positive whole number indicating the number of account to return in
+            each page.
+          schema:
+            type: integer
+            description: >-
+              Positive whole number indicating the number of account to return
+              in each page.
+            format: int32
+        - name: WP-Api-Version
+          in: header
+          description: Represents the version of the API.
+          required: true
+          schema:
+            type: string
+          example: '2025-01-01'
+        - name: WP-CorrelationId
+          in: header
+          description: Optional ID to trace requests, if not provided, it is generated.
+          schema:
+            type: string
+          example: 15cd16b2-7b82-41cb-9b11-21be9dacad88
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountByEntityResponse'
+              example:
+                entity: Test
+                accounts:
+                  - accountNumber: '01012145214562214'
+                    accountName: TestDisplayName
+                    currency: GBP
+                    clearedBalance: 36
+                    unclearedBalance: 2
+                    balance: 38
+                    accountStatus: Active
+                pagination:
+                  pageNumber: 1
+                  recordsPerPage: 10
+                  totalPages: 1
+                  totalNumberOfRecords: 1
+        '400':
+          description: BAD REQUEST response if the request is incorrectly validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorName: urlContainsInvalidValue
+                message: The URL contains a value or values that are invalid
+                validationErrors:
+                  - errorName: fieldHasInvalidValue
+                    message: entity must contain 32 characters
+                    queryParameter: Entity
+                  - errorName: fieldHasInvalidValue
+                    message: status is invalid
+                    queryParameter: Status
+        '401':
+          description: UNAUTHORIZED response if JWT is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: unauthorized
+                message: Invalid token
+        '403':
+          description: FORBIDDEN response if you are not authorized to access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Provided Identity is not valid
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseAccessErrorResponse'
+              example:
+                errorName: entityIsNotConfigured
+                message: Unexpected issue occured
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          description: The account number.
+          nullable: true
+        accountName:
+          type: string
+          description: Name of the account given to you as part of on-boarding.
+          nullable: true
+        currency:
+          type: string
+          description: >-
+            The [ISO 4217 currency
+            codes](/products/reference/supported-countries-currencies#iso-currency-codes)
+            of the account.
+          nullable: true
+        clearedBalance:
+          type: number
+          description: The cleared balance.
+          format: double
+        unclearedBalance:
+          type: number
+          description: The uncleared balance.
+          format: double
+        balance:
+          type: number
+          description: The total balance.
+          format: double
+        accountStatus:
+          type: string
+          description: The status of the account.
+          nullable: true
+      additionalProperties: false
+    AccountByEntityResponse:
+      type: object
+      properties:
+        entity:
+          type: string
+          nullable: true
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+          nullable: true
+        pagination:
+          $ref: '#/components/schemas/PageInformation'
+      additionalProperties: false
+    AccountResponse:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Unique ID given during the on-boarding process.
+          nullable: true
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+          description: Collection of the account details
+          nullable: true
+      additionalProperties: false
+      description: The Get Account response
+    AwQueryParameterErrorModel:
+      type: object
+      properties:
+        errorName:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        queryParameter:
+          type: string
+          nullable: true
+      additionalProperties: false
+    BaseAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Unique response code
+          nullable: true
+        message:
+          type: string
+          description: Error message
+          nullable: true
+        headerName:
+          type: string
+          description: Header Name
+          nullable: true
+      additionalProperties: false
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Unique response code
+          nullable: true
+        message:
+          type: string
+          description: Error message
+          nullable: true
+        headerName:
+          type: string
+          description: Header Name
+          nullable: true
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwQueryParameterErrorModel'
+          description: Collection of error details
+          nullable: true
+      additionalProperties: false
+    PageInformation:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        recordsPerPage:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        totalNumberOfRecords:
+          type: integer
+          format: int32
+      additionalProperties: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
