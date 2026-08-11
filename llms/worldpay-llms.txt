@@ -1,0 +1,361 @@
+# Worldpay Developers
+
+> Worldpay for Developers - docs, code examples, resources and tools. Everything you need to build your omnichannel payment solution.
+
+## Payments API
+Payment orchestration API combining fraud assessment, 3ds authentication, SCA exemptions, Worldpay Token creation and a card or wallet based payment.
+
+ - [Payments API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/payments.md): Perform a card payment that is risk assessed and SCA compliant using a 3DS authentication. Integrate directly with our JSON based API or use our client-side Checkout SDK to capture card details to qualify for the SAQ-A PCI compliance level.
+ - [Apple Pay | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/apple-pay.md)
+ - [Enable Additional Features | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features.md)
+ - [Sequence Diagrams | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/sequence-diagrams.md)
+ - [Guest Card Payment | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/card-payment.md): Provide the card details in an API request or use our Checkout SDK for low PCI hosted card fields.
+ - [Postman Collection | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/collections.md): Download a postman collection to start playing with the payments api
+ - [Google Pay | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/google-pay.md)
+ - [Set up a recurring payment | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/recurring-first.md)
+ - [Subsequent recurring payment | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/recurring-subsequent.md)
+ - [Card Payment & Store a card | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/store-a-card.md): Provide the card details in an API request or use our Checkout SDK for low PCI hosted card fields. Save those card details for a future transaction.
+ - [Store a card only | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/store-card-only.md)
+ - [Testing | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/testing.md): Test your Payments integration in the Try environment using a combination of cardholder and card number test values. Send requests and see simulated responses.
+ - [Use a stored card | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/use-a-stored-card.md)
+ - [3DS Authentication | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/3ds-authentication.md)
+ - [Pay via AI Agent (Delegate token) | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/acp-delegate-token.md)
+ - [Auto settlement | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/auto-settlement.md)
+ - [MOTO (Mail Order/Telephone Order) | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/moto.md)
+ - [External 3DS Authentication | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/3ds-authentication/external-3ds.md)
+ - [Web device data](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/fraud-assessment/device-data/web.md)
+ - [Account Funding Transactions (AFT) | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/account-funding-transactions.md)
+ - [Account Updater | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/account-updater.md)
+ - [Financial Services (including MCC 6012 / MCC 6051) | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/financial-services-mcc6012-mcc6051.md)
+ - [Fraud Assessment | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/fraud-assessment.md)
+ - [Latin America installments | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/latam-installments.md)
+ - [Payment Facilitator | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/payment-facilitator.md)
+ - [SCA Exemptions | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/sca-exemptions.md)
+ - [Android and iOS](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/3ds-authentication/integrated-3ds/android-ios.md)
+ - [Integrated 3DS Authentication | Payments API](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/3ds-authentication/integrated-3ds.md)
+ - [React Native](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/3ds-authentication/integrated-3ds/react-native.md)
+ - [Web](https://worldpay-portal.eu.redocly.app/access/products/payments/enable-features/3ds-authentication/integrated-3ds/web.md)
+ - [Payments](https://worldpay-portal.eu.redocly.app/access/products/payments/openapi.md)
+
+## Payment Queries API
+Querying your payments data, based on a variety of parameters.
+
+ - [Payment Queries API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/payment-queries.md): Query your payments data, based on a variety of parameters. Receive information relating to the transaction and payment instrument.
+ - [Query historical payments](https://worldpay-portal.eu.redocly.app/access/products/payment-queries/query-archive.md)
+ - [Date range queries](https://worldpay-portal.eu.redocly.app/access/products/payment-queries/query-by-date-range.md)
+ - [Transaction reference queries](https://worldpay-portal.eu.redocly.app/access/products/payment-queries/query-by-trans-ref.md)
+ - [Retrieve a payment by payment ID](https://worldpay-portal.eu.redocly.app/access/products/payment-queries/retrieve-by-payment-id.md)
+ - [Payment Queries](https://worldpay-portal.eu.redocly.app/access/products/payment-queries/openapi.md)
+
+## Card BIN Data API
+Provides detailed information about a card.
+
+ - [Card BIN Data API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/card-bin/v1.md): The Card BIN Data API provides detailed information about a card allowing you to optimize your checkout experience, reduce risk and comply with regulations.
+ - [Testing](https://worldpay-portal.eu.redocly.app/access/products/card-bin/v1/testing.md)
+ - [Card BIN Data](https://worldpay-portal.eu.redocly.app/access/products/card-bin/v1/openapi.md)
+
+## 3DS Authentication API
+Request 3DS authentication to protect against fraud, be SCA compliant and to shift liability using this standalone API.
+
+ - [Testing | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/testing.md)
+ - [3DS Authentication API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/3ds.md): Perform 3DS authentication to minimize fraud and verify your customer's identity. Use our strong customer authentication (SCA) to benefit from liability shift.
+ - [Get started (Android and iOS) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/android-ios/get-started.md)
+ - [Android and iOS Integration | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/android-ios.md)
+ - [Get Started (React Native) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/react-native/get-started.md)
+ - [Authentication (Android and iOS) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/android-ios/authentication.md)
+ - [Challenge display and verification (Android and iOS) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/android-ios/challenge-verification.md)
+ - [Device Data (Android and iOS) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/android-ios/device-data.md)
+ - [React Native Integration | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/react-native.md)
+ - [Postman Collection | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/collections.md): Download a postman collection to start playing with the 3DS api
+ - [Authentication (React Native) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/react-native/authentication.md)
+ - [Challenge display and verification (React Native) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/react-native/challenge-verification.md)
+ - [Get Started (Web) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/web/get-started.md)
+ - [Web Integration | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/web.md)
+ - [Device Data (React Native) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/react-native/device-data.md)
+ - [Authentication (Web) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/web/authentication.md)
+ - [Challenge display and verification (Web) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/web/challenge-verification.md)
+ - [Device Data (Web) | 3DS API](https://worldpay-portal.eu.redocly.app/access/products/3ds/web/device-data.md)
+ - [3DS](https://worldpay-portal.eu.redocly.app/access/products/3ds/openapi.md)
+
+## FraudSight API
+Request a risk assessment and receive a response with an outcome (e.g. lowRisk) using this standalone API.
+
+ - [Testing](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/testing.md)
+ - [Fraud assessment](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/assessment.md)
+ - [FraudSight API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/fraudsight.md): Minimize fraud and increase approval rates using the latest in data insights. Use an integrated risk assessment as part of a payment request or a standalone gateway/acquirer agnostic API.
+ - [Android device data](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/device-data/android.md)
+ - [iOS device data](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/device-data/ios.md)
+ - [Web device data](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/device-data/web.md)
+ - [Update FraudSight](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/update.md)
+ - [Postman Collection | FraudSight API](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/collections.md): Download a postman collection to start playing with the FraudSight api
+ - [Device Data Collection (DDC)](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/device-data.md)
+ - [Web device data](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/device-data/web-tmx.md)
+ - [Chargeback update](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/update/chargeback.md)
+ - [Fraud update](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/update/fraud.md)
+ - [Payment update](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/update/payment.md)
+ - [FraudSight](https://worldpay-portal.eu.redocly.app/access/products/fraudsight/openapi.md)
+
+## Checkout SDK
+Integrate using our clientside SDKs for both web and native devices. Benefit from SAQ-A/PCI-SSF compliance.
+
+ - [Checkout Android](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4.md): Take payments with our certified PCI-SSF compliant iOS SDK, and qualify for SAQ-A - the lowest PCI compliance level. Create your own uniquely styled and branded checkout form by integrating our SDK into your native app.
+ - [AccessCheckoutEditText](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4/optional-configuration.md)
+ - [Create sessions to pay with a card and CVC](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4/card-and-cvc.md)
+ - [Create a session to pay with a card](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4/card-only.md)
+ - [Card validation](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4/card-validator.md)
+ - [Create a session for CVC only](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4/cvc-only.md)
+ - [CVC validation](https://worldpay-portal.eu.redocly.app/access/products/checkout/android/v4/cvc-validator.md)
+ - [Checkout Flutter](https://worldpay-portal.eu.redocly.app/access/products/checkout/flutter.md): Learn how to integrate Access checkout into Flutter  and create your own uniquely styled and branded checkout form by integrating our SDK into your flutter app.
+ - [Flutter integration with Native SDKs](https://worldpay-portal.eu.redocly.app/access/products/checkout/flutter/native-sdk.md)
+ - [Flutter integration with Web SDK](https://worldpay-portal.eu.redocly.app/access/products/checkout/flutter/web-sdk.md)
+ - [Card validation](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4/card-validator.md)
+ - [CVC validation](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4/cvc-validator.md)
+ - [Checkout iOS](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4.md): Take payments with our certified PCI-SSF compliant iOS SDK, and qualify for SAQ-A - the lowest PCI compliance level. Create your own uniquely styled and branded checkout form by integrating our SDK into your native app.
+ - [AccessCheckoutUITextField](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4/optional-configuration.md)
+ - [Create sessions to pay with a card and CVC](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4/card-and-cvc.md)
+ - [Create a session to pay with a card](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4/card-only.md)
+ - [Create a session for CVC only](https://worldpay-portal.eu.redocly.app/access/products/checkout/ios/v4/cvc-only.md)
+ - [Create sessions to pay with a card and CVC](https://worldpay-portal.eu.redocly.app/access/products/checkout/react-native/v3/card-and-cvc.md)
+ - [Create a session to pay with a card](https://worldpay-portal.eu.redocly.app/access/products/checkout/react-native/v3/card-only.md)
+ - [Card validation](https://worldpay-portal.eu.redocly.app/access/products/checkout/react-native/v3/card-validator.md)
+ - [Create a session to pay with a CVC](https://worldpay-portal.eu.redocly.app/access/products/checkout/react-native/v3/cvc-only.md)
+ - [CVC validation](https://worldpay-portal.eu.redocly.app/access/products/checkout/react-native/v3/cvc-validator.md)
+ - [Checkout React Native](https://worldpay-portal.eu.redocly.app/access/products/checkout/react-native/v3.md): Take payments and still qualify for SAQ-A - the lowest PCI compliance level - with our React Native SDK. Create your own uniquely styled and branded checkout form by integrating our SDK into your native app.
+ - [Additional information](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/__additional-information.md)
+ - [Accessibility](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/accessibility.md)
+ - [Card brands](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/card-brands.md)
+ - [Co-branded cards](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/cobranded-cards.md)
+ - [Event hooks](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/event-hooks.md)
+ - [Formatting](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/formatting.md)
+ - [Checkout Web](https://worldpay-portal.eu.redocly.app/access/products/checkout/web.md): Take payments and still qualify for SAQ-A - the lowest PCI compliance level - with our Web SDK. Create your own uniquely styled and branded checkout form by integrating our SDK into your website.
+ - [Luhn compliance](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/luhn-compliance.md)
+ - [Styles](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/styles.md)
+ - [Create sessions to pay with a card and CVC](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/card-and-cvc.md)
+ - [Create a session to pay with a card](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/card-only.md)
+ - [Create a session for CVC only](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/cvc-only.md)
+ - [React integration](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/integration-react.md)
+ - [Vue.js integration](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/integration-vue-js.md)
+ - [Shadow DOM](https://worldpay-portal.eu.redocly.app/access/products/checkout/web/shadow-dom.md)
+
+## Tokens API
+Minimizes the exposure of sensitive card details and increases the security of your customer's card details.
+
+ - [Tokens API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/tokens.md): Our Tokens API minimizes the exposure of sensitive card details and increases the security of your customer's card details. It also reduces the traffic of card details across your systems, which may reduce your PCI-DSS compliance costs.
+ - [Network token error responses | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/tokens/network-token-errors.md)
+ - [Create a network token](https://worldpay-portal.eu.redocly.app/access/products/tokens/create-a-network-token.md)
+ - [Create a token](https://worldpay-portal.eu.redocly.app/access/products/tokens/create-a-token.md)
+ - [Detokenize](https://worldpay-portal.eu.redocly.app/access/products/tokens/detokenize.md)
+ - [Query and update tokens](https://worldpay-portal.eu.redocly.app/access/products/tokens/query-and-update-tokens.md)
+ - [Query network tokens and provision cryptograms](https://worldpay-portal.eu.redocly.app/access/products/tokens/query-network-tokens-and-provision-cryptograms.md)
+ - [Tokens](https://worldpay-portal.eu.redocly.app/access/products/tokens/openapi.md)
+
+## Card Payments API
+Request a card payment using this standalone API, requires separate requests for 3DS, Fraud assessment etc.
+
+ - [Card Payments API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/card-payments.md): Start taking online payments with our Card Payments API.
+ - [Card Payments version 7: migration guide](https://worldpay-portal.eu.redocly.app/access/products/card-payments/v7-migration-guide.md)
+ - [Take a card payment](https://worldpay-portal.eu.redocly.app/access/products/card-payments/authorize-a-payment.md)
+ - [Manage payments](https://worldpay-portal.eu.redocly.app/access/products/card-payments/manage-payments.md)
+ - [Query a payment](https://worldpay-portal.eu.redocly.app/access/products/card-payments/query-a-payment.md)
+ - [Take repeat card payments](https://worldpay-portal.eu.redocly.app/access/products/card-payments/repeat-payments.md)
+ - [Repeat wallet payments](https://worldpay-portal.eu.redocly.app/access/products/card-payments/repeatwallets.md)
+ - [Card payment testing](https://worldpay-portal.eu.redocly.app/access/products/card-payments/testing.md)
+ - [Additional Card Payments Features | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features.md)
+ - [Latin America Payments | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/latam-payments.md)
+ - [Mastercard Transaction Link Identifier (TLID) | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/mastercard-tlid.md)
+ - [MOTO Payments | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/moto.md)
+ - [Online refunds | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/online-refunds.md)
+ - [Crypto Ramp Providers | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/ramp-services.md)
+ - [Account Updater | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/account-updater.md)
+ - [Co-branded Cards | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/co-branded-cards.md)
+ - [Fast refunds | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/fast-refunds.md)
+ - [Financial Services (including MCC 6012 / 6051) | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/financial-services.md)
+ - [Account Funding Transactions (AFT) | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/funds-transfers.md)
+ - [Airline Itinerary Data | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/l2-l3-airlines.md)
+ - [Surcharge and convenience fees | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/surcharge-fees.md)
+ - [Lodging data | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/l2-l3-lodging.md)
+ - [Corporate Purchasing Data (Level 2 / Level 3) | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/l2-l3-purchasing.md)
+ - [Partial Authorizations | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/partial-authorizations.md)
+ - [Payment Facilitators (PayFac) | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/payfac.md): Take payments
+ - [Toss Pay | Card Payments API](https://worldpay-portal.eu.redocly.app/access/products/card-payments/features/tosspay.md): Take payments
+ - [Card Payments](https://worldpay-portal.eu.redocly.app/access/products/card-payments/openapi.md)
+
+## Card Verifications API
+Verify your customer's card to maximize your authentication rates.
+
+ - [Card Verifications API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/card-verifications.md): Verify your customer's card to maximize your authentication rates.
+ - [Query a previous verification](https://worldpay-portal.eu.redocly.app/access/products/card-verifications/query-verification.md)
+ - [ACH verification](https://worldpay-portal.eu.redocly.app/access/products/card-verifications/ach-verification.md)
+ - [Verify a customer's card](https://worldpay-portal.eu.redocly.app/access/products/card-verifications/verifications.md)
+ - [Card Verifications](https://worldpay-portal.eu.redocly.app/access/products/card-verifications/openapi.md)
+
+## Account Payouts API
+Send funds to your customer's bank accounts and search for payouts using parameters.
+
+ - [Appendix](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/appendix.md)
+ - [HMAC signature](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/hmac-signature.md)
+ - [Account Payouts API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/account-payouts.md): Send funds to your customer's bank accounts and search for payouts using filters.
+ - [Migration Account Payouts](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/migration.md)
+ - [Account payouts event webhooks](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/account-events.md)
+ - [Account payouts - sequence diagrams](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/sequence-diagrams.md)
+ - [Make a batch account payout | Account Payouts API](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/batch-payout.md): Make a batch payout to an account.
+ - [Payment item search](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/payment-item-search.md)
+ - [Make a single account payout | Account Payouts API](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/single-payout.md): Make a single payout to an account.
+ - [Testing | Account Payouts](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/testing.md): Test your Account Payouts integration in the Try environment. Send requests and see simulated responses from our banking partners.
+ - [Account Payouts](https://worldpay-portal.eu.redocly.app/access/products/account-payouts/openapi.md)
+
+## APMs
+Pay using eWallets, bank transfers, direct debits, local card schemes, Postpay and eInvoice/ Buy Now Pay Later.
+
+ - [Alternative Payment Methods (APMs) API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/apms.md): Add alternative payment methods and use them to make a payment. These options include eWallets, bank transfers, direct debits, local card schemes, Postpay and eInvoice/ Buy Now Pay Later.
+ - [Automated Clearing House (ACH)/eCheck](https://worldpay-portal.eu.redocly.app/access/products/apms/ach.md)
+ - [Alipay China](https://worldpay-portal.eu.redocly.app/access/products/apms/alipaycn.md)
+ - [AlipayHK](https://worldpay-portal.eu.redocly.app/access/products/apms/alipayhk.md)
+ - [Alipay+](https://worldpay-portal.eu.redocly.app/access/products/apms/alipayuni.md)
+ - [BANCOMAT Pay](https://worldpay-portal.eu.redocly.app/access/products/apms/bancomat.md)
+ - [Bizum](https://worldpay-portal.eu.redocly.app/access/products/apms/bizum.md)
+ - [Bancontact](https://worldpay-portal.eu.redocly.app/access/products/apms/bancontact.md)
+ - [BLIK](https://worldpay-portal.eu.redocly.app/access/products/apms/blik.md)
+ - [Euteller](https://worldpay-portal.eu.redocly.app/access/products/apms/euteller.md)
+ - [Canada Electronic Funds Transfer (EFT)](https://worldpay-portal.eu.redocly.app/access/products/apms/eft.md)
+ - [iDEAL](https://worldpay-portal.eu.redocly.app/access/products/apms/ideal.md)
+ - [Manage your APM](https://worldpay-portal.eu.redocly.app/access/products/apms/manage.md)
+ - [Klarna](https://worldpay-portal.eu.redocly.app/access/products/apms/klarna-recurring.md)
+ - [Klarna](https://worldpay-portal.eu.redocly.app/access/products/apms/klarna.md)
+ - [Konbini](https://worldpay-portal.eu.redocly.app/access/products/apms/konbini.md)
+ - [Multibanco](https://worldpay-portal.eu.redocly.app/access/products/apms/multibanco.md)
+ - [MyBank](https://worldpay-portal.eu.redocly.app/access/products/apms/mybank.md)
+ - [Open Banking](https://worldpay-portal.eu.redocly.app/access/products/apms/open-banking.md)
+ - [PayPal](https://worldpay-portal.eu.redocly.app/access/products/apms/paypal.md)
+ - [PaysafeCard](https://worldpay-portal.eu.redocly.app/access/products/apms/paysafecard.md)
+ - [Pix](https://worldpay-portal.eu.redocly.app/access/products/apms/pix.md)
+ - [Przelewy24](https://worldpay-portal.eu.redocly.app/access/products/apms/przelewy24.md)
+ - [SafetyPay](https://worldpay-portal.eu.redocly.app/access/products/apms/safetypay.md)
+ - [Satispay](https://worldpay-portal.eu.redocly.app/access/products/apms/satispay.md)
+ - [SEPA Direct Debit](https://worldpay-portal.eu.redocly.app/access/products/apms/sepa.md)
+ - [Swish](https://worldpay-portal.eu.redocly.app/access/products/apms/swish.md)
+ - [Trustly](https://worldpay-portal.eu.redocly.app/access/products/apms/trustly.md)
+ - [China UnionPay](https://worldpay-portal.eu.redocly.app/access/products/apms/unionpay.md)
+ - [WeChat Pay](https://worldpay-portal.eu.redocly.app/access/products/apms/wechatpay.md)
+ - [ACH/eCheck](https://worldpay-portal.eu.redocly.app/access/products/apms/paydirect/ach.md)
+ - [EFT](https://worldpay-portal.eu.redocly.app/access/products/apms/paydirect/eft.md)
+ - [US and Canadian APMs](https://worldpay-portal.eu.redocly.app/access/products/apms/paydirect.md)
+ - [APMs](https://worldpay-portal.eu.redocly.app/access/products/apms/openapi.md)
+
+## Balance API
+Request your account details for a single account or all accounts under an entity.
+
+ - [Accounts API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/balance.md): Request your account details for a single account or all accounts under an entity.
+ - [Balances](https://worldpay-portal.eu.redocly.app/access/products/balance/openapi.md)
+
+## Card Payouts API
+Send funds to your customer's cards.
+
+ - [Card Payouts API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/card-payouts.md): Send funds to your customer's cards. Using a standard payout or Fast Access.
+ - [Testing](https://worldpay-portal.eu.redocly.app/access/products/card-payouts/testing.md)
+ - [Get started with our Payouts API](https://worldpay-portal.eu.redocly.app/access/products/card-payouts/get-started.md)
+ - [Make a card payout](https://worldpay-portal.eu.redocly.app/access/products/card-payouts/payouts.md)
+ - [Payout to Wallets | Card Payouts API](https://worldpay-portal.eu.redocly.app/access/products/card-payouts/wallets.md)
+ - [Card Payouts](https://worldpay-portal.eu.redocly.app/access/products/card-payouts/openapi.md)
+
+## Events (Webhooks)
+Receive status updates from Access Worldpay by setting up a webhook.
+
+ - [Certificate check](https://worldpay-portal.eu.redocly.app/access/products/events/certificate.md)
+ - [Events Webhook | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/events.md): Receive card/APM payment and payout status updates to a URL of your choosing using webhooks.
+ - [Overview](https://worldpay-portal.eu.redocly.app/access/products/events/overview.md)
+ - [Signature](https://worldpay-portal.eu.redocly.app/access/products/events/signature.md)
+ - [Events](https://worldpay-portal.eu.redocly.app/access/products/events/openapi.md)
+
+## FX API
+Manage Foreign Exchange (FX) on your payments.
+
+ - [Create an FX quote](https://worldpay-portal.eu.redocly.app/access/products/fx/create-fxquote.md)
+ - [Foreign Exchange (FX) API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/fx.md)
+ - [Forward FX rates](https://worldpay-portal.eu.redocly.app/access/products/fx/forward-fxrates.md)
+ - [Markup FX API](https://worldpay-portal.eu.redocly.app/access/products/fx/fx-markup.md)
+ - [Get FX rates](https://worldpay-portal.eu.redocly.app/access/products/fx/fxrate-mcp.md)
+ - [Get FX rates](https://worldpay-portal.eu.redocly.app/access/products/fx/fxrate.md)
+ - [Retrieve an FX quote](https://worldpay-portal.eu.redocly.app/access/products/fx/retrieve-fxquote.md)
+ - [FX](https://worldpay-portal.eu.redocly.app/access/products/fx/openapi.md)
+
+## Hosted Payment Pages (HPP) API
+Our low-code option to take payments securely at the lowest PCI compliance level - SAQ A.
+
+ - [Configure your payment page](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/configuration.md)
+ - [Customize your payment pages](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/customization.md)
+ - [Go live](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/go-live.md)
+ - [Mobile wallets](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/mobile-wallets.md)
+ - [Redirect your customer](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/redirect-your-customer.md)
+ - [Styles](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/styles.md)
+ - [Test and publish designs](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/test-designs.md)
+ - [Iframe](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/iframe.md)
+ - [Testing Hosted Payment Pages](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/testing.md)
+ - [Hosted Payment Pages (HPP) | Worldpay Developer (SMB)](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages.md): Take payments using Worldpay's hosted payment pages
+ - [Setup a payment](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/setup-a-payment.md)
+ - [Webhooks](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/webhooks.md)
+ - [Hosted Payment Pages (HPP) API](https://worldpay-portal.eu.redocly.app/access/products/hosted-payment-pages/openapi.md)
+
+## Money Transfers API
+Money Transfer OCTs (Original Credit Transaction) allow funds to be pushed to an eligible card in 30 minutes or less.
+
+ - [Money Transfers API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/money-transfers.md): Money Transfer OCTs (Original Credit Transaction) allow funds to be `pushed` to an eligible card in 30 minutes or less. Withdrawing money from a digital wallet is an example of a Money Transfer OCT.
+ - [Money Transfers testing](https://worldpay-portal.eu.redocly.app/access/products/money-transfers/testing.md)
+ - [Get started](https://worldpay-portal.eu.redocly.app/access/products/money-transfers/get-started.md)
+ - [Make a money transfer](https://worldpay-portal.eu.redocly.app/access/products/money-transfers/make-money-transfer.md)
+ - [Money Transfers](https://worldpay-portal.eu.redocly.app/access/products/money-transfers/openapi.md)
+
+## Parties API
+Create parties, manage your payout instruments and beneficial owners and carry out identity verification checks.
+
+ - [Manage beneficial owners](https://worldpay-portal.eu.redocly.app/access/products/parties/beneficial-owners.md)
+ - [Get started](https://worldpay-portal.eu.redocly.app/access/products/parties.md)
+ - [Receive events webhooks](https://worldpay-portal.eu.redocly.app/access/products/parties/receive-events.md)
+ - [Testing](https://worldpay-portal.eu.redocly.app/access/products/parties/testing.md)
+ - [Verify parties](https://worldpay-portal.eu.redocly.app/access/products/parties/verify-parties.md)
+ - [Manage balance accounts](https://worldpay-portal.eu.redocly.app/access/products/parties/balance-accounts.md)
+ - [Manage a party](https://worldpay-portal.eu.redocly.app/access/products/parties/create-party.md)
+ - [Add payout instrument](https://worldpay-portal.eu.redocly.app/access/products/parties/payout-instruments.md)
+ - [Parties](https://worldpay-portal.eu.redocly.app/access/products/parties/openapi.md)
+
+## SCA Exemptions API
+Maximize a frictionless checkout experience by using issuer data insights to apply exemptions.
+
+ - [Testing](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/testing.md)
+ - [Exemption assessment](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/assessment.md)
+ - [SCA Exemptions API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions.md): Maximize a frictionless checkout experience by using issuer data insights to apply exemptions and remain SCA compliant.
+ - [Android device data](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/device-data/android.md)
+ - [Device data collection](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/device-data.md)
+ - [iOS device data](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/device-data/ios.md)
+ - [Web device data](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/device-data/web.md)
+ - [SCA Exemptions](https://worldpay-portal.eu.redocly.app/access/products/sca-exemptions/openapi.md)
+
+## Split Payments API
+Divide funds from a single payment amongst yourself and your parties/sellers.
+
+ - [Get started](https://worldpay-portal.eu.redocly.app/access/products/split-payments.md)
+ - [Testing](https://worldpay-portal.eu.redocly.app/access/products/split-payments/testing.md)
+ - [Manage your payment](https://worldpay-portal.eu.redocly.app/access/products/split-payments/manage.md)
+ - [Split a payment](https://worldpay-portal.eu.redocly.app/access/products/split-payments/split-a-payment.md)
+ - [Split Payments](https://worldpay-portal.eu.redocly.app/access/products/split-payments/openapi.md)
+
+## Statements API
+Retrieve your account statement and see individual entries for all credits and debits.
+
+ - [Account - Statements API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/statements.md): Retrieve your account statement and see individual entries for all credits and debits. Specify a date range and other optional filter values.
+ - [Statements](https://worldpay-portal.eu.redocly.app/access/products/statements/openapi.md)
+
+## Transfers API
+Transfer funds from source account to target account.
+
+ - [Account - Account Transfers API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/transfers.md): Transfer funds between your currency accounts.
+ - [Account Transfers](https://worldpay-portal.eu.redocly.app/access/products/transfers/openapi.md)
+
+## Verified Tokens API
+Verified Tokens ensures that your customer's payment details are valid and CIT compliant when creating a token.
+
+ - [Verified Tokens API | Worldpay Developer](https://worldpay-portal.eu.redocly.app/access/products/verified-tokens.md): Verified Tokens ensures that your customer's payment details are valid and CIT compliant when creating a token.
+ - [Query the verification and token](https://worldpay-portal.eu.redocly.app/access/products/verified-tokens/querying-verification-and-token.md)
+ - [Create a verified token](https://worldpay-portal.eu.redocly.app/access/products/verified-tokens/create-verified-token.md)
+ - [Verified Tokens](https://worldpay-portal.eu.redocly.app/access/products/verified-tokens/openapi.md)
+
