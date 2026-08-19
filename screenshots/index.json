@@ -1,0 +1,11 @@
+[
+  {
+    "repo": "worldpay",
+    "captured_at": "2026-08-17T130436",
+    "source_url": "https://developer.worldpay.com/",
+    "source_type": "DeveloperPortal",
+    "file": "worldpay-2026-08-17T130436.png",
+    "bytes": 183620,
+    "capture": "playwright-local"
+  }
+]

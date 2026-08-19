@@ -1,0 +1,2461 @@
+{
+  "item": [
+    {
+      "id": "36eb67d9-3697-412e-ac80-a67d59828dc8",
+      "name": "Accounts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ee2a35e7-4f33-46c1-b107-0180d59a012e",
+          "name": "Get account details",
+          "request": {
+            "name": "Get account details",
+            "description": {
+              "content": "Retrieve the details of one specific account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountNumber"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountNumber",
+                  "description": "(Required) The account number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Represents the version of the API.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "183a1123-4880-4e16-86cf-a0a903a8fdfe",
+              "name": "OK response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountNumber",
+                      "description": "(Required) The account number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"Test\",\n  \"accounts\": [\n    {\n      \"accountNumber\": \"01012145214562214\",\n      \"accountName\": \"TestDisplayName\",\n      \"currency\": \"GBP\",\n      \"clearedBalance\": 36,\n      \"unclearedBalance\": 2,\n      \"balance\": 38,\n      \"accountStatus\": \"Active\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40c89363-ec48-47bb-8a57-a787edf484cf",
+              "name": "BAD REQUEST response if the request is incorrectly validated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountNumber",
+                      "description": "(Required) The account number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"accountNumber must contain 16 characters\",\n      \"queryParameter\": \"accountNumber\"\n    },\n    {\n      \"errorName\": \"fieldIsNull\",\n      \"message\": \"accountNumber is mandatory\",\n      \"queryParameter\": \"accountNumber\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d961508d-fe78-4711-b47f-91ea32604024",
+              "name": "UNAUTHORIZED response if JWT is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountNumber",
+                      "description": "(Required) The account number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a57a89a-a59e-43a6-8709-945f3bf26b4d",
+              "name": "FORBIDDEN response if you are not authorized to access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountNumber",
+                      "description": "(Required) The account number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"entityIsNotConfigured\",\n  \"message\": \"Provided Identity is not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bbb2784d-b3bb-47a3-a97a-900c85dcca9d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountNumber"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountNumber",
+                      "description": "(Required) The account number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"entityIsNotConfigured\",\n  \"message\": \"Unexpected issue occured\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9067e85f-521e-4a7e-a9e7-ff1e403a2d39",
+          "name": "Get details for all your accounts",
+          "request": {
+            "name": "Get details for all your accounts",
+            "description": {
+              "content": "Retrieve account details for all your accounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "(Required) Unique ID given during the on-boarding process."
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account."
+                },
+                {
+                  "disabled": false,
+                  "key": "partyReference",
+                  "value": "<string>",
+                  "description": "Your reference for this party, must be unique within an entity. Allowed values string 3 to 64 characters a-z, A-Z, 0-9, spaces and hyphens."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Get accounts on the bases of account status. "
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "<integer>",
+                  "description": "Positive whole number indicating which page of the account to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "Positive whole number indicating the number of account to return in each page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Represents the version of the API.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3637879-9a56-426f-a60c-cfc91c314835",
+              "name": "OK response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active/Inactive"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"Test\",\n  \"accounts\": [\n    {\n      \"accountNumber\": \"01012145214562214\",\n      \"accountName\": \"TestDisplayName\",\n      \"currency\": \"GBP\",\n      \"clearedBalance\": 36,\n      \"unclearedBalance\": 2,\n      \"balance\": 38,\n      \"accountStatus\": \"Active\"\n    }\n  ],\n  \"pagination\": {\n    \"pageNumber\": 1,\n    \"recordsPerPage\": 10,\n    \"totalPages\": 1,\n    \"totalNumberOfRecords\": 1\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2154983-3ddd-4363-8b45-d1395ed4c384",
+              "name": "BAD REQUEST response if the request is incorrectly validated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active/Inactive"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"entity must contain 32 characters\",\n      \"queryParameter\": \"Entity\"\n    },\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"status is invalid\",\n      \"queryParameter\": \"Status\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83ec0410-175a-43d0-b518-9138f00c0325",
+              "name": "UNAUTHORIZED response if JWT is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active/Inactive"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4e11e5a-90ca-47af-af1a-7480077bc205",
+              "name": "FORBIDDEN response if you are not authorized to access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active/Inactive"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"entityIsNotConfigured\",\n  \"message\": \"Provided Identity is not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8dddb55-e6b8-4946-93dd-4094cb37474a",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Active/Inactive"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"entityIsNotConfigured\",\n  \"message\": \"Unexpected issue occured\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40ed8959-c1ed-45a3-bd99-aa72870ec441",
+          "name": "Query account statement items",
+          "request": {
+            "name": "Query account statement items",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                "statements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<dateTime>",
+                  "description": "(Required) An ISO 8601 date-time string. From date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future."
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<dateTime>",
+                  "description": "(Required) An ISO 8601 date-time string. To date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future."
+                },
+                {
+                  "disabled": false,
+                  "key": "accountNumber",
+                  "value": "<string>",
+                  "description": "The account number. You must use this if you are an Account Payout customer. You can use this for a Marketplaces flow.\n{% admonition type=\"warning\" %}\n`accountNumber` or `partyReference` must be provided. <br><br>\n{% /admonition %}\n<br>  "
+                },
+                {
+                  "disabled": false,
+                  "key": "partyReference",
+                  "value": "<string>",
+                  "description": "Your reference for this party, must be unique within an entity. Typically used for a Marketplaces flow and used to retrieve information about your onboarded party. Allowed values: a-z, A-Z, 0-9, spaces and hyphens.\n{% admonition type=\"warning\" %}\n`accountNumber` or `partyReference` must be provided. <br><br>\nIf `partyReference` is provided you must also include `entity` and `currency`.\n{% /admonition %}\n<br>  "
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "Used to route the request in Access Worldpay, created as part of on-boarding."
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes) for the account associated with the party."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "<integer>",
+                  "description": "The page number of the results. Default is 1 if no value is provided. This value specifies the exact page of each list of statements that you want to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "Exact number of records per page to be shown. Max 500 items/rows. Value must be between 1-500. Default is 500 if no value is provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "fundingType",
+                  "value": "<string>",
+                  "description": "Credit or debit operation. Value can be credit or debit. If no value is passed, the statement includes both credits and debits."
+                },
+                {
+                  "disabled": false,
+                  "key": "transferType",
+                  "value": "<string>",
+                  "description": "Type of the transaction used to filter out statement entries. Alphanumeric only. Special characters are restricted."
+                },
+                {
+                  "disabled": false,
+                  "key": "countryCode",
+                  "value": "<string>",
+                  "description": "The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes) of the transaction."
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<double>",
+                  "description": "The transaction amount."
+                },
+                {
+                  "disabled": false,
+                  "key": "transactionReference",
+                  "value": "<string>",
+                  "description": "Your unique reference for the payment request. This can be a \"like\" search (exact or partial match). Special characters are allowed. For the list, please see our [formatting guide](/products/reference/formatting.md)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Represents the version of the API.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "An ID used for logging purposes.",
+                "key": "WP-CallerId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f94c6501-7343-450d-8ed8-d7bad4718fcb",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountNumber\": \"string\",\n  \"currency\": \"string\",\n  \"accountStatementItems\": [\n    {\n      \"transactionReference\": \"string\",\n      \"transferType\": \"string\",\n      \"amount\": 2360.4586352761726,\n      \"timestamp\": \"1995-08-18T07:44:51.435Z\",\n      \"fundingType\": \"string\",\n      \"rate\": 8770.19404083277,\n      \"cleared\": \"string\",\n      \"description\": \"string\",\n      \"statementItemId\": \"03a11305-03ee-8afd-b479-4d1688d05b0a\",\n      \"balance\": 4816.7396411173195,\n      \"statementNumber\": 5683,\n      \"narrative\": {\n        \"line1\": \"string\"\n      },\n      \"countryCode\": \"string\",\n      \"originalCurrency\": \"string\",\n      \"originalAmount\": 9985.09566177564\n    },\n    {\n      \"transactionReference\": \"string\",\n      \"transferType\": \"string\",\n      \"amount\": 5731.821303715524,\n      \"timestamp\": \"1996-10-19T00:34:55.045Z\",\n      \"fundingType\": \"string\",\n      \"rate\": 6459.053985413152,\n      \"cleared\": \"string\",\n      \"description\": \"string\",\n      \"statementItemId\": \"06c52e40-66eb-9767-cb6e-82dd858c6d4a\",\n      \"balance\": 4516.4310520133,\n      \"statementNumber\": 7973,\n      \"narrative\": {\n        \"line1\": \"string\"\n      },\n      \"countryCode\": \"string\",\n      \"originalCurrency\": \"string\",\n      \"originalAmount\": 7251.824888932931\n    }\n  ],\n  \"pageNumber\": 6530,\n  \"pageSize\": 5995,\n  \"pageCount\": 5083,\n  \"totalNumberOfRecords\": 339\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12880ba1-7c64-4694-83ba-6043b5b976c8",
+              "name": "No content for valid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c20c9fbe-1883-4691-9cbd-4326457ea860",
+              "name": "BAD REQUEST response if the request is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"numberIsTooLarge\",\n      \"message\": \"AccountNumber is mandatory\",\n      \"queryParameter\": \"accountNumber\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee9afe5c-59ea-47f5-85bd-a71fd3f88ed7",
+              "name": "UNAUTHORIZED response if JWT is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f3709a3-6b85-4f3a-ac9c-ad0247365983",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"AccessWorldpayId value not available in context\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dab20932-9b43-49fa-8769-9785273625dd",
+              "name": "NOT FOUND response if the AccountNumber or Page was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"The requested page was not found. The page number requested is outside the value of the total number of pages.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17737dc9-509c-4989-a23a-b49eaee79bf6",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2022-05-01T15:16:30Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2022-05-05T15:16:30Z"
+                    },
+                    {
+                      "key": "accountNumber",
+                      "value": "0005553123712133"
+                    },
+                    {
+                      "key": "partyReference",
+                      "value": "Hosaka2738491"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "GBP"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fundingType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "transactionReference",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Accept header is optional and must be application/json if provided.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalServerError\",\n  \"message\": \"An internal server error occurred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f9c9bec-b760-4399-b824-07b8c38b4042",
+          "name": "Transfer funds between your accounts",
+          "request": {
+            "name": "Transfer funds between your accounts",
+            "description": {
+              "content": "Transfer funds between your accounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "transfer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Represents the version of the API.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "An ID used for logging purposes.",
+                "key": "WP-CallerId",
+                "value": "swagger"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"<string>\",\n  \"sourceAccountNumber\": \"<string>\",\n  \"targetAccountNumber\": \"<string>\",\n  \"quoteId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a774eb80-3902-4728-8166-d1dc87b2d7fb",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "swagger"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"A narrative\",\n  \"sourceAccountNumber\": \"1111550000000001\",\n  \"targetAccountNumber\": \"1111550000000002\",\n  \"quoteId\": \"QuoteId\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6a53489-74c3-482f-aaf7-944fbc26d031",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "swagger"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"A narrative\",\n  \"sourceAccountNumber\": \"1111550000000001\",\n  \"targetAccountNumber\": \"1111550000000002\",\n  \"quoteId\": \"QuoteId\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"BodyIsEmpty\",\n  \"message\": \"The json body provided does not match the expected schema.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Target AccountNumber is mandatory\",\n      \"jsonPath\": \"$.targetAccountNumber\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d03f2c26-f4b4-43c7-a0fe-9d8c51032329",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "swagger"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"A narrative\",\n  \"sourceAccountNumber\": \"1111550000000001\",\n  \"targetAccountNumber\": \"1111550000000002\",\n  \"quoteId\": \"QuoteId\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"Access to the requested resource has been denied\",\n  \"message\": \"AccessDenied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49218d1c-fb40-4c2f-bdfd-62702dbee516",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "swagger"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"A narrative\",\n  \"sourceAccountNumber\": \"1111550000000001\",\n  \"targetAccountNumber\": \"1111550000000002\",\n  \"quoteId\": \"QuoteId\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"AccessWorldpayId value not available in context\",\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33f73fec-9128-40fb-a456-459c113dffca",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "swagger"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"A narrative\",\n  \"sourceAccountNumber\": \"1111550000000001\",\n  \"targetAccountNumber\": \"1111550000000002\",\n  \"quoteId\": \"QuoteId\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"The requested page was not found. The page number requested is outside the value of the total number of pages.\",\n  \"message\": \"NotFound\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d97e5549-fcc9-4f8b-81ba-0f42baf909b8",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Represents the version of the API.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "An ID used for logging purposes.",
+                    "key": "WP-CallerId",
+                    "value": "swagger"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<double>\",\n  \"narrative\": \"A narrative\",\n  \"sourceAccountNumber\": \"1111550000000001\",\n  \"targetAccountNumber\": \"1111550000000002\",\n  \"quoteId\": \"QuoteId\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"An internal server error occurred\",\n  \"message\": \"InternalServerError\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c0edd640-c303-4116-b809-29e3af435190",
+    "name": "3DS 3DS actions Accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

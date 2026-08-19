@@ -1,0 +1,1037 @@
+{
+  "item": [
+    {
+      "id": "601caba3-a750-4b81-a660-c6a867815913",
+      "name": "Token",
+      "description": {
+        "content": "A token representing a payment instrument.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a6f6104a-0da5-449d-a64b-c57a7be2d0e5",
+          "name": "Create a new token",
+          "request": {
+            "name": "Create a new token",
+            "description": {
+              "content": "Creating a new token for the payment instrument.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tokens"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.tokens-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.tokens-v3.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"<string>\",\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"cardExpiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"billingAddress\": {\n      \"address1\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"city\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"address3\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"tokenExpiryDateTime\": \"<dateTime>\",\n  \"namespace\": \"<string>\",\n  \"schemeTransactionReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "13a46ea4-0c14-4e1f-9f39-a95cdb35d37d",
+              "name": "You've already tokenized the card and all data supplied in your create a token request matches the data stored with us.<br/><br/>The existing token resource reference is returned in the tokenPaymentInstrument object.<br><br> **Note:** Sometimes we match a token even if the data doesn't seem quite the same. For example, if we have a billing address on file, this address is retained, if no `billingAddress` object was supplied in your request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "A URI identifying the created token resource.",
+                  "key": "Location",
+                  "value": "https://WKmQkSteseKzsoBhDbIrOZ.kgxyPD4YPK9CN01juV4dsYQub9ZLOFxPGlwRcMiRfd20KSsqStva2dSiv6OmLE"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"tokenPaymentInstrument\": {\n    \"type\": \"card/tokenized\",\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n  },\n  \"tokenId\": \"9902480679618049603\",\n  \"description\": \"Test Token Description\",\n  \"tokenExpiryDateTime\": \"2021-06-24T09:19:35Z\",\n  \"paymentInstrument\": {\n    \"type\": \"card/masked\",\n    \"cardNumber\": \"4444********1111\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"billingAddress\": {\n      \"address1\": \"221B Baker Street\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW1 6XE\",\n      \"city\": \"London\",\n      \"state\": \"Greater London\",\n      \"countryCode\": \"GB\"\n    },\n    \"bin\": \"444433\",\n    \"brand\": \"VISA\",\n    \"fundingType\": \"credit\"\n  },\n  \"_links\": {\n    \"tokens:token\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n    },\n    \"tokens:description\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n    },\n    \"tokens:cardHolderName\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n    },\n    \"tokens:cardExpiryDate\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n    },\n    \"tokens:billingAddress\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n    },\n    \"tokens:schemeTransactionReference\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n        \"name\": \"tokens\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72bbd1f2-4f8c-4d74-9add-7d591ae5c4dd",
+              "name": "Created<br><br>This is the first time you've tokenized this card.</br></br>Your response contains a `tokenPaymentInstrument` object which contains the href to the token resource. The response also includes next available action links, e.g. updating and deleting the token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "A URI identifying the created token resource.",
+                  "key": "Location",
+                  "value": "https://WKmQkSteseKzsoBhDbIrOZ.kgxyPD4YPK9CN01juV4dsYQub9ZLOFxPGlwRcMiRfd20KSsqStva2dSiv6OmLE"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"tokenPaymentInstrument\": {\n    \"type\": \"card/tokenized\",\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n  },\n  \"tokenId\": \"9902480679618049603\",\n  \"description\": \"Test Token Description\",\n  \"tokenExpiryDateTime\": \"2021-06-24T09:19:35Z\",\n  \"paymentInstrument\": {\n    \"type\": \"card/masked\",\n    \"cardNumber\": \"4444********1111\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"billingAddress\": {\n      \"address1\": \"221B Baker Street\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW1 6XE\",\n      \"city\": \"London\",\n      \"state\": \"Greater London\",\n      \"countryCode\": \"GB\"\n    },\n    \"bin\": \"444433\",\n    \"brand\": \"VISA\",\n    \"fundingType\": \"credit\"\n  },\n  \"_links\": {\n    \"tokens:token\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n    },\n    \"tokens:description\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n    },\n    \"tokens:cardHolderName\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n    },\n    \"tokens:cardExpiryDate\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n    },\n    \"tokens:billingAddress\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n    },\n    \"tokens:schemeTransactionReference\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n        \"name\": \"tokens\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fd476a4a-b06f-47af-93d3-ad61447dbee4",
+              "name": "We could not process the request due to a client error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"message\": \"Token description too short - must be between 1 & 255 characters\",\n      \"jsonPath\": \"$.description\"\n    },\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Card expiry month too small - must be between 1 & 12\",\n      \"jsonPath\": \"$.paymentInstrument.cardExpiryDate.month\"\n    },\n    {\n      \"errorName\": \"billingAddressMightContainCardNumber\",\n      \"message\": \"Address might contain a card number\",\n      \"jsonPath\": \"$.paymentInstrument.billingAddress.address2\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "093d8c25-0799-4b0e-9527-c6265c82bf7c",
+              "name": "You've already added the maximum number of tokens to the namespace, 16. Please use an alternative namespace or delete some existing tokens from the namespace.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"tooManyTokensForNamespace\",\n  \"message\": \"Too many tokens created for this namespace\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7cb669e0-0fc1-4918-b087-906c7b519fe7",
+              "name": "Conflict<br> You've already tokenized the card, but some of the data supplied in your create a token request is different from the data in the existing token.<br/><br/>This conflict could be caused by a differentiation in the `cardHolderName`, `cardExpiryDate`, `billingAddress` or `schemeTransactionReference` (see note below) fields.<br/><br/>In this case, the data that we have on file is retained. We return the data which caused the conflict in a conflicts object. If you would like to resolve the conflict, you can update the existing token using the \"tokens:conflicts\" action link returned in the response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "A URI identifying the conflicting token resource.",
+                  "key": "Location",
+                  "value": "https://WKmQkSteseKzsoBhDbIrOZ.kgxyPD4YPK9CN01juV4dsYQub9ZLOFxPGlwRcMiRfd20KSsqStva2dSiv6OmLE"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"tokenPaymentInstrument\": {\n    \"type\": \"card/tokenized\",\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n  },\n  \"tokenId\": \"9902480679618049603\",\n  \"description\": \"Test Token Description\",\n  \"tokenExpiryDateTime\": \"2021-06-24T09:19:35Z\",\n  \"paymentInstrument\": {\n    \"type\": \"card/masked\",\n    \"cardNumber\": \"4444********1111\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"billingAddress\": {\n      \"address1\": \"221B Baker Street\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW1 6XE\",\n      \"city\": \"London\",\n      \"state\": \"Greater London\",\n      \"countryCode\": \"GB\"\n    },\n    \"bin\": \"444433\",\n    \"brand\": \"VISA\",\n    \"fundingType\": \"credit\"\n  },\n  \"conflicts\": {\n    \"paymentInstrument\": {\n      \"cardHolderName\": \"Sherlock Holmes\"\n    },\n    \"conflictsExpiryDateTime\": \"2019-06-24T09:49:35Z\"\n  },\n  \"_links\": {\n    \"tokens:token\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n    },\n    \"tokens:description\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n    },\n    \"tokens:cardHolderName\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n    },\n    \"tokens:cardExpiryDate\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n    },\n    \"tokens:billingAddress\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n    },\n    \"tokens:schemeTransactionReference\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n    },\n    \"tokens:conflicts\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0ODUrN2hvZ0cyK1JvQ3JKdUtFZnU5UTFsdTdwODVHTUcwYy92VW02MDlJd2pHQllvcW0zanhWQ3p3Zk9OUW9CYUZtQ1hNbFhwM3lhSXlkYVlNYWJnQUdQUHFpRVAxVXVpZHM2Y2tvTjEvOGNJdFQ0WkVlVEJIVWF6T1dlWTlQMkpnPT0ifQ\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n        \"name\": \"tokens\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "119d7a4f-3028-495f-b57f-4bf8034f7ece",
+              "name": "The request was syntactically valid, but we couldn't process the request. For example the card number or card brand is not recognized.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unrecognizedCardBrand\",\n  \"message\": \"The card brand is not recognized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36f4086d-f6ef-4f0a-aebc-94cdece8c1ac",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Testy McTester\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 1,\n      \"year\": 2025\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"tokenizationNotEnabled\",\n  \"message\": \"Tokenization not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "beb0ae29-d3b8-42f8-974d-f31fcb8f10b5",
+          "name": "Retrieve the detail for this token",
+          "request": {
+            "name": "Retrieve the detail for this token",
+            "description": {
+              "content": "A token representing a payment instrument.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tokens",
+                ":tokenId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tokenId",
+                  "description": "(Required) Access Worldpay encrypted token."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.tokens-v3.hal+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e7534dd8-ed54-4be7-a49a-bea770059214",
+              "name": "The detail for this token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"tokenPaymentInstrument\": {\n    \"type\": \"card/tokenized\",\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ\"\n  },\n  \"tokenId\": \"9925760692793807595\",\n  \"description\": \"Token Description\",\n  \"tokenExpiryDateTime\": \"2025-01-23T10:57:01Z\",\n  \"paymentInstrument\": {\n    \"type\": \"card/masked\",\n    \"cardNumber\": \"4444********1111\",\n    \"cardHolderName\": \"Card Holder Name\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"bin\": \"444433\",\n    \"brand\": \"VISA\",\n    \"fundingType\": \"credit\",\n    \"billingAddress\": {\n      \"address1\": \"Address 1\",\n      \"address2\": \"Address 2\",\n      \"address3\": \"Address 3\",\n      \"postalCode\": \"Postal Code\",\n      \"city\": \"City\",\n      \"state\": \"State\",\n      \"countryCode\": \"XX\"\n    }\n  },\n  \"_links\": {\n    \"tokens:token\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXckVkRHdJSjFNQzR5VkE5NHhYUldzYz0ifQ\"\n    },\n    \"tokens:description\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXdW9oYzR3RUFEM2FCQnlaejhsZ1poTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n    },\n    \"tokens:cardHolderName\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXT0pLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n    },\n    \"tokens:cardExpiryDate\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXT0pLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n    },\n    \"tokens:billingAddress\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXTlpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n    },\n    \"tokens:schemeTransactionReference\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoia0gvT2xpdDV3WnpOZG1GTWpwemtXc2w4WnRHSGdzblFZd2Y4ZU1hLzhXTThZcVl5OWJFUHNnbzNpTHd1NlpJSTJxUUNRVXZybWJpRkdyQ0NNQ0g0ZlpsNlBnc1NkL0h5VkRCKyt0Ym9wMGs9In0\"\n    },\n    \"tokens:networkToken\": {\n      \"href\": \"https://try.access.worldpay.com/tokens/network\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n        \"name\": \"tokens\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3da3c01-fd25-4b30-bb7c-9d89782e8359",
+              "name": "We could not find the requested resource. This may be returned if the token resource has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"resourceNotFound\",\n  \"message\": \"Requested resource was not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ebe1b59-3f97-48d5-b38d-7a55a599e5e8",
+              "name": "Requested method is not allowed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"methodNotAllowed\",\n  \"message\": \"Requested method is not allowed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5080bbb-79b3-4960-8183-251e7eafaf07",
+              "name": "An internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"tokenizationNotEnabled\",\n  \"message\": \"Tokenization not enabled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c9c85104-e5bd-46eb-81e6-89493d5522ef",
+          "name": "Update this token",
+          "request": {
+            "name": "Update this token",
+            "description": {
+              "content": "Updating different fields represented by the token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tokens",
+                ":tokenId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tokenId",
+                  "description": "(Required) Access Worldpay encrypted token."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.tokens-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.tokens-v3.hal+json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schemeTransactionReference\": \"<string>\",\n  \"cardHolderName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"month\": \"<integer>\",\n  \"year\": \"<integer>\",\n  \"address1\": \"<string>\",\n  \"address2\": \"<string>\",\n  \"address3\": \"<string>\",\n  \"postalCode\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"countryCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8e7fbe65-6077-4ef2-b7fa-845fc195148d",
+              "name": "The token was successfully updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"address1\": \"1 Test Street\",\n  \"address2\": \"Address line 2\",\n  \"address3\": \"Address line 3\",\n  \"postalCode\": \"TE12 34ST\",\n  \"city\": \"Testville\",\n  \"state\": \"Testshire\",\n  \"countryCode\": \"TS\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b2ca9ee-0b22-4f33-bc8d-7d6374167a52",
+              "name": "A 429 response is returned for too many requests. You can only update one attribute at a time with a maximum of 50 updates in a rolling 30 day period.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"address1\": \"1 Test Street\",\n  \"address2\": \"Address line 2\",\n  \"address3\": \"Address line 3\",\n  \"postalCode\": \"TE12 34ST\",\n  \"city\": \"Testville\",\n  \"state\": \"Testshire\",\n  \"countryCode\": \"TS\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"maximumUpdatesExceeded\",\n  \"message\": \"Maximum number of updates for this token exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52a8460d-fbdf-49c9-b7a1-aa2fd3849364",
+          "name": "Delete this token",
+          "request": {
+            "name": "Delete this token",
+            "description": {
+              "content": "Deleting a token based on an encrypted tokenId.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tokens",
+                ":tokenId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tokenId",
+                  "description": "(Required) Access Worldpay encrypted token."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.tokens-v3.hal+json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d6f24ce9-6a69-4d4f-98bc-6d42802de5e4",
+              "name": "The token was successfully deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "159ab972-82c6-41e0-b473-2ff7d3bb686b",
+              "name": "Requested method is not allowed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tokens",
+                    ":tokenId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tokenId",
+                      "description": "(Required) Access Worldpay encrypted token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"methodNotAllowed\",\n  \"message\": \"Requested method is not allowed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2a5c6a4a-d283-4a5c-b6dc-c85d008972be",
+    "name": "3DS 3DS actions Token API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

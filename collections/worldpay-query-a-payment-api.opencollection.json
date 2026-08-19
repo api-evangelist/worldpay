@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Query a payment API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query a payment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query payment status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/payments/events/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ]
+          },
+          "docs": "Send a request to find out the current status of your payment after it has been authorized using the events action link.\n\n  **Note:** It can take up to 15 minutes for a payment event to update."
+        },
+        {
+          "info": {
+            "name": "Query payment status recovery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/payments/events",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Send a request to find out the current status of your payment after it has been authorized using the events action link. \n\n **Important:** \n\n  Only use this for recovery purposes, for example when your authorization request has timed out or you are unable to locate a payment through our [Payments Queries API](/products/payment-queries). If the query returns results, you can manage the payment using the next action links returned in the response of your GET request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

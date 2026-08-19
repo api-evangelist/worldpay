@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions AchVerifications API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AchVerifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "ACH verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/achVerifications",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Successful account verification outcome.\n\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

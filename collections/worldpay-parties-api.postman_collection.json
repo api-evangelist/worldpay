@@ -1,0 +1,1824 @@
+{
+  "item": [
+    {
+      "id": "b35ab03f-8a3e-48c5-b7b8-a78f332f03fd",
+      "name": "Parties",
+      "description": {
+        "content": "Create and maintain parties.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a065e495-7390-4691-babf-81e6fa432549",
+          "name": "Create a party",
+          "request": {
+            "name": "Create a party",
+            "description": {},
+            "url": {
+              "path": [
+                "parties"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<date>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "14e33f46-3e7f-4574-9fcc-00201370c653",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"5htNU0XQ7V\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Henry Smith\",\n    \"socialSecurityNumber\": \"333-75-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"1847 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"type\": \"home\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"identityVerificationState\": \"notVerified\",\n  \"identityVerificationMethod\": \"identityVerificationService\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"Frank118\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"partyId\": \"parpI1tAL2bK8Lb-52Rfblg30\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Case Smith\",\n    \"socialSecurityNumber\": \"353-55-6666\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"1847 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\",\n      \"type\": \"home\"\n    },\n    \"residentialStatus\": \"resident\",\n    \"currentAddressLessThanThreeYears\": false\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"prefix\": \"44\",\n      \"number\": 2079461234\n    }\n  ],\n  \"identityDocuments\": [],\n  \"balanceAccounts\": [],\n  \"dateTimeCreated\": \"2025-04-07T20:42:17.292Z\",\n  \"version\": 0,\n  \"active\": true,\n  \"dateTimeActivated\": \"2025-04-07T20:42:17.292Z\",\n  \"payoutInstruments\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3638571d-e8b4-4e7b-a4cf-338a2df51637",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"5htNU0XQ7V\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Henry Smith\",\n    \"socialSecurityNumber\": \"333-75-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"1847 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"type\": \"home\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"There were field validation errors. The errors that occurred are within the validationErrors array.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"The identified field is present when it is explicitly not allowed in the request.\",\n      \"jsonPath\": \"$.additionalData\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c636709-a2e0-4e49-b3d1-ae3568835238",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"5htNU0XQ7V\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Henry Smith\",\n    \"socialSecurityNumber\": \"333-75-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"1847 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"type\": \"home\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service).\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd259969-f4c9-4a4d-872f-30c8495ba670",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"5htNU0XQ7V\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Henry Smith\",\n    \"socialSecurityNumber\": \"333-75-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"1847 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"type\": \"home\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"serviceUnavailable\",\n  \"message\": \"Service cannot fulfil the request even though service functions witout internal errors.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1e85a850-c1b7-47b8-8d0d-707a34901a80",
+          "name": "Browse parties",
+          "request": {
+            "name": "Browse parties",
+            "description": {
+              "content": "Browse parties and optionally filtered by criteria. Results are paginated.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "parties"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Positive whole number indicating which page of the selected parties to return. Greater than 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Number of items listed per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "Entity or entities to filter parties by."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "Entity or entities to filter parties by."
+                },
+                {
+                  "disabled": false,
+                  "key": "active",
+                  "value": "<boolean>",
+                  "description": "Returns parties that are active when set to `true`."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Type of parties to return."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<date>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8494bd5-6c45-4d6d-a7b8-4391029a17a6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity123"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity456"
+                    },
+                    {
+                      "key": "active",
+                      "value": "true"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parties\": [\n    {\n      \"identityVerificationState\": \"notVerified\",\n      \"identityVerificationMethod\": \"identityVerificationService\",\n      \"merchant\": {\n        \"entity\": \"default\"\n      },\n      \"partyReference\": \"ts6SfP8eNv\",\n      \"partyType\": \"beneficiary\",\n      \"type\": \"person\",\n      \"partyId\": \"parJnf1XbmhV6j2cizaFQ54L0\",\n      \"email\": \"zH5O.V20XrO71@yWPtULl.cl4\",\n      \"phones\": [\n        {\n          \"prefix\": \"44\",\n          \"number\": \"km86YWLfjyL\"\n        }\n      ],\n      \"identityDocuments\": [\n        {\n          \"type\": \"passport\",\n          \"number\": \"zuggHJuTi\",\n          \"issuingInstitution\": \"UK Passport Office\",\n          \"issuingCountry\": \"GB\",\n          \"validFrom\": \"1901-03-20\",\n          \"validTo\": \"1931-07-31\"\n        },\n        {\n          \"type\": \"nationalId\",\n          \"number\": \"f1wlKPlz-8mXmh\",\n          \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n          \"issuingCountry\": \"GB\",\n          \"validFrom\": \"1915-09-06\",\n          \"validTo\": \"1988-04-03\"\n        }\n      ],\n      \"balanceAccounts\": [],\n      \"dateTimeCreated\": \"2025-09-02T15:51:53.868Z\",\n      \"dateTimeUpdated\": \"2025-09-03T15:51:54.257Z\",\n      \"version\": 2,\n      \"payoutInstruments\": [],\n      \"active\": true,\n      \"dateTimeDeactivated\": \"2025-09-03T15:51:54.211Z\",\n      \"dateTimeActivated\": \"2025-09-02T15:51:54.257Z\",\n      \"personalDetails\": {\n        \"title\": \"Mr\",\n        \"firstName\": \"sa7h\",\n        \"middleName\": \"G3d3c\",\n        \"lastName\": \"eFGwfD84\",\n        \"alias\": \"John bailey\",\n        \"socialSecurityNumber\": \"333-55-1666\",\n        \"dateOfBirth\": \"2059-01-03\",\n        \"address\": {\n          \"address1\": \"T6cF ubKLq1oMt xWHke\",\n          \"address2\": \"lDdv v5\",\n          \"city\": \"Manchester\",\n          \"countryCode\": \"GB\",\n          \"postalCode\": \"XF 9wj\",\n          \"type\": \"home\"\n        },\n        \"residentialStatus\": \"resident\",\n        \"currentAddressLessThanThreeYears\": false\n      }\n    },\n    {\n      \"identityVerificationState\": \"started\",\n      \"identityVerificationMethod\": \"identityVerificationService\",\n      \"merchant\": {\n        \"entity\": \"default\"\n      },\n      \"partyReference\": \"Z4AS5O3gVA\",\n      \"partyType\": \"beneficiary\",\n      \"type\": \"person\",\n      \"partyId\": \"parBCjKONvmeYaSK--v_NJK40\",\n      \"email\": \"zH5O.V20XrO71@yWPtULl.cl4\",\n      \"phones\": [\n        {\n          \"prefix\": \"44\",\n          \"number\": \"km86YWLfjyL\"\n        }\n      ],\n      \"identityDocuments\": [\n        {\n          \"type\": \"passport\",\n          \"number\": \"zuggHJuTi\",\n          \"issuingInstitution\": \"UK Passport Office\",\n          \"issuingCountry\": \"GB\",\n          \"validFrom\": \"1901-03-20\",\n          \"validTo\": \"1931-07-31\"\n        },\n        {\n          \"type\": \"nationalId\",\n          \"number\": \"f1wlKPlz-8mXmh\",\n          \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n          \"issuingCountry\": \"GB\",\n          \"validFrom\": \"1915-09-06\",\n          \"validTo\": \"1988-04-03\"\n        }\n      ],\n      \"balanceAccounts\": [\n        {\n          \"currency\": \"GBP\",\n          \"payoutInstrumentReference\": \"UtwzOwGHMM\",\n          \"scheduledPayoutDay\": \"thursday\",\n          \"frequency\": \"weekly\",\n          \"balanceAccountId\": \"parVUdr_mDPwl1EY3Pb5y-Cp0\",\n          \"dateTimeCreated\": \"2026-03-02T15:51:54.638Z\",\n          \"version\": 0,\n          \"accountNumber\": \"12343242\",\n          \"nextPayoutDate\": \"2026-03-19\"\n        },\n        {\n          \"currency\": \"EUR\",\n          \"payoutInstrumentReference\": \"hCpcT6vTPB\",\n          \"scheduledPayoutDay\": \"thursday\",\n          \"frequency\": \"monthly\",\n          \"recurrence\": \"third\",\n          \"balanceAccountId\": \"paruowtxO9OPFIGjx9gYl5iE0\",\n          \"dateTimeCreated\": \"2026-03-02T15:51:58.314Z\",\n          \"version\": 0,\n          \"accountNumber\": \"12343242\",\n          \"nextPayoutDate\": \"2026-04-19\"\n        },\n        {\n          \"currency\": \"INR\",\n          \"payoutInstrumentReference\": \"hCpcT6vTPB\",\n          \"frequency\": \"daily\",\n          \"balanceAccountId\": \"paruowtCO9OPFIGjx9gYl5iE0\",\n          \"dateTimeCreated\": \"2026-03-02T15:51:54.638Z\",\n          \"version\": 0,\n          \"accountNumber\": \"12343242\",\n          \"nextPayoutDate\": \"2026-03-03\"\n        }\n      ],\n      \"dateTimeCreated\": \"2026-03-02T15:51:54.638Z\",\n      \"version\": 0,\n      \"payoutInstruments\": [\n        {\n          \"payoutInstrumentReference\": \"hCpcT6vTPB\",\n          \"payoutInstrumentId\": \"par35uirx_fJZ9bjGu24UBB50\",\n          \"payoutInstrumentType\": \"bankAccount\",\n          \"currency\": \"EUR\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:56.889Z\",\n          \"version\": 0,\n          \"accountHolderName\": \"UVfn D. kQdAzJRB\",\n          \"swiftBic\": \"1i08of9G\",\n          \"bankCode\": \"b4ZM5E\",\n          \"accountNumber\": \"xL60ChVg\",\n          \"accountType\": \"checking\",\n          \"iban\": \"WU0jAupifqjpgZ8pPIYb\",\n          \"bankName\": \"Metro Bank\",\n          \"address\": {\n            \"address1\": \"bY o7a-IOeFVa rsxklGj8g 5FCB7\",\n            \"address2\": \"ohXty YYBO\",\n            \"city\": \"London\",\n            \"countryCode\": \"GB\",\n            \"postalCode\": \"Bs4j IqO\",\n            \"type\": \"business\"\n          },\n          \"branchCode\": \"Barclays Branch\"\n        },\n        {\n          \"payoutInstrumentReference\": \"UtwzOwGHMM\",\n          \"payoutInstrumentId\": \"parAh7-5xjnkGUp4TmvJ0Vj00\",\n          \"payoutInstrumentType\": \"bankAccount\",\n          \"currency\": \"GBP\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:54.638Z\",\n          \"version\": 0,\n          \"accountHolderName\": \"UVfn D. kQdAzJRB\",\n          \"swiftBic\": \"1i08of9G\",\n          \"bankCode\": \"b4ZM5E\",\n          \"accountNumber\": \"xL60ChVg\",\n          \"accountType\": \"checking\",\n          \"iban\": \"WU0jAupifqjpgZ8pPIYb\",\n          \"bankName\": \"HSBC UK BANK PLC\",\n          \"address\": {\n            \"address1\": \"bY o7a-IOeFVa rsxklGj8g 5FCB7\",\n            \"address2\": \"ohXty YYBO\",\n            \"city\": \"London\",\n            \"countryCode\": \"GB\",\n            \"postalCode\": \"Bs4j IqO\",\n            \"type\": \"business\"\n          },\n          \"branchCode\": \"Taunton Branch\"\n        }\n      ],\n      \"active\": true,\n      \"dateTimeActivated\": \"2026-03-02T15:51:54.638Z\",\n      \"personalDetails\": {\n        \"title\": \"Mr\",\n        \"firstName\": \"sa7h\",\n        \"middleName\": \"G3d3c\",\n        \"lastName\": \"eFGwfD84\",\n        \"alias\": \"John bailey\",\n        \"socialSecurityNumber\": \"333-55-1666\",\n        \"dateOfBirth\": \"2059-01-03\",\n        \"address\": {\n          \"address1\": \"T6cF ubKLq1oMt xWHke\",\n          \"address2\": \"lDdv v5\",\n          \"city\": \"Manchester\",\n          \"countryCode\": \"GB\",\n          \"postalCode\": \"XF 9wj\",\n          \"type\": \"home\"\n        },\n        \"residentialStatus\": \"resident\",\n        \"currentAddressLessThanThreeYears\": false\n      }\n    },\n    {\n      \"identityVerificationState\": \"notVerified\",\n      \"identityVerificationMethod\": \"identityVerificationService\",\n      \"merchant\": {\n        \"entity\": \"default\"\n      },\n      \"partyReference\": \"xHyFiJS9zo\",\n      \"partyType\": \"beneficiary\",\n      \"type\": \"soleTrader\",\n      \"partyId\": \"parqZvn1ritjWZbD4yRxEpCd0\",\n      \"email\": \"A4P.X6MrD@4zKMG8L.AeB\",\n      \"phones\": [\n        {\n          \"prefix\": \"81\",\n          \"number\": \"mSaIgVfwZw\"\n        }\n      ],\n      \"identityDocuments\": [\n        {\n          \"type\": \"taxRegistrationCode\",\n          \"number\": \"jdZ\",\n          \"issuingInstitution\": \"HMRC\",\n          \"issuingCountry\": \"GB\",\n          \"validFrom\": \"1945-06-07\",\n          \"validTo\": \"2078-12-08\"\n        },\n        {\n          \"type\": \"passport\",\n          \"number\": \"7P6\",\n          \"issuingInstitution\": \"UK Passport Office\",\n          \"issuingCountry\": \"GB\",\n          \"validFrom\": \"2060-03-27\",\n          \"validTo\": \"2067-03-22\"\n        }\n      ],\n      \"balanceAccounts\": [\n        {\n          \"currency\": \"GBP\",\n          \"balanceAccountId\": \"pare151tM6polLGHRMSQsWeO0\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.144Z\",\n          \"version\": 0,\n          \"accountNumber\": 550000085002\n        },\n        {\n          \"currency\": \"USD\",\n          \"payoutInstrumentReference\": \"kNiuKzkNlO\",\n          \"scheduledPayoutDay\": \"thursday\",\n          \"frequency\": \"weekly\",\n          \"balanceAccountId\": \"parr9a1J5alvURV2KrWFi8880\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:58.578Z\",\n          \"version\": 0,\n          \"accountNumber\": 550000085002,\n          \"nextPayoutDate\": \"2026-03-19\"\n        }\n      ],\n      \"dateTimeCreated\": \"2025-09-02T15:51:55.144Z\",\n      \"version\": 0,\n      \"payoutInstruments\": [\n        {\n          \"payoutInstrumentReference\": \"kNiuKzkNlO\",\n          \"payoutInstrumentId\": \"parlnjkdCvxRKCEdXO6QWbYG0\",\n          \"payoutInstrumentType\": \"bankAccount\",\n          \"currency\": \"USD\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:57.484Z\",\n          \"version\": 0,\n          \"accountHolderName\": \"UVfn D. kQdAzJRB\",\n          \"swiftBic\": \"1i08of9G\",\n          \"bankCode\": \"b4ZM5E\",\n          \"accountNumber\": \"xL60ChVg\",\n          \"accountType\": \"checking\",\n          \"iban\": \"WU0jAupifqjpgZ8pPIYb\",\n          \"bankName\": \"Metro Bank\",\n          \"address\": {\n            \"address1\": \"bY o7a-IOeFVa rsxklGj8g 5FCB7\",\n            \"address2\": \"ohXty YYBO\",\n            \"city\": \"London\",\n            \"countryCode\": \"GB\",\n            \"postalCode\": \"Bs4j IqO\",\n            \"type\": \"business\"\n          },\n          \"branchCode\": \"Barclays Branch\"\n        },\n        {\n          \"payoutInstrumentReference\": \"O6zUzth3o6\",\n          \"payoutInstrumentId\": \"parrTlcspjYj2bqeYIez_tMz0\",\n          \"payoutInstrumentType\": \"bankAccount\",\n          \"currency\": \"GBP\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.144Z\",\n          \"version\": 0,\n          \"accountHolderName\": \"51B6k qmw\",\n          \"swiftBic\": \"n45SZCRQ\",\n          \"bankCode\": \"6c1tT8\",\n          \"accountNumber\": \"utJkHSus\",\n          \"accountType\": \"savings\",\n          \"iban\": \"mUWBqpkz8lHlBLKAF5WdUR5\",\n          \"bankName\": \"Lloyds Bank\",\n          \"address\": {\n            \"address1\": \"roQ UHnZ87 V5x52Q\",\n            \"address2\": \"xpWWt 6I\",\n            \"city\": \"London\",\n            \"countryCode\": \"GB\",\n            \"postalCode\": \"AD 9Tz\",\n            \"type\": \"other\"\n          },\n          \"branchCode\": \"Bradford Branch\"\n        }\n      ],\n      \"active\": true,\n      \"dateTimeActivated\": \"2025-09-02T15:51:55.144Z\",\n      \"personalDetails\": {\n        \"title\": \"Ms\",\n        \"firstName\": \"hm70O\",\n        \"middleName\": \"OSoc\",\n        \"lastName\": \"52M\",\n        \"tradingName\": \"Linda Lee\",\n        \"alias\": \"John bailey\",\n        \"socialSecurityNumber\": \"333-55-1666\",\n        \"taxIdentifier\": \"TX-12354567\",\n        \"dateOfBirth\": \"2040-01-09\",\n        \"address\": {\n          \"address1\": \"yWh bzP9Fa luw8GI\",\n          \"address2\": \"sqdo Rtt\",\n          \"city\": \"Chester\",\n          \"countryCode\": \"GB\",\n          \"postalCode\": \"Ib4 VJk\",\n          \"type\": \"home\"\n        },\n        \"residentialStatus\": \"resident\",\n        \"customerReference\": \"customerrefSoleTrader\",\n        \"nationality\": \"lw\",\n        \"currentAddressLessThanThreeYears\": true,\n        \"previousHomeAddress\": {\n          \"address1\": \"xQ6 ZfG8qm YD0fTH\",\n          \"address2\": \"SWMR G2f\",\n          \"city\": \"Chester\",\n          \"countryCode\": \"GB\",\n          \"postalCode\": \"gV5 35W\",\n          \"type\": \"other\"\n        },\n        \"website\": \"https://www.example.com/\",\n        \"merchantCategoryCode\": \"5411\",\n        \"merchantCategoryCodeDescription\": \"Grocery Stores, Supermarkets\"\n      }\n    },\n    {\n      \"identityVerificationState\": \"started\",\n      \"identityVerificationMethod\": \"identityVerificationService\",\n      \"merchant\": {\n        \"entity\": \"default\"\n      },\n      \"partyReference\": \"G5ohEB3lUc\",\n      \"partyType\": \"beneficiary\",\n      \"type\": \"company\",\n      \"partyId\": \"par7anQCsbhS0yKZNIFpUtkI0\",\n      \"email\": \"info@example.com\",\n      \"phones\": [\n        {\n          \"prefix\": \"81\",\n          \"number\": \"8475932\"\n        }\n      ],\n      \"identityDocuments\": [],\n      \"balanceAccounts\": [\n        {\n          \"currency\": \"EUR\",\n          \"payoutInstrumentReference\": \"mHWwfCJRCS\",\n          \"scheduledPayoutDay\": \"thursday\",\n          \"frequency\": \"weekly\",\n          \"balanceAccountId\": \"parKwY5ezX2R4QaUGQ47cGYi0\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.678Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n          \"version\": 1,\n          \"accountNumber\": \"12343242\",\n          \"nextPayoutDate\": \"2026-03-19\"\n        },\n        {\n          \"currency\": \"USD\",\n          \"payoutInstrumentReference\": \"u8MamGFmEo\",\n          \"scheduledPayoutDay\": \"thursday\",\n          \"frequency\": \"weekly\",\n          \"balanceAccountId\": \"parUoWq2uerKMrdAPFeBLqy80\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:58.849Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n          \"version\": 1,\n          \"accountNumber\": \"12343242\",\n          \"nextPayoutDate\": \"2026-03-19\"\n        },\n        {\n          \"currency\": \"GBP\",\n          \"balanceAccountId\": \"parfnsCbzM7Og3xIdfa48tAZ0\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.678Z\",\n          \"version\": 0,\n          \"accountNumber\": \"12343242\"\n        }\n      ],\n      \"dateTimeCreated\": \"2025-09-02T15:51:56.295Z\",\n      \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n      \"version\": 2,\n      \"payoutInstruments\": [\n        {\n          \"payoutInstrumentReference\": \"u8MamGFmEo\",\n          \"payoutInstrumentId\": \"parSALwf8D8drIikDp0aQTrG0\",\n          \"payoutInstrumentType\": \"bankAccount\",\n          \"currency\": \"USD\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:57.887Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n          \"version\": 1,\n          \"accountHolderName\": \"f3T5owE-5hZQQVR rYYIJel eOt.\",\n          \"swiftBic\": \"pogwBatv\",\n          \"bankCode\": \"b4ZM5E\",\n          \"accountNumber\": \"iZOB5YkF\",\n          \"accountType\": \"savings\",\n          \"iban\": \"5YHuGEWGF61PlsAUAKkryp\",\n          \"bankName\": \"Freeside Financial Corporation\",\n          \"address\": {\n            \"address1\": \"q fbyli 0kyimLrIfq\",\n            \"address2\": \"7NOmwxh7\",\n            \"city\": \"York\",\n            \"state\": \"NA\",\n            \"countryCode\": \"GB\",\n            \"postalCode\": \"HJMW DKJn\",\n            \"type\": \"business\"\n          },\n          \"branchCode\": \"Muswell Hill Branch\"\n        },\n        {\n          \"payoutInstrumentReference\": \"mHWwfCJRCS\",\n          \"payoutInstrumentId\": \"parpxxzfRTafscKcMwvERKGf0\",\n          \"payoutInstrumentType\": \"bankAccount\",\n          \"currency\": \"EUR\",\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.677Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n          \"version\": 1,\n          \"accountHolderName\": \"f3T5owE-5hZQQVR rYYIJel eOt.\",\n          \"swiftBic\": \"QnDYJdbt\",\n          \"bankCode\": \"b4ZM5E\",\n          \"accountNumber\": \"utJkHSus\",\n          \"accountType\": \"savings\",\n          \"iban\": \"5YHuGEWGF61PlsAUAKkryp\",\n          \"bankName\": \"Freeside Financial Corporation\",\n          \"address\": {\n            \"address1\": \"q fbyli 0kyimLrIfq\",\n            \"address2\": \"7NOmwxh7\",\n            \"city\": \"London\",\n            \"countryCode\": \"GB\",\n            \"postalCode\": \"Bs4j IqO\",\n            \"type\": \"business\"\n          },\n          \"branchCode\": \"Barclays Branch\"\n        }\n      ],\n      \"active\": true,\n      \"dateTimeActivated\": \"2025-09-02T15:51:56.295Z\",\n      \"companyDetails\": {\n        \"merchantCategoryCode\": \"5734\",\n        \"merchantCategoryCodeDescription\": \"Computer Software Stores\",\n        \"website\": \"https://www.example.com\",\n        \"legalName\": \"Tessier-Ashpool Systems Ltd.\",\n        \"tradingName\": \"Example.co.uk\",\n        \"registrationNumber\": \"7564389201\",\n        \"taxIdentifier\": \"GB-987654321\",\n        \"companyType\": \"publicLimitedCompany\",\n        \"dateOfIncorporation\": \"1977-07-04\",\n        \"legalAddress\": {\n          \"address1\": \"7 Straylight Complex\",\n          \"address2\": \"Corporate District, Level 99\",\n          \"city\": \"London\",\n          \"countryCode\": \"GB\",\n          \"postalCode\": \"EC1A 1BB\",\n          \"type\": \"business\"\n        },\n        \"tradingAddress\": {\n          \"address1\": \"789 Freeside Blvd\",\n          \"address2\": \"Villa Straylight\",\n          \"city\": \"Manchester\",\n          \"countryCode\": \"GB\",\n          \"postalCode\": \"M1 1AA\",\n          \"type\": \"poBox\"\n        },\n        \"customerReference\": \"CustRefZA98765\"\n      },\n      \"beneficialOwners\": [\n        {\n          \"identityVerificationState\": \"started\",\n          \"identityVerificationMethod\": \"identityVerificationService\",\n          \"beneficialOwnerReference\": \"GJbPJVtqFz\",\n          \"beneficialOwnerId\": \"par5BsbOKDecm8uWVgzYUor-0\",\n          \"personalDetails\": {\n            \"title\": \"Ms\",\n            \"firstName\": \"John\",\n            \"middleName\": \"LVrVLk\",\n            \"lastName\": \"Bailer\",\n            \"alias\": \"John bailey\",\n            \"socialSecurityNumber\": \"333-55-1666\",\n            \"dateOfBirth\": \"1946-09-13\",\n            \"address\": {\n              \"address1\": \"YZ7 1V7iJh xnZhNA\",\n              \"address2\": \"8DD6 7fg\",\n              \"city\": \"Burbank\",\n              \"countryCode\": \"GB\",\n              \"postalCode\": \"rmL v0W\"\n            },\n            \"residentialStatus\": \"resident\",\n            \"nationality\": \"lw\",\n            \"currentAddressLessThanThreeYears\": true,\n            \"previousHomeAddress\": {\n              \"address1\": \"xgi osd16 bsMJ 1nnj\",\n              \"address2\": \"SWMR G2f\",\n              \"city\": \"Night City\",\n              \"countryCode\": \"GB\",\n              \"postalCode\": \"s2W CV6\"\n            }\n          },\n          \"relationshipToBusiness\": {\n            \"ownershipPercentage\": 25,\n            \"director\": false,\n            \"isPrincipalOwner\": true,\n            \"position\": \"officeManager\"\n          },\n          \"email\": \"UucOR.ppaJ1rdP@4BLu9KX.54i\",\n          \"phones\": [\n            {\n              \"prefix\": \"44\",\n              \"number\": \"km86YWLfjyL\"\n            }\n          ],\n          \"identityDocuments\": [\n            {\n              \"type\": \"passport\",\n              \"number\": \"sJCY65PyZ\",\n              \"issuingInstitution\": \"UK Passport Office\",\n              \"issuingCountry\": \"GB\",\n              \"validFrom\": \"1922-10-07\",\n              \"validTo\": \"2043-06-08\"\n            }\n          ],\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.678Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n          \"version\": 1\n        },\n        {\n          \"identityVerificationState\": \"started\",\n          \"identityVerificationMethod\": \"identityVerificationService\",\n          \"beneficialOwnerReference\": \"YezTTwoVHR\",\n          \"beneficialOwnerId\": \"parIrzObRP9_nc7Y5R29fgoC0\",\n          \"personalDetails\": {\n            \"title\": \"Dr\",\n            \"firstName\": \"Johny\",\n            \"middleName\": \"tusFSTLKvR\",\n            \"lastName\": \"pkw1XH1\",\n            \"alias\": \"John bailey\",\n            \"socialSecurityNumber\": \"333-55-1666\",\n            \"dateOfBirth\": \"2062-04-19\",\n            \"address\": {\n              \"address1\": \"AI6 TyzGI5B YprQ7Y\",\n              \"address2\": \"05uX xGG\",\n              \"city\": \"London\",\n              \"countryCode\": \"GB\",\n              \"postalCode\": \"Dv4T erT\",\n              \"type\": \"home\"\n            },\n            \"residentialStatus\": \"nonResident\",\n            \"nationality\": \"lw\",\n            \"currentAddressLessThanThreeYears\": true,\n            \"previousHomeAddress\": {\n              \"address1\": \"CIo U0wJ3a 1k3rwN\",\n              \"address2\": \"8DD6 7fg\",\n              \"city\": \"London\",\n              \"countryCode\": \"GB\",\n              \"postalCode\": \"bZX TqF\",\n              \"type\": \"home\"\n            }\n          },\n          \"relationshipToBusiness\": {\n            \"ownershipPercentage\": 10,\n            \"director\": false,\n            \"position\": \"partner\"\n          },\n          \"email\": \"PuDnv.iX8XrhV@X8RQ3S5.4IC\",\n          \"phones\": [\n            {\n              \"prefix\": \"44\",\n              \"number\": \"Z0avBNjMlS\"\n            }\n          ],\n          \"identityDocuments\": [\n            {\n              \"type\": \"passport\",\n              \"number\": \"v2OhZxguD\",\n              \"issuingInstitution\": \"UK Passport Office\",\n              \"issuingCountry\": \"GB\",\n              \"validFrom\": \"1989-06-06\",\n              \"validTo\": \"2028-03-19\"\n            }\n          ],\n          \"dateTimeCreated\": \"2025-09-02T15:51:55.678Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:55.678Z\",\n          \"version\": 1\n        },\n        {\n          \"identityVerificationState\": \"started\",\n          \"identityVerificationMethod\": \"identityVerificationService\",\n          \"beneficialOwnerReference\": \"zHCxMG8x4T\",\n          \"beneficialOwnerId\": \"parT4dazXixMu5npZGQL0iwH0\",\n          \"personalDetails\": {\n            \"title\": \"Dr\",\n            \"firstName\": \"Jenly\",\n            \"middleName\": \"tusFSTLKvR\",\n            \"lastName\": \"Morris\",\n            \"alias\": \"John bailey\",\n            \"socialSecurityNumber\": \"333-55-1666\",\n            \"dateOfBirth\": \"1918-01-01\",\n            \"address\": {\n              \"address1\": \"NLv QCTjBRt P4cpVy\",\n              \"address2\": \"05uX xGG\",\n              \"city\": \"London\",\n              \"countryCode\": \"GB\",\n              \"postalCode\": \"Dv4T erT\",\n              \"type\": \"home\"\n            },\n            \"residentialStatus\": \"nonResident\",\n            \"nationality\": \"lw\",\n            \"currentAddressLessThanThreeYears\": true,\n            \"previousHomeAddress\": {\n              \"address1\": \"ceR 7DcVj9 qP6wd4\",\n              \"address2\": \"8DD6 7fg\",\n              \"city\": \"London\",\n              \"countryCode\": \"GB\",\n              \"postalCode\": \"bZX TqF\",\n              \"type\": \"home\"\n            }\n          },\n          \"relationshipToBusiness\": {\n            \"ownershipPercentage\": 10,\n            \"director\": false,\n            \"position\": \"partner\"\n          },\n          \"email\": \"9UFJ.oVZsgU@laUTWaJ.rs0\",\n          \"phones\": [\n            {\n              \"prefix\": \"44\",\n              \"number\": \"Z0avBNjMlS\"\n            }\n          ],\n          \"identityDocuments\": [\n            {\n              \"type\": \"passport\",\n              \"number\": \"v2OhZxguD\",\n              \"issuingInstitution\": \"UK Passport Office\",\n              \"issuingCountry\": \"GB\",\n              \"validFrom\": \"1989-06-06\",\n              \"validTo\": \"2028-03-19\"\n            }\n          ],\n          \"dateTimeCreated\": \"2025-09-02T15:51:56.294Z\",\n          \"dateTimeUpdated\": \"2025-09-03T15:51:56.294Z\",\n          \"version\": 1\n        }\n      ]\n    }\n  ],\n  \"pagination\": {\n    \"page\": 0,\n    \"size\": 10,\n    \"pageCount\": 1,\n    \"totalNumberOfRecords\": 4\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "447ce5a3-e859-465b-ac0a-78630eeefca3",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity123"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity456"
+                    },
+                    {
+                      "key": "active",
+                      "value": "true"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.\",\n      \"jsonPath\": \"$.partyId\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82538a35-032d-440c-a63f-fe32d7cd6e0f",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity123"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity456"
+                    },
+                    {
+                      "key": "active",
+                      "value": "true"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service).\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "febdd527-f3d9-4ec8-94df-1a7f99714d0d",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity123"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "Entity456"
+                    },
+                    {
+                      "key": "active",
+                      "value": "true"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"serviceUnavailable\",\n  \"message\": \"Service cannot fulfil the request even though service functions witout internal errors.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "890f7207-5415-47d4-a5ac-3dd1d4934a0d",
+          "name": "View a party",
+          "request": {
+            "name": "View a party",
+            "description": {
+              "content": "Retrieve information about a party.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "parties",
+                ":partyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partyId",
+                  "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<date>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8d41e830-e3c9-4238-8872-66ddc38fe41c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"identityVerificationState\": \"pending\",\n  \"identityVerificationMethod\": \"identityVerificationService\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"Heidi197\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"partyId\": \"parMbuHucAsLeLL0BhDpWdjE0\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Henry Smith\",\n    \"socialSecurityNumber\": \"333-55-6666\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"1847 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\",\n      \"type\": \"home\"\n    },\n    \"residentialStatus\": \"resident\",\n    \"currentAddressLessThanThreeYears\": false\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"prefix\": \"44\",\n      \"number\": 2079461234\n    }\n  ],\n  \"identityDocuments\": [\n    {\n      \"type\": \"passport\",\n      \"number\": \"NEO456789\",\n      \"issuingInstitution\": \"UK Passport Office\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2022-08-01\",\n      \"validTo\": \"2032-08-01\"\n    },\n    {\n      \"type\": \"nationalId\",\n      \"number\": \"ZAIBATSU-00792\",\n      \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2025-01-01\",\n      \"validTo\": \"2030-12-31\"\n    }\n  ],\n  \"balanceAccounts\": [\n    {\n      \"currency\": \"EUR\",\n      \"payoutInstrumentReference\": \"personalCheckingAccount\",\n      \"scheduledPayoutDay\": \"thursday\",\n      \"frequency\": \"weekly\",\n      \"balanceAccountId\": \"pareBH4YMkUx7MA2X7bnS4750\",\n      \"dateTimeCreated\": \"2025-04-16T20:46:26.727Z\",\n      \"version\": 0,\n      \"accountNumber\": \"12645678\",\n      \"nextPayoutDate\": \"2026-03-19\"\n    },\n    {\n      \"currency\": \"GBP\",\n      \"payoutInstrumentReference\": \"personalCheckingAccount2\",\n      \"scheduledPayoutDay\": \"thursday\",\n      \"frequency\": \"weekly\",\n      \"balanceAccountId\": \"par3GymZO5MtP18qe5NFaaPp0\",\n      \"dateTimeCreated\": \"2025-04-16T20:46:24.122Z\",\n      \"version\": 0,\n      \"accountNumber\": \"2319876543210\",\n      \"nextPayoutDate\": \"2026-03-19\"\n    }\n  ],\n  \"dateTimeCreated\": \"2025-04-16T20:46:24.122Z\",\n  \"version\": 0,\n  \"active\": true,\n  \"dateTimeActivated\": \"2025-04-24T17:55:56.283Z\",\n  \"payoutInstruments\": [\n    {\n      \"payoutInstrumentReference\": \"personalCheckingAccount\",\n      \"payoutInstrumentId\": \"parclOAFlaOX-H_2UBp9tWbd0\",\n      \"payoutInstrumentType\": \"bankAccount\",\n      \"currency\": \"GBP\",\n      \"dateTimeCreated\": \"2025-04-16T20:46:24.122Z\",\n      \"version\": 0,\n      \"accountHolderName\": \"Case H. Mitchell\",\n      \"swiftBic\": \"BUKBGB22\",\n      \"bankCode\": \"045110\",\n      \"accountNumber\": \"23198765\",\n      \"accountType\": \"checking\",\n      \"iban\": \"GB892019000123456789\",\n      \"bankName\": \"HSBC UK BANK PLC\",\n      \"address\": {\n        \"address1\": \"17 Neo-London Financial Tower\",\n        \"address2\": \"Suite 1288\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"EC1A 1BB\",\n        \"type\": \"business\"\n      },\n      \"branchCode\": \"Taunton Branch\"\n    },\n    {\n      \"payoutInstrumentReference\": \"personalCheckingAccount2\",\n      \"payoutInstrumentId\": \"parKsh3dSA_VRckwEDRHLzOR0\",\n      \"payoutInstrumentType\": \"bankAccount\",\n      \"currency\": \"EUR\",\n      \"dateTimeCreated\": \"2025-04-16T20:46:26.235Z\",\n      \"version\": 0,\n      \"accountHolderName\": \"Case H. Mitchell\",\n      \"swiftBic\": \"BUKBGB22\",\n      \"bankCode\": \"045110\",\n      \"accountNumber\": \"2319876543210\",\n      \"accountType\": \"checking\",\n      \"iban\": \"GB892019000123456789\",\n      \"bankName\": \"Metro Bank\",\n      \"address\": {\n        \"address1\": \"17 Neo-London Financial Tower\",\n        \"address2\": \"Suite 1288\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"EC1A 1BB\",\n        \"type\": \"business\"\n      },\n      \"branchCode\": \"Barclays Branch\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efd95221-b76f-416a-9895-8c09336ebadb",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.\",\n      \"jsonPath\": \"$.partyId\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb8d6206-88cb-4895-a90f-b3473878cc92",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service).\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "566e47c3-a630-41f5-aef9-f534241f1964",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"serviceUnavailable\",\n  \"message\": \"Service cannot fulfil the request even though service functions witout internal errors.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba357872-b2de-4f19-990f-3103384904f1",
+          "name": "Update a party",
+          "request": {
+            "name": "Update a party",
+            "description": {},
+            "url": {
+              "path": [
+                "parties",
+                ":partyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partyId",
+                  "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<date>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6f32e048-71a6-45a3-a289-3435a9ffb449",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"8X87XwQ7Fv\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Case Smith\",\n    \"socialSecurityNumber\": \"393-55-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"2025 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ],\n  \"identityDocuments\": [\n    {\n      \"type\": \"passport\",\n      \"number\": \"NEO456789\",\n      \"issuingInstitution\": \"UK Passport Office\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2022-08-01\",\n      \"validTo\": \"2032-08-01\"\n    },\n    {\n      \"type\": \"nationalId\",\n      \"number\": \"ZAIBATSU-00792\",\n      \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2025-01-01\",\n      \"validTo\": \"2030-12-31\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"identityVerificationState\": \"notVerified\",\n  \"identityVerificationMethod\": \"identityVerificationService\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"Lela300\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"partyId\": \"par4733xO8y2YI9HSOTG-kba0\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Case Smith\",\n    \"socialSecurityNumber\": \"343-55-6666\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"2025 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    },\n    \"residentialStatus\": \"resident\",\n    \"currentAddressLessThanThreeYears\": false\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"prefix\": \"44\",\n      \"number\": 2079461234\n    }\n  ],\n  \"identityDocuments\": [\n    {\n      \"type\": \"passport\",\n      \"number\": \"NEO456789\",\n      \"issuingInstitution\": \"UK Passport Office\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2022-08-01\",\n      \"validTo\": \"2032-08-01\"\n    },\n    {\n      \"type\": \"nationalId\",\n      \"number\": \"ZAIBATSU-00792\",\n      \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2025-01-01\",\n      \"validTo\": \"2030-12-31\"\n    }\n  ],\n  \"balanceAccounts\": [\n    {\n      \"currency\": \"GBP\",\n      \"payoutInstrumentReference\": \"personalCheckingAccount\",\n      \"scheduledPayoutDay\": \"thursday\",\n      \"frequency\": \"weekly\",\n      \"balanceAccountId\": \"parXRSh-RDDLU5NyGZpQhyNb0\",\n      \"dateTimeCreated\": \"2025-04-21T20:11:08.699Z\",\n      \"version\": 0,\n      \"accountNumber\": \"23198765\",\n      \"nextPayoutDate\": \"2026-03-19\"\n    },\n    {\n      \"currency\": \"EUR\",\n      \"payoutInstrumentReference\": \"personalCheckingAccount2\",\n      \"scheduledPayoutDay\": \"thursday\",\n      \"frequency\": \"weekly\",\n      \"balanceAccountId\": \"parBTwBk8J3s3nhgbo1vNyvJ0\",\n      \"dateTimeCreated\": \"2025-04-21T20:11:12.991Z\",\n      \"version\": 0,\n      \"accountNumber\": \"23198765\",\n      \"nextPayoutDate\": \"2026-03-19\"\n    }\n  ],\n  \"dateTimeCreated\": \"2025-04-21T20:11:08.695Z\",\n  \"dateTimeUpdated\": \"2025-04-21T20:11:15.341Z\",\n  \"version\": 1,\n  \"active\": true,\n  \"dateTimeActivated\": \"2025-04-24T17:55:56.283Z\",\n  \"payoutInstruments\": [\n    {\n      \"payoutInstrumentReference\": \"personalCheckingAccount\",\n      \"payoutInstrumentId\": \"paru47L8iaV-cm7doWxO7oWm0\",\n      \"payoutInstrumentType\": \"bankAccount\",\n      \"currency\": \"GBP\",\n      \"dateTimeCreated\": \"2025-04-21T20:11:08.698Z\",\n      \"version\": 0,\n      \"accountHolderName\": \"Case H. Mitchell\",\n      \"swiftBic\": \"BUKBGB22\",\n      \"bankCode\": \"045110\",\n      \"accountNumber\": \"23198765\",\n      \"accountType\": \"checking\",\n      \"iban\": \"GB892019000123456789\",\n      \"bankName\": \"HSBC UK BANK PLC\",\n      \"address\": {\n        \"address1\": \"17 Neo-London Financial Tower\",\n        \"address2\": \"Suite 1288\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"EC1A 1BB\",\n        \"type\": \"business\"\n      },\n      \"branchCode\": \"Taunton Branch\"\n    },\n    {\n      \"payoutInstrumentReference\": \"personalCheckingAccount\",\n      \"payoutInstrumentId\": \"parbQkpoZT3adRASZB9Zp9e-0\",\n      \"payoutInstrumentType\": \"bankAccount\",\n      \"currency\": \"EUR\",\n      \"dateTimeCreated\": \"2025-04-21T20:11:11.251Z\",\n      \"version\": 0,\n      \"accountHolderName\": \"Case H. Mitchell\",\n      \"swiftBic\": \"BUKBGB22\",\n      \"bankCode\": \"045110\",\n      \"accountNumber\": \"23198765\",\n      \"accountType\": \"checking\",\n      \"iban\": \"GB892019000123456789\",\n      \"bankName\": \"Metro Bank\",\n      \"address\": {\n        \"address1\": \"17 Neo-London Financial Tower\",\n        \"address2\": \"Suite 1288\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"EC1A 1BB\",\n        \"type\": \"business\"\n      },\n      \"branchCode\": \"Barclays Branch\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ecd510c5-2c60-41d9-8900-a4b54d5e3c90",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"8X87XwQ7Fv\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Case Smith\",\n    \"socialSecurityNumber\": \"393-55-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"2025 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ],\n  \"identityDocuments\": [\n    {\n      \"type\": \"passport\",\n      \"number\": \"NEO456789\",\n      \"issuingInstitution\": \"UK Passport Office\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2022-08-01\",\n      \"validTo\": \"2032-08-01\"\n    },\n    {\n      \"type\": \"nationalId\",\n      \"number\": \"ZAIBATSU-00792\",\n      \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2025-01-01\",\n      \"validTo\": \"2030-12-31\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"There were field validation errors. The errors that occurred are within the validationErrors array.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"The identified field is present when it is explicitly not allowed in the request.\",\n      \"jsonPath\": \"$.additionalData\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "944b0887-6071-4d0f-93a3-b27337e23934",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"8X87XwQ7Fv\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Case Smith\",\n    \"socialSecurityNumber\": \"393-55-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"2025 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ],\n  \"identityDocuments\": [\n    {\n      \"type\": \"passport\",\n      \"number\": \"NEO456789\",\n      \"issuingInstitution\": \"UK Passport Office\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2022-08-01\",\n      \"validTo\": \"2032-08-01\"\n    },\n    {\n      \"type\": \"nationalId\",\n      \"number\": \"ZAIBATSU-00792\",\n      \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2025-01-01\",\n      \"validTo\": \"2030-12-31\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service).\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c70495b5-ac80-4dd3-be1b-e750d669c0ce",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"partyReference\": \"8X87XwQ7Fv\",\n  \"partyType\": \"beneficiary\",\n  \"type\": \"person\",\n  \"personalDetails\": {\n    \"title\": \"Mr\",\n    \"firstName\": \"Case\",\n    \"middleName\": \"Henry\",\n    \"lastName\": \"Mitchell\",\n    \"alias\": \"Case Smith\",\n    \"socialSecurityNumber\": \"393-55-6666\",\n    \"residentialStatus\": \"resident\",\n    \"dateOfBirth\": \"1983-10-12\",\n    \"address\": {\n      \"address1\": \"2025 Kingsbury Court\",\n      \"address2\": \"Unit 42\",\n      \"city\": \"Manchester\",\n      \"countryCode\": \"GB\",\n      \"postalCode\": \"M1 1AA\"\n    }\n  },\n  \"email\": \"case.mitchell@example.com\",\n  \"phones\": [\n    {\n      \"number\": 2079461234,\n      \"prefix\": \"44\"\n    }\n  ],\n  \"identityDocuments\": [\n    {\n      \"type\": \"passport\",\n      \"number\": \"NEO456789\",\n      \"issuingInstitution\": \"UK Passport Office\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2022-08-01\",\n      \"validTo\": \"2032-08-01\"\n    },\n    {\n      \"type\": \"nationalId\",\n      \"number\": \"ZAIBATSU-00792\",\n      \"issuingInstitution\": \"Zaibatsu Holding HR Dept.\",\n      \"issuingCountry\": \"GB\",\n      \"validFrom\": \"2025-01-01\",\n      \"validTo\": \"2030-12-31\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"serviceUnavailable\",\n  \"message\": \"Service cannot fulfil the request even though service functions witout internal errors.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3feb7347-c2d7-4ba8-8510-62e1a8b78ee6",
+          "name": "Deactivate a party",
+          "request": {
+            "name": "Deactivate a party",
+            "description": {},
+            "url": {
+              "path": [
+                "parties",
+                ":partyId",
+                "deactivation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partyId",
+                  "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<date>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deactivationReason\": \"<string>\",\n  \"dispositionOfFunds\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2ff8f951-8ab8-416d-b57d-15ed2f9a5b1a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId",
+                    "deactivation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deactivationReason\": \"partyDormant\",\n  \"dispositionOfFunds\": \"payoutToParty\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deactivationReason\": \"partyDormant\",\n  \"dispositionOfFunds\": \"payoutToParty\",\n  \"active\": false,\n  \"dateTimeDeactivated\": \"2025-07-29T17:34:01.621Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c73f5abe-5b72-400f-80f1-c5f822afafd2",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId",
+                    "deactivation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deactivationReason\": \"partyDormant\",\n  \"dispositionOfFunds\": \"payoutToParty\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"string\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"string\",\n      \"message\": \"string\",\n      \"path\": \"string\",\n      \"jsonPath\": \"string\",\n      \"queryParameter\": \"string\",\n      \"pathParameter\": \"string\"\n    },\n    {\n      \"errorName\": \"string\",\n      \"message\": \"string\",\n      \"path\": \"string\",\n      \"jsonPath\": \"string\",\n      \"queryParameter\": \"string\",\n      \"pathParameter\": \"string\"\n    }\n  ],\n  \"pathParameter\": \"string\",\n  \"queryParameter\": \"string\",\n  \"jsonPath\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65045024-e9bf-4b95-868b-ad5bb6a6119a",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId",
+                    "deactivation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deactivationReason\": \"partyDormant\",\n  \"dispositionOfFunds\": \"payoutToParty\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service).\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "87bd80d5-7487-4ddf-88be-45aba5bc7ddb",
+          "name": "Reactivate a party",
+          "request": {
+            "name": "Reactivate a party",
+            "description": {},
+            "url": {
+              "path": [
+                "parties",
+                ":partyId",
+                "activation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partyId",
+                  "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<date>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"active\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ce64f552-2507-4a35-9f32-ad2c5ebd1a0d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"active\": true,\n  \"dateTimeActivated\": \"2025-07-29T17:34:01.621Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5b80316-f136-406d-a59f-af2bd4cee412",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"string\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"string\",\n      \"message\": \"string\",\n      \"path\": \"string\",\n      \"jsonPath\": \"string\",\n      \"queryParameter\": \"string\",\n      \"pathParameter\": \"string\"\n    },\n    {\n      \"errorName\": \"string\",\n      \"message\": \"string\",\n      \"path\": \"string\",\n      \"jsonPath\": \"string\",\n      \"queryParameter\": \"string\",\n      \"pathParameter\": \"string\"\n    }\n  ],\n  \"pathParameter\": \"string\",\n  \"queryParameter\": \"string\",\n  \"jsonPath\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3bae0b69-164f-4c62-a5a9-550c2dcc5c3d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "parties",
+                    ":partyId",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partyId",
+                      "description": "(Required) A unique identifier for the party generated by us. This is sent in the response of your party creation call."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service).\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "640a152e-77bb-4913-836f-7754edafe7d3",
+    "name": "3DS 3DS actions Parties API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

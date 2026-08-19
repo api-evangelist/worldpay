@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Fraudsight API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fraudsight",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fraud assessment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/fraudsight/assessment",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request a risk assessment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1073 @@
+{
+  "item": [
+    {
+      "id": "3ebde94b-ced6-4636-b1da-352ad21cf1ab",
+      "name": "Payouts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "54135142-20fe-4564-8040-ec93025bc07b",
+          "name": "Retrieve payout details",
+          "request": {
+            "name": "Retrieve payout details",
+            "description": {
+              "content": "Retrieve the details of an existing basic disbursement or Fast Access payout.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payouts",
+                ":resource"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resource",
+                  "description": "(Required) The `payouts:payout` href value returned in the response to your basic disbursement or Fast Access payout request."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payouts-v4+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0dc74900-1813-4ccf-8268-616a90fda86a",
+              "name": "Payout resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    ":resource"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource",
+                      "description": "(Required) The `payouts:payout` href value returned in the response to your basic disbursement or Fast Access payout request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"requestReceived\",\n  \"receivedAt\": \"2023-09-01T10:37:36.923Z\",\n  \"_links\": {\n    \"payouts:payout\": {\n      \"href\": \"https://try.access.worldpay.com/payouts/{resource}\"\n    },\n    \"curies\": [\n      {\n        \"name\": \"payouts\",\n        \"href\": \"https://try.access.worldpay.com/rels/payouts/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de72c731-e25f-4f5a-b931-96396173a9d3",
+              "name": "Access to the requested resource has been denied. This may occur if your entity is not configured for card payouts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    ":resource"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource",
+                      "description": "(Required) The `payouts:payout` href value returned in the response to your basic disbursement or Fast Access payout request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "776a4248-f118-49d7-add6-eb8b83f3f3e4",
+              "name": "We could not find the requested resource. Please check the `path` and try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    ":resource"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource",
+                      "description": "(Required) The `payouts:payout` href value returned in the response to your basic disbursement or Fast Access payout request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"resourceNotFound\",\n  \"message\": \"The resource you are trying to access does not exist.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6fc4abb-5c5a-477b-a300-21e7ff3cc68f",
+          "name": "Retrieve payout details from a historic resource",
+          "request": {
+            "name": "Retrieve payout details from a historic resource",
+            "description": {
+              "content": "Query by transaction reference and entity to retrieve a payout.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payouts",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "transactionReference",
+                  "value": "<string>",
+                  "description": "(Required) A unique reference generated by you, used to identify a payout throughout its lifecycle."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "(Required) merchant entity"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payouts-v4+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "44771dee-6c55-4604-b546-34cd30be0a18",
+              "name": "Returns a payout resource, provided one matches the transaction and entity references.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transactionReference",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"requestReceived\",\n  \"receivedAt\": \"2025-08-01T10:37:36.923Z\",\n  \"_links\": {\n    \"payouts:payout\": {\n      \"href\": \"https://try.access.worldpay.com/payouts/{resource}\"\n    },\n    \"curies\": [\n      {\n        \"name\": \"payouts\",\n        \"href\": \"https://try.access.worldpay.com/rels/payouts/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9462bc93-d663-4e71-a2ef-0cb5723afef0",
+              "name": "We could not process the request due to a client error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transactionReference",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsMissing\",\n      \"message\": \"A query parameter in the request is missing. This query parameter is a mandatory element of the request. The name of the query parameter is in the queryParameter field.\",\n      \"queryParameter\": \"transactionReference\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8175714f-fe97-4966-b5ae-c29beeaf2504",
+              "name": "Access to the requested resource has been denied. This may occur if your entity is not configured for card payouts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transactionReference",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4910cdcc-a331-4021-aabe-7fbd668fbbac",
+              "name": "We could not find the requested resource. Please check the `transactionReference` query parameter and try again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transactionReference",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"resourceNotFound\",\n  \"message\": \"The resource you are trying to access does not exist.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47ff9887-2605-421d-b4bc-512bcdf11cb5",
+              "name": "The request was syntactically valid, but couldn't be processed. For example, your merchant entity is not configured to process card payouts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transactionReference",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"fieldHasInvalidValue\",\n  \"message\": \"Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.\",\n  \"jsonPath\": \"$.merchant.entity\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "83f92be9-d7eb-4b85-ba5d-f469035780f7",
+          "name": "Standard payout",
+          "request": {
+            "name": "Standard payout",
+            "description": {
+              "content": "Disburse funds to a payout instrument.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payouts",
+                "basicDisbursement"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.payouts-v4+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payouts-v4+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instruction\": {\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"<string>\",\n      \"cardNumber\": \"<string>\",\n      \"cardExpiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"cardHolderName\": \"<string>\",\n      \"billingAddress\": {\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\"\n      }\n    },\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\"\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"transactionReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "525d4721-f4cb-4612-a54f-caef206f36a1",
+              "name": "The outcome of your card payout request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "basicDisbursement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2025\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"requestReceived\",\n  \"receivedAt\": \"2025-08-01T10:37:36.923Z\",\n  \"_links\": {\n    \"payouts:payout\": {\n      \"href\": \"https://try.access.worldpay.com/payouts/{resource}\"\n    },\n    \"curies\": [\n      {\n        \"name\": \"payouts\",\n        \"href\": \"https://try.access.worldpay.com/rels/payouts/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "886208d2-a127-45e6-b486-6daff5baadd3",
+              "name": "We could not process the request due to a client error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "basicDisbursement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2025\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"There were field validation errors. The errors that occurred are within the validationErrors array.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"The identified field does not contain an expected value. This field must contain one of the expected valid values.\",\n      \"jsonPath\": \"$.instruction.value.currency\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7445970-9bb3-4f72-bb23-a488186a3919",
+              "name": "The request was syntactically valid, but couldn't be processed. For example, your merchant entity is not configured to process card payouts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "basicDisbursement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2025\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"fieldHasInvalidValue\",\n  \"message\": \"Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.\",\n  \"jsonPath\": \"$.merchant.entity\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ee1398c-6593-44cd-865e-530ff36bb072",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "basicDisbursement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2025\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service)\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bdad94e2-0c83-47bc-9384-1d05c8f8cb8a",
+          "name": "Fast Access payout",
+          "request": {
+            "name": "Fast Access payout",
+            "description": {
+              "content": "Disburse funds to a payout instrument using Fast Access.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payouts",
+                "fastAccess"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.payouts-v4+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payouts-v4+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instruction\": {\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"<string>\",\n      \"cardNumber\": \"<string>\",\n      \"cardExpiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"cardHolderName\": \"<string>\",\n      \"billingAddress\": {\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\"\n      }\n    },\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\"\n    },\n    \"routing\": {\n      \"preferredCardBrand\": \"<string>\",\n      \"fallbackToBasic\": \"<string>\"\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"transactionReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e30fd3e5-727d-417e-9089-1e64240b7821",
+              "name": "The outcome of your Fast Access card payout request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "fastAccess"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2030\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"pending\",\n  \"receivedAt\": \"2025-08-01T10:37:36.923Z\",\n  \"_links\": {\n    \"payouts:payout\": {\n      \"href\": \"https://try.access.worldpay.com/payouts/{resource}\"\n    },\n    \"curies\": [\n      {\n        \"name\": \"payouts\",\n        \"href\": \"https://try.access.worldpay.com/rels/payouts/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e62be47-cf8c-485f-a9ff-22f5625ec177",
+              "name": "We could not process the request due to a client error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "fastAccess"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2030\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"There were field validation errors. The errors that occurred are within the validationErrors array.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"The identified field does not contain an expected value. This field must contain one of the expected valid values.\",\n      \"jsonPath\": \"$.instruction.value.currency\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b3ac0a5-5409-40d0-a6ed-deffb7fe8337",
+              "name": "The request was syntactically valid, but couldn't be processed. For example, your merchant entity is not configured to process card payouts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "fastAccess"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2030\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"fieldHasInvalidValue\",\n  \"message\": \"Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.\",\n  \"jsonPath\": \"$.merchant.entity\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e931c088-c2e2-45df-8fd5-fceb0379a807",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payouts",
+                    "fastAccess"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payouts-v4+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 300,\n      \"currency\": \"GBP\"\n    },\n    \"payoutInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardExpiryDate\": {\n        \"month\": 1,\n        \"year\": 2030\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"address1\",\n        \"address2\": \"address2\",\n        \"address3\": \"address3\",\n        \"postalCode\": \"postalCode\",\n        \"city\": \"city\",\n        \"state\": \"state\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"narrative\": {\n      \"line1\": \"STATEMENT\",\n      \"line2\": \"OPTIONAL\"\n    }\n  },\n  \"transactionReference\": \"transaction-ref\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payouts-v4+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An error occurred within the service (potentially due to an interaction with a downstream service)\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fb52272b-72ce-4a91-8c08-b70fde2a589e",
+    "name": "3DS 3DS actions Payouts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

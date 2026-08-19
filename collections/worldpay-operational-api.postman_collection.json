@@ -1,0 +1,162 @@
+{
+  "item": [
+    {
+      "id": "3dee0d1e-f877-490d-b6a7-2e2c2f181c99",
+      "name": "Operational",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "768951b0-1df4-4b89-b2bf-d705176bb66a",
+          "name": "Used to check whether the service is up",
+          "request": {
+            "name": "Used to check whether the service is up",
+            "description": {},
+            "url": {
+              "path": [
+                "apmPayments",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a1b533d1-8820-4d29-b533-0bbf0c924779",
+              "name": "The status of the service is OK.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "OK - 2022-05-16T10:50:55.444486",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0a81f71b-e8e9-4a70-9fa1-6d653851dca0",
+              "name": "Validation error object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0d810c6d-d42f-4c28-913d-10fcf92e94e9",
+    "name": "3DS 3DS actions Operational API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

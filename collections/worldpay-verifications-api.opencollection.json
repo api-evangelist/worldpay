@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Verifications API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Verifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate required data for 3DS Device Data Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/verifications/customers/3ds/deviceDataInitialization",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allow card issuers to perform Device Data Collection to fingerprint your customer's device.\n\n"
+        },
+        {
+          "info": {
+            "name": "Initiate the 3DS authentication",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/verifications/customers/3ds/authentication",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticate your customer by submitting order and risk data.\n\n"
+        },
+        {
+          "info": {
+            "name": "Verify the 3DS challenge response",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/verifications/customers/3ds/verification",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify the results of a challenged authentication.\n\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions ApmPayments API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ApmPayments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an APM payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/apmPayments",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Perform a sale."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,3238 @@
+{
+  "item": [
+    {
+      "id": "f1b8a24d-2ad5-4d19-986b-e04fe9fda9b0",
+      "name": "ForeignExchange",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6063f22a-7df1-4291-b053-26910c5e4638",
+          "name": "Get FX rates",
+          "request": {
+            "name": "Get FX rates",
+            "description": {
+              "content": "Retrieve an FX rate for a particular payment method.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "intent",
+                  "value": "<string>",
+                  "description": "Transaction type (intention) for which rates should be retrieved."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "For Multi-Currency Pricing customers, the `entity` is an MCP Account Identifier (PartyID- Merchant Company ID, Unique ID given to you during the onboarding process.) for which rates should be retrieved. <br><br> For Account Payout customers, the `entity` is a six-digit reference given to you by your Worldpay Implementation Manager during the onboarding process."
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceCurrency",
+                  "value": "<string>",
+                  "description": "The transaction currency code. If not supplied, the response contains rates for all source currencies against the target currency."
+                },
+                {
+                  "disabled": false,
+                  "key": "targetCurrency",
+                  "value": "<string>",
+                  "description": "Your funding (settlement) currency code. If not supplied, the response contains rates for all target currencies against the source currency."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e2be4d52-460d-4c10-93ec-0ec8aea00209",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "intent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"rates\": [\n    {\n      \"rateId\": \"R12345678\",\n      \"intent\": \"PAYOUT\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"bidRate\": 1.23456789,\n      \"askRate\": 1.23456789,\n      \"entity\": 100001,\n      \"issuedDate\": \"2025-01-01T12:00:00.000Z\",\n      \"validFrom\": \"2025-01-10T12:00:00.000Z\",\n      \"validTo\": \"2025-01-10T12:00:00.000Z\"\n    },\n    {\n      \"rateId\": \"R12345678\",\n      \"intent\": \"PAYOUT\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"bidRate\": 1.23456789,\n      \"askRate\": 1.23456789,\n      \"entity\": 100001,\n      \"issuedDate\": \"2025-01-01T12:00:00.000Z\",\n      \"validFrom\": \"2025-01-10T12:00:00.000Z\",\n      \"validTo\": \"2025-01-10T12:00:00.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "187da950-4378-4a05-9112-aff6443c7573",
+              "name": "BAD REQUEST response if the request is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "intent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"validationErrors\": [\n    {\n      \"queryParameter\": \"Intent\",\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Intent is not valid for the current Consumer.\"\n    }\n  ],\n  \"errorName\": \"urlContainsInvalidValue\",\n  \"message\": \"The URL contains a value or values that are invalid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27e9e7c3-64af-4c6d-b200-8f569cf2f330",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "intent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad491434-8031-4032-9103-885e3a6b80cc",
+              "name": "FORBIDDEN response if entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "intent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "143d8526-8300-474e-afb4-a775f3870221",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "intent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"No rates found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa267c0b-9865-46c2-8228-69e3f3c1c206",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "intent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fa847f10-032c-4bdc-97f1-a255a1a54d9b",
+          "name": "Create FX quote",
+          "request": {
+            "name": "Create FX quote",
+            "description": {
+              "content": "Lock the FX rate for a specific currency pairing. <br>For Account Payouts customers only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entity\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"sourceCurrency\": \"<string>\",\n  \"targetCurrency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "08f7b080-3fc2-4992-bfcb-a144ad73831a",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"quote\": [\n    {\n      \"quoteId\": \"Q000000001\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"rateId\": \"12345678\",\n      \"rate\": \"1.2345\",\n      \"quoteExpiryTime\": \"2025-01-10T12:00:00.000Z\"\n    },\n    {\n      \"quoteId\": \"Q000000001\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"rateId\": \"12345678\",\n      \"rate\": \"1.2345\",\n      \"quoteExpiryTime\": \"2025-01-10T12:00:00.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9d6b6f3-7881-4001-840a-6e83e6ef8fb9",
+              "name": "BAD REQUEST response if the request is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"validationErrors\": [\n    {\n      \"jsonPath\": \"Intent\",\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Missing Intent value.\"\n    }\n  ],\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ae5a05e-63bb-4d3f-8224-bea5d13ab169",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5cd69db3-7a67-42c2-8e09-a0de3f8bc386",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3148ef13-55e7-478a-b4f5-c4d7ac81d537",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"No rate found for given input\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9da1ef4-b932-45c5-b119-b7c80ee6e624",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe49b4f5-bc66-45bf-937c-1ed96f98b892",
+          "name": "Retrieve an FX quote",
+          "request": {
+            "name": "Retrieve an FX quote",
+            "description": {
+              "content": "Retrieving an existing FX quote.<br>For Account Payouts customers only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "(Required) 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process."
+                },
+                {
+                  "disabled": false,
+                  "key": "quoteId",
+                  "value": "<string>",
+                  "description": "(Required) Unique ID of the quote."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1fd8d821-9edd-478d-9e13-f1a112c65c97",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "quoteId",
+                      "value": "Q000000001"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"100001\",\n  \"intent\": \"PAYOUT\",\n  \"quote\": [\n    {\n      \"quoteId\": \"Q000000001\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"rateId\": \"12345678\",\n      \"rate\": \"1.2345\",\n      \"quoteExpiryTime\": \"2025-01-10T12:00:00.000Z\"\n    },\n    {\n      \"quoteId\": \"Q000000001\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"rateId\": \"12345678\",\n      \"rate\": \"1.2345\",\n      \"quoteExpiryTime\": \"2025-01-10T12:00:00.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bcca65b-1c66-4118-b4b4-eac6aadeb9a9",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "quoteId",
+                      "value": "Q000000001"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee3f75dc-c777-4c33-a21f-e4d077898b00",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "quoteId",
+                      "value": "Q000000001"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5c20069-1feb-4ac9-9658-91bec7a6be77",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "quoteId",
+                      "value": "Q000000001"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"Quote for given input does not exist\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c23cac2d-1f97-4fb7-b01b-31ad8e15dbbd",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "entity",
+                      "value": "100001"
+                    },
+                    {
+                      "key": "quoteId",
+                      "value": "Q000000001"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6d7b9e6-d7e9-4bcc-95c8-b0d3cf3e1213",
+          "name": "Create an external contract",
+          "request": {
+            "name": "Create an external contract",
+            "description": {
+              "content": "Create an external contract to lock a forward FX rate. <br>For Account Payouts customers only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "contract"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"effectiveDate\": \"<string>\",\n  \"sourceCurrency\": {},\n  \"targetCurrency\": {},\n  \"targetAmount\": {},\n  \"entity\": {},\n  \"customerReference\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "224070ce-0614-4ba5-aa07-d9be1d580877",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"2025-12-31\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\",\n  \"targetAmount\": 1.23,\n  \"entity\": \"100001\",\n  \"customerReference\": \"Customer 001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"contractId\": \"C000000001\",\n  \"targetAmount\": \"EUR\",\n  \"sourceAmount\": \"GBP\",\n  \"status\": \"PENDING\",\n  \"effectiveDate\": \"2025-01-01T00:00:00.000Z\",\n  \"customerReference\": \"Customer 001\",\n  \"quote\": [\n    {\n      \"quoteId\": \"F000000001\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"entity\": \"100001\",\n      \"intent\": \"FORWARD FX\",\n      \"rateId\": \"1234567\",\n      \"rate\": \"1.23456\",\n      \"quoteExpiryTime\": \"2025-01-015T23:59:59.999Z\"\n    },\n    {\n      \"quoteId\": \"F000000001\",\n      \"sourceCurrency\": \"EUR\",\n      \"targetCurrency\": \"GBP\",\n      \"entity\": \"100001\",\n      \"intent\": \"FORWARD FX\",\n      \"rateId\": \"1234567\",\n      \"rate\": \"1.23456\",\n      \"quoteExpiryTime\": \"2025-01-015T23:59:59.999Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "476159e5-92f1-4bf8-bb66-fc4b859586d1",
+              "name": "BAD REQUEST response if the request is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"2025-12-31\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\",\n  \"targetAmount\": 1.23,\n  \"entity\": \"100001\",\n  \"customerReference\": \"Customer 001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"validationErrors\": [\n    {\n      \"jsonPath\": \"EffectiveDate\",\n      \"errorName\": \"fieldHasInvalidValueg\",\n      \"message\": \"EffectiveDate must be within the next 30 days.\"\n    }\n  ],\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05ef9491-3cbf-4c8f-bab0-4c85aa660ff5",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"2025-12-31\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\",\n  \"targetAmount\": 1.23,\n  \"entity\": \"100001\",\n  \"customerReference\": \"Customer 001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df693126-b9ae-4204-a5ce-b68c8e9669c9",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"2025-12-31\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\",\n  \"targetAmount\": 1.23,\n  \"entity\": \"100001\",\n  \"customerReference\": \"Customer 001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b9838b8-538a-4d83-80e1-43bf333b7ae1",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"2025-12-31\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\",\n  \"targetAmount\": 1.23,\n  \"entity\": \"100001\",\n  \"customerReference\": \"Customer 001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09069cce-5ac0-4eaf-81a1-87c9bfb9d6f3",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effectiveDate\": \"2025-12-31\",\n  \"sourceCurrency\": \"USD\",\n  \"targetCurrency\": \"EUR\",\n  \"targetAmount\": 1.23,\n  \"entity\": \"100001\",\n  \"customerReference\": \"Customer 001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b38bfaf-43c1-4112-9af0-55c9e2bdc748",
+          "name": "Activate or cancel contract",
+          "request": {
+            "name": "Activate or cancel contract",
+            "description": {
+              "content": "Enable a contract to use locked in FX rates in an Account Payout. <br>For Account Payouts customers only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "contract",
+                ":contractId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contractId",
+                  "description": "(Required) Unique ID of the contract."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"entity\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "442f3ad4-c719-49dd-b6da-8645e8a25369",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d60dc19e-749b-4616-91bd-3571a5cf4e96",
+              "name": "BAD REQUEST response if the status of the contract is not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"invalidInput\",\n  \"message\": \"The input received is not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0bce450b-6604-4fdf-933e-9b6b5fd82b95",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4ee580a-fa7f-4258-990b-cd00d86936b2",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d6fbb92-0766-4e83-b815-ee9cb5cd8d78",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"Quote for given input does not exist\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb36b1e4-849e-4190-980a-eca0d43e81ae",
+              "name": "CONFLICT response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"conflict\",\n  \"message\": \"Current status of the contract is invalid for requested transition\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24e647ac-e626-4e5a-a084-353e4a49ace8",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "contract",
+                    ":contractId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contractId",
+                      "description": "(Required) Unique ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"ACTIVE\",\n  \"entity\": \"100001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf11bd81-c9fb-4fc0-a352-cd6ccb2d6774",
+          "name": "Add a markup to your FX rate",
+          "request": {
+            "name": "Add a markup to your FX rate",
+            "description": {
+              "content": "Adding a markup to an existing FX rate. <br>For MCP customers only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "markup",
+                ":entity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity",
+                  "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCurrency\": {},\n  \"targetCurrency\": {},\n  \"markup\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "58868e79-9ae0-48e4-951e-f766eaf52628",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"AUD\",\n  \"targetCurrency\": \"GBP\",\n  \"markup\": 1.23\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9fa7e230-a93e-4640-9ba3-8b7121c66a9c",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"AUD\",\n  \"targetCurrency\": \"GBP\",\n  \"markup\": 1.23\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "377379bf-875e-4e0f-bb1f-c3f6ee097ad1",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"AUD\",\n  \"targetCurrency\": \"GBP\",\n  \"markup\": 1.23\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a581878-6867-4a33-8e48-1982fd556a0a",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"AUD\",\n  \"targetCurrency\": \"GBP\",\n  \"markup\": 1.23\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5f1bb44-57a3-4d81-bcd9-69103ddb7ef0",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"AUD\",\n  \"targetCurrency\": \"GBP\",\n  \"markup\": 1.23\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "560cb264-5d94-47a4-822c-18cbc8059bb9",
+          "name": "Retrieve markup",
+          "request": {
+            "name": "Retrieve markup",
+            "description": {
+              "content": "Retrieving an existing markup for a specific FX rate.<br>For MCP customers only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "foreignExchange",
+                "markup",
+                ":entity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sourceCurrency",
+                  "value": "<string>",
+                  "description": "The transaction currency code. If not supplied, the response contains rates for all source currencies against the target currency."
+                },
+                {
+                  "disabled": false,
+                  "key": "targetCurrency",
+                  "value": "<string>",
+                  "description": "Your funding (settlement) currency code. If not supplied, the response contains rates for all target currencies against the source currency."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "entity",
+                  "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional ID to trace requests, if not provided, it is generated.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.foreignexchange-v1+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "95931abf-8c8a-44b8-8279-7b6d6e0ed4d5",
+              "name": "OK response if the request is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"sourceCurrency\": \"EUR\",\n  \"targetCurrency\": \"GBP\",\n  \"paymentMethod\": \"ENDCONSUMERRATES\",\n  \"entity\": \"100001\",\n  \"value\": \"1.234\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b332b29-821c-43d9-97d4-c77ea965e721",
+              "name": "UNAUTHORIZED response if credentials are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorizedRequest\",\n  \"message\": \"The request is unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d990fe5-483b-45d8-80cd-50efa27f9663",
+              "name": "FORBIDDEN response if Entitlements are not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af4172e0-07d4-4202-a505-8de460c71907",
+              "name": "NOT FOUND response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f1f44fc-5af5-4902-95bd-723dfbd4d710",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "foreignExchange",
+                    "markup",
+                    ":entity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sourceCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "targetCurrency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "entity",
+                      "description": "(Required) MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Optional ID to trace requests, if not provided, it is generated.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.foreignexchange-v1+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"Something went wrong\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f507e049-8938-4c43-838e-7784ed2bf711",
+    "name": "3DS 3DS actions ForeignExchange API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

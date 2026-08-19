@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Exemptions API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exemptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exemption assessment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/exemptions/assessment",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assess for exemption."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

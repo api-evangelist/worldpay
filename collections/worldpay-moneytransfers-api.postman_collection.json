@@ -1,0 +1,248 @@
+{
+  "item": [
+    {
+      "id": "ecc6bf3d-47c1-4e2a-8e9f-d4408cc7888f",
+      "name": "MoneyTransfers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d98c390f-18c7-4435-bdb1-e89b603a3cbe",
+          "name": "Push funds to an eligible card",
+          "request": {
+            "name": "Push funds to an eligible card",
+            "description": {
+              "content": "Push funds to an eligible card.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "moneyTransfers",
+                "pushToCard"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.money-transfers-v1+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.money-transfers-v1+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instruction\": {\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"recipient\": {\n      \"paymentInstrument\": {\n        \"billingAddress\": {\n          \"countryCode\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"address3\": \"<string>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"cardExpiryDate\": {\n          \"month\": \"<integer>\",\n          \"year\": \"<integer>\"\n        },\n        \"cardHolderName\": \"<string>\",\n        \"cardNumber\": \"<string>\",\n        \"type\": \"<string>\",\n        \"cvc\": \"<string>\"\n      },\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"sender\": {\n      \"fundReference\": \"<string>\",\n      \"fundType\": \"<string>\"\n    },\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\"\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"transactionReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f74ab68a-59f3-499f-85ea-b11b15435d26",
+              "name": "A pushToCard has been performed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "moneyTransfers",
+                    "pushToCard"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.money-transfers-v1+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"transactionReference\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"narrative\": {\n      \"line1\": \"line1\",\n      \"line2\": \"line2\"\n    },\n    \"value\": {\n      \"amount\": 100,\n      \"currency\": \"GBP\"\n    },\n    \"recipient\": {\n      \"firstName\": \"firstName\",\n      \"lastName\": \"lastName\",\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"cardHolderName\": \"name\",\n        \"cardNumber\": \"4444333322221111\",\n        \"cardExpiryDate\": {\n          \"month\": 12,\n          \"year\": 2040\n        },\n        \"cvc\": \"123\",\n        \"billingAddress\": {\n          \"address1\": \"address1\",\n          \"address2\": \"address2\",\n          \"address3\": \"address3\",\n          \"postalCode\": \"12345\",\n          \"city\": \"city\",\n          \"state\": \"state\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    },\n    \"sender\": {\n      \"fundReference\": \"fundReference\",\n      \"fundType\": \"nonStagedDigitalWallet\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.money-transfers-v1+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"approved\",\n  \"type\": \"pushToCard\",\n  \"receivedAt\": \"2022-01-01T00:00:00Z\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/moneyTransfers/{resource}\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e74689e4-a2c5-4f34-94b9-82b310de3e59",
+          "name": "Query for a money transfer using transactionReference and entity",
+          "request": {
+            "name": "Query for a money transfer using transactionReference and entity",
+            "description": {
+              "content": "Query for a money transfer.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "moneyTransfers",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "transactionReference",
+                  "value": "<string>",
+                  "description": "(Required) A unique reference generated by you, used to identify a payout throughout its lifecycle."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<string>",
+                  "description": "(Required) merchant entity."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.money-transfers-v1+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3a834f35-f529-4b80-a698-99f5804a5f8d",
+              "name": "A query by transactionReference and entity has been performed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "moneyTransfers",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transactionReference",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "default"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.money-transfers-v1+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.money-transfers-v1+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"approved\",\n  \"type\": \"pushToCard\",\n  \"receivedAt\": \"2022-01-01T00:00:00Z\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/moneyTransfers/{resource}\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "549b5cbf-342c-4573-97f2-713287311a68",
+    "name": "3DS 3DS actions MoneyTransfers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

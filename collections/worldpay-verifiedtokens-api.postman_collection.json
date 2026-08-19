@@ -1,0 +1,559 @@
+{
+  "item": [
+    {
+      "id": "eab62ae4-d505-4f6e-adaf-aa3034d31abe",
+      "name": "VerifiedTokens",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "82866967-50ec-4758-9f43-195ac33c678d",
+          "name": "Verified Tokens cardOnFile resource",
+          "request": {
+            "name": "Verified Tokens cardOnFile resource",
+            "description": {
+              "content": "Create a verified cardOnFile token by sending a request to cardOnFile resource. A cardOnFile verified token allows you to take payments that are made by the customer using a stored verified token, such as in one-click or in-app purchases.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verifiedTokens",
+                "cardOnFile"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"cardExpiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cardHolderName\": \"<string>\",\n    \"cvc\": \"<string>\",\n    \"billingAddress\": {\n      \"address1\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"city\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"address3\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"verificationCurrency\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tokenExpiryDateTime\": \"<dateTime>\",\n  \"namespace\": \"<string>\",\n  \"narrative\": {\n    \"line1\": \"<string>\",\n    \"line2\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a4d3725a-4c88-400c-9de3-70849ef4b8b3",
+              "name": "The payload has been verified and a matching Token already exists. This does not include token meta data, which still may be different",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "cardOnFile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"verified\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"postcode\",\n          \"type\": \"avs\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"address\",\n          \"type\": \"avs\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"number\": {\n            \"bin\": \"4444\",\n            \"last4Digits\": \"1236\"\n          },\n          \"issuer\": {\n            \"name\": \"UNKNOWN\"\n          },\n          \"expiryDate\": {\n            \"month\": 5,\n            \"year\": 2035\n          },\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\",\n          \"paymentAccountReference\": \"reference\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"payments:cardOnFileAuthorize\": {\n          \"href\": \"https://try.access.worldpay.com/payments/authorizations/cardOnFile/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"payments:recurringAuthorize\": {\n          \"href\": \"https://try.access.worldpay.com/payments/authorizations/recurring/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"payments:recurringSale\": {\n          \"href\": \"https://try.access.worldpay.com/payments/sales/recurring/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"tokens:schemeTransactionReference\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "117d7b03-8bc6-4459-b040-f20a4bdfcfba",
+              "name": "The payload has been verified and a Token has been created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "cardOnFile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"verified\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"postcode\",\n          \"type\": \"avs\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"address\",\n          \"type\": \"avs\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"number\": {\n            \"bin\": \"4444\",\n            \"last4Digits\": \"1236\"\n          },\n          \"issuer\": {\n            \"name\": \"UNKNOWN\"\n          },\n          \"expiryDate\": {\n            \"month\": 5,\n            \"year\": 2035\n          },\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\",\n          \"paymentAccountReference\": \"reference\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"payments:cardOnFileAuthorize\": {\n          \"href\": \"https://try.access.worldpay.com/payments/authorizations/cardOnFile/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"payments:recurringAuthorize\": {\n          \"href\": \"https://try.access.worldpay.com/payments/authorizations/recurring/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"payments:recurringSale\": {\n          \"href\": \"https://try.access.worldpay.com/payments/sales/recurring/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"tokens:schemeTransactionReference\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14e6e28d-a835-4346-a653-556a341ec0a9",
+              "name": "The supplied payload could not be verified. An unverified token has been created/matched",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "cardOnFile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"not verified\",\n      \"code\": \"106\",\n      \"description\": \"INVALIDACCOUNT\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"not_matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"type\": \"avs\",\n          \"detail\": \"postcode\"\n        },\n        {\n          \"risk\": \"not_matched\",\n          \"type\": \"avs\",\n          \"detail\": \"address\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd7135c0-d149-481c-aaae-7844ba9257fb",
+              "name": "The payload has been verified but a Token exists that conflicts with some of the details in the request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "cardOnFile"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"verified\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"postcode\",\n          \"type\": \"avs\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"address\",\n          \"type\": \"avs\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"number\": {\n            \"bin\": \"4444\",\n            \"last4Digits\": \"1236\"\n          },\n          \"issuer\": {\n            \"name\": \"UNKNOWN\"\n          },\n          \"expiryDate\": {\n            \"month\": 5,\n            \"year\": 2035\n          },\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\",\n          \"paymentAccountReference\": \"reference\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"payments:cardOnFileAuthorize\": {\n          \"href\": \"https://try.access.worldpay.com/payments/authorizations/cardOnFile/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"payments:recurringAuthorize\": {\n          \"href\": \"https://try.access.worldpay.com/payments/authorizations/recurring/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"payments:recurringSale\": {\n          \"href\": \"https://try.access.worldpay.com/payments/sales/recurring/eyJrIjoia2FhYzM1ZiIsImxpbmtWZXJzaW9uIjoiMS4wLjAifQ==.rTSaWnvtqTfgLUF9d+yia:Xr:bMt7SfZl7sgZ0yFtqVrp79hk:hZjQ1rHNZUtukWvMHHnIhvkyp4QhRO0aAcDdOsiNkkSoq+It1ADfLty7k=\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"tokens:schemeTransactionReference\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n        },\n        \"tokens:conflicts\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoibjY5V0RxZUNzK3lkUXQ3aTVDYTdaNno4cHFtVWcrSlUvcU5wM1ViRE5QaGRlNDNXK1VNaWJ2UWxyRTZYcHpxUDFYcGRiTUhqbWEyMVdzdnljWU03aWRVcnY1WlVzZU1DditLZEExRGx6VUFiajNGVWpUbEVVOGN4QllnL0VoUC94bkptMVpCUERjdXYwd3JhMWdxb3FJcVI4Wjl5MW5CclRZcHFSRU5ndDIrMmNZTEFpZmJMakh0YW9taDRpNlRGaG1IK1BKZGc4UEpWNTVpV2MrbTB6UldEUmNZdHlrQ05MMTFqRnd0SEliRXlabkh2RndweEtteVBEZnk1bXgvdyJ9\"\n        },\n        \"tokens:networkToken\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/network\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb24b95a-5812-4039-8d5c-42b7f3b6ea76",
+          "name": "Verified Tokens oneTime resource",
+          "request": {
+            "name": "Verified Tokens oneTime resource",
+            "description": {
+              "content": "Create a verified oneTime token by sending a request to oneTime resource. A oneTime verified token allows you to take payments that are made by the customer using a stored verified token, such as in one-click or in-app purchases.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verifiedTokens",
+                "oneTime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentInstrument\": {\n    \"type\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"cardExpiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cardHolderName\": \"<string>\",\n    \"cvc\": \"<string>\",\n    \"billingAddress\": {\n      \"address1\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"city\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"address3\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"verificationCurrency\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tokenExpiryDateTime\": \"<dateTime>\",\n  \"namespace\": \"<string>\",\n  \"narrative\": {\n    \"line1\": \"<string>\",\n    \"line2\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "761b593b-1da5-4c7b-aacb-a2547df7c701",
+              "name": "The payload has been verified and a matching Token already exists. This does not include token meta data, which still may be different",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "oneTime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"verified\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"postcode\",\n          \"type\": \"avs\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"address\",\n          \"type\": \"avs\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"number\": {\n            \"bin\": \"4444\",\n            \"last4Digits\": \"1236\"\n          },\n          \"issuer\": {\n            \"name\": \"UNKNOWN\"\n          },\n          \"expiryDate\": {\n            \"month\": 5,\n            \"year\": 2035\n          },\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\",\n          \"paymentAccountReference\": \"reference\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"tokens:schemeTransactionReference\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ba50921-91c0-4170-955d-80a60c63d2b6",
+              "name": "The payload has been verified and a Token has been created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "oneTime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"verified\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"postcode\",\n          \"type\": \"avs\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"address\",\n          \"type\": \"avs\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"number\": {\n            \"bin\": \"4444\",\n            \"last4Digits\": \"1236\"\n          },\n          \"issuer\": {\n            \"name\": \"UNKNOWN\"\n          },\n          \"expiryDate\": {\n            \"month\": 5,\n            \"year\": 2035\n          },\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\",\n          \"paymentAccountReference\": \"reference\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"tokens:schemeTransactionReference\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aadf0fac-9a77-4005-87c5-43e9eb5a71f2",
+              "name": "The supplied payload could not be verified. An unverified token has been created/matched",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "oneTime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Partial Content",
+              "code": 206,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"not verified\",\n      \"code\": \"106\",\n      \"description\": \"INVALIDACCOUNT\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"not_matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"type\": \"avs\",\n          \"detail\": \"postcode\"\n        },\n        {\n          \"risk\": \"not_matched\",\n          \"type\": \"avs\",\n          \"detail\": \"address\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0150c09-2e5a-408d-8091-9d3140bbe208",
+              "name": "The payload has been verified but a Token exists that conflicts with some of the details in the request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifiedTokens",
+                    "oneTime"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Token-Description\",\n  \"paymentInstrument\": {\n    \"type\": \"card/plain\",\n    \"cardHolderName\": \"SherlockHolmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    },\n    \"cvc\": \"123\",\n    \"billingAddress\": {\n      \"address1\": \"221BBakerStreet\",\n      \"address2\": \"Marylebone\",\n      \"address3\": \"Westminster\",\n      \"postalCode\": \"NW16XE\",\n      \"city\": \"London\",\n      \"state\": \"GreaterLondon\",\n      \"countryCode\": \"GB\"\n    }\n  },\n  \"narrative\": {\n    \"line1\": \"TheMindPalaceLtd\",\n    \"line2\": \"Memory265-13-08-1876\"\n  },\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"verificationCurrency\": \"GBP\",\n  \"namespace\": \"SHOPPER_ID_1234567890\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verified-tokens-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"verification\": {\n      \"outcome\": \"verified\",\n      \"checkedAt\": \"2020-08-18T14:29:10.641180Z\",\n      \"riskFactors\": [\n        {\n          \"risk\": \"matched\",\n          \"type\": \"cvc\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"postcode\",\n          \"type\": \"avs\"\n        },\n        {\n          \"risk\": \"matched\",\n          \"detail\": \"address\",\n          \"type\": \"avs\"\n        }\n      ],\n      \"paymentInstrument\": {\n        \"type\": \"card/plain\",\n        \"card\": {\n          \"number\": {\n            \"bin\": \"4444\",\n            \"last4Digits\": \"1236\"\n          },\n          \"issuer\": {\n            \"name\": \"UNKNOWN\"\n          },\n          \"expiryDate\": {\n            \"month\": 5,\n            \"year\": 2035\n          },\n          \"brand\": \"visa\",\n          \"fundingType\": \"debit\",\n          \"paymentAccountReference\": \"reference\"\n        }\n      },\n      \"_links\": {\n        \"verifications:verification\": {\n          \"href\": \"https://try.access.worldpay.com/verifications/accounts/{resource}\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/verifications/accounts/{rel}\",\n            \"name\": \"verifications\",\n            \"templated\": true\n          }\n        ]\n      }\n    },\n    \"token\": {\n      \"tokenId\": \"9902480679618049603\",\n      \"description\": \"TestTokenDescription\",\n      \"tokenExpiryDateTime\": \"2021-08-18T14:30:40Z\",\n      \"schemeTransactionReference\": \"000000000000020005060720116005060\",\n      \"tokenPaymentInstrument\": {\n        \"type\": \"card/tokenized\",\n        \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n      },\n      \"paymentInstrument\": {\n        \"type\": \"card/masked\",\n        \"cardNumber\": \"4444********1111\",\n        \"cardHolderName\": \"SherlockHolmes\",\n        \"cardExpiryDate\": {\n          \"month\": 5,\n          \"year\": 2035\n        },\n        \"billingAddress\": {\n          \"address1\": \"221BBakerStreet\",\n          \"address2\": \"Marylebone\",\n          \"address3\": \"Westminster\",\n          \"postalCode\": \"NW16XE\",\n          \"city\": \"London\",\n          \"state\": \"GreaterLondon\",\n          \"countryCode\": \"GB\"\n        },\n        \"bin\": \"444433\",\n        \"brand\": \"VISA\"\n      },\n      \"conflicts\": {\n        \"paymentInstrument\": {\n          \"cardHolderName\": \"Sherlock Holmes\"\n        },\n        \"conflictsExpiryDateTime\": \"2019-06-24T09:49:35Z\"\n      },\n      \"_links\": {\n        \"tokens:token\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0NzI0NE1rdUtjMUFJdjYxVnlibWZuUT0ifQ\"\n        },\n        \"tokens:description\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0MWJVbkh1WTFGZExUNXJxc04va1ZoTFVzYW1OU1lxSFE2NHI1c2JkY1pWaSJ9\"\n        },\n        \"tokens:cardHolderName\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdjFnVXlzakdPSXdWWkRhZkZyUmlMd3c9PSJ9\"\n        },\n        \"tokens:cardExpiryDate\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdUpLN2N3VVc5WUk3czRUTW1RQ2JLdkVpVW5GNnBsZThNTXNQWTRGbzFzTXc9PSJ9\"\n        },\n        \"tokens:billingAddress\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoialRBL0FFelBzcnZpNCtzRGNRemh0d3ltd21ieGo3TlZLYzRYSkExOUhSdFpSdXFxbWZlNVl1TkpHZEVvZXN3MTlCU0lmdCtxSTUyVDJSdXlmSTIwM3c9PSJ9\"\n        },\n        \"tokens:schemeTransactionReference\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiSENXWFZQZjNIZ1V3dnpDMElJZS9Zdmc4M0pYM3dDWEJTVnQrWVlacXdDUXFFKzhzaC8xNSs2d3NkTTdFWUFNVU9tdXBmUlZGeVNDY2dPMkhKV2NIcGc9PSJ9\"\n        },\n        \"tokens:conflicts\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoibjY5V0RxZUNzK3lkUXQ3aTVDYTdaNno4cHFtVWcrSlUvcU5wM1ViRE5QaGRlNDNXK1VNaWJ2UWxyRTZYcHpxUDFYcGRiTUhqbWEyMVdzdnljWU03aWRVcnY1WlVzZU1DditLZEExRGx6VUFiajNGVWpUbEVVOGN4QllnL0VoUC94bkptMVpCUERjdXYwd3JhMWdxb3FJcVI4Wjl5MW5CclRZcHFSRU5ndDIrMmNZTEFpZmJMakh0YW9taDRpNlRGaG1IK1BKZGc4UEpWNTVpV2MrbTB6UldEUmNZdHlrQ05MMTFqRnd0SEliRXlabkh2RndweEtteVBEZnk1bXgvdyJ9\"\n        },\n        \"tokens:networkToken\": {\n          \"href\": \"https://try.access.worldpay.com/tokens/network\"\n        },\n        \"curies\": [\n          {\n            \"href\": \"https://try.access.worldpay.com/rels/tokens/{rel}.json\",\n            \"name\": \"tokens\",\n            \"templated\": true\n          }\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c31cead8-71af-4aa6-90b5-890dff321cfd",
+    "name": "3DS 3DS actions VerifiedTokens API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

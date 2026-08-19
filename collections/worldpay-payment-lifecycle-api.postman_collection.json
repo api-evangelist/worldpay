@@ -1,0 +1,2378 @@
+{
+  "item": [
+    {
+      "id": "a717a210-9469-4c9c-b094-a4c31dfcc957",
+      "name": "Payment lifecycle",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "53e82543-4ff3-470f-b192-edeb0539ff29",
+          "name": "Get the last event for an APM payment",
+          "request": {
+            "name": "Get the last event for an APM payment",
+            "description": {
+              "content": "Lookup the state of a payment, including the available action that can be performed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apmPayments",
+                ":paymentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentId",
+                  "description": "(Required) The identifier of the payment resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b732535c-3609-46b1-a049-be41b30f318e",
+              "name": "Request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4\",\n  \"lastEvent\": \"authorized\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4\"\n    }\n  },\n  \"_actions\": {\n    \"reverse\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4/reversals\",\n      \"method\": \"POST\"\n    },\n    \"partialReverse\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4/reversals\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76412588-f17d-4024-ad65-0b350462f207",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1aa72c44-59d5-487b-a6ee-6001986e9837",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "642b8dc1-b9ac-49e8-bc87-e9fc00c16389",
+              "name": "Payment resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"paymentNotFound\",\n  \"message\": \"Payment resource not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c77bb920-ba7d-466c-aad9-bdf61815c3bc",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0511ad16-0b67-44bb-9332-64424c5e1f4e",
+          "name": "Confirm payment",
+          "request": {
+            "name": "Confirm payment",
+            "description": {
+              "content": "Create a confirm payment request for smart button functionality.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apmPayments",
+                ":paymentId",
+                "confirmations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentId",
+                  "description": "(Required) The identifier of the payment resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3e7b5b05-697f-4194-9b16-43f855ca5adf",
+              "name": "Request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "confirmations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"uK9Oh5zz4yKhGuFofhhnC_h2WwCXUTVwK1Lx7OP-WOiwgLd0DJ5uYK8NLsKG-rFtM4xXFxk15W-f-R1c3u_fq6rRIVQO_lZhwklop_5RcXz35RD_4TJfbjKQAyEFQXOTgUZHQIK3iu8VcHfOiFVHyN-y7ZDRr24t7o6s_bHlZxpba-zPVQ7PG1AztEwRCfVJ\",\n  \"lastEvent\": \"authorized\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/uK9Oh5zz4yKhGuFofhhnC_h2WwCXUTVwK1Lx7OP-WOiwgLd0DJ5uYK8NLsKG-rFtM4xXFxk15W-f-R1c3u_fq6rRIVQO_lZhwklop_5RcXz35RD_4TJfbjKQAyEFQXOTgUZHQIK3iu8VcHfOiFVHyN-y7ZDRr24t7o6s_bHlZxpba-zPVQ7PG1AztEwRCfVJ\"\n    }\n  },\n  \"_actions\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ebaf92c-7403-4e62-96df-9d3792908c0a",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "confirmations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d526c7a4-1ff6-4825-be6f-68bacae810d5",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "confirmations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c6cb811-2cf1-4a83-984a-01dfb5688f8e",
+              "name": "Payment resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "confirmations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"paymentNotFound\",\n  \"message\": \"Payment resource not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a2c1c40-510b-4bd1-b8c9-117bed8560fb",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "confirmations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb5fb36b-6203-46ec-ad1a-05fc51d6c707",
+          "name": "Reverse an APM payment",
+          "request": {
+            "name": "Reverse an APM payment",
+            "description": {
+              "content": "Perform a reversal on the funds taken from a sale.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apmPayments",
+                ":paymentId",
+                "reversals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentId",
+                  "description": "(Required) The identifier of the payment resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The API version.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": {\n    \"amount\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"reasonCode\": \"<string>\",\n  \"order\": {\n    \"items\": [\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      },\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6fa504d7-604f-4295-9cf2-3f82102cf538",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\",\n  \"lastEvent\": \"sentForRefund\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\"\n    }\n  },\n  \"_actions\": {},\n  \"commandId\": \"cmdfD7kJPxS4EiQhq3zCFcny0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4490cf92-c600-483f-986a-df1e94813adb",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0aec393d-4d62-4861-9b3e-5c461c69dc63",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72502713-a378-4f8e-bd7a-8b8471547fa3",
+              "name": "Payment resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"paymentNotFound\",\n  \"message\": \"Payment resource not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d695fce-d8a0-4dd5-a6b3-94e46848cc40",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aef3e80d-80f7-45ab-823c-cfa4e3ebf321",
+          "name": "Partial reverse an APM payment",
+          "request": {
+            "name": "Partial reverse an APM payment",
+            "description": {
+              "content": "Perform a partial reversal on the funds taken from a sale.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apmPayments",
+                ":paymentId",
+                "partialReversals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentId",
+                  "description": "(Required) The identifier of the payment resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": {\n    \"amount\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"reasonCode\": \"<string>\",\n  \"order\": {\n    \"items\": [\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      },\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d6d71a3-8c8b-4dfc-82a1-2d3afe34de38",
+              "name": "Request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialReversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\",\n  \"lastEvent\": \"sentForRefund\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\"\n    }\n  },\n  \"_actions\": {},\n  \"commandId\": \"cmdfD7kJPxS4EiQhq3zCFcny0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a57ed343-b416-41fa-a6e7-fb06c274dd48",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialReversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1bd855c4-60ee-4c8f-a6e6-414724789629",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialReversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5269f37-caf1-46ed-85f1-8bde8cbf1f8b",
+              "name": "Payment resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialReversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"paymentNotFound\",\n  \"message\": \"Payment resource not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "475638e1-eae0-4f8c-a246-7b7dbe97654a",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialReversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d130271e-8314-42a1-a59d-ce27d87bca2b",
+          "name": "Settle an APM payment",
+          "request": {
+            "name": "Settle an APM payment",
+            "description": {},
+            "url": {
+              "path": [
+                "apmPayments",
+                ":paymentId",
+                "settlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": {\n    \"amount\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"shipping\": {\n    \"courier\": [\n      {\n        \"trackingId\": \"<string>\"\n      },\n      {\n        \"trackingId\": \"<string>\"\n      }\n    ]\n  },\n  \"order\": {\n    \"items\": [\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      },\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "746215ac-f83e-4f6e-9f1a-fc91319a694d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "settlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\",\n  \"lastEvent\": \"sentForSettlement\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\"\n    }\n  },\n  \"_actions\": {},\n  \"commandId\": \"cmdEy5vwB0krLe9eMwAcE66c0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2d9e9cd-a896-4f3a-8ca8-4201be33bbc4",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "settlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe8e949e-6a86-4e79-bd38-bc4ea6a7c858",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "settlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8786256-625c-403b-9928-3806896d5d3d",
+              "name": "Payment resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "settlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"paymentNotFound\",\n  \"message\": \"Payment resource not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "56c5466d-cb87-4823-b98a-2254603dd387",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "settlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2f4b34c-9e34-42be-8f9c-ecc4e438874e",
+          "name": "Partial settle an APM payment",
+          "request": {
+            "name": "Partial settle an APM payment",
+            "description": {
+              "content": "Perform a settlement on authorized funds. Not all APMs support this, please check the links returned from querying a payment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apmPayments",
+                ":paymentId",
+                "partialSettlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentId",
+                  "description": "(Required) The identifier of the payment resource."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": {\n    \"amount\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"shipping\": {\n    \"courier\": [\n      {\n        \"trackingId\": \"<string>\"\n      },\n      {\n        \"trackingId\": \"<string>\"\n      }\n    ]\n  },\n  \"order\": {\n    \"items\": [\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      },\n      {\n        \"productCode\": \"<string>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"productUrl\": \"<string>\",\n        \"imageUrl\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0cd0c117-49ef-4422-ac72-1fe197c2bd2d",
+              "name": "Request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialSettlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\",\n  \"lastEvent\": \"sentForSettlement\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f\"\n    }\n  },\n  \"_actions\": {},\n  \"commandId\": \"cmdEy5vwB0krLe9eMwAcE66c0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f9654fe-e002-4b1f-b1c0-62a23bf738af",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialSettlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2d42181-db51-4ef2-be75-cfa4c050abf8",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialSettlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ffc529ad-6511-4542-b9c8-87e6a5df6b09",
+              "name": "Payment resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialSettlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"paymentNotFound\",\n  \"message\": \"Payment resource not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57c548c7-35d7-4308-a514-df1fb39b118a",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments",
+                    ":paymentId",
+                    "partialSettlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentId",
+                      "description": "(Required) The identifier of the payment resource."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"string\",\n  \"value\": {\n    \"amount\": 12,\n    \"currency\": \"AED\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b8e4c409-a144-4e5c-85dc-5a88705f146b",
+    "name": "3DS 3DS actions Payment lifecycle API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

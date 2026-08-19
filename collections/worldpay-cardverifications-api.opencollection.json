@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions CardVerifications API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CardVerifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Card Verification / Name Inquiry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/cardVerifications",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify your customer's card.<br> Perform a name inquiry to verify the name of the cardholder."
+        },
+        {
+          "info": {
+            "name": "Query a previous verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/cardVerifications/:linkData",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ]
+          },
+          "docs": "Querying of a successful verification."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

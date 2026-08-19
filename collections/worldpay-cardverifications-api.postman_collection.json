@@ -1,0 +1,1179 @@
+{
+  "item": [
+    {
+      "id": "4b5b7009-e572-4f46-b494-4aaece2e0707",
+      "name": "CardVerifications",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "188cadf0-2f9b-4fdf-bc0a-34865291d53b",
+          "name": "Card Verification / Name Inquiry",
+          "request": {
+            "name": "Card Verification / Name Inquiry",
+            "description": {
+              "content": "Verify your customer's card.<br> Perform a name inquiry to verify the name of the cardholder.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cardVerifications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.cardverifications-v6+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.cardverifications-v6+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\",\n    \"mcc\": \"<string>\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"<string>\",\n      \"subMerchant\": {\n        \"name\": \"<string>\",\n        \"address\": {\n          \"postalCode\": \"<string>\",\n          \"street\": \"<string>\",\n          \"city\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"reference\": \"<string>\",\n        \"taxReference\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"email\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      \"independentSalesOrganizationId\": \"<string>\"\n    }\n  },\n  \"transactionReference\": \"<string>\",\n  \"instruction\": {\n    \"value\": {\n      \"currency\": \"<string>\",\n      \"amount\": \"<integer>\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"<string>\",\n      \"expiryDate\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"cardNumber\": \"<string>\",\n      \"cardHolderName\": \"<string>\",\n      \"billingAddress\": {\n        \"address1\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"city\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"countryCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"postalCode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"address2\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"address3\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"state\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"cvc\": \"<string>\"\n    },\n    \"consumerBillPayment\": \"<boolean>\",\n    \"nominalRetry\": \"<boolean>\",\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"<string>\",\n      \"storedCardUsage\": \"<string>\"\n    },\n    \"fundsTransfer\": {\n      \"type\": \"<string>\",\n      \"purpose\": \"<string>\"\n    }\n  },\n  \"channel\": \"<string>\",\n  \"authentication\": {\n    \"networkToken\": {\n      \"cryptogram\": \"<string>\",\n      \"eci\": \"<string>\"\n    },\n    \"threeDS\": {\n      \"eci\": \"<string>\",\n      \"authenticationValue\": \"<string>\",\n      \"transactionId\": \"<string>\",\n      \"version\": \"<string>\",\n      \"cryptogramAlgorithm\": \"<string>\",\n      \"challengePreference\": \"<string>\",\n      \"authenticationFlow\": \"<string>\",\n      \"statusReason\": \"<string>\",\n      \"cancellationIndicator\": \"<string>\",\n      \"networkScore\": \"<string>\",\n      \"brand\": \"<string>\"\n    }\n  },\n  \"recipient\": {\n    \"accountReference\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"address\": {\n      \"postalCode\": \"<string>\"\n    },\n    \"dateOfBirth\": {\n      \"day\": \"<number>\",\n      \"month\": \"<number>\",\n      \"year\": \"<number>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "87fa7452-ed2d-4522-87e9-4a0f34070d3e",
+              "name": "Successful cardholder name inquiry outcome.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardverifications-v6+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "This will be echoed from the request header of the same name",
+                  "key": "WP-CorrelationId",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardverifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"verified\",\n  \"nameInquiry\": \"notSupported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b913788-65c7-4b4d-89b9-4f89024e551d",
+              "name": "Successful card verification outcome.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardverifications-v6+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "This will be echoed from the request header of the same name",
+                  "key": "WP-CorrelationId",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardverifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"not verified\",\n  \"checkedAt\": \"2024-03-26T19:38:29.543195Z\",\n  \"scheme\": {\n    \"reference\": \"abc123\"\n  },\n  \"riskFactors\": [\n    {\n      \"type\": \"cvc\",\n      \"risk\": \"notSupplied\"\n    },\n    {\n      \"type\": \"avs\",\n      \"detail\": \"postcode\",\n      \"risk\": \"notSupplied\"\n    },\n    {\n      \"type\": \"avs\",\n      \"detail\": \"address\",\n      \"risk\": \"notSupplied\"\n    }\n  ],\n  \"paymentInstrument\": {\n    \"type\": \"card/network+masked\",\n    \"lastFour\": \"0001\",\n    \"cardBin\": \"654321\",\n    \"cardBrand\": \"visa\",\n    \"fundingType\": \"prepaid\",\n    \"category\": \"commercial\",\n    \"paymentAccountReference\": \"321ABC\",\n    \"countryCode\": \"GB\",\n    \"issuerName\": \"string\",\n    \"expiryDate\": {\n      \"month\": 8,\n      \"year\": 2025\n    }\n  },\n  \"_links\": {\n    \"cardVerifications:verification\": {\n      \"href\": \"https://try.access.worldpay.com/cardVerifications/linkData\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34086c1e-057c-4a8d-a20a-985ca10df7ec",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"A JSON body matching the expected schema must be provided.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"Field at path is not allowed.\",\n      \"jsonPath\": \"$.transactionRef\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ce420cb-3783-4f84-8f36-de3f9c2adeb5",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\",\n  \"headerName\": 4341.717152925643\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9cb4ebfc-c4e1-423b-9503-03064f8a2e9a",
+              "name": "Boarding issue - unable to process requested merchant",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"boardingError\",\n  \"message\": \"There has been a problem with your boarding and you cannot use this API yet, please contact support.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb223837-570b-4e7d-960a-3186b60b4652",
+              "name": "Not Found - unable to locate requested record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"resourceNotFound\",\n  \"message\": \"Unable to verify the historic outcome from the data provided\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82ef06f4-eb0a-4947-88d0-9d004dde732e",
+              "name": "Invalid content-type HTTP header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb5ea2d7-90fb-481a-9583-a9e005ef698f",
+              "name": "An error occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"cardVerification\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"mcc\": \"6012\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"12345678901\",\n      \"independentSalesOrganizationId\": \"12345678901\",\n      \"subMerchant\": {\n        \"name\": \"Merchant Plc\",\n        \"reference\": \"12345\",\n        \"address\": {\n          \"street\": \"123 Street\",\n          \"state\": \"CA\",\n          \"city\": \"San Francisco\",\n          \"countryCode\": \"US\",\n          \"postalCode\": \"94101\"\n        },\n        \"taxReference\": \"12345\",\n        \"phoneNumber\": 123456789,\n        \"email\": \"test@email.com\",\n        \"url\": \"developer.worldpay.com\"\n      }\n    }\n  },\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"instruction\": {\n    \"value\": {\n      \"amount\": 250,\n      \"currency\": \"GBP\"\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\",\n      \"line2\": \"Memory\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"cardOnFile\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2050\n      },\n      \"cardNumber\": \"4444333322221111\",\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"Cambridge\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"101\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalServerError\",\n  \"message\": \"An internal server error occurred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b4bcedf-6570-474b-96e8-8c94ef6bed35",
+          "name": "Query a previous verification",
+          "request": {
+            "name": "Query a previous verification",
+            "description": {
+              "content": "Querying of a successful verification.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cardVerifications",
+                ":linkData"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "linkData",
+                  "description": "(Required) Action link that's received in your request."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.cardVerifications-v6+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50422c32-28d7-404c-8cc0-7e3d11f3ba6e",
+              "name": "Successful query request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"verified\",\n  \"checkedAt\": \"2018-09-01T10:37:36.923Z\",\n  \"riskFactors\": [\n    {\n      \"risk\": \"matched\",\n      \"type\": \"cvc\"\n    },\n    {\n      \"risk\": \"matched\",\n      \"detail\": \"postcode\",\n      \"type\": \"avs\"\n    },\n    {\n      \"risk\": \"matched\",\n      \"detail\": \"address\",\n      \"type\": \"avs\"\n    }\n  ],\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"444433\",\n    \"lastFour\": \"1111\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"month\": 12,\n      \"year\": 2029\n    },\n    \"brand\": \"visa\",\n    \"fundingType\": \"debit\",\n    \"issuerName\": \"cardIssuer\",\n    \"category\": \"consumer\",\n    \"paymentAccountReference\": \"reference\"\n  },\n  \"_links\": {\n    \"cardVerifications: verification\": {\n      \"href\": \"https://try.access.worldpay.com/cardVerifications/{resource}\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "881e6c14-629c-4e8f-a703-a5d6c35eac16",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"A JSON body matching the expected schema must be provided.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"Field at path is not allowed.\",\n      \"jsonPath\": \"$.transactionRef\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe009d8d-0841-4864-b323-e13df739f964",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\",\n  \"headerName\": 4341.717152925643\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8f37473-fb87-4c66-ab9f-74ba74abc72f",
+              "name": "Boarding issue - unable to process requested merchant",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"boardingError\",\n  \"message\": \"There has been a problem with your boarding and you cannot use this API yet, please contact support.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6afcaf4b-43c6-4747-94b4-2b1d482858b6",
+              "name": "Not Found - unable to locate requested record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"verificationNotReady\",\n  \"message\": \"The account verification was concluded, but is not ready to be viewed. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3de14352-c78d-499a-a4a5-3cdd44a5eddf",
+              "name": "Invalid content-type HTTP header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d455249-280e-46b5-8417-3946a5aabca1",
+              "name": "An error occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardVerifications",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalServerError\",\n  \"message\": \"An internal server error occurred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ca8a7f0e-f359-4bff-b754-261431a04427",
+    "name": "3DS 3DS actions CardVerifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

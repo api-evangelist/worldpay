@@ -1,0 +1,911 @@
+{
+  "item": [
+    {
+      "id": "fbc6ccd3-8358-43fe-9908-a48c5594ec0a",
+      "name": "CardPayments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "faa3cec6-bedc-4bd9-9429-23cc12aa7ecc",
+          "name": "Take a card payment",
+          "request": {
+            "name": "Take a card payment",
+            "description": {
+              "content": "Take online card payments using our Card Payments API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cardPayments",
+                "customerInitiatedTransactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.payments-v7+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payments-v7+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\",\n    \"mcc\": \"<string>\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"<string>\",\n      \"subMerchant\": {\n        \"reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"address\": {\n          \"postalCode\": \"<string>\",\n          \"street\": \"<string>\",\n          \"city\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"phoneNumber\": \"<string>\",\n        \"taxReference\": \"<string>\",\n        \"email\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      \"independentSalesOrganizationId\": \"<string>\"\n    },\n    \"taxReference\": \"<string>\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\",\n      \"estimated\": \"<boolean>\",\n      \"acceptPartialAmount\": \"<boolean>\",\n      \"surchargeAmount\": \"<integer>\",\n      \"convenienceAmount\": \"<integer>\"\n    },\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"<string>\",\n      \"cardNumber\": \"<string>\",\n      \"expiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"cardHolderName\": \"<string>\",\n      \"billingAddress\": {\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"phoneNumber\": \"<string>\"\n      },\n      \"cvc\": \"<string>\"\n    },\n    \"requestAutoSettlement\": {\n      \"enabled\": \"<boolean>\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"<string>\",\n      \"storedCardUsage\": \"<string>\"\n    },\n    \"consumerBillPayment\": \"<boolean>\",\n    \"debtRepayment\": \"<boolean>\",\n    \"requestAccountUpdater\": \"<boolean>\",\n    \"fundsTransfer\": {\n      \"type\": \"<string>\",\n      \"purpose\": \"<string>\",\n      \"recipient\": {\n        \"account\": {\n          \"type\": \"<string>\",\n          \"identifierType\": \"<string>\",\n          \"iban\": \"<string>\",\n          \"accountNumber\": \"<string>\",\n          \"swiftBic\": \"<string>\",\n          \"routingNumber\": \"<string>\"\n        },\n        \"firstName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"address\": {\n          \"countryCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"dateOfBirth\": {\n          \"day\": \"<integer>\",\n          \"month\": \"<integer>\",\n          \"year\": \"<integer>\"\n        },\n        \"phoneNumber\": \"<string>\",\n        \"documentReference\": \"<string>\"\n      },\n      \"sender\": {\n        \"firstName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"address\": {\n          \"countryCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"dateOfBirth\": {\n          \"day\": \"<integer>\",\n          \"month\": \"<integer>\",\n          \"year\": \"<integer>\"\n        },\n        \"documentReference\": \"<string>\"\n      }\n    },\n    \"routing\": {\n      \"fundingType\": \"<string>\",\n      \"preferredCardBrand\": \"<string>\"\n    }\n  },\n  \"channel\": \"<string>\",\n  \"orderReference\": \"<string>\",\n  \"riskProfile\": \"<string>\",\n  \"authentication\": {\n    \"threeDS\": {\n      \"version\": \"<string>\",\n      \"eci\": \"<string>\",\n      \"authenticationValue\": \"<string>\",\n      \"transactionId\": \"<RFC 4122 UUID>\",\n      \"cryptogramAlgorithm\": \"<integer>\",\n      \"challengePreference\": \"<string>\",\n      \"authenticationFlow\": \"<string>\",\n      \"status\": \"<string>\",\n      \"statusReason\": \"<string>\",\n      \"cancellationIndicator\": \"<string>\",\n      \"networkScore\": \"<string>\",\n      \"brand\": \"<string>\"\n    },\n    \"networkToken\": {\n      \"cryptogram\": \"<string>\",\n      \"eci\": \"<string>\"\n    },\n    \"customerData\": {\n      \"type\": \"<string>\",\n      \"firstTwoOfPin\": \"<string>\",\n      \"dateOfBirth\": {\n        \"day\": \"<integer>\",\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      }\n    }\n  },\n  \"exemption\": {\n    \"type\": \"<string>\",\n    \"request\": {\n      \"placement\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  },\n  \"shipping\": {\n    \"sender\": {\n      \"address\": {\n        \"postalCode\": \"<string>\"\n      }\n    },\n    \"recipient\": {\n      \"address\": {\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\"\n      }\n    }\n  },\n  \"order\": {\n    \"taxExempt\": \"<boolean>\",\n    \"orderDate\": {\n      \"day\": \"<integer>\",\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"items\": [\n      {\n        \"name\": \"<string>\",\n        \"commodityCode\": \"<string>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"totalAmountNoTax\": \"<integer>\",\n        \"unitOfMeasure\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"productCode\": \"<string>\",\n        \"totalDiscountAmount\": \"<integer>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"commodityCode\": \"<string>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"totalAmountNoTax\": \"<integer>\",\n        \"unitOfMeasure\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"productCode\": \"<string>\",\n        \"totalDiscountAmount\": \"<integer>\"\n      }\n    ],\n    \"dutyAmount\": \"<integer>\",\n    \"salesTax\": \"<integer>\",\n    \"shippingAmount\": \"<integer>\",\n    \"invoiceReference\": \"<string>\",\n    \"discountAmount\": \"<integer>\"\n  },\n  \"recipient\": {\n    \"accountReference\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"address\": {\n      \"postalCode\": \"<string>\"\n    },\n    \"dateOfBirth\": {\n      \"day\": \"<integer>\",\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    }\n  },\n  \"customer\": {\n    \"documentReference\": \"<string>\",\n    \"reference\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"emailAddress\": \"<string>\"\n  },\n  \"industryData\": {\n    \"type\": \"<string>\",\n    \"ticket\": {\n      \"number\": \"<string>\",\n      \"restricted\": \"<boolean>\",\n      \"issuerAddress\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\"\n      },\n      \"flightDetails\": [\n        {\n          \"carrierCode\": \"<string>\",\n          \"flightCode\": \"<string>\",\n          \"departureAirport\": \"<string>\",\n          \"arrivalAirport\": \"<string>\",\n          \"departureDate\": {\n            \"day\": \"<integer>\",\n            \"month\": \"<integer>\",\n            \"year\": \"<integer>\"\n          },\n          \"fareClassCode\": \"<string>\",\n          \"taxAmount\": \"<integer>\",\n          \"fareBasisCode\": \"<string>\",\n          \"stopOver\": \"<boolean>\"\n        },\n        {\n          \"carrierCode\": \"<string>\",\n          \"flightCode\": \"<string>\",\n          \"departureAirport\": \"<string>\",\n          \"arrivalAirport\": \"<string>\",\n          \"departureDate\": {\n            \"day\": \"<integer>\",\n            \"month\": \"<integer>\",\n            \"year\": \"<integer>\"\n          },\n          \"fareClassCode\": \"<string>\",\n          \"taxAmount\": \"<integer>\",\n          \"fareBasisCode\": \"<string>\",\n          \"stopOver\": \"<boolean>\"\n        }\n      ],\n      \"issueDate\": {\n        \"day\": \"<integer>\",\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      }\n    },\n    \"airlineName\": \"<string>\",\n    \"airlineCode\": \"<string>\",\n    \"agentCode\": \"<string>\",\n    \"passenger\": {\n      \"code\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"agentName\": \"<string>\",\n    \"invoiceReference\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c3919bb8-0045-457c-8485-439e798fe747",
+              "name": "The payment authorization has been successfully created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "customerInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    }\n  },\n  \"channel\": \"ecom\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"authorized\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"commandId\": \"cmd-Rjc4HJwnBdj3Ri9v10vT0\",\n  \"riskFactors\": [\n    {\n      \"type\": \"cvc\",\n      \"risk\": \"notSupplied\"\n    },\n    {\n      \"type\": \"avs\",\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\"\n    },\n    {\n      \"type\": \"avs\",\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\"\n    }\n  ],\n  \"issuer\": {\n    \"authorizationCode\": \"T75725\"\n  },\n  \"scheme\": {\n    \"reference\": \"MCCOLXT1C0104  \"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"555555\",\n    \"lastFour\": \"4444\",\n    \"category\": \"consumer\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"month\": 9,\n      \"year\": 2029\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"credit\",\n    \"issuerName\": \"AN ISSUING BANK LTD\",\n    \"paymentAccountReference\": \"Q1HJZ28RKA1EBL470G9XYG90R5D3E\"\n  },\n  \"_links\": {\n    \"cardPayments:cancel\": {\n      \"href\": \"https://try.access.worldpay.com/payments/authorizations/cancellations/linkData\"\n    },\n    \"cardPayments:partialCancel\": {\n      \"href\": \"https://try.access.worldpay.com/payments/authorizations/cancellations/partials/linkData\"\n    },\n    \"cardPayments:settle\": {\n      \"href\": \"https://try.access.worldpay.com/payments/settlements/full/linkData\"\n    },\n    \"cardPayments:partialSettle\": {\n      \"href\": \"https://try.access.worldpay.com/payments/settlements/partials/linkData\"\n    },\n    \"cardPayments:events\": {\n      \"href\": \"https://try.access.worldpay.com/payments/events/linkData\"\n    },\n    \"curies\": [\n      {\n        \"name\": \"cardPayments\",\n        \"href\": \"https://try.access.worldpay.com/rels/cardPayments/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc10ef50-25d2-4263-b9b0-11461b099d72",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "customerInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    }\n  },\n  \"channel\": \"ecom\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldMustBeString\",\n      \"message\": \"Element at path must be a string\",\n      \"jsonPath\": \"$.value.currency\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ac371d1-50b0-4dd2-b994-d7f7a66702a8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "customerInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    }\n  },\n  \"channel\": \"ecom\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ecd860a7-07be-4fb3-833a-87d6e199f061",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "customerInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    }\n  },\n  \"channel\": \"ecom\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"endpointNotFound\",\n  \"message\": \"Requested endpoint was not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a5fdd91-f53d-4d70-aa46-e33ad418dd47",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "customerInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    }\n  },\n  \"channel\": \"ecom\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"Bad content type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a11a2ab0-f1bb-444d-8364-5500847025c1",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "customerInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    }\n  },\n  \"channel\": \"ecom\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalServerError\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7486f70-4607-42e0-aa25-e3f456902697",
+          "name": "Take a repeat card payment",
+          "request": {
+            "name": "Take a repeat card payment",
+            "description": {
+              "content": "Take online payments using our Card Payments API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cardPayments",
+                "merchantInitiatedTransactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.payments-v7+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payments-v7+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\",\n    \"mcc\": \"<string>\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"<string>\",\n      \"subMerchant\": {\n        \"reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"address\": {\n          \"postalCode\": \"<string>\",\n          \"street\": \"<string>\",\n          \"city\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"phoneNumber\": \"<string>\",\n        \"taxReference\": \"<string>\",\n        \"email\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      \"independentSalesOrganizationId\": \"<string>\"\n    },\n    \"taxReference\": \"<string>\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\",\n      \"acceptPartialAmount\": \"<boolean>\",\n      \"surchargeAmount\": \"<integer>\",\n      \"convenienceAmount\": \"<integer>\"\n    },\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"<string>\",\n      \"cardNumber\": \"<string>\",\n      \"expiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"cardHolderName\": \"<string>\",\n      \"billingAddress\": {\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"phoneNumber\": \"<string>\"\n      }\n    },\n    \"requestAutoSettlement\": {\n      \"enabled\": \"<boolean>\"\n    },\n    \"customerAgreement\": {\n      \"type\": \"<string>\",\n      \"schemeReference\": \"<string>\"\n    },\n    \"consumerBillPayment\": \"<boolean>\",\n    \"requestAccountUpdater\": \"<boolean>\",\n    \"debtRepayment\": \"<boolean>\",\n    \"fundsTransfer\": {\n      \"type\": \"<string>\",\n      \"purpose\": \"<string>\",\n      \"recipient\": {\n        \"account\": {\n          \"type\": \"<string>\",\n          \"identifierType\": \"<string>\",\n          \"iban\": \"<string>\",\n          \"accountNumber\": \"<string>\",\n          \"swiftBic\": \"<string>\",\n          \"routingNumber\": \"<string>\"\n        },\n        \"firstName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"address\": {\n          \"countryCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"dateOfBirth\": {\n          \"day\": \"<integer>\",\n          \"month\": \"<integer>\",\n          \"year\": \"<integer>\"\n        },\n        \"phoneNumber\": \"<string>\",\n        \"documentReference\": \"<string>\"\n      },\n      \"sender\": {\n        \"firstName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"address\": {\n          \"countryCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"dateOfBirth\": {\n          \"day\": \"<integer>\",\n          \"month\": \"<integer>\",\n          \"year\": \"<integer>\"\n        },\n        \"documentReference\": \"<string>\"\n      }\n    },\n    \"routing\": {\n      \"fundingType\": \"<string>\",\n      \"preferredCardBrand\": \"<string>\"\n    }\n  },\n  \"orderReference\": \"<string>\",\n  \"recipient\": {\n    \"accountReference\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"address\": {\n      \"postalCode\": \"<string>\"\n    },\n    \"dateOfBirth\": {\n      \"day\": \"<integer>\",\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    }\n  },\n  \"shipping\": {\n    \"sender\": {\n      \"address\": {\n        \"postalCode\": \"<string>\"\n      }\n    },\n    \"recipient\": {\n      \"address\": {\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\"\n      }\n    }\n  },\n  \"order\": {\n    \"taxExempt\": \"<boolean>\",\n    \"orderDate\": {\n      \"day\": \"<integer>\",\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"items\": [\n      {\n        \"name\": \"<string>\",\n        \"commodityCode\": \"<string>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"totalAmountNoTax\": \"<integer>\",\n        \"unitOfMeasure\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"productCode\": \"<string>\",\n        \"totalDiscountAmount\": \"<integer>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"commodityCode\": \"<string>\",\n        \"totalTaxAmount\": \"<integer>\",\n        \"unitCost\": \"<integer>\",\n        \"totalAmount\": \"<integer>\",\n        \"totalAmountNoTax\": \"<integer>\",\n        \"unitOfMeasure\": \"<string>\",\n        \"quantity\": \"<integer>\",\n        \"productCode\": \"<string>\",\n        \"totalDiscountAmount\": \"<integer>\"\n      }\n    ],\n    \"dutyAmount\": \"<integer>\",\n    \"salesTax\": \"<integer>\",\n    \"shippingAmount\": \"<integer>\",\n    \"invoiceReference\": \"<string>\",\n    \"discountAmount\": \"<integer>\"\n  },\n  \"customer\": {\n    \"documentReference\": \"<string>\",\n    \"reference\": \"<string>\",\n    \"emailAddress\": \"<string>\"\n  },\n  \"industryData\": {\n    \"type\": \"<string>\",\n    \"ticket\": {\n      \"number\": \"<string>\",\n      \"restricted\": \"<boolean>\",\n      \"issuerAddress\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\"\n      },\n      \"flightDetails\": [\n        {\n          \"carrierCode\": \"<string>\",\n          \"flightCode\": \"<string>\",\n          \"departureAirport\": \"<string>\",\n          \"arrivalAirport\": \"<string>\",\n          \"departureDate\": {\n            \"day\": \"<integer>\",\n            \"month\": \"<integer>\",\n            \"year\": \"<integer>\"\n          },\n          \"fareClassCode\": \"<string>\",\n          \"taxAmount\": \"<integer>\",\n          \"fareBasisCode\": \"<string>\",\n          \"stopOver\": \"<boolean>\"\n        },\n        {\n          \"carrierCode\": \"<string>\",\n          \"flightCode\": \"<string>\",\n          \"departureAirport\": \"<string>\",\n          \"arrivalAirport\": \"<string>\",\n          \"departureDate\": {\n            \"day\": \"<integer>\",\n            \"month\": \"<integer>\",\n            \"year\": \"<integer>\"\n          },\n          \"fareClassCode\": \"<string>\",\n          \"taxAmount\": \"<integer>\",\n          \"fareBasisCode\": \"<string>\",\n          \"stopOver\": \"<boolean>\"\n        }\n      ],\n      \"issueDate\": {\n        \"day\": \"<integer>\",\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      }\n    },\n    \"airlineName\": \"<string>\",\n    \"airlineCode\": \"<string>\",\n    \"agentCode\": \"<string>\",\n    \"passenger\": {\n      \"code\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"agentName\": \"<string>\",\n    \"invoiceReference\": \"<string>\"\n  },\n  \"riskProfile\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "11b2722e-70fd-4e9b-a227-db060459a9ee",
+              "name": "The payment authorization has been successfully created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "merchantInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    },\n    \"customerAgreement\": {\n      \"type\": \"subscription\",\n      \"schemeReference\": \"MCCOLXT1C0104  \"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"authorized\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"commandId\": \"cmdJ3o1eC1o3n6n31ol29l4y0\",\n  \"riskFactors\": [\n    {\n      \"type\": \"cvc\",\n      \"risk\": \"notSupplied\"\n    },\n    {\n      \"type\": \"avs\",\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\"\n    },\n    {\n      \"type\": \"avs\",\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\"\n    }\n  ],\n  \"issuer\": {\n    \"authorizationCode\": \"675725\"\n  },\n  \"scheme\": {\n    \"reference\": \"MCCOLXT1C0104  \"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"555555\",\n    \"lastFour\": \"4444\",\n    \"category\": \"consumer\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"month\": 9,\n      \"year\": 2029\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"credit\",\n    \"issuerName\": \"AN ISSUING BANK LTD\",\n    \"paymentAccountReference\": \"Q1HJZ28RKA1EBL470G9XYG90R5D3E\"\n  },\n  \"_links\": {\n    \"cardPayments:cancel\": {\n      \"href\": \"https://try.access.worldpay.com/payments/authorizations/cancellations/\"\n    },\n    \"cardPayments:settle\": {\n      \"href\": \"https://try.access.worldpay.com/payments/settlements/full/\"\n    },\n    \"cardPayments:partialSettle\": {\n      \"href\": \"https://try.access.worldpay.com/payments/settlements/partials/\"\n    },\n    \"cardPayments:events\": {\n      \"href\": \"https://try.access.worldpay.com/payments/events/\"\n    },\n    \"curies\": [\n      {\n        \"name\": \"cardPayments\",\n        \"href\": \"https://try.access.worldpay.com/rels/cardPayments/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60b07a65-a1d9-4cf1-9eb3-79deb73820a1",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "merchantInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    },\n    \"customerAgreement\": {\n      \"type\": \"subscription\",\n      \"schemeReference\": \"MCCOLXT1C0104  \"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldMustBeString\",\n      \"message\": \"Element at path must be a string\",\n      \"jsonPath\": \"$.value.currency\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5129a2ca-26bf-4f02-b278-b9235bb02026",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "merchantInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    },\n    \"customerAgreement\": {\n      \"type\": \"subscription\",\n      \"schemeReference\": \"MCCOLXT1C0104  \"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1bf81368-766f-4166-a352-a4f817ac9091",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "merchantInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    },\n    \"customerAgreement\": {\n      \"type\": \"subscription\",\n      \"schemeReference\": \"MCCOLXT1C0104  \"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"endpointNotFound\",\n  \"message\": \"Requested endpoint was not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6add9ce6-a8d7-41b1-9caa-3157e7349b47",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "merchantInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    },\n    \"customerAgreement\": {\n      \"type\": \"subscription\",\n      \"schemeReference\": \"MCCOLXT1C0104  \"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"Bad content type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bac12515-ca82-4123-9562-967c78d22662",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cardPayments",
+                    "merchantInitiatedTransactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"requestAutoSettlement\": {\n      \"enabled\": false\n    },\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    },\n    \"paymentInstrument\": {\n      \"type\": \"card/plain\",\n      \"cardNumber\": \"4444333322221111\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      }\n    },\n    \"customerAgreement\": {\n      \"type\": \"subscription\",\n      \"schemeReference\": \"MCCOLXT1C0104  \"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "64038c22-beaf-40b8-ad65-b12922af5708",
+    "name": "3DS 3DS actions CardPayments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

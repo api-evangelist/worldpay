@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Operational API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Operational",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Used to check whether the service is up",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/apmPayments/status"
+          },
+          "docs": "Used to check whether the service is up"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

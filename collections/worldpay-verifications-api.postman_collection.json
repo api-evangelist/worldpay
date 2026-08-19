@@ -1,0 +1,990 @@
+{
+  "item": [
+    {
+      "id": "0e016a27-8602-42db-ac56-d71be6549a12",
+      "name": "Verifications",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7d73af12-0473-4491-a025-67f07a9e1e7d",
+          "name": "Generate required data for 3DS Device Data Collection",
+          "request": {
+            "name": "Generate required data for 3DS Device Data Collection",
+            "description": {
+              "content": "Allow card issuers to perform Device Data Collection to fingerprint your customer's device.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verifications",
+                "customers",
+                "3ds",
+                "deviceDataInitialization"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"<card/front>\",\n    \"cardNumber\": \"<string>\",\n    \"cardExpiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cardHolderName\": \"<string>\",\n    \"billingAddress\": {\n      \"address1\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"state\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"address3\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "169fb062-1a83-4291-bb0a-827e553138c1",
+              "name": "The data for the device data collection has been generated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "deviceDataInitialization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"initialized\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"deviceDataCollection\": {\n    \"jwt\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiJPcmdVbml0IiwiaXNzIjoiYXBpSWQiLCJleHAiOjE1NjI5MjMzNDYsImlhdCI6MTU2MjkyMzQwNiwianRpIjoiYTAzMWVhOGEtN2E0Zi00YTQwLWI1NjMtOTUzMzYzMzVhZGNmIn0.0IK74OIXBxFsxqeOURJz1TFnz14ZTbFJTdTWo9cHUJQ\",\n    \"url\": \"https://ddcUrl.example.com\",\n    \"bin\": \"555555\"\n  },\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"https://try.access.worldpay.com/verifications/customers/3ds/authentication\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2e325a4-4dc7-4da5-9cf4-06ca386cf89c",
+              "name": "The request has encountered validation errors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "deviceDataInitialization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"jsonPath\": \"$.transactionReference\",\n      \"message\": \"Transaction reference must be between 1 and 64 characters inclusive\"\n    }\n  ],\n  \"_links\": {\n    \"3ds:deviceDataInitialize\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/deviceDataInitialization\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b84cd87-aea6-41c8-81ee-89c937d11c64",
+              "name": "Invalid response received from upstream",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "deviceDataInitialization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/verifications/customers/3ds/deviceDataInitialization\",\n  \"status\": 502,\n  \"message\": \"Service Unavailable\",\n  \"errorName\": \"serviceUnavailable\",\n  \"_links\": {\n    \"3ds:deviceDataInitialize\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/deviceDataInitialization\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"name\": \"3ds\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc24098e-3e30-4225-924f-b7eda0abf7de",
+              "name": "The requested service is unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "deviceDataInitialization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/front\",\n    \"cardHolderName\": \"Sherlock Holmes\",\n    \"cardNumber\": \"4444333322221111\",\n    \"cardExpiryDate\": {\n      \"month\": 5,\n      \"year\": 2035\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service Unavailable\",\n  \"errorName\": \"serviceUnavailable\",\n  \"_links\": {\n    \"3ds:deviceDataInitialize\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/deviceDataInitialization\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"name\": \"3ds\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db9bfca1-67f6-4a0d-a069-e80d911bc601",
+          "name": "Initiate the 3DS authentication",
+          "request": {
+            "name": "Initiate the 3DS authentication",
+            "description": {
+              "content": "Authenticate your customer by submitting order and risk data.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verifications",
+                "customers",
+                "3ds",
+                "authentication"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\",\n    \"overrideName\": \"<string>\",\n    \"acquirerId\": \"<string>\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"<card/front>\",\n      \"cardNumber\": \"<string>\",\n      \"cardExpiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"cardHolderName\": \"<string>\",\n      \"billingAddress\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"state\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\"\n      }\n    }\n  },\n  \"deviceData\": {\n    \"acceptHeader\": \"<string>\",\n    \"userAgentHeader\": \"<string>\",\n    \"collectionReference\": \"<string>\",\n    \"browserLanguage\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"browserJavaEnabled\": \"<boolean>\",\n    \"browserColorDepth\": \"<string>\",\n    \"browserScreenHeight\": \"<integer>\",\n    \"browserScreenWidth\": \"<integer>\",\n    \"timeZone\": \"<string>\",\n    \"browserJavascriptEnabled\": \"<boolean>\"\n  },\n  \"challenge\": {\n    \"returnUrl\": \"<uri>\",\n    \"preference\": \"<string>\",\n    \"windowSize\": \"390x400\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"previousSuspiciousActivity\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"email\": \"<string>\",\n      \"history\": {\n        \"createdAt\": \"<date>\",\n        \"modifiedAt\": \"<date>\",\n        \"passwordModifiedAt\": \"<date>\",\n        \"paymentAccountEnrolledAt\": \"<date>\"\n      }\n    },\n    \"transaction\": {\n      \"reorder\": \"<boolean>\",\n      \"preOrderDate\": \"<date>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"phoneNumber\": \"<string>\",\n      \"history\": {\n        \"attemptsLastDay\": \"<integer>\",\n        \"attemptsLastYear\": \"<integer>\",\n        \"completedLastSixMonths\": \"<integer>\",\n        \"addCardsLastDay\": \"<integer>\",\n        \"shippingAddressFirstUsedAt\": \"<date>\"\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"amount\": \"<integer>\",\n          \"currency\": \"<string>\"\n        },\n        \"quantity\": \"<integer>\"\n      }\n    },\n    \"shipping\": {\n      \"nameMatchesAccountName\": \"<boolean>\",\n      \"method\": \"<string>\",\n      \"timeFrame\": \"<string>\",\n      \"email\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"stateCode\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"phoneNumber\": \"<string>\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "60d6f28f-e780-40c2-aa2a-bf9a234f0a22",
+              "name": "The authentication has been created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"overrideName\": \"Baskerville Sanctuary\",\n    \"acquirerId\": \"01234567\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5\",\n    \"acceptHeader\": \"text/html\",\n    \"userAgentHeader\": \"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)\",\n    \"browserLanguage\": \"en-GB\",\n    \"browserJavaEnabled\": true,\n    \"browserColorDepth\": \"15\",\n    \"browserScreenHeight\": 1200,\n    \"browserScreenWidth\": 900,\n    \"timeZone\": \"-300\",\n    \"browserJavascriptEnabled\": true,\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"challenge\": {\n    \"windowSize\": \"600x400\",\n    \"preference\": \"noPreference\",\n    \"returnUrl\": \"http://payment.example.com\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"previousSuspiciousActivity\": false,\n      \"type\": \"registeredUser\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"history\": {\n        \"createdAt\": \"2019-11-18\",\n        \"modifiedAt\": \"2019-11-18\",\n        \"passwordModifiedAt\": \"2019-10-15\",\n        \"paymentAccountEnrolledAt\": \"2019-11-18\"\n      }\n    },\n    \"transaction\": {\n      \"reorder\": true,\n      \"preOrderDate\": \"2019-11-18\",\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000\",\n      \"history\": {\n        \"attemptsLastDay\": 2,\n        \"attemptsLastYear\": 6,\n        \"completedLastSixMonths\": 6,\n        \"addCardsLastDay\": 5,\n        \"shippingAddressFirstUsedAt\": \"2018-09-18\"\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"currency\": \"GBP\",\n          \"amount\": 10\n        },\n        \"quantity\": 4\n      }\n    },\n    \"shipping\": {\n      \"nameMatchesAccountName\": false,\n      \"method\": \"verifiedAddress\",\n      \"timeFrame\": \"nextDay\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"address\": {\n        \"address1\": \"Disneyland\",\n        \"address2\": \"Disneyland Drive\",\n        \"address3\": \"Adventure Park\",\n        \"postalCode\": \"DL1 2CA\",\n        \"city\": \"Anaheim\",\n        \"stateCode\": \"CA\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"authenticated\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"acsTransactionId\": \"fe007a6e-315f-4cdf-98ca-28a9e40e3581\",\n  \"status\": \"Y\",\n  \"enrolled\": \"Y\",\n  \"authentication\": {\n    \"version\": \"2.1.0\",\n    \"authenticationValue\": \"MAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\n    \"eci\": \"05\",\n    \"transactionId\": \"c5b808e7-1de1-4069-a17b-f70d3b3b1645\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "754982a2-1e19-4c98-b7d8-521922953cad",
+              "name": "The request has encountered validation errors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"overrideName\": \"Baskerville Sanctuary\",\n    \"acquirerId\": \"01234567\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5\",\n    \"acceptHeader\": \"text/html\",\n    \"userAgentHeader\": \"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)\",\n    \"browserLanguage\": \"en-GB\",\n    \"browserJavaEnabled\": true,\n    \"browserColorDepth\": \"15\",\n    \"browserScreenHeight\": 1200,\n    \"browserScreenWidth\": 900,\n    \"timeZone\": \"-300\",\n    \"browserJavascriptEnabled\": true,\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"challenge\": {\n    \"windowSize\": \"600x400\",\n    \"preference\": \"noPreference\",\n    \"returnUrl\": \"http://payment.example.com\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"previousSuspiciousActivity\": false,\n      \"type\": \"registeredUser\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"history\": {\n        \"createdAt\": \"2019-11-18\",\n        \"modifiedAt\": \"2019-11-18\",\n        \"passwordModifiedAt\": \"2019-10-15\",\n        \"paymentAccountEnrolledAt\": \"2019-11-18\"\n      }\n    },\n    \"transaction\": {\n      \"reorder\": true,\n      \"preOrderDate\": \"2019-11-18\",\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000\",\n      \"history\": {\n        \"attemptsLastDay\": 2,\n        \"attemptsLastYear\": 6,\n        \"completedLastSixMonths\": 6,\n        \"addCardsLastDay\": 5,\n        \"shippingAddressFirstUsedAt\": \"2018-09-18\"\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"currency\": \"GBP\",\n          \"amount\": 10\n        },\n        \"quantity\": 4\n      }\n    },\n    \"shipping\": {\n      \"nameMatchesAccountName\": false,\n      \"method\": \"verifiedAddress\",\n      \"timeFrame\": \"nextDay\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"address\": {\n        \"address1\": \"Disneyland\",\n        \"address2\": \"Disneyland Drive\",\n        \"address3\": \"Adventure Park\",\n        \"postalCode\": \"DL1 2CA\",\n        \"city\": \"Anaheim\",\n        \"stateCode\": \"CA\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsMissing\",\n      \"jsonPath\": \"$.merchant\",\n      \"message\": \"Merchant must be provided\"\n    }\n  ],\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/authentication\"\n    },\n    \"3ds:verify\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/verification\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "222a5649-1c28-4c5f-b144-c0ba14d6737f",
+              "name": "Invalid response received from upstream",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"overrideName\": \"Baskerville Sanctuary\",\n    \"acquirerId\": \"01234567\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5\",\n    \"acceptHeader\": \"text/html\",\n    \"userAgentHeader\": \"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)\",\n    \"browserLanguage\": \"en-GB\",\n    \"browserJavaEnabled\": true,\n    \"browserColorDepth\": \"15\",\n    \"browserScreenHeight\": 1200,\n    \"browserScreenWidth\": 900,\n    \"timeZone\": \"-300\",\n    \"browserJavascriptEnabled\": true,\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"challenge\": {\n    \"windowSize\": \"600x400\",\n    \"preference\": \"noPreference\",\n    \"returnUrl\": \"http://payment.example.com\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"previousSuspiciousActivity\": false,\n      \"type\": \"registeredUser\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"history\": {\n        \"createdAt\": \"2019-11-18\",\n        \"modifiedAt\": \"2019-11-18\",\n        \"passwordModifiedAt\": \"2019-10-15\",\n        \"paymentAccountEnrolledAt\": \"2019-11-18\"\n      }\n    },\n    \"transaction\": {\n      \"reorder\": true,\n      \"preOrderDate\": \"2019-11-18\",\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000\",\n      \"history\": {\n        \"attemptsLastDay\": 2,\n        \"attemptsLastYear\": 6,\n        \"completedLastSixMonths\": 6,\n        \"addCardsLastDay\": 5,\n        \"shippingAddressFirstUsedAt\": \"2018-09-18\"\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"currency\": \"GBP\",\n          \"amount\": 10\n        },\n        \"quantity\": 4\n      }\n    },\n    \"shipping\": {\n      \"nameMatchesAccountName\": false,\n      \"method\": \"verifiedAddress\",\n      \"timeFrame\": \"nextDay\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"address\": {\n        \"address1\": \"Disneyland\",\n        \"address2\": \"Disneyland Drive\",\n        \"address3\": \"Adventure Park\",\n        \"postalCode\": \"DL1 2CA\",\n        \"city\": \"Anaheim\",\n        \"stateCode\": \"CA\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/verifications/customers/3ds/authentication\",\n  \"status\": 502,\n  \"message\": \"Service Unavailable\",\n  \"errorName\": \"serviceUnavailable\",\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/authentication\"\n    },\n    \"3ds:verify\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/verification\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3721ea9-1894-4d2f-a9be-25c44ae3a577",
+              "name": "The requested service is unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "authentication"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\",\n    \"overrideName\": \"Baskerville Sanctuary\",\n    \"acquirerId\": \"01234567\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5\",\n    \"acceptHeader\": \"text/html\",\n    \"userAgentHeader\": \"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)\",\n    \"browserLanguage\": \"en-GB\",\n    \"browserJavaEnabled\": true,\n    \"browserColorDepth\": \"15\",\n    \"browserScreenHeight\": 1200,\n    \"browserScreenWidth\": 900,\n    \"timeZone\": \"-300\",\n    \"browserJavascriptEnabled\": true,\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"challenge\": {\n    \"windowSize\": \"600x400\",\n    \"preference\": \"noPreference\",\n    \"returnUrl\": \"http://payment.example.com\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"previousSuspiciousActivity\": false,\n      \"type\": \"registeredUser\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"history\": {\n        \"createdAt\": \"2019-11-18\",\n        \"modifiedAt\": \"2019-11-18\",\n        \"passwordModifiedAt\": \"2019-10-15\",\n        \"paymentAccountEnrolledAt\": \"2019-11-18\"\n      }\n    },\n    \"transaction\": {\n      \"reorder\": true,\n      \"preOrderDate\": \"2019-11-18\",\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000\",\n      \"history\": {\n        \"attemptsLastDay\": 2,\n        \"attemptsLastYear\": 6,\n        \"completedLastSixMonths\": 6,\n        \"addCardsLastDay\": 5,\n        \"shippingAddressFirstUsedAt\": \"2018-09-18\"\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"currency\": \"GBP\",\n          \"amount\": 10\n        },\n        \"quantity\": 4\n      }\n    },\n    \"shipping\": {\n      \"nameMatchesAccountName\": false,\n      \"method\": \"verifiedAddress\",\n      \"timeFrame\": \"nextDay\",\n      \"email\": \"sherlock.holmes@example.com\",\n      \"address\": {\n        \"address1\": \"Disneyland\",\n        \"address2\": \"Disneyland Drive\",\n        \"address3\": \"Adventure Park\",\n        \"postalCode\": \"DL1 2CA\",\n        \"city\": \"Anaheim\",\n        \"stateCode\": \"CA\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/verifications/customers/3ds/authentication\",\n  \"status\": 503,\n  \"message\": \"Service Unavailable\",\n  \"errorName\": \"serviceUnavailable\",\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/authentication\"\n    },\n    \"3ds:verify\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/verification\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "035b004d-c6b6-467d-9816-9053d38ca5e5",
+          "name": "Verify the 3DS challenge response",
+          "request": {
+            "name": "Verify the 3DS challenge response",
+            "description": {
+              "content": "Verify the results of a challenged authentication.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verifications",
+                "customers",
+                "3ds",
+                "verification"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"challenge\": {\n    \"reference\": \"<string>\"\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d38a0913-16dd-4ac2-b005-9f061af84f2b",
+              "name": "The challenge was successful - obtain the authentication data for onward use",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"challenge\": {\n    \"reference\": \"1xoKSqTvmLvhRYBsaE60\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"authenticated\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"acsTransactionId\": \"fe007a6e-315f-4cdf-98ca-28a9e40e3581\",\n  \"status\": \"Y\",\n  \"enrolled\": \"Y\",\n  \"authentication\": {\n    \"version\": \"2.1.0\",\n    \"authenticationValue\": \"MAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\n    \"eci\": \"05\",\n    \"transactionId\": \"c5b808e7-1de1-4069\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e98f75bb-d7b9-4d20-9bbe-a447bc19cfee",
+              "name": "The request has encountered validation errors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"challenge\": {\n    \"reference\": \"1xoKSqTvmLvhRYBsaE60\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/verifications/customers/3ds/verification\",\n  \"status\": 400,\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringFailedRegexCheck\",\n      \"jsonPath\": \"$.merchant.entity\",\n      \"message\": \"Entity must be alphanumeric with optional spaces\"\n    },\n    {\n      \"errorName\": \"stringFailedRegexCheck\",\n      \"jsonPath\": \"$.transactionReference\",\n      \"message\": \"Transaction reference characters must be alphanumeric or one of the following: _!@#$%()*=-.:;?[]{}~`/+\"\n    }\n  ],\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/authentication\"\n    },\n    \"3ds:verify\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/verification\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f945ea1-ee9e-49e1-b4e6-9ac2c1ab9d26",
+              "name": "Invalid response received from upstream",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"challenge\": {\n    \"reference\": \"1xoKSqTvmLvhRYBsaE60\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/verifications/customers/3ds/authentication\",\n  \"status\": 502,\n  \"message\": \"Service Unavailable\",\n  \"errorName\": \"serviceUnavailable\",\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/authentication\"\n    },\n    \"3ds:verify\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/verification\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fc7b424-b264-4142-9433-8dab7f5c0365",
+              "name": "The requested service is unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verifications",
+                    "customers",
+                    "3ds",
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"challenge\": {\n    \"reference\": \"1xoKSqTvmLvhRYBsaE60\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.verifications.customers-v3.hal+json"
+                }
+              ],
+              "body": "{\n  \"path\": \"/verifications/customers/3ds/authentication\",\n  \"status\": 503,\n  \"message\": \"Service Unavailable\",\n  \"errorName\": \"serviceUnavailable\",\n  \"_links\": {\n    \"3ds:authenticate\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/authentication\"\n    },\n    \"3ds:verify\": {\n      \"href\": \"$serverUrl/verifications/customers/3ds/verification\"\n    },\n    \"curies\": [\n      {\n        \"href\": \"$serverUrl/rels/verifications/customers/3ds/{rel}\",\n        \"templated\": true,\n        \"name\": \"3ds\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2ec406e3-03ac-4c71-abf4-67894d297d3a",
+    "name": "3DS 3DS actions Verifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

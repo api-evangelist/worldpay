@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Single payout API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Single payout",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Make a single payout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/accountPayouts",
+            "headers": [
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              },
+              {
+                "name": "WP-Timestamp",
+                "value": ""
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": "mustBeUnique12345"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Make a single payout"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

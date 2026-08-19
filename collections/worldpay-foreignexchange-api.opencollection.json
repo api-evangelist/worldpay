@@ -1,0 +1,264 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions ForeignExchange API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ForeignExchange",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get FX rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/foreignExchange/rates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "params": [
+              {
+                "name": "intent",
+                "value": "",
+                "type": "query",
+                "description": "Transaction type (intention) for which rates should be retrieved."
+              },
+              {
+                "name": "entity",
+                "value": "100001",
+                "type": "query",
+                "description": "For Multi-Currency Pricing customers, the `entity` is an MCP Account Identifier (PartyID- Merchant Company ID, Unique ID given to you during the onboarding process.) for which rates should be retrieved. <br><br> For Account Payout customers, the `entity` is a six-digit reference given to you by your Worldpay Implementation Manager during the onboarding process."
+              },
+              {
+                "name": "sourceCurrency",
+                "value": "USD",
+                "type": "query",
+                "description": "The transaction currency code. If not supplied, the response contains rates for all source currencies against the target currency."
+              },
+              {
+                "name": "targetCurrency",
+                "value": "EUR",
+                "type": "query",
+                "description": "Your funding (settlement) currency code. If not supplied, the response contains rates for all target currencies against the source currency."
+              }
+            ]
+          },
+          "docs": "Retrieve an FX rate for a particular payment method."
+        },
+        {
+          "info": {
+            "name": "Retrieve an FX quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/foreignExchange/quote",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "100001",
+                "type": "query",
+                "description": "6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process."
+              },
+              {
+                "name": "quoteId",
+                "value": "Q000000001",
+                "type": "query",
+                "description": "Unique ID of the quote."
+              }
+            ]
+          },
+          "docs": "Retrieving an existing FX quote.<br>For Account Payouts customers only."
+        },
+        {
+          "info": {
+            "name": "Create FX quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/foreignExchange/quote",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lock the FX rate for a specific currency pairing. <br>For Account Payouts customers only."
+        },
+        {
+          "info": {
+            "name": "Create an external contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/foreignExchange/contract",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an external contract to lock a forward FX rate. <br>For Account Payouts customers only."
+        },
+        {
+          "info": {
+            "name": "Activate or cancel contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://try.access.worldpay.com/foreignExchange/contract/:contractId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "params": [
+              {
+                "name": "contractId",
+                "value": "C000000001",
+                "type": "path",
+                "description": "Unique ID of the contract."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enable a contract to use locked in FX rates in an Account Payout. <br>For Account Payouts customers only."
+        },
+        {
+          "info": {
+            "name": "Retrieve markup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/foreignExchange/markup/:entity",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "100001",
+                "type": "path",
+                "description": "MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process.) for which rates should be retrieved."
+              },
+              {
+                "name": "sourceCurrency",
+                "value": "USD",
+                "type": "query",
+                "description": "The transaction currency code. If not supplied, the response contains rates for all source currencies against the target currency."
+              },
+              {
+                "name": "targetCurrency",
+                "value": "EUR",
+                "type": "query",
+                "description": "Your funding (settlement) currency code. If not supplied, the response contains rates for all target currencies against the source currency."
+              }
+            ]
+          },
+          "docs": "Retrieving an existing markup for a specific FX rate.<br>For MCP customers only."
+        },
+        {
+          "info": {
+            "name": "Add a markup to your FX rate",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://try.access.worldpay.com/foreignExchange/markup/:entity",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "100001",
+                "type": "path",
+                "description": "MCP Account Identifier (PartyID- Merchant Company ID, unique 6-digit ID given to you during the onboarding process) for which rates should be retrieved."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adding a markup to an existing FX rate. <br>For MCP customers only."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

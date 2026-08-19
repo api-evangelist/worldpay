@@ -1,0 +1,469 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Manage payments API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Manage payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Settle for full amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/settlements/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To receive all the funds from the customer, send us a settle request."
+        },
+        {
+          "info": {
+            "name": "Settle for partial amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/settlements/partials/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To receive a portion of the funds of a payment, send us a partial settle request."
+        },
+        {
+          "info": {
+            "name": "Refund full amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/settlements/refunds/full/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a refund request to return the full settled amount to your customer.\n\n  **Note:** No request body is needed for this request."
+        },
+        {
+          "info": {
+            "name": "Refund partial amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/settlements/refunds/partials/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a partial refund request to return a portion of the settled amount to your customer.\n Send the amount to refund and the authorization currency in the body."
+        },
+        {
+          "info": {
+            "name": "Cancel full authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/authorizations/cancellations/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "If you don't want to proceed with a payment, you can send a full cancel request.\n\n **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund."
+        },
+        {
+          "info": {
+            "name": "Cancel partial authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/authorizations/cancellations/partials/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "If you don't want to proceed with a payment, you can send a partial cancel request.\n\n  **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund."
+        },
+        {
+          "info": {
+            "name": "Increase authorization amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/authorizations/incrementalAuthorizations/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "If you want to increase an initial estimated authorization amount (submitted with `estimated` set to `true`), you can send a incremental authorization request.\n\n **Note:** You must use the latest next action links returned by the incremental authorization response to settle (full/partial) and cancel (full/partial) the increased authorized amount. Using the next action links returned in your estimated authorization response will not use any increased amounts."
+        },
+        {
+          "info": {
+            "name": "Reversal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payments/sales/reversals/:linkData",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path",
+                "description": "Action link that's received in your request."
+              }
+            ]
+          },
+          "docs": "Your reversal request is processed as a cancel or refund request. This depends on the time passed after your sale request was submitted. For US entities the payment is refunded after one day after a successful sale request. Any other payment moves to refunded after 15 minutes.\n\n  **Note:** No request body is needed for this request."
+        },
+        {
+          "info": {
+            "name": "Payment query request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Query a payment"
+        },
+        {
+          "info": {
+            "name": "Submit a payment settle request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/settlements",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Settle a payment"
+        },
+        {
+          "info": {
+            "name": "Submit a payment partial settle request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/partialSettlements",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially settle a payment"
+        },
+        {
+          "info": {
+            "name": "Submit a payment refund request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/refunds",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Refund a payment"
+        },
+        {
+          "info": {
+            "name": "Submit a payment partial refund request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/partialRefunds",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially refund a payment"
+        },
+        {
+          "info": {
+            "name": "Submit a payment cancel request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/cancellations",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a payment"
+        },
+        {
+          "info": {
+            "name": "Submit a payment reverse request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/reversals",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reverse a payment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

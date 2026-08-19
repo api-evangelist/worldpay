@@ -1,0 +1,351 @@
+{
+  "item": [
+    {
+      "id": "e362794e-7b82-4631-aaf4-05c99fcdf53f",
+      "name": "ApmPayments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "62d8d690-eb16-4097-aca2-67c685d2b80a",
+          "name": "Create an APM payment",
+          "request": {
+            "name": "Create an APM payment",
+            "description": {
+              "content": "Perform a sale.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apmPayments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version.",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instruction\": \"<object>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"transactionReference\": \"<string>\",\n  \"orderReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d34ede97-ad5e-4fc1-84c0-a0e5b3f35c7f",
+              "name": "Request successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"apm-order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"ach\",\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"amount\": 750,\n      \"currency\": \"USD\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"direct\",\n      \"accountType\": \"checking\",\n      \"accountNumber\": 1234567890123456,\n      \"routingNumber\": 12345678,\n      \"checkNumber\": 12345678901234,\n      \"companyName\": \"Worldpay\",\n      \"billingAddress\": {\n        \"address1\": \"8500 Govenors Hill Drive\",\n        \"address2\": \"Symmes Township\",\n        \"postalCode\": \"45249\",\n        \"city\": \"Ohio\",\n        \"state\": \"US-OH\",\n        \"countryCode\": \"US\"\n      }\n    },\n    \"customer\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Johnson\",\n      \"customerId\": \"43424\",\n      \"email\": \"john@example.com\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentInstrument\": {\n    \"method\": \"ach\",\n    \"type\": \"direct\"\n  },\n  \"paymentId\": \"eyJrIjoiYXBtLXNlcnZpY2UtZGVmYXVsdCIsImxpbmtWZXJzaW9uIjoiNi4wLjAifQ==.BnnxxcMle38OazhwbF8J+4rtJi8CAq:Y3zUOn1dw6VWfvx:PHL5L0S+5ara5vz6ouV5yBmVUQCiSwQjs+1x5qJIJxAKWMWc2Mlb1doricEYlzsZIRIGCflvnYu1Ns8g1S0+66n6wCELiB9OHfX7cdDZM8QaH19DiFbmMAchPSTyxQUry+EjhI+4Av0FZgKybTQW8Eq5Lj6LFzcEh8YV9gKLyAJXKJwZGztDqfCZz9C54i7Qm6PznXY+lb8gjX08QbPuM7eN9CDfUDc8S4J3uauHV:lzKfpwhCpCj20XtN:AkTEXfvJEm8PKFuVlX10AbTZIsCMVbuMS1sIqrgbendo:b1Rfx8XquR8u:dBYr5a70wYkewsxOvrYXmLip3FvyJdzRzXf3LyUgHUqZh:ulvr2BwGjsfY6y32HN+osTE4dworCDzhGpsvEwJ:GRwLUNfeKBzVqK6WhJGqM+s8XpCA==\",\n  \"lastEvent\": \"authorized\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/apmPayments/eyJrIjoiYXBtLXNlcnZpY2UtZGVmYXVsdCIsImxpbmtWZXJzaW9uIjoiNi4wLjAifQ==.BnnxxcMle38OazhwbF8J+4rtJi8CAq:Y3zUOn1dw6VWfvx:PHL5L0S+5ara5vz6ouV5yBmVUQCiSwQjs+1x5qJIJxAKWMWc2Mlb1doricEYlzsZIRIGCflvnYu1Ns8g1S0+66n6wCELiB9OHfX7cdDZM8QaH19DiFbmMAchPSTyxQUry+EjhI+4Av0FZgKybTQW8Eq5Lj6LFzcEh8YV9gKLyAJXKJwZGztDqfCZz9C54i7Qm6PznXY+lb8gjX08QbPuM7eN9CDfUDc8S4J3uauHV:lzKfpwhCpCj20XtN:AkTEXfvJEm8PKFuVlX10AbTZIsCMVbuMS1sIqrgbendo:b1Rfx8XquR8u:dBYr5a70wYkewsxOvrYXmLip3FvyJdzRzXf3LyUgHUqZh:ulvr2BwGjsfY6y32HN+osTE4dworCDzhGpsvEwJ:GRwLUNfeKBzVqK6WhJGqM+s8XpCA==\"\n    }\n  },\n  \"_actions\": {},\n  \"redirect\": \"\",\n  \"commandId\": \"cmdSQBwMoFu3i2bNWmLGZLid0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb33efe9-95d7-406d-8425-6ffdc27e17eb",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"apm-order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"ach\",\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"amount\": 750,\n      \"currency\": \"USD\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"direct\",\n      \"accountType\": \"checking\",\n      \"accountNumber\": 1234567890123456,\n      \"routingNumber\": 12345678,\n      \"checkNumber\": 12345678901234,\n      \"companyName\": \"Worldpay\",\n      \"billingAddress\": {\n        \"address1\": \"8500 Govenors Hill Drive\",\n        \"address2\": \"Symmes Township\",\n        \"postalCode\": \"45249\",\n        \"city\": \"Ohio\",\n        \"state\": \"US-OH\",\n        \"countryCode\": \"US\"\n      }\n    },\n    \"customer\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Johnson\",\n      \"customerId\": \"43424\",\n      \"email\": \"john@example.com\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Field is mandatory\",\n      \"jsonPath\": \"$.instruction.value.amount\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a0dc1ce-205f-4504-b9ce-505ad522e121",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"apm-order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"ach\",\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"amount\": 750,\n      \"currency\": \"USD\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"direct\",\n      \"accountType\": \"checking\",\n      \"accountNumber\": 1234567890123456,\n      \"routingNumber\": 12345678,\n      \"checkNumber\": 12345678901234,\n      \"companyName\": \"Worldpay\",\n      \"billingAddress\": {\n        \"address1\": \"8500 Govenors Hill Drive\",\n        \"address2\": \"Symmes Township\",\n        \"postalCode\": \"45249\",\n        \"city\": \"Ohio\",\n        \"state\": \"US-OH\",\n        \"countryCode\": \"US\"\n      }\n    },\n    \"customer\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Johnson\",\n      \"customerId\": \"43424\",\n      \"email\": \"john@example.com\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e5a096b-f3fb-4f24-965f-f1563cf77975",
+              "name": "A problem occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apmPayments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The content type of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version.",
+                    "key": "WP-Api-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"apm-order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"ach\",\n    \"narrative\": {\n      \"line1\": \"MindPalace\"\n    },\n    \"value\": {\n      \"amount\": 750,\n      \"currency\": \"USD\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"direct\",\n      \"accountType\": \"checking\",\n      \"accountNumber\": 1234567890123456,\n      \"routingNumber\": 12345678,\n      \"checkNumber\": 12345678901234,\n      \"companyName\": \"Worldpay\",\n      \"billingAddress\": {\n        \"address1\": \"8500 Govenors Hill Drive\",\n        \"address2\": \"Symmes Township\",\n        \"postalCode\": \"45249\",\n        \"city\": \"Ohio\",\n        \"state\": \"US-OH\",\n        \"countryCode\": \"US\"\n      }\n    },\n    \"customer\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Johnson\",\n      \"customerId\": \"43424\",\n      \"email\": \"john@example.com\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "08ac5bca-6c99-406a-9ac4-f4018f45529c",
+    "name": "3DS 3DS actions ApmPayments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

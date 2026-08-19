@@ -1,0 +1,520 @@
+{
+  "item": [
+    {
+      "id": "b7bf3d93-c8ec-4d5f-9f69-47d0f83f544e",
+      "name": "Get payouts by Payout Request ID",
+      "description": {
+        "content": "Search for payout details by using a Payout Request ID.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6118c0d3-b9b7-468e-aaa6-10fa7371a3ca",
+          "name": "Retrieve payout details",
+          "request": {
+            "name": "Retrieve payout details",
+            "description": {},
+            "url": {
+              "path": [
+                "accountPayouts",
+                ":payoutRequestId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payoutRequestId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "key": "WP-Timestamp",
+                "value": "1755681620",
+                "description": ""
+              },
+              {
+                "disabled": false,
+                "description": "The version of the API you are using.",
+                "key": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "disabled": false,
+                "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                "key": "Idempotency-Key",
+                "value": "mustBeUnique12345"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5a6595ad-9da9-4e1a-97ff-ce847a0940c3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts",
+                    ":payoutRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payoutRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentId\": \"51a448e5-4430-ee11-b58a-005056b48b8e\",\n  \"paymentDatetime\": \"2023-08-01T08:24:44.443Z\",\n  \"payeeName\": \"John Smith\",\n  \"sourceCurrency\": \"ARS\",\n  \"sourceAmount\": 0,\n  \"targetCurrency\": \"ARS\",\n  \"targetAmount\": 1.05,\n  \"paymentState\": \"EXECUTED\",\n  \"bankName\": \"Test Bank\",\n  \"bankCode\": \"10 02 04\",\n  \"iban\": \"GB29NWBK60161331926819\",\n  \"channel\": \"WIRE,ACH SD\",\n  \"routedChannel\": \"WIRE\",\n  \"bankReference\": \"ABCHK26\",\n  \"payoutRequestId\": \"PO000N65\",\n  \"narrative\": \"XYZ102025\",\n  \"transactionReference\": \"XYZ102025\",\n  \"accountNumber\": \"45533882\",\n  \"swiftBic\": \"BUKBGB22\",\n  \"entity\": \"default\",\n  \"countryCode\": \"AR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b61de9a-8505-4efe-be42-ff4c4f374e5d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts",
+                    ":payoutRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payoutRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6efca4d-3fe0-4e61-8493-793825adc52d",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts",
+                    ":payoutRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payoutRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"Forbidden\",\n  \"message\": \"Forbidden. Unauthorized request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e05791b4-6098-4152-ac8b-9e24dc426890",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts",
+                    ":payoutRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payoutRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"notFound\",\n  \"message\": \"Payment not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "485a675c-b877-4ee2-ad98-0567794e30df",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts",
+                    ":payoutRequestId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payoutRequestId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": null,\n  \"message\": \"An unexpected error occurred.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "57d23bec-c9f5-4e85-934f-0028d0db13b8",
+    "name": "3DS 3DS actions Get payouts by Payout Request ID API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

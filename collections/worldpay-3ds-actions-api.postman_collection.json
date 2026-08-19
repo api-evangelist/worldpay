@@ -1,0 +1,1058 @@
+{
+  "item": [
+    {
+      "id": "67ec834f-3d1d-4f59-9861-af5444158cfb",
+      "name": "3DS actions",
+      "description": {
+        "content": "If 3DS is enabled additional actions are required",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e177bc5-4e80-465b-ab24-ea7d20e21148",
+          "name": "Supply 3DS device data",
+          "request": {
+            "name": "Supply 3DS device data",
+            "description": {
+              "content": "Gather additional device data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "payments",
+                ":linkData",
+                "3dsDeviceData"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "linkData",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "816983f4-9cb9-48ad-abe1-6a1f501025a4",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"3dsChallenged\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"authentication\": {\n    \"version\": \"2.1.0\"\n  },\n  \"challenge\": {\n    \"reference\": \"706hovL8DK1tIGGzQUV1\",\n    \"url\": \"https://centinelapistag.cardinalcommerce.com/V2/Cruise/StepUp\",\n    \"jwt\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiI2NjAzMDA3YWJlMjMxZTM1ZTNmNTRjODkiLCJPYmplY3RpZnlQYXlsb2FkIjpmYWxzZSwiaXNzIjoiNjYwMzAwN2ExNmRkOWE3ZTZhMDMzNDA3IiwiUmV0dXJuVXJsIjoiaHR0cDovL3BheW1lbnQuZXhhbXBsZS5jb20iLCJQYXlsb2FkIjoie1wiUGF5bG9hZFwiOlwiZXlKdFpYTnpZV2RsVkhsd1pTSTZJa05TWlhFaUxDSnRaWE56WVdkbFZtVnljMmx2YmlJNklqSXVNUzR3SWl3aWRHaHlaV1ZFVTFObGNuWmxjbFJ5WVc1elNVUWlPaUppTkRKbE5UWmpaaTAyWkRrMkxUUXpNek10T0dJMk5DMWlNbVU0TldZMFpURTFaVGtpTENKaFkzTlVjbUZ1YzBsRUlqb2laV1ZqWldZeE1ETXRNRE13TVMwMFpUbGtMVGsxTmpFdE56ZGlNbVkzTlRFMk5HUmhJaXdpWTJoaGJHeGxibWRsVjJsdVpHOTNVMmw2WlNJNklqQTBJbjBcIixcIkFDU1VybFwiOlwiaHR0cHM6XFwvXFwvMW1lcmNoYW50YWNzc3RhZy5jYXJkaW5hbGNvbW1lcmNlLmNvbVxcL01lcmNoYW50QUNTV2ViXFwvY3JlcS5qc3BcIixcIlRyYW5zYWN0aW9uSWRcIjpcIjcwNmhvdkw4REsxdElHR3pRVVYxXCJ9IiwiZXhwIjoxNzEyMzA2MDk0LCJpYXQiOjE3MTIzMDU0OTQsImp0aSI6IjE4YTIwYzNkLTZhZmMtNDA5My04NGEwLTQ2OGEyYTY5MTE0OCJ9.YEpOuTxnqrXRiHan-givWBd6FfTDJOfNg-h2dF2yA6A\",\n    \"payload\": \"eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMS4wIiwidGhyZWVEU1NlcnZlclRyYW5zSUQiOiJiNDJlNTZjZi02ZDk2LTQzMzMtOGI2NC1iMmU4NWY0ZTE1ZTkiLCJhY3NUcmFuc0lEIjoiZWVjZWYxMDMtMDMwMS00ZTlkLTk1NjEtNzdiMmY3NTE2NGRhIiwiY2hhbGxlbmdlV2luZG93U2l6ZSI6IjA0In0\"\n  },\n  \"_actions\": {\n    \"complete3dsChallenge\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoxLCJkIjoiZXlOaXNtU0lzQnVLTm5BQkt1WjEyMVFxeXg2bUZtb2hEcEpFeDdyYXZ3SDE3NFBpUTBsWUpwekptbW9hR3VVSyJ9/3dsChallenges\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35ba2e01-14d9-46d9-856d-68d0c42062ce",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"sentForSettlement\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"schemeReference\": \"060720116005060\",\n  \"issuer\": {\n    \"authorizationCode\": \"675725\"\n  },\n  \"riskFactors\": [\n    {\n      \"risk\": \"notChecked\",\n      \"type\": \"cvc\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\",\n      \"type\": \"avs\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\",\n      \"type\": \"avs\"\n    }\n  ],\n  \"fraud\": {\n    \"outcome\": \"lowRisk\",\n    \"score\": 44.6\n  },\n  \"threeDS\": {\n    \"outcome\": \"authenticated\",\n    \"issuerResponse\": \"frictionless\",\n    \"version\": \"2.2.0\",\n    \"eci\": \"02\",\n    \"acsTransactionId\": \"559c8bd8-edfb-417a-9f98-99018596242d\",\n    \"dsTransactionId\": \"220403a5-62f8-4df0-9418-abfa092775c9\",\n    \"status\": \"Y\",\n    \"challengePreference\": \"noChallengeRequested\"\n  },\n  \"token\": {\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ\",\n    \"tokenId\": \"9968110159504301628\",\n    \"tokenExpiryDateTime\": \"2024-04-11T15:59:23Z\",\n    \"cardNumber\": \"4000********1000\",\n    \"cardHolderName\": \"test\",\n    \"cardExpiry\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"bin\": \"400000\",\n    \"fundingType\": \"debit\",\n    \"schemeReference\": \"060720116005060\",\n    \"conflicts\": {\n      \"conflictsExpiryDateTime\": \"2024-07-04T06:40:32.310316518Z\",\n      \"paymentInstrument\": {\n        \"cardHolderName\": \"John Snow\"\n      }\n    }\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"400000\",\n    \"lastFour\": \"1000\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"debit\",\n    \"category\": \"consumer\",\n    \"issuerName\": \"BANK LIMITED\",\n    \"paymentAccountReference\": \"3001DBT34Q41D6J7PFC5W0UACOT4C\"\n  },\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D\"\n    }\n  },\n  \"_actions\": {\n    \"refundPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds\",\n      \"method\": \"POST\"\n    },\n    \"partiallyRefundPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds\",\n      \"method\": \"POST\"\n    },\n    \"reversePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a87dbe54-76a5-4f2c-b58f-a2dbd64a552b",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"A JSON body matching the expected schema must be provided.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"Field at path is not allowed.\",\n      \"jsonPath\": \"$.instruction.paymentInstrument.narrative\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e29b884-6483-4e93-af90-6286497fe95a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4214678f-3e6c-43ce-9d55-0bc9d869e5a8",
+              "name": "Not acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerIsMissing\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e0c86f2-fac6-445f-ba8e-a858480448a4",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e96b7190-bd0f-424c-ba0f-510b79a57aad",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsDeviceData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collectionReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"We cannot currently process your request. Please contact support.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6309204b-ae7e-4dc4-a9f8-d3083ce9c2f3",
+          "name": "Continue with the payment after a 3DS challenge",
+          "request": {
+            "name": "Continue with the payment after a 3DS challenge",
+            "description": {
+              "content": "Verify authentication challenge",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "payments",
+                ":linkData",
+                "3dsChallenges"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "linkData",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "90bf051b-5571-49cd-ba3f-2a0c5b0ecf9d",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"authorized\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"riskFactors\": [\n    {\n      \"risk\": \"notChecked\",\n      \"type\": \"cvc\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\",\n      \"type\": \"avs\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\",\n      \"type\": \"avs\"\n    }\n  ],\n  \"fraud\": {\n    \"outcome\": \"lowRisk\",\n    \"score\": 44.6\n  },\n  \"threeDS\": {\n    \"outcome\": \"authenticated\",\n    \"issuerResponse\": \"challenged\",\n    \"version\": \"2.2.0\",\n    \"eci\": \"05\",\n    \"acsTransactionId\": \"559c8bd8-edfb-417a-9f98-99018596242d\",\n    \"dsTransactionId\": \"220403a5-62f8-4df0-9418-abfa092775c9\",\n    \"status\": \"Y\",\n    \"challengePreference\": \"noPreference\"\n  },\n  \"token\": {\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ\",\n    \"tokenId\": \"9968110159504301628\",\n    \"tokenExpiryDateTime\": \"2024-04-11T15:59:23Z\",\n    \"cardNumber\": \"4000********1000\",\n    \"cardHolderName\": \"test\",\n    \"cardExpiry\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"bin\": \"400000\",\n    \"fundingType\": \"debit\",\n    \"schemeReference\": \"060720116005060\",\n    \"conflicts\": {\n      \"conflictsExpiryDateTime\": \"2024-07-04T06:40:32.310316518Z\",\n      \"paymentInstrument\": {\n        \"cardHolderName\": \"John Snow\"\n      }\n    }\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"400000\",\n    \"lastFour\": \"1000\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"debit\",\n    \"category\": \"consumer\",\n    \"issuerName\": \"BANK LIMITED\",\n    \"paymentAccountReference\": \"3001DBT34Q41D6J7PFC5W0UACOT4C\"\n  },\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D\"\n    }\n  },\n  \"_actions\": {\n    \"cancelPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations\",\n      \"method\": \"POST\"\n    },\n    \"settlePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements\",\n      \"method\": \"POST\"\n    },\n    \"partiallySettlePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements\",\n      \"method\": \"POST\"\n    },\n    \"reversePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a54ef4c6-62d6-494b-a2ac-987f0252c684",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"sentForSettlement\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"schemeReference\": \"060720116005060\",\n  \"issuer\": {\n    \"authorizationCode\": \"675725\"\n  },\n  \"riskFactors\": [\n    {\n      \"risk\": \"notChecked\",\n      \"type\": \"cvc\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\",\n      \"type\": \"avs\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\",\n      \"type\": \"avs\"\n    }\n  ],\n  \"fraud\": {\n    \"outcome\": \"lowRisk\",\n    \"score\": 44.6\n  },\n  \"threeDS\": {\n    \"outcome\": \"authenticated\",\n    \"issuerResponse\": \"challenged\",\n    \"version\": \"2.2.0\",\n    \"eci\": \"05\",\n    \"acsTransactionId\": \"559c8bd8-edfb-417a-9f98-99018596242d\",\n    \"dsTransactionId\": \"220403a5-62f8-4df0-9418-abfa092775c9\",\n    \"status\": \"Y\",\n    \"challengePreference\": \"noPreference\"\n  },\n  \"token\": {\n    \"href\": \"https://try.access.worldpay.com/tokens/eyJrIjoxLCJkIjoiRVl3SDBtNnpEVmVTR3UzRUV3VEJEVDExTkxuVDVydXNiREdLR01hUXUwVT0ifQ\",\n    \"tokenId\": \"9968110159504301628\",\n    \"tokenExpiryDateTime\": \"2024-04-11T15:59:23Z\",\n    \"cardNumber\": \"4000********1000\",\n    \"cardHolderName\": \"test\",\n    \"cardExpiry\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"bin\": \"400000\",\n    \"fundingType\": \"debit\",\n    \"schemeReference\": \"060720116005060\",\n    \"conflicts\": {\n      \"conflictsExpiryDateTime\": \"2024-07-04T06:40:32.310316518Z\",\n      \"paymentInstrument\": {\n        \"cardHolderName\": \"John Snow\"\n      }\n    }\n  },\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"400000\",\n    \"lastFour\": \"1000\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"debit\",\n    \"category\": \"consumer\",\n    \"issuerName\": \"BANK LIMITED\",\n    \"paymentAccountReference\": \"3001DBT34Q41D6J7PFC5W0UACOT4C\"\n  },\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D\"\n    }\n  },\n  \"_actions\": {\n    \"refundPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds\",\n      \"method\": \"POST\"\n    },\n    \"partiallyRefundPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds\",\n      \"method\": \"POST\"\n    },\n    \"reversePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13044d7c-cd59-4eda-b36d-b39c18bc7b42",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"A JSON body matching the expected schema must be provided.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"Field at path is not allowed.\",\n      \"jsonPath\": \"$.instruction.paymentInstrument.narrative\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "178751ad-f50a-43f9-8655-bf38f92ef83a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6510f149-9b9d-46bf-89e7-a7426f5d92e1",
+              "name": "Not acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerIsMissing\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "502e8084-5199-4b3f-8c64-c5847369fae7",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "410ea711-ccc1-4a2f-ab93-b243d6adc056",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments",
+                    ":linkData",
+                    "3dsChallenges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"We cannot currently process your request. Please contact support.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ec03337a-e2ee-4955-bddc-24111606e088",
+    "name": "3DS 3DS actions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

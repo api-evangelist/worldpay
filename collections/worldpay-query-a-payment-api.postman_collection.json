@@ -1,0 +1,852 @@
+{
+  "item": [
+    {
+      "id": "a8dc36f8-499c-4532-8e09-835f81e126ca",
+      "name": "Query a payment",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8a358a6f-9405-489d-905d-7c22e377debe",
+          "name": "Query payment status",
+          "request": {
+            "name": "Query payment status",
+            "description": {
+              "content": "Send a request to find out the current status of your payment after it has been authorized using the events action link.\n\n  **Note:** It can take up to 15 minutes for a payment event to update.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                "events",
+                ":linkData"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "linkData",
+                  "description": "(Required) Action link that's received in your request."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payments-v7+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "41cb57ec-d179-4e13-b7e6-3ecddd8c6299",
+              "name": "Retrieve the last event of a payment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"lastEvent\": \"Authorized\",\n  \"_links\": {\n    \"cardPayments:cancel\": \"/payments/authorizations/cancellations/:linkData\",\n    \"cardPayments:settle\": \"/payments/settlements/full/:linkData\",\n    \"cardPayments:partialSettle\": \"/payments/settlements/partials/:linkData\",\n    \"curies\": [\n      {\n        \"name\": \"payments\",\n        \"href\": \"/rels/payments/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba882c0a-3916-44d1-8608-3cfcb3da0828",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldMustBeString\",\n      \"message\": \"Element at path must be a string\",\n      \"jsonPath\": \"$.value.currency\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4fff0a4-177e-43c0-b756-df2f624d48f5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e97d90c7-47b1-42b7-9427-c6ba4e799c47",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"endpointNotFound\",\n  \"message\": \"Requested endpoint was not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d2f6a88-859a-4d9b-bd8f-0414f75f4a86",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"Bad content type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de68b923-3215-4d77-94b1-0ca54ac91503",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events",
+                    ":linkData"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "linkData",
+                      "description": "(Required) Action link that's received in your request."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb59f6cf-b26e-42a5-8929-32ad72687f9b",
+          "name": "Query payment status recovery",
+          "request": {
+            "name": "Query payment status recovery",
+            "description": {
+              "content": "Send a request to find out the current status of your payment after it has been authorized using the events action link. \n\n **Important:** \n\n  Only use this for recovery purposes, for example when your authorization request has timed out or you are unable to locate a payment through our [Payments Queries API](/products/payment-queries). If the query returns results, you can manage the payment using the next action links returned in the response of your GET request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payments-v7+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "56024dc7-426c-43fb-9ac9-834c8470a2ea",
+              "name": "Retrieve the last event of a payment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"lastEvent\": \"Authorized\",\n  \"_links\": {\n    \"cardPayments:cancel\": \"/payments/authorizations/cancellations/:linkData\",\n    \"cardPayments:settle\": \"/payments/settlements/full/:linkData\",\n    \"cardPayments:partialSettle\": \"/payments/settlements/partials/:linkData\",\n    \"curies\": [\n      {\n        \"name\": \"payments\",\n        \"href\": \"/rels/payments/{rel}\",\n        \"templated\": true\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "caf5106f-1047-49bb-bf78-4ee46bf428c3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"The json body provided does not match the expected schema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldMustBeString\",\n      \"message\": \"Element at path must be a string\",\n      \"jsonPath\": \"$.value.currency\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78b650f7-aee6-4649-8845-e388b3f955db",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b3dcfcd-c2fe-419a-ab80-ed46bf1ea8e3",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"endpointNotFound\",\n  \"message\": \"Requested endpoint was not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "568cb36b-5dc8-47c8-9119-d69c1a0a262e",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"Bad content type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6731cc6-b594-4998-9874-b77018ac3866",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payments-v7+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payments-v7+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "78e520e2-924a-4a32-93ee-4862f95e759d",
+    "name": "3DS 3DS actions Query a payment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

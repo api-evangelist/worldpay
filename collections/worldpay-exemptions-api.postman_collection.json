@@ -1,0 +1,350 @@
+{
+  "item": [
+    {
+      "id": "9c12af78-f38b-4a59-890b-d4db4c50f4c1",
+      "name": "Exemptions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "67aa2822-fa58-4160-9b14-d61eb12d7bc8",
+          "name": "Exemption assessment",
+          "request": {
+            "name": "Exemption assessment",
+            "description": {
+              "content": "Assess for exemption.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "exemptions",
+                "assessment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"<card/front>\",\n      \"cardNumber\": \"<string>\",\n      \"cardHolderName\": \"<string>\",\n      \"cardExpiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"billingAddress\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"state\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\"\n      }\n    }\n  },\n  \"exemption\": \"authorizationOnly\",\n  \"doNotApplyExemption\": \"<boolean>\",\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"<string>\",\n      \"dateOfBirth\": \"<date>\",\n      \"shopperId\": \"<string>\"\n    },\n    \"transaction\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"phoneNumber\": \"<string>\"\n    },\n    \"shipping\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"state\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"phoneNumber\": \"<string>\"\n      }\n    },\n    \"custom\": {\n      \"number1\": \"<integer>\",\n      \"number2\": \"<integer>\",\n      \"number3\": \"<integer>\",\n      \"number4\": \"<integer>\",\n      \"number5\": \"<integer>\",\n      \"number6\": \"<integer>\",\n      \"number7\": \"<integer>\",\n      \"number8\": \"<integer>\",\n      \"number9\": \"<integer>\",\n      \"number10\": \"<integer>\",\n      \"string1\": \"<string>\",\n      \"string2\": \"<string>\",\n      \"string3\": \"<string>\",\n      \"string4\": \"<string>\",\n      \"string5\": \"<string>\",\n      \"string6\": \"<string>\",\n      \"string7\": \"<string>\",\n      \"string8\": \"<string>\",\n      \"string9\": \"<string>\",\n      \"string10\": \"<string>\"\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aa058c55-2d0c-4494-85a2-e55649a21920",
+              "name": "The authentication has been created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "exemptions",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"doNotApplyExemption\": false,\n  \"exemption\": {\n    \"capability\": \"authorizationAndAuthentication\",\n    \"request\": {\n      \"placement\": \"authorization\",\n      \"type\": \"lowValue\"\n    }\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1990-09-09\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000000\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"noExemption\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"riskProfile\": {\n    \"href\": \"https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1712d19f-f960-475b-a8f8-d9f0c34f81e0",
+              "name": "Assessment request contains invalid values",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "exemptions",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"doNotApplyExemption\": false,\n  \"exemption\": {\n    \"capability\": \"authorizationAndAuthentication\",\n    \"request\": {\n      \"placement\": \"authorization\",\n      \"type\": \"lowValue\"\n    }\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1990-09-09\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000000\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringFailedRegexCheck\",\n      \"message\": \"Email must be a valid email address\",\n      \"jsonPath\": \"$.riskData.account.email\"\n    },\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"message\": \"Email must be between 3 and 254 characters inclusive\",\n      \"jsonPath\": \"$.riskData.account.email\"\n    }\n  ],\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b15be41-637e-47a7-948d-6982796ec119",
+              "name": "Assessment request is unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "exemptions",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"doNotApplyExemption\": false,\n  \"exemption\": {\n    \"capability\": \"authorizationAndAuthentication\",\n    \"request\": {\n      \"placement\": \"authorization\",\n      \"type\": \"lowValue\"\n    }\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1990-09-09\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000000\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unAuthorized\",\n  \"message\": \"Invalid access token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d43e7aa-7964-4015-8ebb-8cf6f9b675b9",
+              "name": "The requested service is unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "exemptions",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"doNotApplyExemption\": false,\n  \"exemption\": {\n    \"capability\": \"authorizationAndAuthentication\",\n    \"request\": {\n      \"placement\": \"authorization\",\n      \"type\": \"lowValue\"\n    }\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1990-09-09\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"00000000000000\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.exemptions-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"serviceUnavailable\",\n  \"message\": \"Service unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "59ad8a8a-eb60-4219-936f-f05a2bcf96ad",
+    "name": "3DS 3DS actions Exemptions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,354 @@
+{
+  "item": [
+    {
+      "id": "f2730dd9-f13b-4ddf-9f35-cb4a0bc2e498",
+      "name": "Payment Pages",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "99745779-fe3d-4fa2-ade1-52f7217b69db",
+          "name": "Create a new transaction",
+          "request": {
+            "name": "Create a new transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "payment_pages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Used to identify individual requests made to our API.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The name of the client calling the API.",
+                "key": "User-Agent",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"narrative\": {\n    \"line1\": \"<string>\"\n  },\n  \"transactionReference\": \"<string>\",\n  \"value\": {\n    \"amount\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"address1\": \"<string>\",\n    \"address2\": \"<string>\",\n    \"address3\": \"<string>\",\n    \"city\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"createToken\": {\n    \"optIn\": \"<string>\",\n    \"type\": \"<string>\",\n    \"description\": \"<string>\",\n    \"namespace\": \"<string>\"\n  },\n  \"customerAgreement\": {\n    \"storedCardUsage\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"customisation_id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"expiry\": 3600,\n  \"fraud\": {\n    \"type\": \"<string>\"\n  },\n  \"hostedCustomization\": {\n    \"backgroundColor\": \"<string>\",\n    \"buttons\": {\n      \"backgroundColor\": \"<string>\",\n      \"border\": {\n        \"color\": \"<string>\",\n        \"radius\": \"<string>\",\n        \"style\": \"<string>\",\n        \"width\": \"<string>\"\n      },\n      \"color\": \"<string>\",\n      \"focus\": {\n        \"backgroundColor\": \"<string>\",\n        \"border\": {\n          \"color\": \"<string>\",\n          \"radius\": \"<string>\",\n          \"style\": \"<string>\",\n          \"width\": \"<string>\"\n        },\n        \"color\": \"<string>\",\n        \"fonts\": {\n          \"family\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"fonts\": {\n        \"family\": [\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"hover\": {\n        \"backgroundColor\": \"<string>\",\n        \"border\": {\n          \"color\": \"<string>\",\n          \"radius\": \"<string>\",\n          \"style\": \"<string>\",\n          \"width\": \"<string>\"\n        },\n        \"color\": \"<string>\",\n        \"fonts\": {\n          \"family\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    },\n    \"color\": \"<string>\",\n    \"fonts\": {\n      \"family\": [\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"inputs\": {\n      \"backgroundColor\": \"<string>\",\n      \"border\": {\n        \"color\": \"<string>\",\n        \"radius\": \"<string>\",\n        \"style\": \"<string>\",\n        \"width\": \"<string>\"\n      },\n      \"color\": \"<string>\",\n      \"focus\": {\n        \"backgroundColor\": \"<string>\",\n        \"border\": {\n          \"color\": \"<string>\",\n          \"radius\": \"<string>\",\n          \"style\": \"<string>\",\n          \"width\": \"<string>\"\n        },\n        \"color\": \"<string>\",\n        \"fonts\": {\n          \"family\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"<string>\"\n        },\n        \"validation\": {\n          \"error\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ok\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"fonts\": {\n        \"family\": [\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"hover\": {\n        \"backgroundColor\": \"<string>\",\n        \"border\": {\n          \"color\": \"<string>\",\n          \"radius\": \"<string>\",\n          \"style\": \"<string>\",\n          \"width\": \"<string>\"\n        },\n        \"color\": \"<string>\",\n        \"fonts\": {\n          \"family\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"<string>\"\n        },\n        \"validation\": {\n          \"error\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ok\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"placeholder\": {\n        \"color\": \"<string>\"\n      },\n      \"validation\": {\n        \"error\": {\n          \"color\": \"<string>\"\n        },\n        \"ok\": {\n          \"color\": \"<string>\"\n        }\n      }\n    },\n    \"page\": {\n      \"backgroundColor\": \"<string>\",\n      \"border\": {\n        \"color\": \"<string>\",\n        \"radius\": \"<string>\",\n        \"style\": \"<string>\",\n        \"width\": \"<string>\"\n      },\n      \"color\": \"<string>\",\n      \"fonts\": {\n        \"family\": [\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  },\n  \"hostedProperties\": {\n    \"applePayButtonStyle\": \"<string>\",\n    \"applePayButtonType\": \"<string>\",\n    \"disableStrictUrls\": \"<string>\",\n    \"googlePayButtonColour\": \"<string>\",\n    \"googlePayButtonLabel\": \"<string>\",\n    \"maskCardDetails\": \"<string>\",\n    \"passBackErrorReasons\": \"<string>\",\n    \"paymentButtonLabel\": \"<string>\",\n    \"sendURLParameters\": \"<string>\",\n    \"showBillingAddress\": \"<string>\",\n    \"showCancelButton\": \"<string>\",\n    \"showCardIcons\": \"<string>\",\n    \"showCardholderName\": \"<string>\",\n    \"showChangePaymentMethodButton\": \"<string>\",\n    \"showContactDetails\": \"<string>\",\n    \"showCountryList\": \"<string>\",\n    \"showFooter\": \"<string>\",\n    \"showHeader\": \"<string>\",\n    \"showLanguageList\": \"<string>\",\n    \"showPaymentDetailsHeader\": \"<string>\",\n    \"showPoweredByWorldPay\": \"<string>\",\n    \"showShippingAddress\": \"<string>\"\n  },\n  \"locale\": \"<string>\",\n  \"paymentInstrument\": \"<object>\",\n  \"resultURLs\": {\n    \"cancelURL\": \"<string>\",\n    \"errorURL\": \"<string>\",\n    \"expiryURL\": \"<string>\",\n    \"failureURL\": \"<string>\",\n    \"pendingURL\": \"<string>\",\n    \"successURL\": \"<string>\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"dateOfBirth\": \"<string>\",\n      \"email\": \"<string>\",\n      \"history\": {\n        \"createdAt\": \"<string>\",\n        \"modifiedAt\": \"<string>\",\n        \"passwordModifiedAt\": \"<string>\",\n        \"paymentAccountEnrolledAt\": \"<string>\"\n      },\n      \"previousSuspiciousActivity\": \"<boolean>\",\n      \"shopperId\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    \"custom\": {\n      \"number1\": \"<string>\",\n      \"number2\": \"<string>\",\n      \"number3\": \"<string>\",\n      \"number4\": \"<string>\",\n      \"number5\": \"<string>\",\n      \"number6\": \"<string>\",\n      \"number7\": \"<string>\",\n      \"number8\": \"<string>\",\n      \"number9\": \"<string>\",\n      \"string1\": \"<string>\",\n      \"string2\": \"<string>\",\n      \"string3\": \"<string>\",\n      \"string4\": \"<string>\",\n      \"string5\": \"<string>\",\n      \"string6\": \"<string>\",\n      \"string7\": \"<string>\",\n      \"string8\": \"<string>\",\n      \"string9\": \"<string>\"\n    },\n    \"shipping\": {\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"state\": \"<string>\"\n      },\n      \"email\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"method\": \"<string>\",\n      \"nameMatchesAccountName\": \"<boolean>\",\n      \"timeFrame\": \"<string>\"\n    },\n    \"transaction\": {\n      \"firstName\": \"<string>\",\n      \"giftCardsPurchase\": {\n        \"quantity\": \"<integer>\",\n        \"totalValue\": {\n          \"amount\": \"<integer>\",\n          \"currency\": \"<string>\"\n        }\n      },\n      \"history\": {\n        \"addCardsLastDay\": \"<integer>\",\n        \"attemptsLastDay\": \"<integer>\",\n        \"attemptsLastYear\": \"<integer>\",\n        \"completedLastSixMonths\": \"<integer>\",\n        \"shippingAddressFirstUsedAt\": \"<string>\"\n      },\n      \"lastName\": \"<string>\",\n      \"phoneNumber\": \"<string>\",\n      \"preOrderDate\": \"<string>\",\n      \"reorder\": \"<boolean>\"\n    }\n  },\n  \"settlement\": {\n    \"auto\": \"<boolean>\",\n    \"cancelOn\": {\n      \"cvcNotMatched\": \"<string>\"\n    }\n  },\n  \"threeDS\": {\n    \"type\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b646b5a9-20d8-4053-9db1-f8fab48add3a",
+              "name": "Transaction creation was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payment_pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Used to identify individual requests made to our API.",
+                    "key": "WP-CorrelationId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The name of the client calling the API.",
+                    "key": "User-Agent",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"MyTransaction123\",\n  \"merchant\": {\n    \"entity\": \"POxxxxxxxxx\"\n  },\n  \"narrative\": {\n    \"line1\": \"line1\"\n  },\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 123\n  },\n  \"description\": \"Mind Palace Ltd\",\n  \"billingAddressName\": \"Sherlock Holmes\",\n  \"billingAddress\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Watson\",\n    \"address1\": \"221B Baker Street\",\n    \"address2\": \"Marylebone\",\n    \"address3\": \"Westminster\",\n    \"postalCode\": \"NW1 6XE\",\n    \"city\": \"London\",\n    \"state\": \"Greater London\",\n    \"countryCode\": \"GB\"\n  },\n  \"resultURLs\": {\n    \"successURL\": \"https://mindpalace-website/result/success\",\n    \"pendingURL\": \"https://mindpalace-website/result/pending\",\n    \"failureURL\": \"https://mindpalace-website/result/failure\",\n    \"errorURL\": \"https://mindpalace-website/result/error\",\n    \"cancelURL\": \"https://mindpalace-website/result/cancel\",\n    \"expiryURL\": \"https://mindpalace-website/result/expiry\"\n  },\n  \"riskData\": {\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"city\": \"Durham\",\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"DH1 3LE\",\n        \"phoneNumber\": 1189998819999197200\n      },\n      \"method\": \"verifiedAddress\",\n      \"nameMatchesAccountName\": false,\n      \"email\": \"james.moriarty@example.com\",\n      \"timeFrame\": \"nextDay\"\n    },\n    \"custom\": {\n      \"string1\": \"foo\",\n      \"number1\": \"1\",\n      \"string2\": \"foo\",\n      \"number2\": \"1\",\n      \"string3\": \"foo\",\n      \"number3\": \"1\",\n      \"string4\": \"foo\",\n      \"number4\": \"1\",\n      \"string5\": \"foo\",\n      \"number5\": \"1\",\n      \"string6\": \"foo\",\n      \"number6\": \"1\",\n      \"string7\": \"foo\",\n      \"number7\": \"1\",\n      \"string8\": \"foo\",\n      \"number8\": \"1\",\n      \"string9\": \"foo\",\n      \"number9\": \"1\"\n    },\n    \"account\": {\n      \"shopperId\": \"1234\",\n      \"dateOfBirth\": \"1835-04-01\",\n      \"history\": {\n        \"createdAt\": \"1876-06-01\",\n        \"modifiedAt\": \"1876-08-13\",\n        \"paymentAccountEnrolledAt\": \"1876-06-01\",\n        \"passwordModifiedAt\": \"1876-06-01\"\n      },\n      \"type\": \"fidoAuthenticator\",\n      \"previousSuspiciousActivity\": false,\n      \"email\": \"sherlock.holmes@example.com\"\n    },\n    \"transaction\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"phoneNumber\": 1189998819999197200,\n      \"preOrderDate\": \"1876-08-13\",\n      \"reorder\": false,\n      \"history\": {\n        \"attemptsLastYear\": 3,\n        \"completedLastSixMonths\": 4,\n        \"attemptsLastDay\": 2,\n        \"shippingAddressFirstUsedAt\": \"1876-06-01\",\n        \"addCardsLastDay\": 1\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"amount\": 10000,\n          \"currency\": \"GBP\"\n        },\n        \"quantity\": 1\n      }\n    }\n  },\n  \"hostedCustomization\": {\n    \"backgroundColor\": \"#FFFFFF\",\n    \"color\": \"#000000\",\n    \"page\": {\n      \"backgroundColor\": \"#333333\",\n      \"color\": \"#FFFFFF\",\n      \"border\": {\n        \"color\": \"#CCCCCC\",\n        \"width\": \"1px\",\n        \"style\": \"solid\",\n        \"radius\": \"4px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      }\n    },\n    \"buttons\": {\n      \"backgroundColor\": \"#FF0\",\n      \"color\": \"#333333\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"color\": \"#0FF\",\n        \"width\": \"3px\",\n        \"radius\": \"0px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#DDF\",\n        \"color\": \"#111111\",\n        \"border\": {\n          \"color\": \"#BBBBBB\",\n          \"width\": \"2px\",\n          \"style\": \"dotted\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#DFD\",\n        \"color\": \"#222222\",\n        \"border\": {\n          \"color\": \"#CCCCCC\",\n          \"width\": \"2px\",\n          \"style\": \"solid\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      }\n    },\n    \"inputs\": {\n      \"backgroundColor\": \"#FFFFFF\",\n      \"color\": \"#000000\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"width\": \"2px\",\n        \"radius\": \"2px\",\n        \"color\": \"#FFF\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"placeholder\": {\n        \"color\": \"#001\"\n      },\n      \"validation\": {\n        \"ok\": {\n          \"color\": \"#00F\"\n        },\n        \"error\": {\n          \"color\": \"#F00\"\n        }\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#FF0000\",\n        \"color\": \"#7F0000\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#AAAAAA\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#00CC00\"\n          },\n          \"error\": {\n            \"color\": \"#CC0000\"\n          }\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#0240FF\",\n        \"color\": \"#001F7F\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#BBBBBB\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#009900\"\n          },\n          \"error\": {\n            \"color\": \"#990000\"\n          }\n        }\n      }\n    },\n    \"fonts\": {\n      \"family\": [\n        \"Comic Sans MS\"\n      ]\n    }\n  },\n  \"hostedProperties\": {\n    \"showBillingAddress\": \"EDIT\",\n    \"showShippingAddress\": \"HIDE\",\n    \"showCountryList\": \"false\",\n    \"showLanguageList\": \"false\",\n    \"showContactDetails\": \"HIDE\",\n    \"sendURLParameters\": \"true\",\n    \"showPoweredByWorldPay\": \"true\",\n    \"showCancelButton\": \"true\",\n    \"showChangePaymentMethodButton\": \"false\",\n    \"disableStrictUrls\": \"true\",\n    \"showHeader\": \"true\",\n    \"showFooter\": \"true\",\n    \"showCardIcons\": \"false\",\n    \"paymentButtonLabel\": \"makePayment\",\n    \"showCardholderName\": \"true\",\n    \"showPaymentDetailsHeader\": \"true\",\n    \"passBackErrorReasons\": \"true\",\n    \"maskCardDetails\": \"false\",\n    \"googlePayButtonColour\": \"black\",\n    \"googlePayButtonLabel\": \"long\",\n    \"applePayButtonType\": \"plain\",\n    \"applePayButtonStyle\": \"black\"\n  },\n  \"settlement\": {\n    \"auto\": true,\n    \"cancelOn\": {\n      \"cvcNotMatched\": \"disabled\"\n    }\n  },\n  \"expiry\": \"600\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"url\": \"https://payments.worldpay.com/app/hpp/integration/transaction/xxxxxxxxxxxxxxxxxxxx&cs=yyyyyy\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://access.worldpay.com/paymentQueries/payments?transactionReference=174420000000000\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a2e20d8-7f81-4c23-aa4f-a999551afe4c",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payment_pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Used to identify individual requests made to our API.",
+                    "key": "WP-CorrelationId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The name of the client calling the API.",
+                    "key": "User-Agent",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"MyTransaction123\",\n  \"merchant\": {\n    \"entity\": \"POxxxxxxxxx\"\n  },\n  \"narrative\": {\n    \"line1\": \"line1\"\n  },\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 123\n  },\n  \"description\": \"Mind Palace Ltd\",\n  \"billingAddressName\": \"Sherlock Holmes\",\n  \"billingAddress\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Watson\",\n    \"address1\": \"221B Baker Street\",\n    \"address2\": \"Marylebone\",\n    \"address3\": \"Westminster\",\n    \"postalCode\": \"NW1 6XE\",\n    \"city\": \"London\",\n    \"state\": \"Greater London\",\n    \"countryCode\": \"GB\"\n  },\n  \"resultURLs\": {\n    \"successURL\": \"https://mindpalace-website/result/success\",\n    \"pendingURL\": \"https://mindpalace-website/result/pending\",\n    \"failureURL\": \"https://mindpalace-website/result/failure\",\n    \"errorURL\": \"https://mindpalace-website/result/error\",\n    \"cancelURL\": \"https://mindpalace-website/result/cancel\",\n    \"expiryURL\": \"https://mindpalace-website/result/expiry\"\n  },\n  \"riskData\": {\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"city\": \"Durham\",\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"DH1 3LE\",\n        \"phoneNumber\": 1189998819999197200\n      },\n      \"method\": \"verifiedAddress\",\n      \"nameMatchesAccountName\": false,\n      \"email\": \"james.moriarty@example.com\",\n      \"timeFrame\": \"nextDay\"\n    },\n    \"custom\": {\n      \"string1\": \"foo\",\n      \"number1\": \"1\",\n      \"string2\": \"foo\",\n      \"number2\": \"1\",\n      \"string3\": \"foo\",\n      \"number3\": \"1\",\n      \"string4\": \"foo\",\n      \"number4\": \"1\",\n      \"string5\": \"foo\",\n      \"number5\": \"1\",\n      \"string6\": \"foo\",\n      \"number6\": \"1\",\n      \"string7\": \"foo\",\n      \"number7\": \"1\",\n      \"string8\": \"foo\",\n      \"number8\": \"1\",\n      \"string9\": \"foo\",\n      \"number9\": \"1\"\n    },\n    \"account\": {\n      \"shopperId\": \"1234\",\n      \"dateOfBirth\": \"1835-04-01\",\n      \"history\": {\n        \"createdAt\": \"1876-06-01\",\n        \"modifiedAt\": \"1876-08-13\",\n        \"paymentAccountEnrolledAt\": \"1876-06-01\",\n        \"passwordModifiedAt\": \"1876-06-01\"\n      },\n      \"type\": \"fidoAuthenticator\",\n      \"previousSuspiciousActivity\": false,\n      \"email\": \"sherlock.holmes@example.com\"\n    },\n    \"transaction\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"phoneNumber\": 1189998819999197200,\n      \"preOrderDate\": \"1876-08-13\",\n      \"reorder\": false,\n      \"history\": {\n        \"attemptsLastYear\": 3,\n        \"completedLastSixMonths\": 4,\n        \"attemptsLastDay\": 2,\n        \"shippingAddressFirstUsedAt\": \"1876-06-01\",\n        \"addCardsLastDay\": 1\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"amount\": 10000,\n          \"currency\": \"GBP\"\n        },\n        \"quantity\": 1\n      }\n    }\n  },\n  \"hostedCustomization\": {\n    \"backgroundColor\": \"#FFFFFF\",\n    \"color\": \"#000000\",\n    \"page\": {\n      \"backgroundColor\": \"#333333\",\n      \"color\": \"#FFFFFF\",\n      \"border\": {\n        \"color\": \"#CCCCCC\",\n        \"width\": \"1px\",\n        \"style\": \"solid\",\n        \"radius\": \"4px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      }\n    },\n    \"buttons\": {\n      \"backgroundColor\": \"#FF0\",\n      \"color\": \"#333333\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"color\": \"#0FF\",\n        \"width\": \"3px\",\n        \"radius\": \"0px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#DDF\",\n        \"color\": \"#111111\",\n        \"border\": {\n          \"color\": \"#BBBBBB\",\n          \"width\": \"2px\",\n          \"style\": \"dotted\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#DFD\",\n        \"color\": \"#222222\",\n        \"border\": {\n          \"color\": \"#CCCCCC\",\n          \"width\": \"2px\",\n          \"style\": \"solid\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      }\n    },\n    \"inputs\": {\n      \"backgroundColor\": \"#FFFFFF\",\n      \"color\": \"#000000\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"width\": \"2px\",\n        \"radius\": \"2px\",\n        \"color\": \"#FFF\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"placeholder\": {\n        \"color\": \"#001\"\n      },\n      \"validation\": {\n        \"ok\": {\n          \"color\": \"#00F\"\n        },\n        \"error\": {\n          \"color\": \"#F00\"\n        }\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#FF0000\",\n        \"color\": \"#7F0000\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#AAAAAA\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#00CC00\"\n          },\n          \"error\": {\n            \"color\": \"#CC0000\"\n          }\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#0240FF\",\n        \"color\": \"#001F7F\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#BBBBBB\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#009900\"\n          },\n          \"error\": {\n            \"color\": \"#990000\"\n          }\n        }\n      }\n    },\n    \"fonts\": {\n      \"family\": [\n        \"Comic Sans MS\"\n      ]\n    }\n  },\n  \"hostedProperties\": {\n    \"showBillingAddress\": \"EDIT\",\n    \"showShippingAddress\": \"HIDE\",\n    \"showCountryList\": \"false\",\n    \"showLanguageList\": \"false\",\n    \"showContactDetails\": \"HIDE\",\n    \"sendURLParameters\": \"true\",\n    \"showPoweredByWorldPay\": \"true\",\n    \"showCancelButton\": \"true\",\n    \"showChangePaymentMethodButton\": \"false\",\n    \"disableStrictUrls\": \"true\",\n    \"showHeader\": \"true\",\n    \"showFooter\": \"true\",\n    \"showCardIcons\": \"false\",\n    \"paymentButtonLabel\": \"makePayment\",\n    \"showCardholderName\": \"true\",\n    \"showPaymentDetailsHeader\": \"true\",\n    \"passBackErrorReasons\": \"true\",\n    \"maskCardDetails\": \"false\",\n    \"googlePayButtonColour\": \"black\",\n    \"googlePayButtonLabel\": \"long\",\n    \"applePayButtonType\": \"plain\",\n    \"applePayButtonStyle\": \"black\"\n  },\n  \"settlement\": {\n    \"auto\": true,\n    \"cancelOn\": {\n      \"cvcNotMatched\": \"disabled\"\n    }\n  },\n  \"expiry\": \"600\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"invalidRequest\",\n  \"message\": \"Invalid request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bd5c81a-b2c2-46ba-8a4c-2ae057acbc93",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payment_pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Used to identify individual requests made to our API.",
+                    "key": "WP-CorrelationId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The name of the client calling the API.",
+                    "key": "User-Agent",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"MyTransaction123\",\n  \"merchant\": {\n    \"entity\": \"POxxxxxxxxx\"\n  },\n  \"narrative\": {\n    \"line1\": \"line1\"\n  },\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 123\n  },\n  \"description\": \"Mind Palace Ltd\",\n  \"billingAddressName\": \"Sherlock Holmes\",\n  \"billingAddress\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Watson\",\n    \"address1\": \"221B Baker Street\",\n    \"address2\": \"Marylebone\",\n    \"address3\": \"Westminster\",\n    \"postalCode\": \"NW1 6XE\",\n    \"city\": \"London\",\n    \"state\": \"Greater London\",\n    \"countryCode\": \"GB\"\n  },\n  \"resultURLs\": {\n    \"successURL\": \"https://mindpalace-website/result/success\",\n    \"pendingURL\": \"https://mindpalace-website/result/pending\",\n    \"failureURL\": \"https://mindpalace-website/result/failure\",\n    \"errorURL\": \"https://mindpalace-website/result/error\",\n    \"cancelURL\": \"https://mindpalace-website/result/cancel\",\n    \"expiryURL\": \"https://mindpalace-website/result/expiry\"\n  },\n  \"riskData\": {\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"city\": \"Durham\",\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"DH1 3LE\",\n        \"phoneNumber\": 1189998819999197200\n      },\n      \"method\": \"verifiedAddress\",\n      \"nameMatchesAccountName\": false,\n      \"email\": \"james.moriarty@example.com\",\n      \"timeFrame\": \"nextDay\"\n    },\n    \"custom\": {\n      \"string1\": \"foo\",\n      \"number1\": \"1\",\n      \"string2\": \"foo\",\n      \"number2\": \"1\",\n      \"string3\": \"foo\",\n      \"number3\": \"1\",\n      \"string4\": \"foo\",\n      \"number4\": \"1\",\n      \"string5\": \"foo\",\n      \"number5\": \"1\",\n      \"string6\": \"foo\",\n      \"number6\": \"1\",\n      \"string7\": \"foo\",\n      \"number7\": \"1\",\n      \"string8\": \"foo\",\n      \"number8\": \"1\",\n      \"string9\": \"foo\",\n      \"number9\": \"1\"\n    },\n    \"account\": {\n      \"shopperId\": \"1234\",\n      \"dateOfBirth\": \"1835-04-01\",\n      \"history\": {\n        \"createdAt\": \"1876-06-01\",\n        \"modifiedAt\": \"1876-08-13\",\n        \"paymentAccountEnrolledAt\": \"1876-06-01\",\n        \"passwordModifiedAt\": \"1876-06-01\"\n      },\n      \"type\": \"fidoAuthenticator\",\n      \"previousSuspiciousActivity\": false,\n      \"email\": \"sherlock.holmes@example.com\"\n    },\n    \"transaction\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"phoneNumber\": 1189998819999197200,\n      \"preOrderDate\": \"1876-08-13\",\n      \"reorder\": false,\n      \"history\": {\n        \"attemptsLastYear\": 3,\n        \"completedLastSixMonths\": 4,\n        \"attemptsLastDay\": 2,\n        \"shippingAddressFirstUsedAt\": \"1876-06-01\",\n        \"addCardsLastDay\": 1\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"amount\": 10000,\n          \"currency\": \"GBP\"\n        },\n        \"quantity\": 1\n      }\n    }\n  },\n  \"hostedCustomization\": {\n    \"backgroundColor\": \"#FFFFFF\",\n    \"color\": \"#000000\",\n    \"page\": {\n      \"backgroundColor\": \"#333333\",\n      \"color\": \"#FFFFFF\",\n      \"border\": {\n        \"color\": \"#CCCCCC\",\n        \"width\": \"1px\",\n        \"style\": \"solid\",\n        \"radius\": \"4px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      }\n    },\n    \"buttons\": {\n      \"backgroundColor\": \"#FF0\",\n      \"color\": \"#333333\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"color\": \"#0FF\",\n        \"width\": \"3px\",\n        \"radius\": \"0px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#DDF\",\n        \"color\": \"#111111\",\n        \"border\": {\n          \"color\": \"#BBBBBB\",\n          \"width\": \"2px\",\n          \"style\": \"dotted\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#DFD\",\n        \"color\": \"#222222\",\n        \"border\": {\n          \"color\": \"#CCCCCC\",\n          \"width\": \"2px\",\n          \"style\": \"solid\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      }\n    },\n    \"inputs\": {\n      \"backgroundColor\": \"#FFFFFF\",\n      \"color\": \"#000000\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"width\": \"2px\",\n        \"radius\": \"2px\",\n        \"color\": \"#FFF\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"placeholder\": {\n        \"color\": \"#001\"\n      },\n      \"validation\": {\n        \"ok\": {\n          \"color\": \"#00F\"\n        },\n        \"error\": {\n          \"color\": \"#F00\"\n        }\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#FF0000\",\n        \"color\": \"#7F0000\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#AAAAAA\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#00CC00\"\n          },\n          \"error\": {\n            \"color\": \"#CC0000\"\n          }\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#0240FF\",\n        \"color\": \"#001F7F\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#BBBBBB\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#009900\"\n          },\n          \"error\": {\n            \"color\": \"#990000\"\n          }\n        }\n      }\n    },\n    \"fonts\": {\n      \"family\": [\n        \"Comic Sans MS\"\n      ]\n    }\n  },\n  \"hostedProperties\": {\n    \"showBillingAddress\": \"EDIT\",\n    \"showShippingAddress\": \"HIDE\",\n    \"showCountryList\": \"false\",\n    \"showLanguageList\": \"false\",\n    \"showContactDetails\": \"HIDE\",\n    \"sendURLParameters\": \"true\",\n    \"showPoweredByWorldPay\": \"true\",\n    \"showCancelButton\": \"true\",\n    \"showChangePaymentMethodButton\": \"false\",\n    \"disableStrictUrls\": \"true\",\n    \"showHeader\": \"true\",\n    \"showFooter\": \"true\",\n    \"showCardIcons\": \"false\",\n    \"paymentButtonLabel\": \"makePayment\",\n    \"showCardholderName\": \"true\",\n    \"showPaymentDetailsHeader\": \"true\",\n    \"passBackErrorReasons\": \"true\",\n    \"maskCardDetails\": \"false\",\n    \"googlePayButtonColour\": \"black\",\n    \"googlePayButtonLabel\": \"long\",\n    \"applePayButtonType\": \"plain\",\n    \"applePayButtonStyle\": \"black\"\n  },\n  \"settlement\": {\n    \"auto\": true,\n    \"cancelOn\": {\n      \"cvcNotMatched\": \"disabled\"\n    }\n  },\n  \"expiry\": \"600\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid authentication\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03c98deb-5139-402f-9eb8-e98674e9fc92",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payment_pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Used to identify individual requests made to our API.",
+                    "key": "WP-CorrelationId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The name of the client calling the API.",
+                    "key": "User-Agent",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"MyTransaction123\",\n  \"merchant\": {\n    \"entity\": \"POxxxxxxxxx\"\n  },\n  \"narrative\": {\n    \"line1\": \"line1\"\n  },\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 123\n  },\n  \"description\": \"Mind Palace Ltd\",\n  \"billingAddressName\": \"Sherlock Holmes\",\n  \"billingAddress\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Watson\",\n    \"address1\": \"221B Baker Street\",\n    \"address2\": \"Marylebone\",\n    \"address3\": \"Westminster\",\n    \"postalCode\": \"NW1 6XE\",\n    \"city\": \"London\",\n    \"state\": \"Greater London\",\n    \"countryCode\": \"GB\"\n  },\n  \"resultURLs\": {\n    \"successURL\": \"https://mindpalace-website/result/success\",\n    \"pendingURL\": \"https://mindpalace-website/result/pending\",\n    \"failureURL\": \"https://mindpalace-website/result/failure\",\n    \"errorURL\": \"https://mindpalace-website/result/error\",\n    \"cancelURL\": \"https://mindpalace-website/result/cancel\",\n    \"expiryURL\": \"https://mindpalace-website/result/expiry\"\n  },\n  \"riskData\": {\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"city\": \"Durham\",\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"postalCode\": \"DH1 3LE\",\n        \"phoneNumber\": 1189998819999197200\n      },\n      \"method\": \"verifiedAddress\",\n      \"nameMatchesAccountName\": false,\n      \"email\": \"james.moriarty@example.com\",\n      \"timeFrame\": \"nextDay\"\n    },\n    \"custom\": {\n      \"string1\": \"foo\",\n      \"number1\": \"1\",\n      \"string2\": \"foo\",\n      \"number2\": \"1\",\n      \"string3\": \"foo\",\n      \"number3\": \"1\",\n      \"string4\": \"foo\",\n      \"number4\": \"1\",\n      \"string5\": \"foo\",\n      \"number5\": \"1\",\n      \"string6\": \"foo\",\n      \"number6\": \"1\",\n      \"string7\": \"foo\",\n      \"number7\": \"1\",\n      \"string8\": \"foo\",\n      \"number8\": \"1\",\n      \"string9\": \"foo\",\n      \"number9\": \"1\"\n    },\n    \"account\": {\n      \"shopperId\": \"1234\",\n      \"dateOfBirth\": \"1835-04-01\",\n      \"history\": {\n        \"createdAt\": \"1876-06-01\",\n        \"modifiedAt\": \"1876-08-13\",\n        \"paymentAccountEnrolledAt\": \"1876-06-01\",\n        \"passwordModifiedAt\": \"1876-06-01\"\n      },\n      \"type\": \"fidoAuthenticator\",\n      \"previousSuspiciousActivity\": false,\n      \"email\": \"sherlock.holmes@example.com\"\n    },\n    \"transaction\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"phoneNumber\": 1189998819999197200,\n      \"preOrderDate\": \"1876-08-13\",\n      \"reorder\": false,\n      \"history\": {\n        \"attemptsLastYear\": 3,\n        \"completedLastSixMonths\": 4,\n        \"attemptsLastDay\": 2,\n        \"shippingAddressFirstUsedAt\": \"1876-06-01\",\n        \"addCardsLastDay\": 1\n      },\n      \"giftCardsPurchase\": {\n        \"totalValue\": {\n          \"amount\": 10000,\n          \"currency\": \"GBP\"\n        },\n        \"quantity\": 1\n      }\n    }\n  },\n  \"hostedCustomization\": {\n    \"backgroundColor\": \"#FFFFFF\",\n    \"color\": \"#000000\",\n    \"page\": {\n      \"backgroundColor\": \"#333333\",\n      \"color\": \"#FFFFFF\",\n      \"border\": {\n        \"color\": \"#CCCCCC\",\n        \"width\": \"1px\",\n        \"style\": \"solid\",\n        \"radius\": \"4px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      }\n    },\n    \"buttons\": {\n      \"backgroundColor\": \"#FF0\",\n      \"color\": \"#333333\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"color\": \"#0FF\",\n        \"width\": \"3px\",\n        \"radius\": \"0px\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#DDF\",\n        \"color\": \"#111111\",\n        \"border\": {\n          \"color\": \"#BBBBBB\",\n          \"width\": \"2px\",\n          \"style\": \"dotted\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#DFD\",\n        \"color\": \"#222222\",\n        \"border\": {\n          \"color\": \"#CCCCCC\",\n          \"width\": \"2px\",\n          \"style\": \"solid\",\n          \"radius\": \"0px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        }\n      }\n    },\n    \"inputs\": {\n      \"backgroundColor\": \"#FFFFFF\",\n      \"color\": \"#000000\",\n      \"border\": {\n        \"style\": \"solid\",\n        \"width\": \"2px\",\n        \"radius\": \"2px\",\n        \"color\": \"#FFF\"\n      },\n      \"fonts\": {\n        \"family\": [\n          \"Comic Sans MS\"\n        ]\n      },\n      \"placeholder\": {\n        \"color\": \"#001\"\n      },\n      \"validation\": {\n        \"ok\": {\n          \"color\": \"#00F\"\n        },\n        \"error\": {\n          \"color\": \"#F00\"\n        }\n      },\n      \"hover\": {\n        \"backgroundColor\": \"#FF0000\",\n        \"color\": \"#7F0000\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#AAAAAA\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#00CC00\"\n          },\n          \"error\": {\n            \"color\": \"#CC0000\"\n          }\n        }\n      },\n      \"focus\": {\n        \"backgroundColor\": \"#0240FF\",\n        \"color\": \"#001F7F\",\n        \"border\": {\n          \"color\": \"#0FF\",\n          \"width\": \"1px\",\n          \"style\": \"solid\",\n          \"radius\": \"2px\"\n        },\n        \"fonts\": {\n          \"family\": [\n            \"Comic Sans MS\"\n          ]\n        },\n        \"placeholder\": {\n          \"color\": \"#BBBBBB\"\n        },\n        \"validation\": {\n          \"ok\": {\n            \"color\": \"#009900\"\n          },\n          \"error\": {\n            \"color\": \"#990000\"\n          }\n        }\n      }\n    },\n    \"fonts\": {\n      \"family\": [\n        \"Comic Sans MS\"\n      ]\n    }\n  },\n  \"hostedProperties\": {\n    \"showBillingAddress\": \"EDIT\",\n    \"showShippingAddress\": \"HIDE\",\n    \"showCountryList\": \"false\",\n    \"showLanguageList\": \"false\",\n    \"showContactDetails\": \"HIDE\",\n    \"sendURLParameters\": \"true\",\n    \"showPoweredByWorldPay\": \"true\",\n    \"showCancelButton\": \"true\",\n    \"showChangePaymentMethodButton\": \"false\",\n    \"disableStrictUrls\": \"true\",\n    \"showHeader\": \"true\",\n    \"showFooter\": \"true\",\n    \"showCardIcons\": \"false\",\n    \"paymentButtonLabel\": \"makePayment\",\n    \"showCardholderName\": \"true\",\n    \"showPaymentDetailsHeader\": \"true\",\n    \"passBackErrorReasons\": \"true\",\n    \"maskCardDetails\": \"false\",\n    \"googlePayButtonColour\": \"black\",\n    \"googlePayButtonLabel\": \"long\",\n    \"applePayButtonType\": \"plain\",\n    \"applePayButtonStyle\": \"black\"\n  },\n  \"settlement\": {\n    \"auto\": true,\n    \"cancelOn\": {\n      \"cvcNotMatched\": \"disabled\"\n    }\n  },\n  \"expiry\": \"600\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.payment_pages-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"An internal problem occurred with your request, please try again.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f406fa02-6fc0-41c3-a40a-7569e354ad01",
+    "name": "3DS 3DS actions Payment Pages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

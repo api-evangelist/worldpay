@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Network token API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Network token",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request provisioning for a network token and returns a reference for use later",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/tokens/network",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request to provision a network token.\n\n"
+        },
+        {
+          "info": {
+            "name": "Get the actual network token using the network token reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/tokens/network/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Access Worldpay tokenReference"
+              }
+            ]
+          },
+          "docs": "Retrieve the detail for this network token."
+        },
+        {
+          "info": {
+            "name": "Delete a network token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://try.access.worldpay.com/tokens/network/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Access Worldpay token number."
+              }
+            ]
+          },
+          "docs": "Deleting a network token based on a token number."
+        },
+        {
+          "info": {
+            "name": "Provision a cryptogram for short time use based on a network token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/tokens/network/cryptograms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "TBD.\n\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

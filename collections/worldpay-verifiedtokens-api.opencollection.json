@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions VerifiedTokens API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "VerifiedTokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Verified Tokens cardOnFile resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/verifiedTokens/cardOnFile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a verified cardOnFile token by sending a request to cardOnFile resource. A cardOnFile verified token allows you to take payments that are made by the customer using a stored verified token, such as in one-click or in-app purchases.\n\n"
+        },
+        {
+          "info": {
+            "name": "Verified Tokens oneTime resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/verifiedTokens/oneTime",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a verified oneTime token by sending a request to oneTime resource. A oneTime verified token allows you to take payments that are made by the customer using a stored verified token, such as in one-click or in-app purchases.\n\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

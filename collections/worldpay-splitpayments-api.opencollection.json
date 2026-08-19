@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions SplitPayments API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SplitPayments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create split payments request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/splitPayments",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-06-25"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a request allowing you to split your payment."
+        },
+        {
+          "info": {
+            "name": "Fully settle/refund a payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/splitPayments/:splitPaymentId/fulfillments",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-06-25"
+              }
+            ],
+            "params": [
+              {
+                "name": "splitPaymentId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the split payment."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirm a settlement/refund of all line items within a split payment."
+        },
+        {
+          "info": {
+            "name": "Partially settle/refund a payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/splitPayments/:splitPaymentId/items/:itemId/fulfillments",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-06-25"
+              }
+            ],
+            "params": [
+              {
+                "name": "splitPaymentId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the split payment."
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the line item listed in a split payment request."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirm a settlement/refund of individual line items within a payment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

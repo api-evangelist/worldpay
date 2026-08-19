@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "3DS actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Supply 3DS device data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/3dsDeviceData",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gather additional device data"
+        },
+        {
+          "info": {
+            "name": "Continue with the payment after a 3DS challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/api/payments/:linkData/3dsChallenges",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2024-06-01"
+              }
+            ],
+            "params": [
+              {
+                "name": "linkData",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Verify authentication challenge"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

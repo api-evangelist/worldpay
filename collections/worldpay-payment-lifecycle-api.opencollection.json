@@ -1,0 +1,196 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Payment lifecycle API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment lifecycle",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the last event for an APM payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/apmPayments/:paymentId",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "paymentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the payment resource."
+              }
+            ]
+          },
+          "docs": "Lookup the state of a payment, including the available action that can be performed."
+        },
+        {
+          "info": {
+            "name": "Confirm payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/apmPayments/:paymentId/confirmations",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "paymentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the payment resource."
+              }
+            ]
+          },
+          "docs": "Create a confirm payment request for smart button functionality."
+        },
+        {
+          "info": {
+            "name": "Reverse an APM payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/apmPayments/:paymentId/reversals",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "paymentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the payment resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Perform a reversal on the funds taken from a sale."
+        },
+        {
+          "info": {
+            "name": "Partial reverse an APM payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/apmPayments/:paymentId/partialReversals",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "paymentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the payment resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Perform a partial reversal on the funds taken from a sale."
+        },
+        {
+          "info": {
+            "name": "Settle an APM payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/apmPayments/:paymentId/settlements",
+            "params": [
+              {
+                "name": "paymentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Settle an APM payment"
+        },
+        {
+          "info": {
+            "name": "Partial settle an APM payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/apmPayments/:paymentId/partialSettlements",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "WP-Api-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "paymentId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the payment resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Perform a settlement on authorized funds. Not all APMs support this, please check the links returned from querying a payment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

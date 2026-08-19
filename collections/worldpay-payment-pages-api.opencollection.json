@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Payment Pages API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Pages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/payment_pages",
+            "headers": [
+              {
+                "name": "WP-CorrelationId",
+                "value": ""
+              },
+              {
+                "name": "User-Agent",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new transaction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

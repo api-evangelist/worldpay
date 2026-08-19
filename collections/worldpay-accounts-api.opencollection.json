@@ -1,0 +1,263 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Accounts API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get account details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/accounts/:accountNumber",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              },
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "accountNumber",
+                "value": "",
+                "type": "path",
+                "description": "The account number."
+              }
+            ]
+          },
+          "docs": "Retrieve the details of one specific account."
+        },
+        {
+          "info": {
+            "name": "Get details for all your accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/accounts",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              },
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Unique ID given during the on-boarding process."
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account."
+              },
+              {
+                "name": "partyReference",
+                "value": "",
+                "type": "query",
+                "description": "Your reference for this party, must be unique within an entity. Allowed values string 3 to 64 characters a-z, A-Z, 0-9, spaces and hyphens."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Get accounts on the bases of account status. "
+              },
+              {
+                "name": "pageNumber",
+                "value": "",
+                "type": "query",
+                "description": "Positive whole number indicating which page of the account to return."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Positive whole number indicating the number of account to return in each page."
+              }
+            ]
+          },
+          "docs": "Retrieve account details for all your accounts."
+        },
+        {
+          "info": {
+            "name": "Query account statement items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/accounts/statements",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              },
+              {
+                "name": "WP-CallerId",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "An ISO 8601 date-time string. From date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "An ISO 8601 date-time string. To date and time. Timespan between 'startDate' and 'endDate' shouldn't exceed 31 days. This should not be a date in the future."
+              },
+              {
+                "name": "accountNumber",
+                "value": "",
+                "type": "query",
+                "description": "The account number. You must use this if you are an Account Payout customer. You can use this for a Marketplaces flow.\n{% admonition type=\"warning\" %}\n`accountNumber` or `partyReference` must be provided. <br><br>\n{% /admonition %}\n<br>  "
+              },
+              {
+                "name": "partyReference",
+                "value": "",
+                "type": "query",
+                "description": "Your reference for this party, must be unique within an entity. Typically used for a Marketplaces flow and used to retrieve information about your onboarded party. Allowed values: a-z, A-Z, 0-9, spaces and hyphens.\n{% admonition type=\"warning\" %}\n`accountNumber` or `partyReference` must be provided. <br><br>\nIf `partyReference` is provided you must also include `entity` and `currency`.\n{% /admonition %}\n<br>  "
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Used to route the request in Access Worldpay, created as part of on-boarding."
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes) for the account associated with the party."
+              },
+              {
+                "name": "pageNumber",
+                "value": "",
+                "type": "query",
+                "description": "The page number of the results. Default is 1 if no value is provided. This value specifies the exact page of each list of statements that you want to retrieve."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Exact number of records per page to be shown. Max 500 items/rows. Value must be between 1-500. Default is 500 if no value is provided."
+              },
+              {
+                "name": "fundingType",
+                "value": "",
+                "type": "query",
+                "description": "Credit or debit operation. Value can be credit or debit. If no value is passed, the statement includes both credits and debits."
+              },
+              {
+                "name": "transferType",
+                "value": "",
+                "type": "query",
+                "description": "Type of the transaction used to filter out statement entries. Alphanumeric only. Special characters are restricted."
+              },
+              {
+                "name": "countryCode",
+                "value": "",
+                "type": "query",
+                "description": "The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes) of the transaction."
+              },
+              {
+                "name": "amount",
+                "value": "",
+                "type": "query",
+                "description": "The transaction amount."
+              },
+              {
+                "name": "transactionReference",
+                "value": "",
+                "type": "query",
+                "description": "Your unique reference for the payment request. This can be a \"like\" search (exact or partial match). Special characters are allowed. For the list, please see our [formatting guide](/products/reference/formatting.md)."
+              }
+            ]
+          },
+          "docs": "Query account statement items"
+        },
+        {
+          "info": {
+            "name": "Transfer funds between your accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/accounts/transfer",
+            "headers": [
+              {
+                "name": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "name": "WP-CorrelationId",
+                "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+              },
+              {
+                "name": "WP-CallerId",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Transfer funds between your accounts."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

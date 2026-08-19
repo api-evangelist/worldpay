@@ -1,0 +1,780 @@
+{
+  "item": [
+    {
+      "id": "2308da61-2c0d-4d05-b6d1-15f654eb0d62",
+      "name": "Update",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc5edfa4-4c30-4cb7-9845-6642ff2d9a40",
+          "name": "Provide details of the payment outcome",
+          "request": {
+            "name": "Provide details of the payment outcome",
+            "description": {
+              "content": "Provide payment outcome information.\n\n__Note:__ This should only be provided if using a different gateway for the payment.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fraudsight",
+                "update",
+                "payment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"riskProfile\": \"<uri>\",\n  \"paymentOutcome\": \"<string>\",\n  \"refusalCode\": \"<string>\",\n  \"refusalDescription\": \"<string>\",\n  \"cvcResult\": \"<string>\",\n  \"avsResult\": {\n    \"address\": \"<string>\",\n    \"postcode\": \"<string>\"\n  },\n  \"authentication\": {\n    \"version\": \"<string>\",\n    \"eci\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "95cad852-1adc-4e38-8a00-01ca0b02e8af",
+              "name": "Successful update with payment information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "payment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"paymentOutcome\": \"authorized\",\n  \"cvcResult\": \"matched\",\n  \"avsResult\": {\n    \"address\": \"matched\",\n    \"postcode\": \"matched\"\n  },\n  \"authentication\": {\n    \"version\": \"2.1.0\",\n    \"eci\": \"05\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04e34e00-0763-4d70-a57d-50a4ad04b134",
+              "name": "Update payment request contains invalid values",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "payment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"paymentOutcome\": \"authorized\",\n  \"cvcResult\": \"matched\",\n  \"avsResult\": {\n    \"address\": \"matched\",\n    \"postcode\": \"matched\"\n  },\n  \"authentication\": {\n    \"version\": \"2.1.0\",\n    \"eci\": \"05\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"message\": \"Authentication eci must be 2 characters long\",\n      \"jsonPath\": \"$.authentication.eci\"\n    },\n    {\n      \"errorName\": \"fieldHasInvalidValue\",\n      \"message\": \"Authentication eci must be a valid string\",\n      \"jsonPath\": \"$.authentication.eci\"\n    }\n  ],\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e469d0d1-f127-414e-9e35-1b244bf0ec9d",
+              "name": "Update payment request is unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "payment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"paymentOutcome\": \"authorized\",\n  \"cvcResult\": \"matched\",\n  \"avsResult\": {\n    \"address\": \"matched\",\n    \"postcode\": \"matched\"\n  },\n  \"authentication\": {\n    \"version\": \"2.1.0\",\n    \"eci\": \"05\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unAuthorized\",\n  \"message\": \"Invalid access token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "266227b6-9b21-466e-bfc6-84c0cdb92791",
+          "name": "Provide details of a payment that resulted in fraud",
+          "request": {
+            "name": "Provide details of a payment that resulted in fraud",
+            "description": {
+              "content": "Provide payment fraud information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fraudsight",
+                "update",
+                "fraud"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"riskProfile\": \"<uri>\",\n  \"source\": \"<string>\",\n  \"sourceDate\": \"<dateTime>\",\n  \"acquirerReference\": \"<string>\",\n  \"fraudReasonCode\": \"<string>\",\n  \"value\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f9308146-91db-47f4-b876-4ff78ddcbc40",
+              "name": "Successful update with fraud information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"source\": \"TC40\",\n  \"sourceDate\": \"2020-12-27T00:00:00Z\",\n  \"acquirerReference\": 2.6917803449100235e+21,\n  \"fraudReasonCode\": \"5\",\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 250\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f51e6f6-4fa3-4be7-b766-8f55d42013e6",
+              "name": "Update fraud request contains invalid values",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"source\": \"TC40\",\n  \"sourceDate\": \"2020-12-27T00:00:00Z\",\n  \"acquirerReference\": 2.6917803449100235e+21,\n  \"fraudReasonCode\": \"5\",\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 250\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"message\": \"Acquirer reference must be between 1 and 128 characters inclusive\",\n      \"jsonPath\": \"$.acquirerReference\"\n    }\n  ],\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "935db0d3-5216-453a-be2b-fca6e9cfc673",
+              "name": "Update fraud request is unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "fraud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"source\": \"TC40\",\n  \"sourceDate\": \"2020-12-27T00:00:00Z\",\n  \"acquirerReference\": 2.6917803449100235e+21,\n  \"fraudReasonCode\": \"5\",\n  \"value\": {\n    \"currency\": \"GBP\",\n    \"amount\": 250\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unAuthorized\",\n  \"message\": \"Invalid access token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f446de8-fe69-4e7c-ac51-0a21fcadb2c0",
+          "name": "Provide details of a payment that resulted in a chargeback",
+          "request": {
+            "name": "Provide details of a payment that resulted in a chargeback",
+            "description": {
+              "content": "Provide payment chargeback information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fraudsight",
+                "update",
+                "chargeback"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"riskProfile\": \"<uri>\",\n  \"sourceDate\": \"<dateTime>\",\n  \"acquirerReference\": \"<string>\",\n  \"chargebackReasonCode\": \"<string>\",\n  \"chargebackCaseReference\": \"<string>\",\n  \"chargebackValue\": {\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4e580a82-645b-4572-88fe-3d5fc0cd95f9",
+              "name": "Successful update with chargeback information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "chargeback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"sourceDate\": \"2020-12-27T00:00:00Z\",\n  \"acquirerReference\": 2.6917803449100235e+21,\n  \"chargebackReasonCode\": \"31\",\n  \"chargebackCaseReference\": \"123456\",\n  \"chargebackValue\": {\n    \"currency\": \"GBP\",\n    \"amount\": 250\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab7d303f-3cf4-48e9-8b5b-f1aca968e410",
+              "name": "Update payment request contains invalid values",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "chargeback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"sourceDate\": \"2020-12-27T00:00:00Z\",\n  \"acquirerReference\": 2.6917803449100235e+21,\n  \"chargebackReasonCode\": \"31\",\n  \"chargebackCaseReference\": \"123456\",\n  \"chargebackValue\": {\n    \"currency\": \"GBP\",\n    \"amount\": 250\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"message\": \"Acquirer reference must be between 1 and 128 characters inclusive\",\n      \"jsonPath\": \"$.acquirerReference\"\n    }\n  ],\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e33b8970-02b4-450c-ae38-a6734866ff19",
+              "name": "Update chargeback request is unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "update",
+                    "chargeback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"riskProfile\": \"https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG\",\n  \"sourceDate\": \"2020-12-27T00:00:00Z\",\n  \"acquirerReference\": 2.6917803449100235e+21,\n  \"chargebackReasonCode\": \"31\",\n  \"chargebackCaseReference\": \"123456\",\n  \"chargebackValue\": {\n    \"currency\": \"GBP\",\n    \"amount\": 250\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unAuthorized\",\n  \"message\": \"Invalid access token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "40866579-f507-4093-bf67-1adc4c4703a0",
+    "name": "3DS 3DS actions Update API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

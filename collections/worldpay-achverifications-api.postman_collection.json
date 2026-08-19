@@ -1,0 +1,501 @@
+{
+  "item": [
+    {
+      "id": "d35f95df-d7e3-4d96-b165-94be90a18487",
+      "name": "AchVerifications",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bdc76dce-5b7e-4846-a727-8e320f417e0d",
+          "name": "ACH verification",
+          "request": {
+            "name": "ACH verification",
+            "description": {
+              "content": "Successful account verification outcome.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "achVerifications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.achVerifications-v6+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.achVerifications-v6+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"paymentInstrument\": {\n    \"type\": \"<string>\",\n    \"accountType\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"routingNumber\": \"<string>\",\n    \"billToAddress\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"address1\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"telephoneNumber\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"address3\": \"<string>\"\n    },\n    \"companyName\": \"<string>\"\n  },\n  \"transactionReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d2e1cea-321c-4f51-8a27-834152cc85a2",
+              "name": "The account verification has been successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "achVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"transactionReference\": \"1234567\",\n  \"paymentInstrument\": {\n    \"type\": \"bankAccountUS\",\n    \"accountType\": \"corporateSavings\",\n    \"accountNumber\": \"1234567890\",\n    \"routingNumber\": 11400495,\n    \"companyName\": \"companyName\",\n    \"billToAddress\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"address1\": \"address1\",\n      \"address2\": \"address2\",\n      \"address3\": \"address3\",\n      \"city\": \"city\",\n      \"region\": \"state\",\n      \"postalCode\": \"postalCode\",\n      \"countryCode\": \"US\",\n      \"telephoneNumber\": \"4085551212\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.achVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"verified\",\n  \"checkedAt\": \"2021-09-27T18:02:16.475Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fd21095-680a-4bde-819d-5cfd7fd66d1f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "achVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"transactionReference\": \"1234567\",\n  \"paymentInstrument\": {\n    \"type\": \"bankAccountUS\",\n    \"accountType\": \"corporateSavings\",\n    \"accountNumber\": \"1234567890\",\n    \"routingNumber\": 11400495,\n    \"companyName\": \"companyName\",\n    \"billToAddress\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"address1\": \"address1\",\n      \"address2\": \"address2\",\n      \"address3\": \"address3\",\n      \"city\": \"city\",\n      \"region\": \"state\",\n      \"postalCode\": \"postalCode\",\n      \"countryCode\": \"US\",\n      \"telephoneNumber\": \"4085551212\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"A JSON body matching the expected schema must be provided.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"Field at path is not allowed.\",\n      \"jsonPath\": \"$.transactionRef\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dca291b2-8334-4c09-a394-0591f8da6f5c",
+              "name": "Client is not authorized due to missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "achVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"transactionReference\": \"1234567\",\n  \"paymentInstrument\": {\n    \"type\": \"bankAccountUS\",\n    \"accountType\": \"corporateSavings\",\n    \"accountNumber\": \"1234567890\",\n    \"routingNumber\": 11400495,\n    \"companyName\": \"companyName\",\n    \"billToAddress\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"address1\": \"address1\",\n      \"address2\": \"address2\",\n      \"address3\": \"address3\",\n      \"city\": \"city\",\n      \"region\": \"state\",\n      \"postalCode\": \"postalCode\",\n      \"countryCode\": \"US\",\n      \"telephoneNumber\": \"4085551212\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied\",\n  \"headerName\": 4101.156272399133\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcf20cd3-7d73-4be0-8576-3c152a66925a",
+              "name": "Not Found - unable to locate requested record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "achVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"transactionReference\": \"1234567\",\n  \"paymentInstrument\": {\n    \"type\": \"bankAccountUS\",\n    \"accountType\": \"corporateSavings\",\n    \"accountNumber\": \"1234567890\",\n    \"routingNumber\": 11400495,\n    \"companyName\": \"companyName\",\n    \"billToAddress\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"address1\": \"address1\",\n      \"address2\": \"address2\",\n      \"address3\": \"address3\",\n      \"city\": \"city\",\n      \"region\": \"state\",\n      \"postalCode\": \"postalCode\",\n      \"countryCode\": \"US\",\n      \"telephoneNumber\": \"4085551212\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.cardVerifications-v6+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"resourceNotFound\",\n  \"message\": \"Unable to verify the historic outcome from the data provided\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95132269-c0fc-4f41-8c3f-679df8d43367",
+              "name": "Invalid content-type HTTP header",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "achVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"transactionReference\": \"1234567\",\n  \"paymentInstrument\": {\n    \"type\": \"bankAccountUS\",\n    \"accountType\": \"corporateSavings\",\n    \"accountNumber\": \"1234567890\",\n    \"routingNumber\": 11400495,\n    \"companyName\": \"companyName\",\n    \"billToAddress\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"address1\": \"address1\",\n      \"address2\": \"address2\",\n      \"address3\": \"address3\",\n      \"city\": \"city\",\n      \"region\": \"state\",\n      \"postalCode\": \"postalCode\",\n      \"countryCode\": \"US\",\n      \"telephoneNumber\": \"4085551212\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd9fbb24-cd95-48ce-8bee-534e41d47643",
+              "name": "An error occurred processing the request on our side.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "achVerifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.achVerifications-v6+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"transactionReference\": \"1234567\",\n  \"paymentInstrument\": {\n    \"type\": \"bankAccountUS\",\n    \"accountType\": \"corporateSavings\",\n    \"accountNumber\": \"1234567890\",\n    \"routingNumber\": 11400495,\n    \"companyName\": \"companyName\",\n    \"billToAddress\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"address1\": \"address1\",\n      \"address2\": \"address2\",\n      \"address3\": \"address3\",\n      \"city\": \"city\",\n      \"region\": \"state\",\n      \"postalCode\": \"postalCode\",\n      \"countryCode\": \"US\",\n      \"telephoneNumber\": \"4085551212\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Generated identifier for the request and response. When contacting support please include this.",
+                  "key": "WP-CorrelationId",
+                  "value": "4c195ce9-3dbd-4bc8-9c94-3d3393842323"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalServerError\",\n  \"message\": \"An internal server error occurred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0aa04f92-8be8-4b98-83ea-c23f2567aa91",
+    "name": "3DS 3DS actions AchVerifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

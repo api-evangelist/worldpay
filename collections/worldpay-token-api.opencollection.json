@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "3DS 3DS actions Token API",
+    "version": "3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Token",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://try.access.worldpay.com/tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creating a new token for the payment instrument."
+        },
+        {
+          "info": {
+            "name": "Retrieve the detail for this token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://try.access.worldpay.com/tokens/:tokenId",
+            "params": [
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "path",
+                "description": "Access Worldpay encrypted token."
+              }
+            ]
+          },
+          "docs": "A token representing a payment instrument."
+        },
+        {
+          "info": {
+            "name": "Update this token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://try.access.worldpay.com/tokens/:tokenId",
+            "params": [
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "path",
+                "description": "Access Worldpay encrypted token."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updating different fields represented by the token."
+        },
+        {
+          "info": {
+            "name": "Delete this token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://try.access.worldpay.com/tokens/:tokenId",
+            "params": [
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "path",
+                "description": "Access Worldpay encrypted token."
+              }
+            ]
+          },
+          "docs": "Deleting a token based on an encrypted tokenId."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

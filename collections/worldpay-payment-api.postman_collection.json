@@ -1,0 +1,564 @@
+{
+  "item": [
+    {
+      "id": "d1a1edc5-e307-409c-a626-169c91094801",
+      "name": "Payment",
+      "description": {
+        "content": "Take a payment",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0b77d666-546e-4e9e-ae87-d869e2d6b201",
+          "name": "Payment request",
+          "request": {
+            "name": "Payment request",
+            "description": {
+              "content": "Initiate payment",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The API version",
+                "key": "WP-Api-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instruction\": {\n    \"method\": \"<string>\",\n    \"narrative\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\"\n    },\n    \"paymentInstrument\": {\n      \"cardNumber\": \"<string>\",\n      \"expiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"type\": \"<string>\",\n      \"cardHolderName\": \"<string>\",\n      \"cvc\": \"<string>\",\n      \"billingAddress\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"countryCode\": \"<ISO 3166-1 alpha-2>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"state\": \"<string>\"\n      },\n      \"routing\": {\n        \"preferredCardBrand\": \"<string>\"\n      }\n    },\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\",\n      \"acceptPartialAmount\": \"<boolean>\"\n    },\n    \"tokenCreation\": {\n      \"type\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    \"debtRepayment\": \"<boolean>\",\n    \"fraud\": {\n      \"type\": \"fraudSight\",\n      \"silentMode\": false,\n      \"tmxSessionId\": \"<string>\",\n      \"custom\": {\n        \"number1\": \"<integer>\",\n        \"number2\": \"<integer>\",\n        \"number3\": \"<integer>\",\n        \"number4\": \"<integer>\",\n        \"number5\": \"<integer>\",\n        \"number6\": \"<integer>\",\n        \"number7\": \"<integer>\",\n        \"number8\": \"<integer>\",\n        \"number9\": \"<integer>\",\n        \"string1\": \"<string>\",\n        \"string2\": \"<string>\",\n        \"string3\": \"<string>\",\n        \"string4\": \"<string>\",\n        \"string5\": \"<string>\",\n        \"string6\": \"<string>\",\n        \"string7\": \"<string>\",\n        \"string8\": \"<string>\",\n        \"string9\": \"<string>\"\n      }\n    },\n    \"threeDS\": {\n      \"type\": \"<string>\",\n      \"version\": \"<string>\",\n      \"eci\": \"<string>\",\n      \"authenticationValue\": \"<string>\",\n      \"dsTransactionId\": \"<RFC 4122 UUID>\",\n      \"cryptogramAlgorithm\": \"<string>\",\n      \"challengePreference\": \"<string>\",\n      \"authenticationFlow\": \"<string>\",\n      \"networkScore\": \"<string>\",\n      \"brand\": \"<string>\"\n    },\n    \"exemption\": {\n      \"capability\": \"<string>\",\n      \"mode\": \"<string>\",\n      \"type\": \"<string>\",\n      \"request\": {\n        \"placement\": \"optimized\",\n        \"type\": \"optimized\"\n      }\n    },\n    \"settlement\": {\n      \"auto\": \"<boolean>\",\n      \"cancelOn\": {\n        \"cvcNotMatched\": \"<string>\",\n        \"avsNotMatched\": \"<string>\"\n      }\n    },\n    \"customer\": {\n      \"customerId\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"phone\": \"<string>\",\n      \"dateOfBirth\": \"<date>\",\n      \"email\": \"<string>\",\n      \"ipAddress\": \"<string>\",\n      \"documentReference\": \"<string>\"\n    },\n    \"shipping\": {\n      \"method\": \"<string>\",\n      \"timeFrame\": \"<string>\",\n      \"email\": \"<string>\",\n      \"phone\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"countryCode\": \"<ISO 3166-1 alpha-2>\",\n        \"postalCode\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"state\": \"<string>\"\n      }\n    },\n    \"customerAgreement\": {\n      \"storedCardUsage\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    \"recipient\": {\n      \"accountReference\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"address\": {\n        \"postalCode\": \"<string>\"\n      },\n      \"dateOfBirth\": \"<date>\"\n    },\n    \"consumerBillPayment\": \"<boolean>\",\n    \"fundsTransfer\": {\n      \"type\": \"<string>\",\n      \"purpose\": \"<string>\",\n      \"recipient\": {\n        \"account\": {\n          \"type\": \"<string>\"\n        },\n        \"firstName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"address\": {\n          \"countryCode\": \"<ISO 3166-1 alpha-2>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"dateOfBirth\": \"<date>\",\n        \"phoneNumber\": \"<string>\",\n        \"documentReference\": \"<string>\"\n      },\n      \"sender\": {\n        \"firstName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"address\": {\n          \"countryCode\": \"<ISO 3166-1 alpha-2>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"dateOfBirth\": \"<date>\",\n        \"documentReference\": \"<string>\"\n      }\n    }\n  },\n  \"merchant\": {\n    \"entity\": \"<string>\",\n    \"mcc\": \"<string>\",\n    \"paymentFacilitator\": {\n      \"schemeId\": \"<string>\",\n      \"subMerchant\": {\n        \"address\": {\n          \"city\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"street\": \"<string>\",\n          \"state\": \"<string>\"\n        },\n        \"name\": \"<string>\",\n        \"reference\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"taxReference\": \"<string>\",\n        \"email\": \"<string>\",\n        \"url\": \"<string>\"\n      },\n      \"independentSalesOrganizationId\": \"<string>\"\n    }\n  },\n  \"transactionReference\": \"<string>\",\n  \"orderReference\": \"<string>\",\n  \"channel\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "beef1257-b0db-411b-87b1-0f28eeef3fde",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"authorized\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"schemeReference\": \"060720116005060\",\n  \"issuer\": {\n    \"authorizationCode\": \"675725\"\n  },\n  \"riskFactors\": [\n    {\n      \"risk\": \"notChecked\",\n      \"type\": \"cvc\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\",\n      \"type\": \"avs\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\",\n      \"type\": \"avs\"\n    }\n  ],\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"400000\",\n    \"lastFour\": \"1000\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"debit\",\n    \"category\": \"consumer\",\n    \"issuerName\": \"BANK LIMITED\",\n    \"paymentAccountReference\": \"3001DBT34Q41D6J7PFC5W0UACOT4C\"\n  },\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D\"\n    }\n  },\n  \"_actions\": {\n    \"cancelPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations\",\n      \"method\": \"POST\"\n    },\n    \"settlePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements\",\n      \"method\": \"POST\"\n    },\n    \"partiallySettlePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements\",\n      \"method\": \"POST\"\n    },\n    \"reversePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "500644b5-1de8-44d9-b636-eb26fd850ab5",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"sentForSettlement\",\n  \"paymentId\": \"payI-dUcet9fk4_X4qZU0hpU0\",\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"schemeReference\": \"060720116005060\",\n  \"issuer\": {\n    \"authorizationCode\": \"675725\"\n  },\n  \"riskFactors\": [\n    {\n      \"risk\": \"notChecked\",\n      \"type\": \"cvc\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"address\",\n      \"type\": \"avs\"\n    },\n    {\n      \"risk\": \"notChecked\",\n      \"detail\": \"postcode\",\n      \"type\": \"avs\"\n    }\n  ],\n  \"paymentInstrument\": {\n    \"type\": \"card/plain+masked\",\n    \"cardBin\": \"400000\",\n    \"lastFour\": \"1000\",\n    \"countryCode\": \"GB\",\n    \"expiryDate\": {\n      \"year\": 2035,\n      \"month\": 5\n    },\n    \"cardBrand\": \"mastercard\",\n    \"fundingType\": \"debit\",\n    \"category\": \"consumer\",\n    \"issuerName\": \"BANK LIMITED\",\n    \"paymentAccountReference\": \"3001DBT34Q41D6J7PFC5W0UACOT4C\"\n  },\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D\"\n    }\n  },\n  \"_actions\": {\n    \"refundPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds\",\n      \"method\": \"POST\"\n    },\n    \"partiallyRefundPayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmUCGmlXGGNqJmZcIdZa%3Aufi8N9Y8uwrkGtx1suHsSFnXn2PMsm%3AcRBXHzZt3giUlFW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ2hKYh1GAhFAwfPvBamw%3AisDwI2AuXQ9KT%3AMt9SY%3AfYERqcZ58SBNT3Gkwn1j%2Bkd7LZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds\",\n      \"method\": \"POST\"\n    },\n    \"reversePayment\": {\n      \"href\": \"https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements\",\n      \"method\": \"POST\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49a3e65c-8732-4cc6-940a-d5dbad1718d9",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"A JSON body matching the expected schema must be provided.\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"fieldIsNotAllowed\",\n      \"message\": \"Field at path is not allowed.\",\n      \"jsonPath\": \"$.instruction.paymentInstrument.narrative\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ce9a830-8a90-4208-9725-84b35867bb83",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"accessDenied\",\n  \"message\": \"Access to the requested resource has been denied.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70c515ea-71eb-405a-92aa-06c85b3c8545",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"endpointNotFound\",\n  \"message\": \"Requested endpoint was not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "543721c3-ca96-494e-b8ff-b753267e9743",
+              "name": "Not acceptable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerIsMissing\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a38869fb-34f6-4d42-8727-f5f79c2a347a",
+              "name": "Unsupported media type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"headerHasInvalidValue\",\n  \"message\": \"A valid header must be provided.\",\n  \"headerName\": \"Content-Type\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b558476-5e77-45e2-908b-c45c45ec7d89",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The API version",
+                    "key": "WP-Api-Version",
+                    "value": "2024-06-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"orderReference\": \"order-12345\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"method\": \"card\",\n    \"paymentInstrument\": {\n      \"type\": \"plain\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4000000000001091\",\n      \"expiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"SW1 1AA\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      },\n      \"cvc\": \"123\"\n    },\n    \"narrative\": {\n      \"line1\": \"trading name\"\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 42\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"internalErrorOccurred\",\n  \"message\": \"We cannot currently process your request. Please contact support.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "361151eb-2c77-4b95-8a15-2e2e5fe01b01",
+    "name": "3DS 3DS actions Payment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

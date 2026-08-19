@@ -1,0 +1,350 @@
+{
+  "item": [
+    {
+      "id": "b303ebc2-8d57-4b3e-9d1d-f53301a76c36",
+      "name": "Fraudsight",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c003588-1367-4ec4-a3f8-c8b7e8877835",
+          "name": "Fraud assessment",
+          "request": {
+            "name": "Fraud assessment",
+            "description": {
+              "content": "Request a risk assessment",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fraudsight",
+                "assessment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"amount\": \"<integer>\",\n      \"currency\": \"<string>\"\n    },\n    \"paymentInstrument\": {\n      \"type\": \"<card/front>\",\n      \"cardNumber\": \"<string>\",\n      \"cardExpiryDate\": {\n        \"month\": \"<integer>\",\n        \"year\": \"<integer>\"\n      },\n      \"billingAddress\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"state\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\"\n      },\n      \"cardHolderName\": \"<string>\"\n    }\n  },\n  \"exemption\": {\n    \"capability\": \"<string>\",\n    \"request\": {\n      \"placement\": \"optimized\",\n      \"type\": \"optimized\"\n    }\n  },\n  \"requestExemption\": \"<boolean>\",\n  \"doNotApplyExemption\": \"<boolean>\",\n  \"riskData\": {\n    \"account\": {\n      \"shopperId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"dateOfBirth\": \"<date>\"\n    },\n    \"transaction\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"phoneNumber\": \"<string>\"\n    },\n    \"shipping\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"state\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"address3\": \"<string>\",\n        \"phoneNumber\": \"<string>\"\n      }\n    },\n    \"custom\": {\n      \"number1\": \"<integer>\",\n      \"number2\": \"<integer>\",\n      \"number3\": \"<integer>\",\n      \"number4\": \"<integer>\",\n      \"number5\": \"<integer>\",\n      \"number6\": \"<integer>\",\n      \"number7\": \"<integer>\",\n      \"number8\": \"<integer>\",\n      \"number9\": \"<integer>\",\n      \"number10\": \"<integer>\",\n      \"string1\": \"<string>\",\n      \"string2\": \"<string>\",\n      \"string3\": \"<string>\",\n      \"string4\": \"<string>\",\n      \"string5\": \"<string>\",\n      \"string6\": \"<string>\",\n      \"string7\": \"<string>\",\n      \"string8\": \"<string>\",\n      \"string9\": \"<string>\",\n      \"string10\": \"<string>\"\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"<string>\",\n    \"ipAddress\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74d982a1-14b0-4001-aeab-085097ae4537",
+              "name": "The authentication has been created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\",\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1854-01-06\",\n      \"shopperId\": \"id123\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"02031234321\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    },\n    \"custom\": {\n      \"number1\": 1,\n      \"number2\": 2,\n      \"number3\": 3,\n      \"number4\": 4,\n      \"number5\": 5,\n      \"number6\": 6,\n      \"number7\": 7,\n      \"number8\": 8,\n      \"number9\": 9,\n      \"string1\": \"text1\",\n      \"string2\": \"text2\",\n      \"string3\": \"text3\",\n      \"string4\": \"text4\",\n      \"string5\": \"text5\",\n      \"string6\": \"text6\",\n      \"string7\": \"text7\",\n      \"string8\": \"text8\",\n      \"string9\": \"text9\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"outcome\": \"lowRisk\",\n  \"transactionReference\": \"123456\",\n  \"score\": 44.2,\n  \"riskProfile\": {\n    \"href\": \"https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "995e7f74-563a-4404-b8b0-61f7381e1b28",
+              "name": "Assessment request contains invalid values",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\",\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1854-01-06\",\n      \"shopperId\": \"id123\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"02031234321\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    },\n    \"custom\": {\n      \"number1\": 1,\n      \"number2\": 2,\n      \"number3\": 3,\n      \"number4\": 4,\n      \"number5\": 5,\n      \"number6\": 6,\n      \"number7\": 7,\n      \"number8\": 8,\n      \"number9\": 9,\n      \"string1\": \"text1\",\n      \"string2\": \"text2\",\n      \"string3\": \"text3\",\n      \"string4\": \"text4\",\n      \"string5\": \"text5\",\n      \"string6\": \"text6\",\n      \"string7\": \"text7\",\n      \"string8\": \"text8\",\n      \"string9\": \"text9\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"validationErrors\": [\n    {\n      \"errorName\": \"stringFailedRegexCheck\",\n      \"message\": \"Email must be a valid email address\",\n      \"jsonPath\": \"$.riskData.account.email\"\n    },\n    {\n      \"errorName\": \"stringIsTooShort\",\n      \"message\": \"Email must be between 3 and 254 characters inclusive\",\n      \"jsonPath\": \"$.riskData.account.email\"\n    }\n  ],\n  \"message\": \"The json body provided does not match the expected schema\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "68b25ac4-9b55-4007-8613-16b426f3d2be",
+              "name": "Assessment request is unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\",\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1854-01-06\",\n      \"shopperId\": \"id123\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"02031234321\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    },\n    \"custom\": {\n      \"number1\": 1,\n      \"number2\": 2,\n      \"number3\": 3,\n      \"number4\": 4,\n      \"number5\": 5,\n      \"number6\": 6,\n      \"number7\": 7,\n      \"number8\": 8,\n      \"number9\": 9,\n      \"string1\": \"text1\",\n      \"string2\": \"text2\",\n      \"string3\": \"text3\",\n      \"string4\": \"text4\",\n      \"string5\": \"text5\",\n      \"string6\": \"text6\",\n      \"string7\": \"text7\",\n      \"string8\": \"text8\",\n      \"string9\": \"text9\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unAuthorized\",\n  \"message\": \"Invalid access token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "006f0278-d8e8-4472-983b-38f459c446e0",
+              "name": "The requested service is unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fraudsight",
+                    "assessment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionReference\": \"Memory265-13/08/1876\",\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"paymentInstrument\": {\n      \"type\": \"card/front\",\n      \"cardHolderName\": \"Sherlock Holmes\",\n      \"cardNumber\": \"4444333322221111\",\n      \"cardExpiryDate\": {\n        \"month\": 5,\n        \"year\": 2035\n      },\n      \"billingAddress\": {\n        \"address1\": \"221B Baker Street\",\n        \"address2\": \"Marylebone\",\n        \"address3\": \"Westminster\",\n        \"postalCode\": \"NW1 6XE\",\n        \"city\": \"London\",\n        \"state\": \"Greater London\",\n        \"countryCode\": \"GB\"\n      }\n    },\n    \"value\": {\n      \"currency\": \"GBP\",\n      \"amount\": 250\n    }\n  },\n  \"deviceData\": {\n    \"collectionReference\": \"0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6\",\n    \"ipAddress\": \"192.0.0.0\"\n  },\n  \"riskData\": {\n    \"account\": {\n      \"email\": \"sherlock.holmes@example.com\",\n      \"dateOfBirth\": \"1854-01-06\",\n      \"shopperId\": \"id123\"\n    },\n    \"transaction\": {\n      \"firstName\": \"Sherlock\",\n      \"lastName\": \"Holmes\",\n      \"phoneNumber\": \"02031234321\"\n    },\n    \"shipping\": {\n      \"firstName\": \"James\",\n      \"lastName\": \"Moriarty\",\n      \"address\": {\n        \"address1\": \"The Palatine Centre\",\n        \"address2\": \"Durham University\",\n        \"address3\": \"Stockton Road\",\n        \"postalCode\": \"DH1 3LE\",\n        \"city\": \"Durham\",\n        \"state\": \"County Durham\",\n        \"countryCode\": \"GB\",\n        \"phoneNumber\": 1911234321\n      }\n    },\n    \"custom\": {\n      \"number1\": 1,\n      \"number2\": 2,\n      \"number3\": 3,\n      \"number4\": 4,\n      \"number5\": 5,\n      \"number6\": 6,\n      \"number7\": 7,\n      \"number8\": 8,\n      \"number9\": 9,\n      \"string1\": \"text1\",\n      \"string2\": \"text2\",\n      \"string3\": \"text3\",\n      \"string4\": \"text4\",\n      \"string5\": \"text5\",\n      \"string6\": \"text6\",\n      \"string7\": \"text7\",\n      \"string8\": \"text8\",\n      \"string9\": \"text9\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.worldpay.fraudsight-v1.hal+json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"serviceUnavailable\",\n  \"message\": \"Service unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f30a5adb-8c2c-4832-9165-47c2122aeaa4",
+    "name": "3DS 3DS actions Fraudsight API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}

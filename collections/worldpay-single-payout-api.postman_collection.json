@@ -1,0 +1,600 @@
+{
+  "item": [
+    {
+      "id": "83d19e44-c3d8-4302-a5e9-61e41f60f8d1",
+      "name": "Single payout",
+      "description": {
+        "content": "Make a single payout to an account using our Account Payouts endpoint.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0c4dc0d9-6ef6-402c-867d-47c1b18f5b77",
+          "name": "Make a single payout",
+          "request": {
+            "name": "Make a single payout",
+            "description": {},
+            "url": {
+              "path": [
+                "accountPayouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                "key": "WP-CorrelationId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "key": "WP-Timestamp",
+                "value": "1755681620",
+                "description": ""
+              },
+              {
+                "disabled": false,
+                "description": "The version of the API you are using.",
+                "key": "WP-Api-Version",
+                "value": "2025-01-01"
+              },
+              {
+                "disabled": false,
+                "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                "key": "Idempotency-Key",
+                "value": "mustBeUnique12345"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"<string>\",\n  \"merchant\": {\n    \"entity\": \"<string>\"\n  },\n  \"instruction\": {\n    \"countryCode\": \"<string>\",\n    \"expandableKeyValuePairs\": \"<object>\",\n    \"channel\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"scheduleDate\": \"<string>\",\n    \"source\": {\n      \"accountNumber\": \"<string>\"\n    },\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"<string>\",\n      \"branchCode\": \"<string>\",\n      \"bankCode\": \"<string>\",\n      \"swiftBic\": \"<string>\",\n      \"bankName\": \"<string>\",\n      \"accountType\": \"<string>\",\n      \"accountNumber\": \"<string>\",\n      \"payoutInstrumentId\": \"<string>\",\n      \"payoutInstrumentReference\": \"<string>\",\n      \"address\": {\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"countryCode\": \"<string>\",\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"postalCode\": \"<string>\"\n      }\n    },\n    \"value\": {\n      \"sourceCurrency\": \"<string>\",\n      \"sourceAmount\": \"<double>\",\n      \"targetCurrency\": \"<string>\",\n      \"targetAmount\": \"<double>\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"<string>\",\n        \"partyId\": \"<string>\",\n        \"partyReference\": \"<string>\",\n        \"customerReference\": \"<string>\",\n        \"personalDetails\": {\n          \"companyName\": \"<string>\",\n          \"firstName\": \"<string>\",\n          \"middleName\": \"<string>\",\n          \"lastName\": \"<string>\",\n          \"dateOfBirth\": \"<string>\",\n          \"email\": \"<string>\",\n          \"title\": \"<string>\",\n          \"type\": \"<string>\",\n          \"phones\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"identityDocuments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"dateOfIncorporation\": \"<string>\"\n        },\n        \"address\": {\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"type\": \"<string>\",\n          \"residentialStatus\": \"<string>\"\n        }\n      },\n      {\n        \"partyType\": \"<string>\",\n        \"partyId\": \"<string>\",\n        \"partyReference\": \"<string>\",\n        \"customerReference\": \"<string>\",\n        \"personalDetails\": {\n          \"companyName\": \"<string>\",\n          \"firstName\": \"<string>\",\n          \"middleName\": \"<string>\",\n          \"lastName\": \"<string>\",\n          \"dateOfBirth\": \"<string>\",\n          \"email\": \"<string>\",\n          \"title\": \"<string>\",\n          \"type\": \"<string>\",\n          \"phones\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"identityDocuments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"dateOfIncorporation\": \"<string>\"\n        },\n        \"address\": {\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"address1\": \"<string>\",\n          \"address2\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"type\": \"<string>\",\n          \"residentialStatus\": \"<string>\"\n        }\n      }\n    ],\n    \"narrative\": {\n      \"line1\": \"<string>\"\n    },\n    \"purposeOfPayment\": {\n      \"code\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    \"transactionType\": \"<string>\",\n    \"beneficiaryWalletDetails\": {\n      \"walletIdentifierType\": \"<string>\",\n      \"walletIdentifier\": \"<string>\"\n    }\n  },\n  \"notificationUrl\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9363912a-5995-43ba-8459-4beb9cc94408",
+              "name": "OK response if a request with the same credentials has already been submitted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Specifies the media type of the resource or the data being sent. This field informs the server or client how to interpret the body of the request or response.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"sourceCurrency\": \"EUR\",\n      \"sourceAmount\": 0,\n      \"targetCurrency\": \"EUR\",\n      \"targetAmount\": 199.99\n    },\n    \"narrative\": {\n      \"line1\": \"PushtoAccount with Worldpay\"\n    },\n    \"countryCode\": \"GB\",\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"GB41CITI18500818404062\",\n      \"bankName\": \"Citibank London\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"beneficiary\",\n        \"personalDetails\": {\n          \"type\": \"Company\",\n          \"companyName\": \"Worldpay AP Ltd\"\n        },\n        \"address\": {\n          \"address1\": \"25 Walbrook\",\n          \"city\": \"London\",\n          \"postalCode\": \"EC4N 8AF\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    ]\n  },\n  \"transactionReference\": \"ABC123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"payoutRequestId\": \"PZ000EC4\",\n  \"idempotencyKey\": \"mustBeUnique12345\",\n  \"entity\": \"default\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb831180-eaff-42a3-a4fd-e75e09cae345",
+              "name": "ACCEPTED response if request body has no validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Specifies the media type of the resource or the data being sent. This field informs the server or client how to interpret the body of the request or response.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"sourceCurrency\": \"EUR\",\n      \"sourceAmount\": 0,\n      \"targetCurrency\": \"EUR\",\n      \"targetAmount\": 199.99\n    },\n    \"narrative\": {\n      \"line1\": \"PushtoAccount with Worldpay\"\n    },\n    \"countryCode\": \"GB\",\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"GB41CITI18500818404062\",\n      \"bankName\": \"Citibank London\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"beneficiary\",\n        \"personalDetails\": {\n          \"type\": \"Company\",\n          \"companyName\": \"Worldpay AP Ltd\"\n        },\n        \"address\": {\n          \"address1\": \"25 Walbrook\",\n          \"city\": \"London\",\n          \"postalCode\": \"EC4N 8AF\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    ]\n  },\n  \"transactionReference\": \"ABC123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"payoutRequestId\": \"PZ000EC4\",\n  \"idempotencyKey\": \"mustBeUnique12345\",\n  \"entity\": \"default\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6581e78e-a333-4005-94a9-fc40038cf11a",
+              "name": "BAD REQUEST response describing request body validation errors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Specifies the media type of the resource or the data being sent. This field informs the server or client how to interpret the body of the request or response.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"sourceCurrency\": \"EUR\",\n      \"sourceAmount\": 0,\n      \"targetCurrency\": \"EUR\",\n      \"targetAmount\": 199.99\n    },\n    \"narrative\": {\n      \"line1\": \"PushtoAccount with Worldpay\"\n    },\n    \"countryCode\": \"GB\",\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"GB41CITI18500818404062\",\n      \"bankName\": \"Citibank London\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"beneficiary\",\n        \"personalDetails\": {\n          \"type\": \"Company\",\n          \"companyName\": \"Worldpay AP Ltd\"\n        },\n        \"address\": {\n          \"address1\": \"25 Walbrook\",\n          \"city\": \"London\",\n          \"postalCode\": \"EC4N 8AF\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    ]\n  },\n  \"transactionReference\": \"ABC123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"validationErrors\": [\n    {\n      \"jsonPath\": \"$.instruction.parties[0].personalDetails.phones[0].number\",\n      \"errorName\": \"stringIsTooLong\",\n      \"message\": \"number must be between 1-20 digits length\"\n    }\n  ],\n  \"errorName\": \"bodyDoesNotMatchSchema\",\n  \"message\": \"There was an error in the request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5419a840-fd37-4994-b220-2d3962dd0340",
+              "name": "UNAUTHORIZED Your call is unauthorized, please contact our support team",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Specifies the media type of the resource or the data being sent. This field informs the server or client how to interpret the body of the request or response.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"sourceCurrency\": \"EUR\",\n      \"sourceAmount\": 0,\n      \"targetCurrency\": \"EUR\",\n      \"targetAmount\": 199.99\n    },\n    \"narrative\": {\n      \"line1\": \"PushtoAccount with Worldpay\"\n    },\n    \"countryCode\": \"GB\",\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"GB41CITI18500818404062\",\n      \"bankName\": \"Citibank London\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"beneficiary\",\n        \"personalDetails\": {\n          \"type\": \"Company\",\n          \"companyName\": \"Worldpay AP Ltd\"\n        },\n        \"address\": {\n          \"address1\": \"25 Walbrook\",\n          \"city\": \"London\",\n          \"postalCode\": \"EC4N 8AF\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    ]\n  },\n  \"transactionReference\": \"ABC123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"unauthorized\",\n  \"message\": \"Invalid token\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4c33288-b145-4358-a40b-d08f72efb633",
+              "name": "FORBIDDEN Your call is unauthorized, please contact our support team",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Specifies the media type of the resource or the data being sent. This field informs the server or client how to interpret the body of the request or response.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"sourceCurrency\": \"EUR\",\n      \"sourceAmount\": 0,\n      \"targetCurrency\": \"EUR\",\n      \"targetAmount\": 199.99\n    },\n    \"narrative\": {\n      \"line1\": \"PushtoAccount with Worldpay\"\n    },\n    \"countryCode\": \"GB\",\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"GB41CITI18500818404062\",\n      \"bankName\": \"Citibank London\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"beneficiary\",\n        \"personalDetails\": {\n          \"type\": \"Company\",\n          \"companyName\": \"Worldpay AP Ltd\"\n        },\n        \"address\": {\n          \"address1\": \"25 Walbrook\",\n          \"city\": \"London\",\n          \"postalCode\": \"EC4N 8AF\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    ]\n  },\n  \"transactionReference\": \"ABC123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"forbidden\",\n  \"message\": \"Forbidden. Unauthorised request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a09fdf1a-cf5e-441a-ba99-a17f0750cdff",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accountPayouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier used to trace and correlate a request across systems. Must be a GUID.",
+                    "key": "WP-CorrelationId",
+                    "value": "15cd16b2-7b82-41cb-9b11-21be9dacad88"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "WP-Timestamp",
+                    "value": "1755681620",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the API you are using.",
+                    "key": "WP-Api-Version",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique key to identify the request. This is used to prevent duplicate processing of the same request.",
+                    "key": "Idempotency-Key",
+                    "value": "mustBeUnique12345"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Specifies the media type of the resource or the data being sent. This field informs the server or client how to interpret the body of the request or response.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchant\": {\n    \"entity\": \"default\"\n  },\n  \"instruction\": {\n    \"value\": {\n      \"sourceCurrency\": \"EUR\",\n      \"sourceAmount\": 0,\n      \"targetCurrency\": \"EUR\",\n      \"targetAmount\": 199.99\n    },\n    \"narrative\": {\n      \"line1\": \"PushtoAccount with Worldpay\"\n    },\n    \"countryCode\": \"GB\",\n    \"beneficiaryBankDetails\": {\n      \"iban\": \"GB41CITI18500818404062\",\n      \"bankName\": \"Citibank London\"\n    },\n    \"parties\": [\n      {\n        \"partyType\": \"beneficiary\",\n        \"personalDetails\": {\n          \"type\": \"Company\",\n          \"companyName\": \"Worldpay AP Ltd\"\n        },\n        \"address\": {\n          \"address1\": \"25 Walbrook\",\n          \"city\": \"London\",\n          \"postalCode\": \"EC4N 8AF\",\n          \"countryCode\": \"GB\"\n        }\n      }\n    ]\n  },\n  \"transactionReference\": \"ABC123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": null,\n  \"message\": \"Unexpected Issue. Please try again\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://try.access.worldpay.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c6009165-b2e6-4d62-85f3-6009373f9ac1",
+    "name": "3DS 3DS actions Single payout API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting.",
+      "type": "text/plain"
+    }
+  }
+}
