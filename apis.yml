@@ -4,6 +4,7 @@ description: Worldpay is a global payment processing platform (part of FIS) offe
   billing, fraud prevention, and global acquiring services. It supports card payments,
   digital wallets, alternative payment methods, payouts, foreign exchange, and hosted
   payment pages across more than 146 countries.
+specificationVersion: '0.23'
 deliveryModel:
   model: saas
   open_source: false
