@@ -44,6 +44,17 @@ tags:
 - Recurring Billing
 - Payouts
 - Foreign Exchange
+- Financial-Services
+- Fintech
+tags_raw:
+- Payments
+- Payment Processing
+- Payment Gateway
+- Tokenization
+- Fraud Prevention
+- Recurring Billing
+- Payouts
+- Foreign Exchange
 - Financial Services
 - Fintech
 apis:
@@ -145,6 +156,11 @@ apis:
   baseURL: https://access.worldpay.com
   tags:
   - Alternative Payments
+  - E-Wallets
+  - BNPL
+  - Local Payment Methods
+  tags_raw:
+  - Alternative Payments
   - eWallets
   - BNPL
   - Local Payment Methods
@@ -196,6 +212,10 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/events
   baseURL: https://access.worldpay.com
   tags:
+  - Webhook
+  - Event
+  - Notification
+  tags_raw:
   - Webhooks
   - Events
   - Notifications
@@ -280,6 +300,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -360,6 +382,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Beneficial Owners
+  tags_raw:
   - Beneficial owners
   properties:
   - type: OpenAPI
@@ -376,6 +400,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Card Payments
+  tags_raw:
   - CardPayments
   properties:
   - type: OpenAPI
@@ -424,6 +450,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Foreign Exchange
+  tags_raw:
   - ForeignExchange
   properties:
   - type: OpenAPI
@@ -488,6 +516,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Identity Verification
+  tags_raw:
   - Identity verification
   properties:
   - type: OpenAPI
@@ -504,6 +534,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Manage Payments
+  tags_raw:
   - Manage payments
   properties:
   - type: OpenAPI
@@ -632,6 +664,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Payment Queries
+  tags_raw:
   - PaymentQueries
   properties:
   - type: OpenAPI
@@ -712,6 +746,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Split Payments
+  tags_raw:
   - SplitPayments
   properties:
   - type: OpenAPI
@@ -743,7 +779,8 @@ apis:
   description: The Update API from Worldpay — 3 operation(s) for update.
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
-  tags:
+  tags: []
+  tags_raw:
   - Update
   properties:
   - type: OpenAPI
@@ -760,6 +797,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Verification
+  tags_raw:
   - Verifications
   properties:
   - type: OpenAPI
