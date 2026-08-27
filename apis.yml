@@ -825,14 +825,6 @@ apis:
     url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
-- aid: worldpay:worldpay-events-openapi
-  name: Worldpay Events
-  description: Worldpay Events from Worldpay, described in OpenAPI.
-  humanURL: https://docs.worldpay.com/access/apis
-  baseURL: https://access.worldpay.com
-  properties:
-  - type: OpenAPI
-    url: openapi/worldpay-events-openapi.yaml
 common:
 - type: Support
   url: https://docs.worldpay.com/support
