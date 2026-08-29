@@ -15,7 +15,7 @@ deliveryModel:
   source:
   - openapi
   - pricing
-  generated: '2026-08-11'
+  generated: '2026-08-28'
   method: derived
 accessModel:
   pricing: free
@@ -826,6 +826,9 @@ apis:
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 common:
+- type: CapabilityMap
+  url: capabilities/worldpay-capability-edges.yml
+  name: Worldpay Business Capability Map
 - type: Support
   url: https://docs.worldpay.com/support
 - type: MCPServer
