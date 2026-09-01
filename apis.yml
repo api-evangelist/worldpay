@@ -156,7 +156,7 @@ apis:
   baseURL: https://access.worldpay.com
   tags:
   - Alternative Payments
-  - eWallets
+  - E-Wallets
   - BNPL
   - Local Payment Methods
   tags_raw:
@@ -382,7 +382,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - Beneficial owners
+  - Beneficial Owners
   tags_raw:
   - Beneficial owners
   properties:
@@ -400,7 +400,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - CardPayments
+  - Card Payments
   tags_raw:
   - CardPayments
   properties:
@@ -450,7 +450,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - ForeignExchange
+  - Foreign Exchange
   tags_raw:
   - ForeignExchange
   properties:
@@ -516,7 +516,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - Identity verification
+  - Identity Verification
   tags_raw:
   - Identity verification
   properties:
@@ -534,7 +534,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - Manage payments
+  - Manage Payments
   tags_raw:
   - Manage payments
   properties:
@@ -664,7 +664,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - PaymentQueries
+  - Payment Queries
   tags_raw:
   - PaymentQueries
   properties:
@@ -746,7 +746,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - SplitPayments
+  - Split Payments
   tags_raw:
   - SplitPayments
   properties:
@@ -797,7 +797,7 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
-  - Verifications
+  - Verification
   tags_raw:
   - Verifications
   properties:
