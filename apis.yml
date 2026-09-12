@@ -827,6 +827,8 @@ apis:
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 common:
+- type: Website
+  url: https://www.worldpay.com/
 - type: CapabilityMap
   url: capabilities/worldpay-capability-edges.yml
   name: Worldpay Business Capability Map
