@@ -158,7 +158,7 @@ apis:
   tags:
   - Alternative Payments
   - E-Wallets
-  - BNPL
+  - Buy Now Pay Later
   - Local Payment Methods
   tags_raw:
   - Alternative Payments
@@ -395,24 +395,6 @@ apis:
     url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
-- aid: worldpay:worldpay-cardpayments-api
-  name: Worldpay CardPayments API
-  description: The CardPayments API from Worldpay — 2 operation(s) for cardpayments.
-  humanURL: https://docs.worldpay.com/access/products/payments
-  baseURL: https://access.worldpay.com
-  tags:
-  - Card Payments
-  tags_raw:
-  - CardPayments
-  properties:
-  - type: OpenAPI
-    url: openapi/worldpay-cardpayments-api-openapi.yml
-  - type: Documentation
-    url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
-  - type: Documentation
-    url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-cardverifications-api
   name: Worldpay CardVerifications API
   description: The CardVerifications API from Worldpay — 2 operation(s) for cardverifications.
@@ -439,24 +421,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/worldpay-exemptions-api-openapi.yml
-  - type: Documentation
-    url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
-  - type: Documentation
-    url: https://docs.worldpay.com/access/apis
-- aid: worldpay:worldpay-foreignexchange-api
-  name: Worldpay ForeignExchange API
-  description: The ForeignExchange API from Worldpay — 5 operation(s) for foreignexchange.
-  humanURL: https://docs.worldpay.com/access/products/payments
-  baseURL: https://access.worldpay.com
-  tags:
-  - Foreign Exchange
-  tags_raw:
-  - ForeignExchange
-  properties:
-  - type: OpenAPI
-    url: openapi/worldpay-foreignexchange-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
   - type: GraphQL
@@ -659,24 +623,6 @@ apis:
     url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
-- aid: worldpay:worldpay-paymentqueries-api
-  name: Worldpay PaymentQueries API
-  description: The PaymentQueries API from Worldpay — 3 operation(s) for paymentqueries.
-  humanURL: https://docs.worldpay.com/access/products/payments
-  baseURL: https://access.worldpay.com
-  tags:
-  - Payment Queries
-  tags_raw:
-  - PaymentQueries
-  properties:
-  - type: OpenAPI
-    url: openapi/worldpay-paymentqueries-api-openapi.yml
-  - type: Documentation
-    url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
-  - type: Documentation
-    url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payout-instruments-api
   name: Worldpay Payout instruments API
   description: Create and maintain payout instruments.
@@ -820,6 +766,54 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/worldpay-verifiedtokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.worldpay.com/access/products/payments
+  - type: GraphQL
+    url: graphql/worldpay-graphql.md
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+- aid: worldpay:worldpay-card-payments-api
+  name: Worldpay Card Payments API
+  description: The Card Payments API from Worldpay — 2 operation(s) for card payments.
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Card Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/worldpay-card-payments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.worldpay.com/access/products/payments
+  - type: GraphQL
+    url: graphql/worldpay-graphql.md
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+- aid: worldpay:worldpay-foreign-exchange-api
+  name: Worldpay Foreign Exchange API
+  description: The Foreign Exchange API from Worldpay — 5 operation(s) for foreign exchange.
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Foreign Exchange
+  properties:
+  - type: OpenAPI
+    url: openapi/worldpay-foreign-exchange-api-openapi.yml
+  - type: Documentation
+    url: https://docs.worldpay.com/access/products/payments
+  - type: GraphQL
+    url: graphql/worldpay-graphql.md
+  - type: Documentation
+    url: https://docs.worldpay.com/access/apis
+- aid: worldpay:worldpay-payment-queries-api
+  name: Worldpay Payment Queries API
+  description: The Payment Queries API from Worldpay — 3 operation(s) for payment queries.
+  humanURL: https://docs.worldpay.com/access/apis
+  baseURL: https://access.worldpay.com
+  tags:
+  - Payment Queries
+  properties:
+  - type: OpenAPI
+    url: openapi/worldpay-payment-queries-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
   - type: GraphQL
