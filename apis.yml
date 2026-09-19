@@ -254,6 +254,10 @@ apis:
   baseURL: https://access.worldpay.com
   tags:
   - Split Payments
+  - Marketplace
+  - Platform
+  tags_raw:
+  - Split Payments
   - Marketplaces
   - Platforms
   properties:
@@ -581,6 +585,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Payments
+  tags_raw:
   - Payment
   properties:
   - type: OpenAPI
@@ -711,6 +717,8 @@ apis:
   humanURL: https://docs.worldpay.com/access/products/payments
   baseURL: https://access.worldpay.com
   tags:
+  - Tokens
+  tags_raw:
   - Token
   properties:
   - type: OpenAPI
