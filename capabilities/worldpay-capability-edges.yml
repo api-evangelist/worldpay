@@ -83,7 +83,8 @@ edges:
   reason: Recording and maintaining ultimate beneficial owners with identity documents and relationship
     to the business is core KYC/CDD data collection for onboarded parties.
 - tag: CardPayments
-  spec_file: worldpay-cardpayments-api-openapi.yml
+  spec_file: worldpay-card-payments-api-openapi.yml
+  reanchored_from: worldpay-cardpayments-api-openapi.yml
   capability_id: BC-1340.70
   capability_id_l1: BC-1340
   capability_name: Card Transaction Processing Management
@@ -154,7 +155,8 @@ edges:
     in Payments & Card Management; ambiguous between card issuance-style credential provisioning and transaction
     processing, so no L2 asserted.
 - tag: PaymentQueries
-  spec_file: worldpay-paymentqueries-api-openapi.yml
+  spec_file: worldpay-payment-queries-api-openapi.yml
+  reanchored_from: worldpay-paymentqueries-api-openapi.yml
   capability_id: BC-1340
   capability_id_l1: BC-1340
   capability_name: Payments & Card Management
