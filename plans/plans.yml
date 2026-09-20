@@ -10,6 +10,10 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: business-product
 pricing_basis: ad-valorem
+delivery:
+  delivery: managed
+  method: keyword-prefilter
+  read: '2026-09-20'
 published: true
 note: Indicative online quote tool; card transaction percentage rates display as 0.0% placeholders until
   the calculator is used. Page states '*Pricing shown above is indicative only'. Settlement time 24 hours;
