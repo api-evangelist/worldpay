@@ -1,0 +1,186 @@
+slug: worldpay
+provider: Worldpay
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 17
+edges:
+- tag: Fraudsight
+  spec_file: worldpay-fraudsight-api-openapi.yml
+  capability_id: BC-1400.30
+  capability_id_l1: BC-1400
+  capability_name: Fraud Detection & Investigation Management
+  confidence: 0.9
+  evidence: POST /fraudsight/assessment  assessment  Fraud assessment; schemas fraudsight_assess, deviceData,
+    riskFactors-style fields
+  reason: Operation performs a transaction fraud risk assessment using card, device and customer data
+    — fraud detection on payment transactions.
+- tag: Manage payments
+  spec_file: worldpay-manage-payments-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.85
+  evidence: POST /payments/settlements/{linkData} settle 'Settle for full amount'; 'Refund full amount';
+    'Cancel full authorization'; 'Increase authorization amount'
+  reason: Operations perform post-authorisation payment transaction lifecycle actions (settle, refund,
+    cancel, reversal, incremental authorisation) — core payment processing on a card acquiring platform.
+- tag: ApmPayments
+  spec_file: worldpay-apmpayments-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.82
+  evidence: POST /apmPayments  payment  Create an APM payment; schemas KlarnaNetworkOrderItem, BlikInstruction,
+    OpenBankingInstruction
+  reason: Operation creates an alternative-payment-method payment instruction (Klarna, Alipay, BLIK, open
+    banking), i.e. capture and authorisation of a payment instruction — payment initiation within Payments
+    & Card Management.
+- tag: Payment lifecycle
+  spec_file: worldpay-payment-lifecycle-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.82
+  evidence: POST /apmPayments/{paymentId}/confirmations 'Confirm payment'; 'Reverse an APM payment'; 'Settle
+    an APM payment'
+  reason: Confirm/reverse/settle operations on alternative payment method transactions are payment processing
+    lifecycle handling.
+- tag: Payouts
+  spec_file: worldpay-payouts-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.82
+  evidence: POST /payouts/basicDisbursement 'Standard payout'; POST /payouts/fastAccess 'Fast Access payout'
+  reason: Initiation and querying of outbound disbursements to cards/accounts — payment execution; ambiguous
+    between initiation and real-time rails so no L2.
+- tag: Batch payout
+  spec_file: worldpay-batch-payout-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.8
+  evidence: POST /accountPayouts/batch  PostBatchPayout  Make a batch payout; schema PayoutInstruction
+  reason: Submits payout instructions (disbursements) with bank details and purpose of payment — capture
+    and authorisation of payment instructions, i.e. payment initiation.
+- tag: Beneficial owners
+  spec_file: worldpay-beneficial-owners-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.8
+  evidence: createBeneficialOwner  Create a beneficial owner; schemas RelationshipToBusiness, IdentityDocument,
+    PersonalDetailsForBeneficialOwner
+  reason: Recording and maintaining ultimate beneficial owners with identity documents and relationship
+    to the business is core KYC/CDD data collection for onboarded parties.
+- tag: CardPayments
+  spec_file: worldpay-cardpayments-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.8
+  evidence: POST /cardPayments/customerInitiatedTransactions  authorize  Take a card payment; POST /cardPayments/merchantInitiatedTransactions  recurring  Take
+    a repeat card payment
+  reason: Card authorisation and settlement of customer- and merchant-initiated card transactions, including
+    network tokens and exemptions — card transaction processing (authorisation/switching).
+- tag: MoneyTransfers
+  spec_file: worldpay-moneytransfers-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.8
+  evidence: POST /moneyTransfers/pushToCard 'Push funds to an eligible card'
+  reason: Push-to-card fund transfers are payment execution/disbursement on card rails; clearly Payments
+    & Card Management but the sub-capability (processing vs real-time rails) is not pinned by the evidence.
+- tag: Payment
+  spec_file: worldpay-payment-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.8
+  evidence: POST /api/payments payment 'Payment request'; schemas 'PaymentRequest', 'PaymentsEncryptedPaymentInstrument'
+  reason: Single operation submits a payment instruction with instrument and customer details — payment
+    initiation/capture.
+- tag: Identity verification
+  spec_file: worldpay-identity-verification-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.78
+  evidence: POST /parties/{partyId}/identityVerification  performIdentityVerification  Perform identity
+    verification; schemas PartyIdentityVerificationInfo, BeneficialOwnerIdentityVerificationInfo
+  reason: Performs and tracks identity verification of onboarded parties and their beneficial owners —
+    KYC/CDD due diligence checks; could also be read as onboarding step, hence not maximal confidence.
+- tag: Single payout
+  spec_file: worldpay-single-payout-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.78
+  evidence: POST /accountPayouts  PostPayout  Make a single payout; schemas ...Payout.V3.Models.PayoutInstruction,
+    BankDetails
+  reason: The single operation submits a payout instruction with bank/wallet beneficiary details — capture
+    and authorisation of a payment instruction, i.e. payment initiation. Sub-capability choice between
+    initiation and processing carries some ambiguity.
+- tag: Update
+  spec_file: worldpay-update-api-openapi.yml
+  capability_id: BC-1400.30
+  capability_id_l1: BC-1400
+  capability_name: Fraud Detection & Investigation Management
+  confidence: 0.75
+  evidence: POST /fraudsight/update/fraud  updateFraud  Provide details of a payment that resulted in
+    fraud
+  reason: Operations feed fraud and chargeback outcomes back into Worldpay's FraudSight engine, which
+    is fraud detection across payments. Chargeback element leaves some ambiguity with card transaction
+    processing.
+- tag: Network token
+  spec_file: worldpay-network-token-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.72
+  evidence: POST /tokens/network 'Request provisioning for a network token'; 'Provision a cryptogram for
+    short time use based on a network token'
+  reason: Network token provisioning creates card payment credentials used for authorisation, so it sits
+    in Payments & Card Management; ambiguous between card issuance-style credential provisioning and transaction
+    processing, so no L2 asserted.
+- tag: PaymentQueries
+  spec_file: worldpay-paymentqueries-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.7
+  evidence: GET /paymentQueries/payments queryByDateRange 'Query payments'; 'Retrieve a payment'; 'Query
+    historical payments'
+  reason: Transaction inquiry over processed payments — belongs to Payments & Card Management, but read-only
+    querying does not pin a specific sub-capability.
+- tag: SplitPayments
+  spec_file: worldpay-splitpayments-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.7
+  evidence: POST /splitPayments  Create split payments request; POST /splitPayments/{splitPaymentId}/fulfillments  Fully
+    settle/refund a payment
+  reason: Operations create a split payment request and settle or refund the constituent items — payment
+    processing/routing of funds across parties. Sub-capability (processing vs initiation) is somewhat
+    ambiguous, hence moderate confidence.
+- tag: Verifications
+  spec_file: worldpay-verifications-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.7
+  evidence: POST /verifications/customers/3ds/authentication  authenticate  Initiate the 3DS authentication
+  reason: 3DS device data collection, authentication and challenge verification are cardholder authentication
+    steps within card transaction authorisation/fraud screening. Could alternatively be read as fraud
+    detection, so moderate confidence.
