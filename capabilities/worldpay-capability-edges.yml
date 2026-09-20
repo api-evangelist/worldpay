@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 17
+edge_count: 18
 edges:
 - tag: Fraudsight
   spec_file: worldpay-fraudsight-api-openapi.yml
@@ -132,6 +132,19 @@ edges:
   reason: The single operation submits a payout instruction with bank/wallet beneficiary details — capture
     and authorisation of a payment instruction, i.e. payment initiation. Sub-capability choice between
     initiation and processing carries some ambiguity.
+- tag: ForeignExchange
+  spec_file: worldpay-foreign-exchange-api-openapi.yml
+  capability_id: BC-210.40
+  capability_id_l1: BC-210
+  capability_name: Foreign Exchange Management
+  confidence: 0.75
+  evidence: GET /foreignExchange/rates  getFXrates  Get FX rates; POST /foreignExchange/quote  postFXquote  Create
+    FX quote; POST /foreignExchange/contract  postContract  Create an external contract
+  reason: Rates, quotes, contracts and rate markups are currency-conversion and FX contracting operations,
+    which is Foreign Exchange Management. Slight doubt because the intent is merchant currency conversion
+    rather than corporate hedging.
+  recovered_from: sweep-20260829T005356Z-edges.json
+  reanchored_from: worldpay-foreignexchange-api-openapi.yml
 - tag: Update
   spec_file: worldpay-update-api-openapi.yml
   capability_id: BC-1400.30
