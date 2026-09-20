@@ -829,6 +829,8 @@ apis:
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 common:
+- type: Pricing
+  url: https://go.worldpay.com/pricing
 - type: Website
   url: https://www.worldpay.com/
 - type: CapabilityMap
