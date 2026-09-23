@@ -1,16 +1,16 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Get payouts API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Account Payouts Get payouts API
+  description: Send funds to your customer's bank accounts and search for payouts using parameters.
+  version: '2025-01-01'
   x-metadata:
-    category:
-    - 3DS
-    - SCA Exemptions
     business:
     - Enterprise
+    - Marketplaces
     catalog-list: true
-    generated: false
+    category:
+    - Payouts
+    generated: true
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
@@ -326,24 +326,32 @@ components:
       type: object
       properties:
         paymentId:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Unique identifier associated with the payment. GUID.
-          nullable: true
         paymentDatetime:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Date and time of the payment submission. DateTime ISO 8601.
           format: date-time
-          nullable: true
         payeeName:
           maximum: 140
-          type: string
-          description: "Complete payee name for the payout. This will be one of (depending on the beneficiary type):\r\nfullName- concatenated value from title + firstName + middleName + lastName\r\ncompanyName."
-          nullable: true
+          type:
+          - string
+          - 'null'
+          description: 'Complete payee name for the payout. This will be one of (depending on the beneficiary type):
+
+            fullName- concatenated value from title + firstName + middleName + lastName
+
+            companyName.'
         sourceCurrency:
           maximum: 3
-          type: string
+          type:
+          - string
+          - 'null'
           description: <a href="/products/reference/supported-countries-currencies#currency-codes">ISO 4217 alpha-3 currency code</a> for the remitter account.
-          nullable: true
         sourceAmount:
           type: number
           description: Source amount. 18 digit precision including 2 decimal places.
@@ -351,9 +359,10 @@ components:
         targetCurrency:
           maximum: 3
           minimum: 3
-          type: string
+          type:
+          - string
+          - 'null'
           description: Target <a href="/products/reference/supported-countries-currencies#currency-codes">ISO 4217 alpha-3 currency codes</a> for the payout.
-          nullable: true
         targetAmount:
           type: number
           description: Target amount.
@@ -372,9 +381,10 @@ components:
           - REVERSED
           - FAILED
           - INVALID
-          type: string
+          type:
+          - string
+          - 'null'
           description: State of the payout.
-          nullable: true
           x-enumDescriptions:
             AWAITING_EXECUTION: Interim state in the asynchronous payout request. Please contact your Relationship Manager if this persists, as this might suggest integration issues.
             NEW: Interim state in the asynchronous payout request. Please contact your Relationship Manager if this persists, as this might suggest integration issues.
@@ -389,35 +399,43 @@ components:
             FAILED: Final state in the asynchronous payout request. Please contact your Relationship Manager if this persists, as this might suggest integration issues.
             INVALID: Final state in the asynchronous payout request. Please contact your Relationship Manager if this persists, as this might suggest integration issues.
         bankName:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Name of the payee (beneficiary) bank which the payout is being made to.
-          nullable: true
         bankCode:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Beneficiary bank account bank code.
-          nullable: true
         iban:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Beneficiary IBAN.
-          nullable: true
         estimatedDeliveryDate:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         outcomeReason:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         channel:
-          type: string
+          type:
+          - string
+          - 'null'
           description: List of the channels that were sent in the request for this payout.
-          nullable: true
         routedChannel:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The channel that was used to process this payout.
-          nullable: true
         bankReference:
-          type: string
+          type:
+          - string
+          - 'null'
           description: A bank-generated reference that enables your customers to track their payout within the payment network. This feature is only available for specific routes. For details on availability, please contact your Relationship Manager.
-          nullable: true
         payoutRequestId:
           maximum: 10
           minimum: 8
@@ -427,60 +445,71 @@ components:
         narrative:
           maximum: 50
           minimum: 0
-          type: string
+          type:
+          - string
+          - 'null'
           description: Reference that may appear on beneficiary statements.
-          nullable: true
         transactionReference:
           maximum: 50
           minimum: 0
-          type: string
+          type:
+          - string
+          - 'null'
           description: Unique reference provided by you.
-          nullable: true
         accountNumber:
           maximum: 50
           minimum: 0
-          type: string
+          type:
+          - string
+          - 'null'
           description: Bank Account number.
-          nullable: true
         swiftBic:
           maximum: 50
-          type: string
+          type:
+          - string
+          - 'null'
           description: Beneficiary bank account SWIFT/BIC.
-          nullable: true
         countryCode:
           maximum: 2
           minimum: 2
-          type: string
+          type:
+          - string
+          - 'null'
           description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the payout destination.
-          nullable: true
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
       type: object
       properties:
         errorName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         message:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         validationErrors:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
-          nullable: true
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
       type: object
       properties:
         errorName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         message:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         jsonPath:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination:
       required:
@@ -511,10 +540,11 @@ components:
       type: object
       properties:
         items:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem'
-          nullable: true
         pagination:
           $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination'
       additionalProperties: false

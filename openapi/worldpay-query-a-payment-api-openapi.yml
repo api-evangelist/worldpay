@@ -1,14 +1,15 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Query a payment API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Card Payments Query a payment API
+  description: Take online payments with our Card Payments API.
+  version: '7'
   x-metadata:
     category:
-    - 3DS
-    - SCA Exemptions
+    - Card Payments
+    - Wallets
     business:
     - Enterprise
+    - Marketplaces
     catalog-list: true
     generated: false
 servers:
@@ -26,7 +27,10 @@ paths:
       tags:
       - Query a payment
       summary: Query payment status
-      description: "Send a request to find out the current status of your payment after it has been authorized using the events action link.\n\n  **Note:** It can take up to 15 minutes for a payment event to update."
+      description: 'Send a request to find out the current status of your payment after it has been authorized using the events action link.
+
+
+        **Note:** It can take up to 15 minutes for a payment event to update.'
       operationId: eventQuery
       parameters:
       - name: linkData
@@ -130,7 +134,13 @@ paths:
       tags:
       - Query a payment
       summary: Query payment status recovery
-      description: "Send a request to find out the current status of your payment after it has been authorized using the events action link. \n\n **Important:** \n\n  Only use this for recovery purposes, for example when your authorization request has timed out or you are unable to locate a payment through our [Payments Queries API](/products/payment-queries). If the query returns results, you can manage the payment using the next action links returned in the response of your GET request."
+      description: 'Send a request to find out the current status of your payment after it has been authorized using the events action link.
+
+
+        **Important:**
+
+
+        Only use this for recovery purposes, for example when your authorization request has timed out or you are unable to locate a payment through our Payments Queries API. If the query returns results, you can manage the payment using the next action links returned in the response of your GET request.'
       operationId: eventRecovery
       parameters:
       - in: header
@@ -225,13 +235,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
     ValidationErrorResponse:
       type: object
       properties:
@@ -313,6 +316,13 @@ components:
             Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
             Error: The payment wasn't completed. You may want to reattempt the payment.
             Expired: The authorization validity period ended before a settlement or cancel request was made.
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BasicAuth:
       type: http

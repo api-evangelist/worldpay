@@ -1,12 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Update API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: FraudSight Update API
+  description: Request a risk assessment and prevent fraud with this standalone API.
+  version: v1
   x-metadata:
     category:
-    - 3DS
-    - SCA Exemptions
+    - Risk Assessments
     business:
     - Enterprise
     catalog-list: true
@@ -29,9 +28,7 @@ paths:
       description: 'Provide payment outcome information.
 
 
-        __Note:__ This should only be provided if using a different gateway for the payment.
-
-        '
+        __Note:__ This should only be provided if using a different gateway for the payment.'
       operationId: updatePayment
       parameters:
       - in: header
@@ -258,6 +255,110 @@ paths:
                     message: Invalid access token
 components:
   schemas:
+    validation_errors:
+      type: object
+      required:
+      - errorName
+      - jsonPath
+      - message
+      properties:
+        errorName:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Unique name of the validation error.
+        jsonPath:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Location of the field in request body for which the error occurred.
+        message:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Error description message.
+    fraudsight_updateFraud_401_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    fraudsight_updateChargeback:
+      required:
+      - transactionReference
+      - merchant
+      - riskProfile
+      - sourceDate
+      - acquirerReference
+      - chargebackReasonCode
+      - chargebackCaseReference
+      - chargebackValue
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about the merchant and API level configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        riskProfile:
+          maxLength: 2048
+          minLength: 39
+          type: string
+          format: uri
+          description: Represents the outcome of the original fraud assessment. Used to link subsequent fraud related requests.
+        sourceDate:
+          maxLength: 20
+          type: string
+          format: date-time
+          description: Date/time of source fraud file (TC40/SAFE).
+        acquirerReference:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Acquirer Reference Number (ARN) - unique value assigned to a credit or debit card transaction.
+        chargebackReasonCode:
+          maxLength: 4
+          minLength: 2
+          type: string
+          description: Visa and Mastercard reason codes.
+        chargebackCaseReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Case reference for a specific chargeback.
+        chargebackValue:
+          required:
+          - amount
+          - currency
+          type: object
+          description: Object containing value of the chargeback transaction.
+          properties:
+            amount:
+              maximum: 999999999
+              minimum: 0
+              type: integer
+              description: The chargeback amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50.
+            currency:
+              maxLength: 3
+              minLength: 3
+              pattern: ^[A-Z]{3}$
+              type: string
+              description: The three digit currency code.
     fraudsight_updatePayment_400_response:
       required:
       - message
@@ -279,7 +380,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/validation_errors'
-    fraudsight_updateFraud_401_response:
+    transactionReference:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+      type: string
+      description: A unique reference for authentication. For example, e-commerce order code.
+    fraudsight_updateChargeback_401_response:
       required:
       - message
       - errorName
@@ -295,7 +402,7 @@ components:
           maxLength: 2048
           minLength: 1
           description: The unique error name.
-    fraudsight_updatePayment_401_response:
+    fraudsight_updateChargeback_400_response:
       required:
       - message
       - errorName
@@ -311,6 +418,11 @@ components:
           maxLength: 2048
           minLength: 1
           description: The unique error name.
+        validationErrors:
+          description: Object containing details of validation errors occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
     fraudsight_updatePayment:
       required:
       - transactionReference
@@ -403,182 +515,6 @@ components:
               - '07'
               type: string
               description: "Electronic Commerce Indicator (ECI). Outcome of the 3DS authentication as applied in the payment.\n  - 02 or 05 - Fully Authenticated Transaction\n  - 01 or 06 - Attempted Authentication Transaction\n  - 00 or 07 - Non 3-D Secure Transaction\n  - Mastercard - 02, 01, 00\n  - Visa - 05, 06, 07\n  - Amex - 05, 06, 07\n  - JCB - 05, 06, 07\n  - Diners - 05, 06, 07\n"
-    fraudsight_updateFraud_400_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        validationErrors:
-          description: Object containing details of validation errors occurred.
-          type: array
-          items:
-            $ref: '#/components/schemas/validation_errors'
-    value:
-      required:
-      - amount
-      - currency
-      type: object
-      description: An object that contains information about the value of the assessment.
-      properties:
-        amount:
-          maximum: 99999999999
-          minimum: 0
-          type: integer
-          description: The authentication amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50. You can find the relevant exponent in our [currency table](/products/reference/supported-countries-currencies#iso-currency-codes). The assessment amount should be equal to the authorization amount. We recommend you delay assessment until the amount is known, or ensure it's greater than the total transaction amount.
-        currency:
-          maxLength: 3
-          minLength: 3
-          pattern: ^[A-Z]{3}$
-          type: string
-          description: The three digit currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
-    transactionReference:
-      maxLength: 64
-      minLength: 1
-      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-      type: string
-      description: A unique reference for authentication. For example, e-commerce order code.
-    entity:
-      maxLength: 64
-      minLength: 1
-      pattern: ^[A-Za-z0-9 ]*$
-      type: string
-      description: Used to route the request in Access Worldpay, created as part of on-boarding.
-    validation_errors:
-      type: object
-      required:
-      - errorName
-      - jsonPath
-      - message
-      properties:
-        errorName:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Unique name of the validation error.
-        jsonPath:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Location of the field in request body for which the error occurred.
-        message:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Error description message.
-    fraudsight_updateChargeback_401_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name.
-    fraudsight_updateChargeback:
-      required:
-      - transactionReference
-      - merchant
-      - riskProfile
-      - sourceDate
-      - acquirerReference
-      - chargebackReasonCode
-      - chargebackCaseReference
-      - chargebackValue
-      type: object
-      properties:
-        transactionReference:
-          $ref: '#/components/schemas/transactionReference'
-        merchant:
-          required:
-          - entity
-          type: object
-          description: An object that contains information about the merchant and API level configuration.
-          properties:
-            entity:
-              $ref: '#/components/schemas/entity'
-        riskProfile:
-          maxLength: 2048
-          minLength: 39
-          type: string
-          format: uri
-          description: Represents the outcome of the original fraud assessment. Used to link subsequent fraud related requests.
-        sourceDate:
-          maxLength: 20
-          type: string
-          format: date-time
-          description: Date/time of source fraud file (TC40/SAFE).
-        acquirerReference:
-          maxLength: 128
-          minLength: 1
-          type: string
-          description: Acquirer Reference Number (ARN) - unique value assigned to a credit or debit card transaction.
-        chargebackReasonCode:
-          maxLength: 4
-          minLength: 2
-          type: string
-          description: Visa and Mastercard reason codes.
-        chargebackCaseReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: Case reference for a specific chargeback.
-        chargebackValue:
-          required:
-          - amount
-          - currency
-          type: object
-          description: Object containing value of the chargeback transaction.
-          properties:
-            amount:
-              maximum: 999999999
-              minimum: 0
-              type: integer
-              description: The chargeback amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50.
-            currency:
-              maxLength: 3
-              minLength: 3
-              pattern: ^[A-Z]{3}$
-              type: string
-              description: The three digit currency code.
-    fraudsight_updateChargeback_400_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name.
-        validationErrors:
-          description: Object containing details of validation errors occurred.
-          type: array
-          items:
-            $ref: '#/components/schemas/validation_errors'
     fraudsight_updateFraud:
       required:
       - transactionReference
@@ -679,7 +615,85 @@ components:
             | B               | Account or Credentials Takeover Fraud |   |   |   |'
         value:
           $ref: '#/components/schemas/value'
+    value:
+      required:
+      - amount
+      - currency
+      type: object
+      description: An object that contains information about the value of the assessment.
+      properties:
+        amount:
+          maximum: 99999999999
+          minimum: 0
+          type: integer
+          description: The authentication amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50. You can find the relevant exponent in our [currency table](/products/reference/supported-countries-currencies#iso-currency-codes). The assessment amount should be equal to the authorization amount. We recommend you delay assessment until the amount is known, or ensure it's greater than the total transaction amount.
+        currency:
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: The three digit currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
+    fraudsight_updatePayment_401_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    entity:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[A-Za-z0-9 ]*$
+      type: string
+      description: Used to route the request in Access Worldpay, created as part of on-boarding.
+    fraudsight_updateFraud_400_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        validationErrors:
+          description: Object containing details of validation errors occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
   examples:
+    payment-request-refused:
+      description: Refusal payment outcome details are provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        riskProfile: https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
+        paymentOutcome: refused
+        refusalCode: '5'
+        refusalDescription: REFUSED
+        cvcResult: matched
+        avsResult:
+          address: matched
+          postcode: matched
+        authentication:
+          version: 2.1.0
+          eci: '05'
     chargeback-request:
       description: Chargeback (fraud) information provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider
       value:
@@ -708,23 +722,6 @@ components:
         value:
           currency: GBP
           amount: 250
-    payment-request-refused:
-      description: Refusal payment outcome details are provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        riskProfile: https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
-        paymentOutcome: refused
-        refusalCode: '5'
-        refusalDescription: REFUSED
-        cvcResult: matched
-        avsResult:
-          address: matched
-          postcode: matched
-        authentication:
-          version: 2.1.0
-          eci: '05'
     payment-request-authorized:
       description: Authorized payment outcome details are provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider.
       value:

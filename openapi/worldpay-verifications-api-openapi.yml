@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Verifications API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  title: 3DS Verifications API
+  description: Protect your business and meet regulatory requirements by verifying your customer's identity.
   version: '3'
   x-metadata:
     category:
@@ -24,10 +24,7 @@ paths:
   /verifications/customers/3ds/deviceDataInitialization:
     post:
       summary: Generate required data for 3DS Device Data Collection
-      description: 'Allow card issuers to perform Device Data Collection to fingerprint your customer''s device.
-
-
-        '
+      description: Allow card issuers to perform Device Data Collection to fingerprint your customer's device.
       operationId: deviceDataInitialize
       parameters:
       - in: header
@@ -157,10 +154,7 @@ paths:
   /verifications/customers/3ds/authentication:
     post:
       summary: Initiate the 3DS authentication
-      description: 'Authenticate your customer by submitting order and risk data.
-
-
-        '
+      description: Authenticate your customer by submitting order and risk data.
       operationId: authenticate
       parameters:
       - in: header
@@ -329,10 +323,7 @@ paths:
   /verifications/customers/3ds/verification:
     post:
       summary: Verify the 3DS challenge response
-      description: 'Verify the results of a challenged authentication.
-
-
-        '
+      description: Verify the results of a challenged authentication.
       operationId: verify
       parameters:
       - in: header
@@ -486,6 +477,481 @@ paths:
       - Verifications
 components:
   schemas:
+    validation_errors:
+      type: object
+      required:
+      - errorName
+      - jsonPath
+      - message
+      properties:
+        errorName:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Unique name of the validation error
+        jsonPath:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Location of the field in request body for which the error occurred
+        message:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Error description message
+    3DS_authenticate_200_response_authentication_failed:
+      title: authenticationFailed
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          enum:
+          - alreadyAuthenticated
+          - authenticated
+          - authenticationFailed
+          - authenticationOutage
+          - bypassed
+          - challenged
+          - notEnrolled
+          - signatureFailed
+          - unavailable
+          type: string
+          description: The outcome of the authentication request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        acsTransactionId:
+          $ref: '#/components/schemas/acsTransactionId'
+        status:
+          $ref: '#/components/schemas/status'
+        enrolled:
+          $ref: '#/components/schemas/enrolled'
+        authentication:
+          $ref: '#/components/schemas/authentication'
+        _links:
+          $ref: '#/components/schemas/links'
+    3DS_authenticate_200_response:
+      title: authenticated
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          enum:
+          - alreadyAuthenticated
+          - authenticated
+          - authenticationFailed
+          - authenticationOutage
+          - bypassed
+          - challenged
+          - notEnrolled
+          - signatureFailed
+          - unavailable
+          type: string
+          description: The outcome of the authentication request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        acsTransactionId:
+          $ref: '#/components/schemas/acsTransactionId'
+        status:
+          $ref: '#/components/schemas/status'
+        enrolled:
+          $ref: '#/components/schemas/enrolled'
+        authentication:
+          $ref: '#/components/schemas/authentication'
+        _links:
+          $ref: '#/components/schemas/links'
+    3DS_deviceDataInitialize_200_response:
+      required:
+      - outcome
+      - transactionReference
+      type: object
+      properties:
+        outcome:
+          type: string
+          enum:
+          - initialized
+          - alreadyAuthenticated
+          description: Outcome of the device data initialization request
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication. For example, e-commerce order code.
+        deviceDataCollection:
+          $ref: '#/components/schemas/deviceDataCollection'
+        _links:
+          $ref: '#/components/schemas/links'
+    links:
+      title: Links
+      type: object
+      additionalProperties: true
+    challengeResponse:
+      type: object
+      description: Object containing challenge related information in case of a "challenged" flow
+      properties:
+        reference:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: This links the authentication response to the subsequent challenge form and verification request.
+        url:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: POST action on the challenge form. Used to redirect to the issuers challenge page as part of the challenge form.
+        jwt:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: A digitally signed token that contains additional details, such as the URL to return to after the challenge screen. Expires in `10` minutes on Try and `30 sec` on Live
+        payload:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: JSON container with extra data required for the challenge. This is used by the native SDK (iOS/Android) only.
+    3DS_deviceDataInitialize_502_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        path:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The request URI path
+        status:
+          maxLength: 3
+          minLength: 3
+          type: integer
+          description: The HTTP status returned from server
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        _links:
+          $ref: '#/components/schemas/links'
+    status:
+      maxLength: 2
+      minLength: 1
+      type: string
+      description: "Indicates the outcome of the authentication or verification request.  \n\n- `Y` - Successful authentication\n- `N` - Failed authentication\n- `U` - Unable to complete authentication\n- `A` - Successful attempts authentication\n- `C` - Challenged authentication\n- `R` - Authentication rejected (merchant _must not_ submit for authorization)\n- `I` - Exemption acknowledged"
+    3DS_authenticate_challenged_200_response:
+      title: challenged
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          enum:
+          - alreadyAuthenticated
+          - authenticated
+          - authenticationFailed
+          - authenticationOutage
+          - bypassed
+          - challenged
+          - notEnrolled
+          - signatureFailed
+          - unavailable
+          type: string
+          description: The outcome of the authentication request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        authentication:
+          type: object
+          description: Object that contains authentication related information.
+          properties:
+            version:
+              $ref: '#/components/schemas/version'
+        challenge:
+          $ref: '#/components/schemas/challengeResponse'
+        _links:
+          $ref: '#/components/schemas/links'
+    3DS_deviceDataInitialize:
+      required:
+      - transactionReference
+      - merchant
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          $ref: '#/components/schemas/merchant'
+        paymentInstrument:
+          oneOf:
+          - $ref: '#/components/schemas/card_front'
+          - $ref: '#/components/schemas/card_tokenized'
+          - $ref: '#/components/schemas/card_networktoken'
+          - $ref: '#/components/schemas/card_wallet_googlepay'
+          discriminator:
+            mapping:
+              card/front: '#/components/schemas/card_front'
+              card/tokenized: '#/components/schemas/card_tokenized'
+              card/networkToken: '#/components/schemas/card_networktoken'
+              card/wallet+googlepay: '#/components/schemas/card_wallet_googlepay'
+            propertyName: type
+    deviceDataCollection:
+      required:
+      - jwt
+      - url
+      type: object
+      description: Object containing device data collection related information
+      properties:
+        jwt:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: A digitally signed token that contains additional details required for DDC.
+        url:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: A `POST` action on the DDC form. Used to redirect to the issuers DDC page.
+        bin:
+          maxLength: 6
+          minLength: 6
+          type: string
+          description: First six digits of the card number (Bank Identification Number), used as part of DDC. Returned if a token resource, network payment token or card number is included in the request.
+    3DS_authenticate_503_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        path:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The request URI path
+        status:
+          maxLength: 3
+          minLength: 3
+          type: integer
+          description: The HTTP status returned from server
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        _links:
+          $ref: '#/components/schemas/links'
+    eci:
+      maxLength: 2
+      minLength: 1
+      type: string
+      description: "Electronic Commerce Indicator (ECI). Indicates the outcome of the 3DS authentication.  \n\n| ECI | Meaning | \n|---|---| \n| 02 or 05 | Fully Authenticated Transaction | \n| 01 or 06 | Attempted Authentication Transaction | \n| 00 or 07 | Non 3-D Secure Transaction | \n\n| Scheme | Value | \n|---|---| \n|  Mastercard | 02, 01, 00 |\n|  Visa | 05, 06, 07 |\n| Amex | 05, 06, 07 | \n| JCB | 05, 06, 07 |\n|  Diners | 05, 06, 07 |"
+    card_networktoken:
+      required:
+      - type
+      - tokenNumber
+      - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/networkToken
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: Object containing card expiry information
+          properties:
+            month:
+              maximum: 12
+              minimum: 1
+              type: integer
+              description: Card expiry month
+            year:
+              maximum: 9999
+              minimum: 1
+              type: integer
+              description: Card expiry year
+        tokenNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: The network token number
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+    enrolled:
+      maxLength: 1
+      minLength: 1
+      type: string
+      description: "Status of authentication eligibility.  \n\n- `Y` - Bank is participating in 3DS\n- `N` - Bank is not participating in 3DS\n- `U` - The Directory Server (DS) or Access Control Server (ACS) were not available at the time of the request\n- `B` - Merchant authentication rule is triggered to bypass authentication (3DS premium only)"
+    cardHolderName:
+      maxLength: 255
+      minLength: 1
+      type: string
+      description: The name on your customer's card. This is not a mandatory field, however we recommend that you supply this to improve authentication rates.
+    3DS_verify:
+      required:
+      - transactionReference
+      - challenge
+      - merchant
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about the merchant and API level configuration.
+          properties:
+            entity:
+              maxLength: 64
+              minLength: 1
+              pattern: ^[A-Za-z0-9 ]*$
+              type: string
+              description: Used to route the request in Access Worldpay, created as part of on-boarding.
+        challenge:
+          required:
+          - reference
+          type: object
+          description: Object containing challenge related information in case of a "challenged" flow
+          properties:
+            reference:
+              maxLength: 20
+              minLength: 20
+              pattern: (^[A-Za-z0-9]*$)
+              type: string
+              description: The challenge reference obtained from the previous authentication request, in case the customer was redirected to a "challenged" flow.
+    3DS_authenticate_400_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        path:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The request URI path
+        status:
+          maxLength: 3
+          minLength: 3
+          type: integer
+          description: The HTTP status returned from server
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        headerName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The name of the header containing invalid value
+        allowedMethods:
+          type: array
+          description: List of HTTP methods that are allowed
+          items:
+            type: string
+        validationErrors:
+          description: Object containing details of validation errors occurred
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+        _links:
+          $ref: '#/components/schemas/links'
+    acsTransactionId:
+      maxLength: 36
+      minLength: 1
+      type: string
+      description: An identifier assigned by the Access Control Server (ACS) to identify a single transaction. Used primarily for Mastercard 3RI subsequent transactions to link the subsequent transaction back to a previous cardholder authentication. Can be disregarded unless otherwise needed.
+    3DS_authenticate_200_response_unavailable:
+      title: unavailable
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          enum:
+          - alreadyAuthenticated
+          - authenticated
+          - authenticationFailed
+          - authenticationOutage
+          - bypassed
+          - challenged
+          - notEnrolled
+          - signatureFailed
+          - unavailable
+          type: string
+          description: The outcome of the authentication request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        _links:
+          $ref: '#/components/schemas/links'
+    authentication:
+      type: object
+      description: Object that contains authentication related information.
+      properties:
+        version:
+          $ref: '#/components/schemas/version'
+        eci:
+          $ref: '#/components/schemas/eci'
+        authenticationValue:
+          $ref: '#/components/schemas/authenticationValue'
+        transactionId:
+          $ref: '#/components/schemas/transactionId'
+    card_tokenized:
+      required:
+      - type
+      - href
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/tokenized
+          description: An identifier for the `paymentInstrument` being used.
+        href:
+          minLength: 1
+          type: string
+          description: An `http` address that contains your link to an Access Token
+    transactionId:
+      maxLength: 64
+      minLength: 1
+      type: string
+      description: Directory server transaction Id, if provided should be used in the payment authorization authentication object
+    authenticationValue:
+      maxLength: 64
+      minLength: 1
+      type: string
+      description: "A cryptographic value that provides evidence of the outcome of a 3DS verification. \n- Visa - Cardholder Authentication Verification Value (CAVV)\n- Mastercard - Universal Cardholder Authentication Field (UCAF)\n"
     3DS_verify_200_response_unavailable:
       title: unavailable
       type: object
@@ -507,6 +973,250 @@ components:
           $ref: '#/components/schemas/status'
         _links:
           $ref: '#/components/schemas/links'
+    3DS_authenticate_200_response_cartes_bancaires:
+      title: authenticated (Cartes Bancaires)
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          enum:
+          - alreadyAuthenticated
+          - authenticated
+          - authenticationFailed
+          - authenticationOutage
+          - bypassed
+          - challenged
+          - notEnrolled
+          - signatureFailed
+          - unavailable
+          type: string
+          description: The outcome of the authentication request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        acsTransactionId:
+          $ref: '#/components/schemas/acsTransactionId'
+        status:
+          $ref: '#/components/schemas/status'
+        enrolled:
+          $ref: '#/components/schemas/enrolled'
+        authentication:
+          $ref: '#/components/schemas/authenticationResponseCartesBancaires'
+        _links:
+          $ref: '#/components/schemas/links'
+          description: Shipping recipient's phone number.
+    3DS_authenticate_200_response_bypassed:
+      title: bypassed
+      required:
+      - outcome
+      type: object
+      properties:
+        outcome:
+          enum:
+          - alreadyAuthenticated
+          - authenticated
+          - authenticationFailed
+          - authenticationOutage
+          - bypassed
+          - challenged
+          - notEnrolled
+          - signatureFailed
+          - unavailable
+          type: string
+          description: The outcome of the authentication request.
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        acsTransactionId:
+          $ref: '#/components/schemas/acsTransactionId'
+        status:
+          $ref: '#/components/schemas/status'
+        enrolled:
+          $ref: '#/components/schemas/enrolled'
+        authentication:
+          $ref: '#/components/schemas/authentication'
+    3DS_authenticate_502_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        path:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The request URI path
+        status:
+          maxLength: 3
+          minLength: 3
+          type: integer
+          description: The HTTP status returned from server
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        _links:
+          $ref: '#/components/schemas/links'
+    transactionReference:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+      type: string
+      description: A unique reference for authentication. For example, e-commerce order code. Use the same transactionReference across all 3 potential request types (deviceDataInitialization, authentication, verification).
+    authenticationResponseCartesBancaires:
+      type: object
+      description: Object that contains authentication related information.
+      properties:
+        version:
+          $ref: '#/components/schemas/version'
+        eci:
+          $ref: '#/components/schemas/eci'
+        authenticationValue:
+          $ref: '#/components/schemas/authenticationValue'
+        transactionId:
+          $ref: '#/components/schemas/transactionId'
+        cryptogramAlgorithm:
+          maxLength: 99999
+          minLength: 1
+          type: string
+          description: Indicates the algorithm used to generate the cryptogram. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization request.
+        challengePreference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: 'Indicates the preferred challenge behavior. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization request.
+
+            - `noPreference`
+
+            - `noChallengeRequested`
+
+            - `challengeRequested`
+
+            - `challengeMandated`
+
+            - `noChallengeRequestedTRAPerformed`
+
+            '
+        authenticationFlow:
+          maxLength: 64
+          minLength: 1
+          enum:
+          - challenge
+          - frictionless
+          type: string
+          description: Indicates which flow the customer has been directed to. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization request.
+        statusReason:
+          maxLength: 2
+          minLength: 1
+          type: string
+          description: Provides further information relating to the outcome of the authentication. Returned for failed authentications only. __Returned for Cartes Bancaires authentications only.__
+        cancellationIndicator:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'An indicator as to why the authentication was cancelled. __Returned for Cartes Bancaires authentications only.__
+
+            - `01` - Cardholder selected cancel
+
+            - `02` - Reserved for future use
+
+            - `03` - Authentication timed out
+
+            - `04` and `05` - Authentication timed out at ACS provider
+
+            - `06` - Transaction error
+
+            - `07` - Unknown
+
+            - `08` - Transaction timed out at SDK
+
+            '
+        networkScore:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: The global score calculated by the Cartes Bancaires scoring platform. __Returned for Cartes Bancaires authentications only__.
+        brand:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: The card brand used in the authentication. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization.
+    3DS_verify_200_response:
+      title: authenticated
+      type: object
+      properties:
+        outcome:
+          enum:
+          - authenticated
+          - authenticationFailed
+          - unavailable
+          - signatureFailed
+          type: string
+          description: Outcome of the previously posted authentication request.
+        acsTransactionId:
+          $ref: '#/components/schemas/acsTransactionId'
+        status:
+          $ref: '#/components/schemas/status'
+        enrolled:
+          $ref: '#/components/schemas/enrolled'
+        authentication:
+          $ref: '#/components/schemas/authentication'
+        transactionReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A unique reference for authentication that was passed in the request.
+        _links:
+          $ref: '#/components/schemas/links'
+    card_front:
+      required:
+      - type
+      - cardNumber
+      - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/front
+          description: An identifier for the `paymentInstrument` being used.
+        cardHolderName:
+          $ref: '#/components/schemas/cardHolderName'
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: Object containing card expiry information
+          properties:
+            month:
+              maximum: 12
+              minimum: 1
+              type: integer
+              description: Card expiry month
+            year:
+              maximum: 9999
+              minimum: 1
+              type: integer
+              description: Card expiry year
+        cardNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: Clear card number (PAN)
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
     3DS_authenticate:
       required:
       - transactionReference
@@ -909,218 +1619,7 @@ components:
                       minLength: 4
                       pattern: ^[0-9]*$
                       description: Shipping recipient's phone number.
-    3DS_deviceDataInitialize_502_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        path:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The request URI path
-        status:
-          maxLength: 3
-          minLength: 3
-          type: integer
-          description: The HTTP status returned from server
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        _links:
-          $ref: '#/components/schemas/links'
-    3DS_authenticate_200_response_unavailable:
-      title: unavailable
-      required:
-      - outcome
-      type: object
-      properties:
-        outcome:
-          enum:
-          - alreadyAuthenticated
-          - authenticated
-          - authenticationFailed
-          - authenticationOutage
-          - bypassed
-          - challenged
-          - notEnrolled
-          - signatureFailed
-          - unavailable
-          type: string
-          description: The outcome of the authentication request.
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        _links:
-          $ref: '#/components/schemas/links'
-    enrolled:
-      maxLength: 1
-      minLength: 1
-      type: string
-      description: "Status of authentication eligibility.  \n\n- `Y` - Bank is participating in 3DS\n- `N` - Bank is not participating in 3DS\n- `U` - The Directory Server (DS) or Access Control Server (ACS) were not available at the time of the request\n- `B` - Merchant authentication rule is triggered to bypass authentication (3DS premium only)"
-    status:
-      maxLength: 2
-      minLength: 1
-      type: string
-      description: "Indicates the outcome of the authentication or verification request.  \n\n- `Y` - Successful authentication\n- `N` - Failed authentication\n- `U` - Unable to complete authentication\n- `A` - Successful attempts authentication\n- `C` - Challenged authentication\n- `R` - Authentication rejected (merchant _must not_ submit for authorization)\n- `I` - Exemption acknowledged"
-    3DS_deviceDataInitialize_200_response:
-      required:
-      - outcome
-      - transactionReference
-      type: object
-      properties:
-        outcome:
-          type: string
-          enum:
-          - initialized
-          - alreadyAuthenticated
-          description: Outcome of the device data initialization request
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication. For example, e-commerce order code.
-        deviceDataCollection:
-          $ref: '#/components/schemas/deviceDataCollection'
-        _links:
-          $ref: '#/components/schemas/links'
-    3DS_authenticate_200_response:
-      title: authenticated
-      required:
-      - outcome
-      type: object
-      properties:
-        outcome:
-          enum:
-          - alreadyAuthenticated
-          - authenticated
-          - authenticationFailed
-          - authenticationOutage
-          - bypassed
-          - challenged
-          - notEnrolled
-          - signatureFailed
-          - unavailable
-          type: string
-          description: The outcome of the authentication request.
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        acsTransactionId:
-          $ref: '#/components/schemas/acsTransactionId'
-        status:
-          $ref: '#/components/schemas/status'
-        enrolled:
-          $ref: '#/components/schemas/enrolled'
-        authentication:
-          $ref: '#/components/schemas/authentication'
-        _links:
-          $ref: '#/components/schemas/links'
-    3DS_verify_400_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        path:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The request URI path
-        status:
-          maxLength: 3
-          minLength: 3
-          type: integer
-          description: The HTTP status returned from server
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        headerName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The name of the header containing invalid value
-        allowedMethods:
-          type: array
-          description: List of HTTP methods that are allowed
-          items:
-            type: string
-        validationErrors:
-          description: Object containing details of validation errors occurred
-          type: array
-          items:
-            $ref: '#/components/schemas/validation_errors'
-        _links:
-          $ref: '#/components/schemas/links'
-    3DS_verify_200_response:
-      title: authenticated
-      type: object
-      properties:
-        outcome:
-          enum:
-          - authenticated
-          - authenticationFailed
-          - unavailable
-          - signatureFailed
-          type: string
-          description: Outcome of the previously posted authentication request.
-        acsTransactionId:
-          $ref: '#/components/schemas/acsTransactionId'
-        status:
-          $ref: '#/components/schemas/status'
-        enrolled:
-          $ref: '#/components/schemas/enrolled'
-        authentication:
-          $ref: '#/components/schemas/authentication'
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        _links:
-          $ref: '#/components/schemas/links'
-    deviceDataCollection:
-      required:
-      - jwt
-      - url
-      type: object
-      description: Object containing device data collection related information
-      properties:
-        jwt:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: A digitally signed token that contains additional details required for DDC.
-        url:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: A `POST` action on the DDC form. Used to redirect to the issuers DDC page.
-        bin:
-          maxLength: 6
-          minLength: 6
-          type: string
-          description: First six digits of the card number (Bank Identification Number), used as part of DDC. Returned if a token resource, network payment token or card number is included in the request.
-    3DS_authenticate_503_response:
+    3DS_deviceDataInitialize_503_response:
       required:
       - message
       - errorName
@@ -1174,384 +1673,11 @@ components:
           description: A unique reference for authentication that was passed in the request.
         _links:
           $ref: '#/components/schemas/links'
-    card_networktoken:
-      required:
-      - type
-      - tokenNumber
-      - cardExpiryDate
-      type: object
-      properties:
-        type:
-          type: string
-          format: card/networkToken
-          description: An identifier for the `paymentInstrument` being used.
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: Object containing card expiry information
-          properties:
-            month:
-              maximum: 12
-              minimum: 1
-              type: integer
-              description: Card expiry month
-            year:
-              maximum: 9999
-              minimum: 1
-              type: integer
-              description: Card expiry year
-        tokenNumber:
-          maxLength: 19
-          minLength: 10
-          pattern: ^[0-9]*$
-          type: string
-          description: The network token number
-        cardHolderName:
-          $ref: '#/components/schemas/cardHolderName'
-        billingAddress:
-          $ref: '#/components/schemas/billingAddress'
-    links:
-      title: Links
-      type: object
-      additionalProperties: true
-    authenticationResponseCartesBancaires:
-      type: object
-      description: Object that contains authentication related information.
-      properties:
-        version:
-          $ref: '#/components/schemas/version'
-        eci:
-          $ref: '#/components/schemas/eci'
-        authenticationValue:
-          $ref: '#/components/schemas/authenticationValue'
-        transactionId:
-          $ref: '#/components/schemas/transactionId'
-        cryptogramAlgorithm:
-          maxLength: 99999
-          minLength: 1
-          type: string
-          description: Indicates the algorithm used to generate the cryptogram. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization request.
-        challengePreference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: 'Indicates the preferred challenge behavior. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization request.
-
-            - `noPreference`
-
-            - `noChallengeRequested`
-
-            - `challengeRequested`
-
-            - `challengeMandated`
-
-            - `noChallengeRequestedTRAPerformed`
-
-            '
-        authenticationFlow:
-          maxLength: 64
-          minLength: 1
-          enum:
-          - challenge
-          - frictionless
-          type: string
-          description: Indicates which flow the customer has been directed to. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization request.
-        statusReason:
-          maxLength: 2
-          minLength: 1
-          type: string
-          description: Provides further information relating to the outcome of the authentication. Returned for failed authentications only. __Returned for Cartes Bancaires authentications only.__
-        cancellationIndicator:
-          maxLength: 2
-          minLength: 0
-          type: string
-          description: 'An indicator as to why the authentication was cancelled. __Returned for Cartes Bancaires authentications only.__
-
-            - `01` - Cardholder selected cancel
-
-            - `02` - Reserved for future use
-
-            - `03` - Authentication timed out
-
-            - `04` and `05` - Authentication timed out at ACS provider
-
-            - `06` - Transaction error
-
-            - `07` - Unknown
-
-            - `08` - Transaction timed out at SDK
-
-            '
-        networkScore:
-          maxLength: 2
-          minLength: 0
-          type: string
-          description: The global score calculated by the Cartes Bancaires scoring platform. __Returned for Cartes Bancaires authentications only__.
-        brand:
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: The card brand used in the authentication. __Returned for Cartes Bancaires authentications only__ and must be applied in the following authorization.
-    3DS_verify_200_response_failed:
-      title: authenticationFailed
-      type: object
-      properties:
-        outcome:
-          enum:
-          - authenticated
-          - authenticationFailed
-          - unavailable
-          - signatureFailed
-          type: string
-          description: Outcome of the previously posted authentication request.
-        authentication:
-          $ref: '#/components/schemas/authentication'
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        acsTransactionId:
-          $ref: '#/components/schemas/acsTransactionId'
-        status:
-          $ref: '#/components/schemas/status'
-        enrolled:
-          $ref: '#/components/schemas/enrolled'
-        _links:
-          $ref: '#/components/schemas/links'
-    card_front:
-      required:
-      - type
-      - cardNumber
-      - cardExpiryDate
-      type: object
-      properties:
-        type:
-          type: string
-          format: card/front
-          description: An identifier for the `paymentInstrument` being used.
-        cardHolderName:
-          $ref: '#/components/schemas/cardHolderName'
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: Object containing card expiry information
-          properties:
-            month:
-              maximum: 12
-              minimum: 1
-              type: integer
-              description: Card expiry month
-            year:
-              maximum: 9999
-              minimum: 1
-              type: integer
-              description: Card expiry year
-        cardNumber:
-          maxLength: 19
-          minLength: 10
-          pattern: ^[0-9]*$
-          type: string
-          description: Clear card number (PAN)
-        billingAddress:
-          $ref: '#/components/schemas/billingAddress'
-    validation_errors:
-      type: object
-      required:
-      - errorName
-      - jsonPath
-      - message
-      properties:
-        errorName:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Unique name of the validation error
-        jsonPath:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Location of the field in request body for which the error occurred
-        message:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Error description message
-    3DS_authenticate_200_response_cartes_bancaires:
-      title: authenticated (Cartes Bancaires)
-      required:
-      - outcome
-      type: object
-      properties:
-        outcome:
-          enum:
-          - alreadyAuthenticated
-          - authenticated
-          - authenticationFailed
-          - authenticationOutage
-          - bypassed
-          - challenged
-          - notEnrolled
-          - signatureFailed
-          - unavailable
-          type: string
-          description: The outcome of the authentication request.
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        acsTransactionId:
-          $ref: '#/components/schemas/acsTransactionId'
-        status:
-          $ref: '#/components/schemas/status'
-        enrolled:
-          $ref: '#/components/schemas/enrolled'
-        authentication:
-          $ref: '#/components/schemas/authenticationResponseCartesBancaires'
-        _links:
-          $ref: '#/components/schemas/links'
-          description: Shipping recipient's phone number.
-    transactionReference:
-      maxLength: 64
-      minLength: 1
-      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-      type: string
-      description: A unique reference for authentication. For example, e-commerce order code. Use the same transactionReference across all 3 potential request types (deviceDataInitialization, authentication, verification).
-    merchant:
-      required:
-      - entity
-      type: object
-      description: An object that contains information about the merchant and API level configuration.
-      properties:
-        entity:
-          maxLength: 64
-          minLength: 1
-          pattern: ^[A-Za-z0-9 ]*$
-          type: string
-          description: Used to route the request in Access Worldpay, created as part of on-boarding.
-    3DS_deviceDataInitialize_503_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        path:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The request URI path
-        status:
-          maxLength: 3
-          minLength: 3
-          type: integer
-          description: The HTTP status returned from server
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        _links:
-          $ref: '#/components/schemas/links'
-    transactionId:
-      maxLength: 64
-      minLength: 1
-      type: string
-      description: Directory server transaction Id, if provided should be used in the payment authorization authentication object
-    eci:
-      maxLength: 2
-      minLength: 1
-      type: string
-      description: "Electronic Commerce Indicator (ECI). Indicates the outcome of the 3DS authentication.  \n\n| ECI | Meaning | \n|---|---| \n| 02 or 05 | Fully Authenticated Transaction | \n| 01 or 06 | Attempted Authentication Transaction | \n| 00 or 07 | Non 3-D Secure Transaction | \n\n| Scheme | Value | \n|---|---| \n|  Mastercard | 02, 01, 00 |\n|  Visa | 05, 06, 07 |\n| Amex | 05, 06, 07 | \n| JCB | 05, 06, 07 |\n|  Diners | 05, 06, 07 |"
     version:
       maxLength: 10
       minLength: 1
       type: string
       description: The version of 3DS used to process the transaction.
-    acsTransactionId:
-      maxLength: 36
-      minLength: 1
-      type: string
-      description: An identifier assigned by the Access Control Server (ACS) to identify a single transaction. Used primarily for Mastercard 3RI subsequent transactions to link the subsequent transaction back to a previous cardholder authentication. Can be disregarded unless otherwise needed.
-    3DS_deviceDataInitialize:
-      required:
-      - transactionReference
-      - merchant
-      type: object
-      properties:
-        transactionReference:
-          $ref: '#/components/schemas/transactionReference'
-        merchant:
-          $ref: '#/components/schemas/merchant'
-        paymentInstrument:
-          oneOf:
-          - $ref: '#/components/schemas/card_front'
-          - $ref: '#/components/schemas/card_tokenized'
-          - $ref: '#/components/schemas/card_networktoken'
-          - $ref: '#/components/schemas/card_wallet_googlepay'
-          discriminator:
-            mapping:
-              card/front: '#/components/schemas/card_front'
-              card/tokenized: '#/components/schemas/card_tokenized'
-              card/networkToken: '#/components/schemas/card_networktoken'
-              card/wallet+googlepay: '#/components/schemas/card_wallet_googlepay'
-            propertyName: type
-    card_tokenized:
-      required:
-      - type
-      - href
-      type: object
-      properties:
-        type:
-          type: string
-          format: card/tokenized
-          description: An identifier for the `paymentInstrument` being used.
-        href:
-          minLength: 1
-          type: string
-          description: An `http` address that contains your link to an Access Token
-    3DS_verify:
-      required:
-      - transactionReference
-      - challenge
-      - merchant
-      type: object
-      properties:
-        transactionReference:
-          $ref: '#/components/schemas/transactionReference'
-        merchant:
-          required:
-          - entity
-          type: object
-          description: An object that contains information about the merchant and API level configuration.
-          properties:
-            entity:
-              maxLength: 64
-              minLength: 1
-              pattern: ^[A-Za-z0-9 ]*$
-              type: string
-              description: Used to route the request in Access Worldpay, created as part of on-boarding.
-        challenge:
-          required:
-          - reference
-          type: object
-          description: Object containing challenge related information in case of a "challenged" flow
-          properties:
-            reference:
-              maxLength: 20
-              minLength: 20
-              pattern: (^[A-Za-z0-9]*$)
-              type: string
-              description: The challenge reference obtained from the previous authentication request, in case the customer was redirected to a "challenged" flow.
     billingAddress:
       required:
       - address1
@@ -1595,73 +1721,18 @@ components:
           maxLength: 80
           type: string
           description: Billing address line 3
-    cardHolderName:
-      maxLength: 255
-      minLength: 1
-      type: string
-      description: The name on your customer's card. This is not a mandatory field, however we recommend that you supply this to improve authentication rates.
-    3DS_authenticate_challenged_200_response:
-      title: challenged
+    merchant:
       required:
-      - outcome
+      - entity
       type: object
+      description: An object that contains information about the merchant and API level configuration.
       properties:
-        outcome:
-          enum:
-          - alreadyAuthenticated
-          - authenticated
-          - authenticationFailed
-          - authenticationOutage
-          - bypassed
-          - challenged
-          - notEnrolled
-          - signatureFailed
-          - unavailable
-          type: string
-          description: The outcome of the authentication request.
-        transactionReference:
+        entity:
           maxLength: 64
           minLength: 1
+          pattern: ^[A-Za-z0-9 ]*$
           type: string
-          description: A unique reference for authentication that was passed in the request.
-        authentication:
-          type: object
-          description: Object that contains authentication related information.
-          properties:
-            version:
-              $ref: '#/components/schemas/version'
-        challenge:
-          $ref: '#/components/schemas/challengeResponse'
-        _links:
-          $ref: '#/components/schemas/links'
-    3DS_authenticate_502_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        path:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The request URI path
-        status:
-          maxLength: 3
-          minLength: 3
-          type: integer
-          description: The HTTP status returned from server
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        _links:
-          $ref: '#/components/schemas/links'
+          description: Used to route the request in Access Worldpay, created as part of on-boarding.
     card_wallet_googlepay:
       required:
       - type
@@ -1704,31 +1775,77 @@ components:
             countryCode:
               type: string
               description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
-    challengeResponse:
+    3DS_verify_200_response_failed:
+      title: authenticationFailed
       type: object
-      description: Object containing challenge related information in case of a "challenged" flow
       properties:
-        reference:
-          maxLength: 20
+        outcome:
+          enum:
+          - authenticated
+          - authenticationFailed
+          - unavailable
+          - signatureFailed
+          type: string
+          description: Outcome of the previously posted authentication request.
+        authentication:
+          $ref: '#/components/schemas/authentication'
+        transactionReference:
+          maxLength: 64
           minLength: 1
           type: string
-          description: This links the authentication response to the subsequent challenge form and verification request.
-        url:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: POST action on the challenge form. Used to redirect to the issuers challenge page as part of the challenge form.
-        jwt:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: A digitally signed token that contains additional details, such as the URL to return to after the challenge screen. Expires in `10` minutes on Try and `30 sec` on Live
-        payload:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: JSON container with extra data required for the challenge. This is used by the native SDK (iOS/Android) only.
+          description: A unique reference for authentication that was passed in the request.
+        acsTransactionId:
+          $ref: '#/components/schemas/acsTransactionId'
+        status:
+          $ref: '#/components/schemas/status'
+        enrolled:
+          $ref: '#/components/schemas/enrolled'
+        _links:
+          $ref: '#/components/schemas/links'
     3DS_deviceDataInitialize_400_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        path:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The request URI path
+        status:
+          maxLength: 3
+          minLength: 3
+          type: integer
+          description: The HTTP status returned from server
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        headerName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The name of the header containing invalid value
+        allowedMethods:
+          type: array
+          description: List of HTTP methods that are allowed
+          items:
+            type: string
+        validationErrors:
+          description: Object containing details of validation errors occurred
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+        _links:
+          $ref: '#/components/schemas/links'
+    3DS_verify_400_response:
       required:
       - message
       - errorName
@@ -1792,479 +1909,7 @@ components:
           description: A unique reference for authentication that was passed in the request.
         _links:
           $ref: '#/components/schemas/links'
-    authentication:
-      type: object
-      description: Object that contains authentication related information.
-      properties:
-        version:
-          $ref: '#/components/schemas/version'
-        eci:
-          $ref: '#/components/schemas/eci'
-        authenticationValue:
-          $ref: '#/components/schemas/authenticationValue'
-        transactionId:
-          $ref: '#/components/schemas/transactionId'
-    3DS_authenticate_200_response_bypassed:
-      title: bypassed
-      required:
-      - outcome
-      type: object
-      properties:
-        outcome:
-          enum:
-          - alreadyAuthenticated
-          - authenticated
-          - authenticationFailed
-          - authenticationOutage
-          - bypassed
-          - challenged
-          - notEnrolled
-          - signatureFailed
-          - unavailable
-          type: string
-          description: The outcome of the authentication request.
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        acsTransactionId:
-          $ref: '#/components/schemas/acsTransactionId'
-        status:
-          $ref: '#/components/schemas/status'
-        enrolled:
-          $ref: '#/components/schemas/enrolled'
-        authentication:
-          $ref: '#/components/schemas/authentication'
-    authenticationValue:
-      maxLength: 64
-      minLength: 1
-      type: string
-      description: "A cryptographic value that provides evidence of the outcome of a 3DS verification. \n- Visa - Cardholder Authentication Verification Value (CAVV)\n- Mastercard - Universal Cardholder Authentication Field (UCAF)\n"
-    3DS_authenticate_400_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        path:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The request URI path
-        status:
-          maxLength: 3
-          minLength: 3
-          type: integer
-          description: The HTTP status returned from server
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        headerName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The name of the header containing invalid value
-        allowedMethods:
-          type: array
-          description: List of HTTP methods that are allowed
-          items:
-            type: string
-        validationErrors:
-          description: Object containing details of validation errors occurred
-          type: array
-          items:
-            $ref: '#/components/schemas/validation_errors'
-        _links:
-          $ref: '#/components/schemas/links'
-    3DS_authenticate_200_response_authentication_failed:
-      title: authenticationFailed
-      required:
-      - outcome
-      type: object
-      properties:
-        outcome:
-          enum:
-          - alreadyAuthenticated
-          - authenticated
-          - authenticationFailed
-          - authenticationOutage
-          - bypassed
-          - challenged
-          - notEnrolled
-          - signatureFailed
-          - unavailable
-          type: string
-          description: The outcome of the authentication request.
-        transactionReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A unique reference for authentication that was passed in the request.
-        acsTransactionId:
-          $ref: '#/components/schemas/acsTransactionId'
-        status:
-          $ref: '#/components/schemas/status'
-        enrolled:
-          $ref: '#/components/schemas/enrolled'
-        authentication:
-          $ref: '#/components/schemas/authentication'
-        _links:
-          $ref: '#/components/schemas/links'
   examples:
-    authentication-authentication-failed:
-      description: Issuer failed the authentication without providing the option for a challenge
-      value:
-        outcome: authenticationFailed
-        transactionReference: Memory265-13/08/1876
-        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
-        status: N
-        enrolled: Y
-        authentication:
-          version: 2.1.0
-          eci: '07'
-          transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    verification-unavailable:
-      description: An example of a verification request to return the 3DS authentication data
-      value:
-        outcome: unavailable
-        transactionReference: Memory265-13/08/1876
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          3ds:verify:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/verification
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    ddc-jwt-bin:
-      description: Initialize the device data collection using the card number, worldpay token or network token
-      value:
-        outcome: initialized
-        transactionReference: Memory265-13/08/1876
-        deviceDataCollection:
-          jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiJPcmdVbml0IiwiaXNzIjoiYXBpSWQiLCJleHAiOjE1NjI5MjMzNDYsImlhdCI6MTU2MjkyMzQwNiwianRpIjoiYTAzMWVhOGEtN2E0Zi00YTQwLWI1NjMtOTUzMzYzMzVhZGNmIn0.0IK74OIXBxFsxqeOURJz1TFnz14ZTbFJTdTWo9cHUJQ
-          url: https://ddcUrl.example.com
-          bin: '555555'
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    authentication-token:
-      description: An example of a 3DS2 Authentication request containing a token which results in an authenticated response
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-          overrideName: Baskerville Sanctuary
-          acquirerId: '01234567'
-        instruction:
-          paymentInstrument:
-            type: card/tokenized
-            href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
-          value:
-            currency: GBP
-            amount: 250
-        deviceData:
-          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
-          acceptHeader: text/html
-          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
-          browserLanguage: en-GB
-          browserJavaEnabled: true
-          browserColorDepth: '15'
-          browserScreenHeight: 1200
-          browserScreenWidth: 900
-          timeZone: '-300'
-          browserJavascriptEnabled: true
-          ipAddress: 192.0.0.0
-        challenge:
-          windowSize: 600x400
-          preference: noPreference
-          returnUrl: http://payment.example.com
-        riskData:
-          account:
-            previousSuspiciousActivity: false
-            type: registeredUser
-            email: test@test.com
-            history:
-              createdAt: '2019-11-18'
-              modifiedAt: '2019-11-18'
-              passwordModifiedAt: '2019-10-15'
-              paymentAccountEnrolledAt: '2019-11-18'
-          transaction:
-            reorder: true
-            preOrderDate: '2019-11-18'
-            firstName: John
-            lastName: Appleseed
-            phoneNumber: '00000000000'
-            history:
-              attemptsLastDay: 2
-              attemptsLastYear: 6
-              completedLastSixMonths: 6
-              addCardsLastDay: 5
-              shippingAddressFirstUsedAt: '2018-09-18'
-            giftCardsPurchase:
-              totalValue:
-                currency: GBP
-                amount: 10
-              quantity: 4
-          shipping:
-            nameMatchesAccountName: false
-            method: verifiedAddress
-            timeFrame: nextDay
-            email: sherlock.holmes@example.com
-            address:
-              address1: Disneyland
-              address2: Disneyland Drive
-              address3: Adventure Park
-              postalCode: DL1 2CA
-              city: Anaheim
-              stateCode: CA
-              countryCode: GB
-              phoneNumber: 01911234321
-    verification-signature-failed:
-      description: An example of a verification request to return the 3DS authentication data
-      value:
-        outcome: signatureFailed
-        transactionReference: Memory265-13/08/1876
-        authentication:
-          version: 1.0.2
-          eci: '02'
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    already-authenticated:
-      description: The token is already SCA compliant.
-      value:
-        outcome: alreadyAuthenticated
-        transactionReference: Memory265-13/08/1876
-    authentication-bypassed:
-      description: Bypass the authentication flow using Cardinal rules engine configuration. Part of 3DS premium
-      value:
-        outcome: bypassed
-        transactionReference: Memory265-13/08/1876
-        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
-        status: Y
-        enrolled: B
-        authentication:
-          version: 2.1.0
-          eci: '07'
-          transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
-    authentication-googlepay:
-      description: Authentication request with Google Pay token
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-          overrideName: Baskerville Sanctuary
-          acquirerId: '01234567'
-        instruction:
-          paymentInstrument:
-            type: card/wallet+googlepay
-            walletToken: '{"protocolVersion":"ECv1","signature":"MEQCIH6Q4OwQ0jAceFEkGF0JID6sJNXxOEi4r+mA7biRxqBQAiAondqoUpU/bdsrAOpZIsrHQS9nwiiNwOrr24RyPeHA0Q\u003d\u003d","signedMessage":"{\"tag\":\"jpGz1F1Bcoi/fCNxI9n7Qrsw7i7KHrGtTf3NrRclt+U\\u003d\",\"ephemeralPublicKey\":\"BJatyFvFPPD21l8/uLP46Ta1hsKHndf8Z+tAgk+DEPQgYTkhHy19cF3h/bXs0tWTmZtnNm+vlVrKbRU9K8+7cZs\\u003d\",\"encryptedMessage\":\"mKOoXwi8OavZ\"}"}'
-          value:
-            currency: GBP
-            amount: 250
-        deviceData:
-          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
-          acceptHeader: text/html
-          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
-          browserLanguage: en-GB
-          browserJavaEnabled: true
-          browserColorDepth: '15'
-          browserScreenHeight: 1200
-          browserScreenWidth: 900
-          timeZone: '-300'
-          browserJavascriptEnabled: true
-          ipAddress: 192.0.0.0
-        challenge:
-          windowSize: 600x400
-          preference: noPreference
-          returnUrl: http://payment.example.com
-        riskData:
-          account:
-            previousSuspiciousActivity: false
-            type: registeredUser
-            email: sherlock.holmes@example.com
-            history:
-              createdAt: '2019-11-18'
-              modifiedAt: '2019-11-18'
-              passwordModifiedAt: '2019-10-15'
-              paymentAccountEnrolledAt: '2019-11-18'
-          transaction:
-            reorder: true
-            preOrderDate: '2019-11-18'
-            firstName: Sherlock
-            lastName: Holmes
-            phoneNumber: '00000000000'
-            history:
-              attemptsLastDay: 2
-              attemptsLastYear: 6
-              completedLastSixMonths: 6
-              addCardsLastDay: 5
-              shippingAddressFirstUsedAt: '2018-09-18'
-            giftCardsPurchase:
-              totalValue:
-                currency: GBP
-                amount: 10
-              quantity: 4
-          shipping:
-            nameMatchesAccountName: false
-            method: verifiedAddress
-            timeFrame: nextDay
-            email: sherlock.holmes@example.com
-            address:
-              address1: Disneyland
-              address2: Disneyland Drive
-              address3: Adventure Park
-              postalCode: DL1 2CA
-              city: Anaheim
-              stateCode: CA
-              countryCode: GB
-              phoneNumber: 01911234321
-    ddc-request:
-      description: Initialize the device data collection without a payment instrument. Only the JWT is returned.
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-    authentication-authentication-outage:
-      description: A downstream service within the 3DS ecosystem is unavailable; you can attempt authorization
-      value:
-        outcome: authenticationOutage
-        transactionReference: Memory265-13/08/1876
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    authentication-unavailable:
-      description: Error/Timeout whilst attempting authentication
-      value:
-        outcome: unavailable
-        transactionReference: Memory265-13/08/1876
-        status: U
-        enrolled: U
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    authentication-card-recommended-native:
-      description: Minimum recommended key:values for native (iOS/Android) to meet EMVco guidelines and ensure healthy authentication rates. See [How much data to provide](/products/3ds/android-ios/authentication/#how-much-data-to-provide) for details.
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        instruction:
-          paymentInstrument:
-            type: card/front
-            cardHolderName: Sherlock Holmes
-            cardNumber: '4444333322221111'
-            cardExpiryDate:
-              month: 5
-              year: 2035
-            billingAddress:
-              address1: 221B Baker Street
-              address2: Marylebone
-              address3: Westminster
-              postalCode: NW1 6XE
-              city: London
-              countryCode: GB
-          value:
-            currency: GBP
-            amount: 250
-        deviceData:
-          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
-          acceptHeader: text/html
-          userAgentHeader: Mozilla/5.0 (iPhone14,6; U; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/19E241 Safari/602.1
-          ipAddress: 192.0.0.0
-        challenge:
-          returnUrl: http://payment.example.com
-        riskData:
-          account:
-            email: sherlock.holmes@example.com
-          transaction:
-            firstName: Sherlock
-            lastName: Holmes
-            phoneNumber: '00000000000'
-    verification-authentication-failed:
-      description: An example of a verification request to return the 3DS authentication data
-      value:
-        outcome: authenticationFailed
-        transactionReference: Memory265-13/08/1876
-        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
-        status: N
-        enrolled: Y
-        authentication:
-          version: 2.2.0
-          eci: '00'
-          transactionId: N+en2I5+ZK/kQqk69wXdI8XIPg8=
-        _links:
-          3ds:authenticate:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    authentication-challenged:
-      description: Issuer challenge required based on a risk assessment they have performed
-      value:
-        outcome: challenged
-        transactionReference: Memory265-13/08/1876
-        authentication:
-          version: 2.1.0
-        challenge:
-          reference: '123456789'
-          url: https://ChallengePageUrl.example.com
-          jwt: VGhpcyBpcyBhIGJhc2UgNjQgZW5jb2RlZCBleGFtcGxlIG9mIGEgM0RTICJwYXlsb2FkIg==
-          payload: eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMS4wIiwidGhyZWVE
-        _links:
-          3ds:verify:
-            href: https://try.access.worldpay.com/verifications/customers/3ds/verification
-          curies:
-          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
-            templated: true
-            name: 3ds
-    authentication-authenticated:
-      description: Successful frictionless authentication
-      value:
-        outcome: authenticated
-        transactionReference: Memory265-13/08/1876
-        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
-        status: Y
-        enrolled: Y
-        authentication:
-          version: 2.1.0
-          authenticationValue: MAAAAAAAAAAAAAAAAAAAAAAAAAA=
-          eci: '05'
-          transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
     ddc-googlepay:
       description: Initialize the DDC using a Google Pay token
       value:
@@ -2274,214 +1919,13 @@ components:
         paymentInstrument:
           type: card/wallet+googlepay
           walletToken: '{"protocolVersion":"ECv1","signature":"MEQCIH6Q4OwQ0jAceFEkGF0JID6sJNXxOEi4r+mA7biRxqBQAiAondqoUpU/bdsrAOpZIsrHQS9nwiiNwOrr24RyPeHA0Q\u003d\u003d","signedMessage":"{\"tag\":\"jpGz1F1Bcoi/fCNxI9n7Qrsw7i7KHrGtTf3NrRclt+U\\u003d\",\"ephemeralPublicKey\":\"BJatyFvFPPD21l8/uLP46Ta1hsKHndf8Z+tAgk+DEPQgYTkhHy19cF3h/bXs0tWTmZtnNm+vlVrKbRU9K8+7cZs\\u003d\",\"encryptedMessage\":\"mKOoXwi8OavZ\"}"}'
-    authentication-card-recommended-web:
-      description: Minimum recommended key:values for web integration to meet EMVco guidelines and ensure healthy authentication rates. See [How much data to provide](/products/3ds/web/authentication/#how-much-data-to-provide) for details.
+    authentication-unavailable:
+      description: Error/Timeout whilst attempting authentication
       value:
+        outcome: unavailable
         transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        instruction:
-          paymentInstrument:
-            type: card/front
-            cardHolderName: Sherlock Holmes
-            cardNumber: '4444333322221111'
-            cardExpiryDate:
-              month: 5
-              year: 2035
-            billingAddress:
-              address1: 221B Baker Street
-              address2: Marylebone
-              address3: Westminster
-              postalCode: NW1 6XE
-              city: London
-              countryCode: GB
-          value:
-            currency: GBP
-            amount: 250
-        deviceData:
-          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
-          acceptHeader: text/html
-          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
-          browserLanguage: en-GB
-          browserJavaEnabled: true
-          browserColorDepth: '15'
-          browserScreenHeight: 1200
-          browserScreenWidth: 900
-          timeZone: '-300'
-          browserJavascriptEnabled: true
-          ipAddress: 192.0.0.0
-        challenge:
-          returnUrl: http://payment.example.com
-        riskData:
-          account:
-            email: sherlock.holmes@example.com
-          transaction:
-            firstName: Sherlock
-            lastName: Holmes
-            phoneNumber: '00000000000'
-    ddc-networktoken:
-      description: Initialize the device data collection using a Network Payment Token
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        paymentInstrument:
-          type: card/networkToken
-          tokenNumber: '4444333322221111'
-          cardExpiryDate:
-            month: 5
-            year: 2035
-    authentication-card:
-      description: An example of a 3DS2 Authentication request containing card details which results in an authenticated response
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-          overrideName: Baskerville Sanctuary
-          acquirerId: '01234567'
-        instruction:
-          paymentInstrument:
-            type: card/front
-            cardHolderName: Sherlock Holmes
-            cardNumber: '4444333322221111'
-            cardExpiryDate:
-              month: 5
-              year: 2035
-            billingAddress:
-              address1: 221B Baker Street
-              address2: Marylebone
-              address3: Westminster
-              postalCode: NW1 6XE
-              city: London
-              countryCode: GB
-          value:
-            currency: GBP
-            amount: 250
-        deviceData:
-          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
-          acceptHeader: text/html
-          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
-          browserLanguage: en-GB
-          browserJavaEnabled: true
-          browserColorDepth: '15'
-          browserScreenHeight: 1200
-          browserScreenWidth: 900
-          timeZone: '-300'
-          browserJavascriptEnabled: true
-          ipAddress: 192.0.0.0
-        challenge:
-          windowSize: 600x400
-          preference: noPreference
-          returnUrl: http://payment.example.com
-        riskData:
-          account:
-            previousSuspiciousActivity: false
-            type: registeredUser
-            email: sherlock.holmes@example.com
-            history:
-              createdAt: '2019-11-18'
-              modifiedAt: '2019-11-18'
-              passwordModifiedAt: '2019-10-15'
-              paymentAccountEnrolledAt: '2019-11-18'
-          transaction:
-            reorder: true
-            preOrderDate: '2019-11-18'
-            firstName: Sherlock
-            lastName: Holmes
-            phoneNumber: '00000000000'
-            history:
-              attemptsLastDay: 2
-              attemptsLastYear: 6
-              completedLastSixMonths: 6
-              addCardsLastDay: 5
-              shippingAddressFirstUsedAt: '2018-09-18'
-            giftCardsPurchase:
-              totalValue:
-                currency: GBP
-                amount: 10
-              quantity: 4
-          shipping:
-            nameMatchesAccountName: false
-            method: verifiedAddress
-            timeFrame: nextDay
-            email: sherlock.holmes@example.com
-            address:
-              address1: Disneyland
-              address2: Disneyland Drive
-              address3: Adventure Park
-              postalCode: DL1 2CA
-              city: Anaheim
-              stateCode: CA
-              countryCode: GB
-              phoneNumber: 01911234321
-    verification-request:
-      description: An example of a verification request to return the 3DS authentication data
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        challenge:
-          reference: 1xoKSqTvmLvhRYBsaE60
-    verification-authenticated:
-      description: An example of a verification request to return the 3DS authentication data
-      value:
-        outcome: authenticated
-        transactionReference: Memory265-13/08/1876
-        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
-        status: Y
-        enrolled: Y
-        authentication:
-          version: 2.1.0
-          authenticationValue: MAAAAAAAAAAAAAAAAAAAAAAAAAA=
-          eci: '05'
-          transactionId: c5b808e7-1de1-4069
-    ddc-token:
-      description: Initialize the device data collection using a Worldpay Token
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        paymentInstrument:
-          type: card/tokenized
-          href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
-    ddc-card:
-      description: Initialize the device data collection using the card number
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        paymentInstrument:
-          type: card/front
-          cardHolderName: Sherlock Holmes
-          cardNumber: '4444333322221111'
-          cardExpiryDate:
-            month: 5
-            year: 2035
-    authentication-authenticated-cartesbancaires:
-      description: Successful frictionless authentication (Cartes Bancaires)
-      value:
-        outcome: authenticated
-        transactionReference: Memory265-13/08/1876
-        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
-        status: Y
-        enrolled: Y
-        authentication:
-          version: 2.1.0
-          authenticationValue: AJkBBkhgQQAAAE4gSEJydQAAAAA=
-          eci: '05'
-          transactionId: be122acf-0ba7-4eff-aa5b-fb53e9ad2f87
-          cryptogramAlgorithm: '1'
-          challengePreference: challengeMandated
-          authenticationFlow: frictionless
-          brand: cartesBancaires
-    ddc-jwt-only:
-      description: Initialize the device data collection without a payment instrument. Only the JWT is returned.
-      value:
-        outcome: initialized
-        transactionReference: Memory265-13/08/1876
-        deviceDataCollection:
-          jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiJPcmdVbml0IiwiaXNzIjoiYXBpSWQiLCJleHAiOjE1NjI5MjMzNDYsImlhdCI6MTU2MjkyMzQwNiwianRpIjoiYTAzMWVhOGEtN2E0Zi00YTQwLWI1NjMtOTUzMzYzMzVhZGNmIn0.0IK74OIXBxFsxqeOURJz1TFnz14ZTbFJTdTWo9cHUJQ
-          url: https://ddcUrl.example.com
+        status: U
+        enrolled: U
         _links:
           3ds:authenticate:
             href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
@@ -2571,6 +2015,553 @@ components:
               stateCode: CA
               countryCode: GB
               phoneNumber: 01911234321
+    authentication-token:
+      description: An example of a 3DS2 Authentication request containing a token which results in an authenticated response
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+          overrideName: Baskerville Sanctuary
+          acquirerId: '01234567'
+        instruction:
+          paymentInstrument:
+            type: card/tokenized
+            href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
+          acceptHeader: text/html
+          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
+          browserLanguage: en-GB
+          browserJavaEnabled: true
+          browserColorDepth: '15'
+          browserScreenHeight: 1200
+          browserScreenWidth: 900
+          timeZone: '-300'
+          browserJavascriptEnabled: true
+          ipAddress: 192.0.0.0
+        challenge:
+          windowSize: 600x400
+          preference: noPreference
+          returnUrl: http://payment.example.com
+        riskData:
+          account:
+            previousSuspiciousActivity: false
+            type: registeredUser
+            email: test@test.com
+            history:
+              createdAt: '2019-11-18'
+              modifiedAt: '2019-11-18'
+              passwordModifiedAt: '2019-10-15'
+              paymentAccountEnrolledAt: '2019-11-18'
+          transaction:
+            reorder: true
+            preOrderDate: '2019-11-18'
+            firstName: John
+            lastName: Appleseed
+            phoneNumber: '00000000000'
+            history:
+              attemptsLastDay: 2
+              attemptsLastYear: 6
+              completedLastSixMonths: 6
+              addCardsLastDay: 5
+              shippingAddressFirstUsedAt: '2018-09-18'
+            giftCardsPurchase:
+              totalValue:
+                currency: GBP
+                amount: 10
+              quantity: 4
+          shipping:
+            nameMatchesAccountName: false
+            method: verifiedAddress
+            timeFrame: nextDay
+            email: sherlock.holmes@example.com
+            address:
+              address1: Disneyland
+              address2: Disneyland Drive
+              address3: Adventure Park
+              postalCode: DL1 2CA
+              city: Anaheim
+              stateCode: CA
+              countryCode: GB
+              phoneNumber: 01911234321
+    ddc-token:
+      description: Initialize the device data collection using a Worldpay Token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        paymentInstrument:
+          type: card/tokenized
+          href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
+    verification-request:
+      description: An example of a verification request to return the 3DS authentication data
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        challenge:
+          reference: 1xoKSqTvmLvhRYBsaE60
+    authentication-card-recommended-web:
+      description: Minimum recommended key:values for web integration to meet EMVco guidelines and ensure healthy authentication rates. See [How much data to provide](/products/3ds/web/authentication/#how-much-data-to-provide) for details.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        instruction:
+          paymentInstrument:
+            type: card/front
+            cardHolderName: Sherlock Holmes
+            cardNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
+          acceptHeader: text/html
+          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
+          browserLanguage: en-GB
+          browserJavaEnabled: true
+          browserColorDepth: '15'
+          browserScreenHeight: 1200
+          browserScreenWidth: 900
+          timeZone: '-300'
+          browserJavascriptEnabled: true
+          ipAddress: 192.0.0.0
+        challenge:
+          returnUrl: http://payment.example.com
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000'
+    authentication-card-recommended-native:
+      description: Minimum recommended key:values for native (iOS/Android) to meet EMVco guidelines and ensure healthy authentication rates. See [How much data to provide](/products/3ds/android-ios/authentication/#how-much-data-to-provide) for details.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        instruction:
+          paymentInstrument:
+            type: card/front
+            cardHolderName: Sherlock Holmes
+            cardNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
+          acceptHeader: text/html
+          userAgentHeader: Mozilla/5.0 (iPhone14,6; U; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/19E241 Safari/602.1
+          ipAddress: 192.0.0.0
+        challenge:
+          returnUrl: http://payment.example.com
+        riskData:
+          account:
+            email: sherlock.holmes@example.com
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000'
+    verification-authenticated:
+      description: An example of a verification request to return the 3DS authentication data
+      value:
+        outcome: authenticated
+        transactionReference: Memory265-13/08/1876
+        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
+        status: Y
+        enrolled: Y
+        authentication:
+          version: 2.1.0
+          authenticationValue: MAAAAAAAAAAAAAAAAAAAAAAAAAA=
+          eci: '05'
+          transactionId: c5b808e7-1de1-4069
+    verification-authentication-failed:
+      description: An example of a verification request to return the 3DS authentication data
+      value:
+        outcome: authenticationFailed
+        transactionReference: Memory265-13/08/1876
+        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
+        status: N
+        enrolled: Y
+        authentication:
+          version: 2.2.0
+          eci: '00'
+          transactionId: N+en2I5+ZK/kQqk69wXdI8XIPg8=
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    verification-signature-failed:
+      description: An example of a verification request to return the 3DS authentication data
+      value:
+        outcome: signatureFailed
+        transactionReference: Memory265-13/08/1876
+        authentication:
+          version: 1.0.2
+          eci: '02'
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    authentication-authenticated:
+      description: Successful frictionless authentication
+      value:
+        outcome: authenticated
+        transactionReference: Memory265-13/08/1876
+        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
+        status: Y
+        enrolled: Y
+        authentication:
+          version: 2.1.0
+          authenticationValue: MAAAAAAAAAAAAAAAAAAAAAAAAAA=
+          eci: '05'
+          transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
+    verification-unavailable:
+      description: An example of a verification request to return the 3DS authentication data
+      value:
+        outcome: unavailable
+        transactionReference: Memory265-13/08/1876
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          3ds:verify:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/verification
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    authentication-bypassed:
+      description: Bypass the authentication flow using Cardinal rules engine configuration. Part of 3DS premium
+      value:
+        outcome: bypassed
+        transactionReference: Memory265-13/08/1876
+        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
+        status: Y
+        enrolled: B
+        authentication:
+          version: 2.1.0
+          eci: '07'
+          transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
+    ddc-networktoken:
+      description: Initialize the device data collection using a Network Payment Token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        paymentInstrument:
+          type: card/networkToken
+          tokenNumber: '4444333322221111'
+          cardExpiryDate:
+            month: 5
+            year: 2035
+    authentication-authentication-outage:
+      description: A downstream service within the 3DS ecosystem is unavailable; you can attempt authorization
+      value:
+        outcome: authenticationOutage
+        transactionReference: Memory265-13/08/1876
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    ddc-card:
+      description: Initialize the device data collection using the card number
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        paymentInstrument:
+          type: card/front
+          cardHolderName: Sherlock Holmes
+          cardNumber: '4444333322221111'
+          cardExpiryDate:
+            month: 5
+            year: 2035
+    authentication-googlepay:
+      description: Authentication request with Google Pay token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+          overrideName: Baskerville Sanctuary
+          acquirerId: '01234567'
+        instruction:
+          paymentInstrument:
+            type: card/wallet+googlepay
+            walletToken: '{"protocolVersion":"ECv1","signature":"MEQCIH6Q4OwQ0jAceFEkGF0JID6sJNXxOEi4r+mA7biRxqBQAiAondqoUpU/bdsrAOpZIsrHQS9nwiiNwOrr24RyPeHA0Q\u003d\u003d","signedMessage":"{\"tag\":\"jpGz1F1Bcoi/fCNxI9n7Qrsw7i7KHrGtTf3NrRclt+U\\u003d\",\"ephemeralPublicKey\":\"BJatyFvFPPD21l8/uLP46Ta1hsKHndf8Z+tAgk+DEPQgYTkhHy19cF3h/bXs0tWTmZtnNm+vlVrKbRU9K8+7cZs\\u003d\",\"encryptedMessage\":\"mKOoXwi8OavZ\"}"}'
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
+          acceptHeader: text/html
+          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
+          browserLanguage: en-GB
+          browserJavaEnabled: true
+          browserColorDepth: '15'
+          browserScreenHeight: 1200
+          browserScreenWidth: 900
+          timeZone: '-300'
+          browserJavascriptEnabled: true
+          ipAddress: 192.0.0.0
+        challenge:
+          windowSize: 600x400
+          preference: noPreference
+          returnUrl: http://payment.example.com
+        riskData:
+          account:
+            previousSuspiciousActivity: false
+            type: registeredUser
+            email: sherlock.holmes@example.com
+            history:
+              createdAt: '2019-11-18'
+              modifiedAt: '2019-11-18'
+              passwordModifiedAt: '2019-10-15'
+              paymentAccountEnrolledAt: '2019-11-18'
+          transaction:
+            reorder: true
+            preOrderDate: '2019-11-18'
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000'
+            history:
+              attemptsLastDay: 2
+              attemptsLastYear: 6
+              completedLastSixMonths: 6
+              addCardsLastDay: 5
+              shippingAddressFirstUsedAt: '2018-09-18'
+            giftCardsPurchase:
+              totalValue:
+                currency: GBP
+                amount: 10
+              quantity: 4
+          shipping:
+            nameMatchesAccountName: false
+            method: verifiedAddress
+            timeFrame: nextDay
+            email: sherlock.holmes@example.com
+            address:
+              address1: Disneyland
+              address2: Disneyland Drive
+              address3: Adventure Park
+              postalCode: DL1 2CA
+              city: Anaheim
+              stateCode: CA
+              countryCode: GB
+              phoneNumber: 01911234321
+    authentication-card:
+      description: An example of a 3DS2 Authentication request containing card details which results in an authenticated response
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+          overrideName: Baskerville Sanctuary
+          acquirerId: '01234567'
+        instruction:
+          paymentInstrument:
+            type: card/front
+            cardHolderName: Sherlock Holmes
+            cardNumber: '4444333322221111'
+            cardExpiryDate:
+              month: 5
+              year: 2035
+            billingAddress:
+              address1: 221B Baker Street
+              address2: Marylebone
+              address3: Westminster
+              postalCode: NW1 6XE
+              city: London
+              countryCode: GB
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_3XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX6b5
+          acceptHeader: text/html
+          userAgentHeader: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)
+          browserLanguage: en-GB
+          browserJavaEnabled: true
+          browserColorDepth: '15'
+          browserScreenHeight: 1200
+          browserScreenWidth: 900
+          timeZone: '-300'
+          browserJavascriptEnabled: true
+          ipAddress: 192.0.0.0
+        challenge:
+          windowSize: 600x400
+          preference: noPreference
+          returnUrl: http://payment.example.com
+        riskData:
+          account:
+            previousSuspiciousActivity: false
+            type: registeredUser
+            email: sherlock.holmes@example.com
+            history:
+              createdAt: '2019-11-18'
+              modifiedAt: '2019-11-18'
+              passwordModifiedAt: '2019-10-15'
+              paymentAccountEnrolledAt: '2019-11-18'
+          transaction:
+            reorder: true
+            preOrderDate: '2019-11-18'
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '00000000000'
+            history:
+              attemptsLastDay: 2
+              attemptsLastYear: 6
+              completedLastSixMonths: 6
+              addCardsLastDay: 5
+              shippingAddressFirstUsedAt: '2018-09-18'
+            giftCardsPurchase:
+              totalValue:
+                currency: GBP
+                amount: 10
+              quantity: 4
+          shipping:
+            nameMatchesAccountName: false
+            method: verifiedAddress
+            timeFrame: nextDay
+            email: sherlock.holmes@example.com
+            address:
+              address1: Disneyland
+              address2: Disneyland Drive
+              address3: Adventure Park
+              postalCode: DL1 2CA
+              city: Anaheim
+              stateCode: CA
+              countryCode: GB
+              phoneNumber: 01911234321
+    authentication-challenged:
+      description: Issuer challenge required based on a risk assessment they have performed
+      value:
+        outcome: challenged
+        transactionReference: Memory265-13/08/1876
+        authentication:
+          version: 2.1.0
+        challenge:
+          reference: '123456789'
+          url: https://ChallengePageUrl.example.com
+          jwt: VGhpcyBpcyBhIGJhc2UgNjQgZW5jb2RlZCBleGFtcGxlIG9mIGEgM0RTICJwYXlsb2FkIg==
+          payload: eyJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMS4wIiwidGhyZWVE
+        _links:
+          3ds:verify:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/verification
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    ddc-jwt-bin:
+      description: Initialize the device data collection using the card number, worldpay token or network token
+      value:
+        outcome: initialized
+        transactionReference: Memory265-13/08/1876
+        deviceDataCollection:
+          jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiJPcmdVbml0IiwiaXNzIjoiYXBpSWQiLCJleHAiOjE1NjI5MjMzNDYsImlhdCI6MTU2MjkyMzQwNiwianRpIjoiYTAzMWVhOGEtN2E0Zi00YTQwLWI1NjMtOTUzMzYzMzVhZGNmIn0.0IK74OIXBxFsxqeOURJz1TFnz14ZTbFJTdTWo9cHUJQ
+          url: https://ddcUrl.example.com
+          bin: '555555'
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    ddc-jwt-only:
+      description: Initialize the device data collection without a payment instrument. Only the JWT is returned.
+      value:
+        outcome: initialized
+        transactionReference: Memory265-13/08/1876
+        deviceDataCollection:
+          jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJPcmdVbml0SWQiOiJPcmdVbml0IiwiaXNzIjoiYXBpSWQiLCJleHAiOjE1NjI5MjMzNDYsImlhdCI6MTU2MjkyMzQwNiwianRpIjoiYTAzMWVhOGEtN2E0Zi00YTQwLWI1NjMtOTUzMzYzMzVhZGNmIn0.0IK74OIXBxFsxqeOURJz1TFnz14ZTbFJTdTWo9cHUJQ
+          url: https://ddcUrl.example.com
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    authentication-authentication-failed:
+      description: Issuer failed the authentication without providing the option for a challenge
+      value:
+        outcome: authenticationFailed
+        transactionReference: Memory265-13/08/1876
+        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
+        status: N
+        enrolled: Y
+        authentication:
+          version: 2.1.0
+          eci: '07'
+          transactionId: c5b808e7-1de1-4069-a17b-f70d3b3b1645
+        _links:
+          3ds:authenticate:
+            href: https://try.access.worldpay.com/verifications/customers/3ds/authentication
+          curies:
+          - href: https://try.access.worldpay.com/rels/verifications/customers/3ds/{rel}
+            templated: true
+            name: 3ds
+    authentication-authenticated-cartesbancaires:
+      description: Successful frictionless authentication (Cartes Bancaires)
+      value:
+        outcome: authenticated
+        transactionReference: Memory265-13/08/1876
+        acsTransactionId: fe007a6e-315f-4cdf-98ca-28a9e40e3581
+        status: Y
+        enrolled: Y
+        authentication:
+          version: 2.1.0
+          authenticationValue: AJkBBkhgQQAAAE4gSEJydQAAAAA=
+          eci: '05'
+          transactionId: be122acf-0ba7-4eff-aa5b-fb53e9ad2f87
+          cryptogramAlgorithm: '1'
+          challengePreference: challengeMandated
+          authenticationFlow: frictionless
+          brand: cartesBancaires
+    ddc-request:
+      description: Initialize the device data collection without a payment instrument. Only the JWT is returned.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+    already-authenticated:
+      description: The token is already SCA compliant.
+      value:
+        outcome: alreadyAuthenticated
+        transactionReference: Memory265-13/08/1876
   securitySchemes:
     BasicAuth:
       type: http

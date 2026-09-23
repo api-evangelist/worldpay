@@ -1,31 +1,32 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Identity verification API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Parties Identity verification API
+  description: Create parties, manage your payout instruments and beneficial owners and carry out identity verification checks.
+  contact:
+    name: Team Fusion
+  version: '2025-01-01'
   x-metadata:
-    category:
-    - 3DS
-    - SCA Exemptions
-    business:
-    - Enterprise
     catalog-list: true
-    generated: false
+    business:
+    - Marketplaces
+    category:
+    - Parties
+    generated: true
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
 - url: https://access.worldpay.com
   description: Live
 security:
-- BasicAuth: []
+- basicAuth: []
 tags:
-- name: Identity verification
+- name: Identity Verification
   description: Enable identity verification check on a party.
 paths:
   /parties/{partyId}/identityVerification:
     post:
       tags:
-      - Identity verification
+      - Identity Verification
       summary: Perform identity verification
       operationId: performIdentityVerification
       parameters:
@@ -98,7 +99,7 @@ paths:
                   $ref: '#/components/examples/503'
     get:
       tags:
-      - Identity verification
+      - Identity Verification
       summary: View identity verification status
       operationId: getIdentityVerificationStatus
       parameters:
@@ -157,50 +158,75 @@ paths:
                 Service Unavailable:
                   $ref: '#/components/examples/503'
 components:
-  schemas:
-    ErrorResponseItem:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-        jsonPath:
-          type: string
-        queryParameter:
-          type: string
-        pathParameter:
-          type: string
-    IdentityVerificationResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: An ordinal error type that is part of the API contract. It is machine readable, but also human readable for clarity and semantic understanding of the error.
-          example: bodyDoesNotMatchSchema
-        message:
-          type: string
-          description: A human readable message giving a corrective action for the error. THIS IS NOT FOR MACHINE CONSUMPTION.
-        validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseItem'
-        pathParameter:
-          type: string
-        queryParameter:
-          type: string
-        jsonPath:
-          type: string
+  examples:
+    Perform_IVS_Company_modular:
+      value:
+        performIdentityVerification: true
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+    Get_IVS_Company_200_modular:
+      description: Get Identiy Verification Status on a party of a company (modular)
+      value:
         overall:
-          $ref: '#/components/schemas/IdentityVerificationInfo'
+          identityVerificationState: started
+          identityVerificationMethod: identityVerificationService
         party:
-          $ref: '#/components/schemas/PartyIdentityVerificationInfo'
+          identityVerificationState: started
+          partyReference: Linnea474
+          partyId: parWcAyq5G2-1KwvsEkFAKwz0
         beneficialOwners:
-          type: array
-          items:
-            $ref: '#/components/schemas/BeneficialOwnerIdentityVerificationInfo'
+        - identityVerificationState: started
+          beneficialOwnerReference: Mac551
+          beneficialOwnerId: parAZo80iViOTdKRJi4Oq14Z0
+        - identityVerificationState: started
+          beneficialOwnerReference: Thea799
+          beneficialOwnerId: parB5ON-IEK4olrLuHvjEDpE0
+        - identityVerificationState: started
+          beneficialOwnerReference: Santino227
+          beneficialOwnerId: parNKRss9vllWyX1MUVOj7b-0
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: The identified field is present when it is explicitly not allowed in the request.
+          jsonPath: $.additionalData
+    Perform_IVS_Company_200_modular:
+      description: Identity Verification Status on a party of a company (modular)
+      value:
+        overall:
+          identityVerificationState: started
+          identityVerificationMethod: identityVerificationService
+        party:
+          identityVerificationState: started
+          partyReference: Euna925
+          partyId: par1Bbf6r80Q3mEvhp_xBKNM0
+        beneficialOwners:
+        - identityVerificationState: started
+          beneficialOwnerReference: Floy829
+          beneficialOwnerId: parsH2dSCcczQveB-GQNx0qq0
+        - identityVerificationState: started
+          beneficialOwnerReference: Christina843
+          beneficialOwnerId: parbQR-8sRkYASaOzOVPX5d10
+        - identityVerificationState: started
+          beneficialOwnerReference: Arlo912
+          beneficialOwnerId: pargosUuzW0vv8HrWsCTuadb0
+    400_Invalid_Url:
+      value:
+        errorName: urlContainsInvalidValue
+        message: The URL contains a value or values that are invalid.
+        validationErrors:
+        - errorName: fieldHasInvalidValue
+          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
+          jsonPath: $.partyId
+    '503':
+      value:
+        errorName: serviceUnavailable
+        message: Service cannot fulfil the request even though service functions witout internal errors.
+  schemas:
     IdentityVerificationInfo:
       type: object
       properties:
@@ -236,56 +262,6 @@ components:
         message:
           type: string
           description: The message associated with link returned from Identity Verification Status (IVS).
-          readOnly: true
-    BeneficialOwnerIdentityVerificationInfo:
-      type: object
-      properties:
-        identityVerificationState:
-          type: string
-          enum:
-          - verified
-          - notVerified
-          - pending
-          - rejected
-          - notApplicable
-          - started
-          - startedAction
-          - pendingStepUpAction
-          - pendingManualReview - stepUpReceived
-          readOnly: true
-        identityVerificationMethod:
-          type: string
-          enum:
-          - merchantCompliant
-          - identityVerificationService
-          readOnly: true
-        identityVerificationDate:
-          type: string
-          format: date
-          description: A valid date as YYYY-MM-DD
-          example: '2033-11-22'
-          readOnly: true
-        url:
-          type: string
-          description: The link returned from Identity Verification Status (IVS) used to retrieve additional details from the user.
-          readOnly: true
-        message:
-          type: string
-          description: The message associated with link returned from Identity Verification Status (IVS).
-          readOnly: true
-        beneficialOwnerReference:
-          type: string
-          description: 'Your reference for this beneficial owner, must be unique within an entity.
-
-
-            '
-          example: Hosaka27384910
-          maxLength: 64
-          minLength: 3
-          pattern: ^[A-Za-z0-9\-_ ]*$
-        beneficialOwnerId:
-          type: string
-          description: A unique identifier for the beneficial owner generated by us.
           readOnly: true
     ErrorResponse:
       type: object
@@ -360,81 +336,107 @@ components:
           maxLength: 64
           minLength: 3
           pattern: ^[A-Za-z0-9\-_ ]*$
+    ErrorResponseItem:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        jsonPath:
+          type: string
+        queryParameter:
+          type: string
+        pathParameter:
+          type: string
     IdentityVerification:
       type: object
       properties:
         performIdentityVerification:
           type: boolean
           writeOnly: true
-  examples:
-    '503':
-      value:
-        errorName: serviceUnavailable
-        message: Service cannot fulfil the request even though service functions witout internal errors.
-    Get_IVS_Company_200_modular:
-      description: Get Identiy Verification Status on a party of a company (modular)
-      value:
-        overall:
-          identityVerificationState: started
-          identityVerificationMethod: identityVerificationService
-        party:
-          identityVerificationState: started
-          partyReference: Linnea474
-          partyId: parWcAyq5G2-1KwvsEkFAKwz0
-        beneficialOwners:
-        - identityVerificationState: started
-          beneficialOwnerReference: Mac551
-          beneficialOwnerId: parAZo80iViOTdKRJi4Oq14Z0
-        - identityVerificationState: started
-          beneficialOwnerReference: Thea799
-          beneficialOwnerId: parB5ON-IEK4olrLuHvjEDpE0
-        - identityVerificationState: started
-          beneficialOwnerReference: Santino227
-          beneficialOwnerId: parNKRss9vllWyX1MUVOj7b-0
-    400_Invalid_Url:
-      value:
-        errorName: urlContainsInvalidValue
-        message: The URL contains a value or values that are invalid.
+    BeneficialOwnerIdentityVerificationInfo:
+      type: object
+      properties:
+        identityVerificationState:
+          type: string
+          enum:
+          - verified
+          - notVerified
+          - pending
+          - rejected
+          - notApplicable
+          - started
+          - startedAction
+          - pendingStepUpAction
+          - pendingManualReview - stepUpReceived
+          readOnly: true
+        identityVerificationMethod:
+          type: string
+          enum:
+          - merchantCompliant
+          - identityVerificationService
+          readOnly: true
+        identityVerificationDate:
+          type: string
+          format: date
+          description: A valid date as YYYY-MM-DD
+          example: '2033-11-22'
+          readOnly: true
+        url:
+          type: string
+          description: The link returned from Identity Verification Status (IVS) used to retrieve additional details from the user.
+          readOnly: true
+        message:
+          type: string
+          description: The message associated with link returned from Identity Verification Status (IVS).
+          readOnly: true
+        beneficialOwnerReference:
+          type: string
+          description: 'Your reference for this beneficial owner, must be unique within an entity.
+
+
+            '
+          example: Hosaka27384910
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        beneficialOwnerId:
+          type: string
+          description: A unique identifier for the beneficial owner generated by us.
+          readOnly: true
+    IdentityVerificationResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: An ordinal error type that is part of the API contract. It is machine readable, but also human readable for clarity and semantic understanding of the error.
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          description: A human readable message giving a corrective action for the error. THIS IS NOT FOR MACHINE CONSUMPTION.
         validationErrors:
-        - errorName: fieldHasInvalidValue
-          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
-          jsonPath: $.partyId
-    Perform_IVS_Company_200_modular:
-      description: Identity Verification Status on a party of a company (modular)
-      value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseItem'
+        pathParameter:
+          type: string
+        queryParameter:
+          type: string
+        jsonPath:
+          type: string
         overall:
-          identityVerificationState: started
-          identityVerificationMethod: identityVerificationService
+          $ref: '#/components/schemas/IdentityVerificationInfo'
         party:
-          identityVerificationState: started
-          partyReference: Euna925
-          partyId: par1Bbf6r80Q3mEvhp_xBKNM0
+          $ref: '#/components/schemas/PartyIdentityVerificationInfo'
         beneficialOwners:
-        - identityVerificationState: started
-          beneficialOwnerReference: Floy829
-          beneficialOwnerId: parsH2dSCcczQveB-GQNx0qq0
-        - identityVerificationState: started
-          beneficialOwnerReference: Christina843
-          beneficialOwnerId: parbQR-8sRkYASaOzOVPX5d10
-        - identityVerificationState: started
-          beneficialOwnerReference: Arlo912
-          beneficialOwnerId: pargosUuzW0vv8HrWsCTuadb0
-    '400':
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: The identified field is present when it is explicitly not allowed in the request.
-          jsonPath: $.additionalData
-    Perform_IVS_Company_modular:
-      value:
-        performIdentityVerification: true
-    '500':
-      value:
-        errorName: internalErrorOccurred
-        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+          type: array
+          items:
+            $ref: '#/components/schemas/BeneficialOwnerIdentityVerificationInfo'
   securitySchemes:
-    BasicAuth:
+    basicAuth:
       type: http
+      description: Basic authentication with user name and password
       scheme: basic

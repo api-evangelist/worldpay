@@ -1,16 +1,45 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions PaymentQueries API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Payment Queries API
+  version: '1'
   x-metadata:
     category:
-    - 3DS
-    - SCA Exemptions
+    - Query Payments
     business:
     - Enterprise
     catalog-list: true
     generated: false
+  description: 'Query your payments data based on a variety of parameters.
+
+
+    __Authentication__
+
+
+    Set your headers:
+
+
+    ```
+
+    Authorization: {your_credentials}
+
+    Accept: application/vnd.worldpay.payment-queries-v1.hal+json
+
+    ```
+
+    Replace `{your_credentials}` with your base64-encoded Basic Auth username and password.
+
+
+    __DNS whitelisting__
+
+
+    Whitelist the following URLs:
+
+    * `https://try.access.worldpay.com/`
+
+    * `https://access.worldpay.com/`
+
+
+    Please ensure you use DNS whitelisting, not explicit IP whitelisting.'
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
@@ -19,7 +48,7 @@ servers:
 security:
 - BasicAuth: []
 tags:
-- name: PaymentQueries
+- name: Payment Queries
 paths:
   /paymentQueries/payments:
     get:
@@ -30,7 +59,7 @@ paths:
         These payments can be filtered by currency, minAmount, maxAmount, last4Digits & receivedEvents.
 
 
-        The API returns data for payments processed after 25 June 2024. For payments processed before then use our [query for historical payments](/products/payment-queries/@v1/query-archive.md).'
+        The API returns data for payments processed after 25 June 2024. For payments processed before then use our query for historical payments.'
       operationId: queryByDateRange
       parameters:
       - in: header
@@ -1473,14 +1502,14 @@ paths:
                     errorName: invalidLast4Digits
                     message: Provided last 4 digits are not valid.
       tags:
-      - PaymentQueries
+      - Payment Queries
   /paymentQueries/payments/{paymentId}:
     get:
       summary: Retrieve a payment
       description: 'Retrieve a single payment by payment ID.
 
 
-        The API returns detailed data for payments processed after 25 June 2024. For payments processed before then use our [query for historical payments](/products/payment-queries/@v1/query-archive.md).'
+        The API returns detailed data for payments processed after 25 June 2024. For payments processed before then use our query for historical payments.'
       operationId: retrieveByPaymentId
       parameters:
       - in: header
@@ -1739,7 +1768,7 @@ paths:
                     errorName: paymentNotFound
                     message: The payment you are trying to access does not exist.
       tags:
-      - PaymentQueries
+      - Payment Queries
   /paymentQueries/archivedPayments:
     get:
       summary: Query historical payments
@@ -1815,24 +1844,86 @@ paths:
                     errorName: entityIsNotConfigured
                     message: Entity is not configured to use this resource
       tags:
-      - PaymentQueries
+      - Payment Queries
 components:
   schemas:
-    authorizationTimedOut:
+    pq_queryhistoricalpayments_400_response:
+      required:
+      - errorName
+      - message
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: The type of error.
+          example: entityIsNotConfigured
+        message:
+          type: string
+          description: A description of the error
+          example: Entity is not configured to use this resource
+    refundRequestSubmissionFailed:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Your authorization request timed out.
+          description: Your refund request failed.
           enum:
-          - authorizationTimedOut
+          - refundRequestSubmissionFailed
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
+    saleRefused:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your sale request was refused by the card issuer.
+          enum:
+          - saleRefused
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        outcome:
+          type: string
+          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
+          enum:
+          - refused
+        code:
+          type: string
+          description: The response code, used to identify the refusal reason.
+          example: '65'
+        description:
+          type: string
+          description: The description of the refusal reason.
+          example: Authentication Requested
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    reversalLinks:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: object
+          description: Self link to the page.
+          properties:
+            href:
+              type: string
+              description: Self link to the page.
+            cardPayments:events:
+              type: object
+              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to retrieve the last event of the payment.
+                  example: https://try.access.worldpay.com/payments/events/{linkData}
     cancellationRequested:
       required:
       - eventName
@@ -1848,49 +1939,76 @@ components:
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
-    reversalRequested:
+    paymentId:
+      maxLength: 36
+      minLength: 25
+      pattern: ^[A-Za-z0-9_-]*$
+      type: string
+      description: Unique identifier generated by us for a single payment. Generated at authorization, and maintained through successive payment actions.
+      example: pay4u_lHl2jobU5S1T2pWkq10
+    saleFailed:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Worldpay has received your reversal request.
+          description: Your sale request failed.
           enum:
-          - reversalRequested
+          - saleFailed
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.
-        value:
-          required:
-          - amount
-          - currency
+        error:
           type: object
-          description: An object that contains the amount and currency requested for reversal.
+          description: All Failed events return error object with name and message.
           properties:
-            amount:
-              type: integer
-              description: This is a whole number including the currency exponent (e.g. GBP has an exponent of 2, so for £2.50 supply:`250`).
-            currency:
+            name:
               type: string
-              description: The 3 digit currency code.
+              description: Example values are,
+              enum:
+              - internalErrorOccurred
+              - transactionReferenceIsADuplicate
+              - transactionHasAlreadyBeenProcessed
+              - channelIsNotSupported
+              - currencyIsNotSupported
+              - paymentInstrumentIsNotSupported
+              - fieldHasInvalidValue
+              - fieldIsEmpty
+              - cardNumberIsNotRecognized
+              - underlyingPaymentInstrumentHasExpired
+              - entityIsNotConfigured
+            message:
+              type: string
+              description: Example values are,
+              enum:
+              - Payment failed to be authorized
+              - Token is unrecognized
+              - The transaction reference is a duplicate
+              - The transaction has already been processed
+              - Currency not supported
         commandId:
           $ref: '#/components/schemas/commandId'
-    reversalRequestSubmitted:
+    fullCancelLinks:
       required:
-      - eventName
+      - self
       type: object
       properties:
-        eventName:
-          type: string
-          description: Your reversal request was successfully sent for processing.
-          enum:
-          - reversalRequestSubmitted
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
+        self:
+          type: object
+          description: Self link to the page.
+          properties:
+            href:
+              type: string
+              description: Self link to the page.
+            cardPayments:events:
+              type: object
+              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to retrieve the last event of the payment.
+                  example: https://try.access.worldpay.com/payments/events/{linkData}
     sentForSettlementLinks:
       required:
       - self
@@ -1935,81 +2053,6 @@ components:
                   type: string
                   description: An action link to retrieve the last event of the payment.
                   example: https://try.access.worldpay.com/payments/events/{linkData}
-    reversalRequestSubmissionTimedOut:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your reversal request timed out.
-          enum:
-          - reversalRequestSubmissionTimedOut
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    authorizationSucceededLinks:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: object
-          description: Self link to the page.
-          properties:
-            href:
-              type: string
-              description: Self link to the page.
-            cardPayments:cancel:
-              type: object
-              description: An action link to cancel the full authorized amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:cancel`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel the full authorized amount.
-                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
-            cardPayments:partialCancel:
-              type: object
-              description: An action link to cancel a portion of the authorized amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialCancel`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel a portion of the authorized amount.
-                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
-            cardPayments:settle:
-              type: object
-              description: An action link to send the full authorized amount for settlement.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:settle`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to send the full authorized amount for settlement.
-                  example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
-            cardPayments:partialSettle:
-              type: object
-              description: An action link to send a portion of the authorized amount for settlement. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialSettle`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to send a portion of the authorized amount for settlement.
-                  example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
-            cardPayments:reverse:
-              type: object
-              description: An action link to cancel or refund the full amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:reverse`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel or refund the full amount.
-                  example: https://try.access.worldpay.com/payments/authorizations/reversals/{linkData}
-            cardPayments:events:
-              type: object
-              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to retrieve the last event of the payment.
-                  example: https://try.access.worldpay.com/payments/events/{linkData}
     saleRequested:
       required:
       - eventName
@@ -2025,233 +2068,37 @@ components:
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
-    pq_querybydaterange_200_response:
-      required:
-      - _links
-      - _embedded
-      type: object
-      properties:
-        _links:
-          required:
-          - self
-          type: object
-          description: links to the pages.
-          properties:
-            self:
-              type: object
-              description: Self link to the page.
-              properties:
-                href:
-                  type: string
-                  description: First page as per the pageSize.
-            next:
-              type: object
-              description: Next page link if the response contains more pages.
-              properties:
-                href:
-                  type: string
-                  description: Second page as per the pageSize.
-        _embedded:
-          type: object
-          properties:
-            payments:
-              type: array
-              required:
-              - timestamp
-              - transactionReference
-              - entity
-              description: Array of payments within the date range.
-              items:
-                type: object
-                properties:
-                  timestamp:
-                    type: string
-                    description: Payment initial authorization time.
-                  paymentId:
-                    $ref: '#/components/schemas/paymentId'
-                  transactionReference:
-                    type: string
-                    description: A unique reference generated by you, used to identify a payment throughout its lifecycle.
-                  narrative:
-                    type: object
-                    description: An object that contains identification and further details of the merchant.
-                    properties:
-                      line1:
-                        type: string
-                        description: First line of text that appears on your customer's statement.
-                      line2:
-                        type: string
-                        description: Second line of text that appears on your customer's statement.
-                  transactionType:
-                    enum:
-                    - oneTime
-                    - cardOnFile
-                    - recurring
-                    type: string
-                    description: An object that contains transaction type.
-                  authorizationType:
-                    enum:
-                    - authorization
-                    - sale
-                    type: string
-                    description: An object that contains authorization type.
-                  entity:
-                    type: string
-                    description: Merchant entity name.
-                  lastEvent:
-                    $ref: '#/components/schemas/lastEvent'
-                  scheme:
-                    required:
-                    - reference
-                    type: object
-                    description: An object containing information returned by the card scheme.
-                    properties:
-                      reference:
-                        type: string
-                        description: The reference returned by the scheme for this particular payment authorization.
-                        example: 'MCCOLXT1C0104  '
-                  issuer:
-                    required:
-                    - authorizationCode
-                    type: object
-                    description: An object containing information returned by the issuer.
-                    properties:
-                      authorizationCode:
-                        pattern: ^[a-zA-Z0-9]+$
-                        type: string
-                        description: A code returned by the card issuer for a successful authorization. Used in reconciliation and dispute management.
-                        example: T31306
-                  paymentInstrument:
-                    type: object
-                    description: The payment instrument supplied in the authorization request.
-                    properties:
-                      type:
-                        type: string
-                        enum:
-                        - card/plain
-                        - card/network
-                        - card/networkToken
-                        - card/networkToken+applepay
-                        - card/networkToken+googlepay
-                        - card/plain+masked
-                        description: The type of payment instrument supplied in the authorization request.
-                      card:
-                        type: object
-                        description: An object that contains information about the card used.
-                        properties:
-                          number:
-                            type: object
-                            description: An object that contains information about the card number.
-                            properties:
-                              cardBin:
-                                pattern: ^[0-9*]+$
-                                type: string
-                                description: The card BIN (Bank Identification Number) is the first 6 or 8 digits of the card number, and can be used to identify the card issuer, the card brand(s) (eg Visa, Cartes Bancaires), and the country. Card BINs are used to route transactions, check card capabilities, and in fraud assessments.
-                                example: '444433'
-                              last4Digits:
-                                pattern: ^[0-9*]+$
-                                type: string
-                                description: The last four digits of the card. Some characters may be obfuscated with a `*` if the PAN length is less than 16 characters.
-                                example: '1111'
-                          category:
-                            type: string
-                            description: Whether the card is classed as a consumer card or a card for commercial use.
-                            enum:
-                            - commercial
-                            - consumer
-                          countryCode:
-                            maxLength: 2
-                            minLength: 2
-                            pattern: ^[A-Z]+$
-                            type: string
-                            description: The [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes) country code that the card was issued in. May return `N/A` where the country is unknown.
-                            example: GB
-                          expiryDate:
-                            type: object
-                            description: The expiry date of the card or network token (where the supplied paymentInstrument was `card/wallet+applepay`, `card/wallet+googlepay`, `card/networkToken`, `card/networkToken+applepay` or `card/networkToken+googlepay`).
-                            properties:
-                              month:
-                                type: integer
-                              year:
-                                type: integer
-                          issuerName:
-                            type: string
-                            description: The name of the card issuer.
-                            example: AN ISSUING BANK LTD
-                          fundingType:
-                            type: string
-                            description: How the card is funded.
-                            enum:
-                            - credit
-                            - debit
-                            - prepaid
-                            - chargeCard
-                            - deferredDebit
-                          brand:
-                            type: string
-                            description: The card brand that the transaction was processed with. Sometimes referred to as the network or scheme.
-                            example: visa
-                          paymentAccountReference:
-                            type: string
-                            description: The payment account reference (PAR) is a non-financial reference that uniquely identifies the underlying cardholder account. This allows you to correlate payments made from the same account with differing instruments (e.g. `card/plain` and `card/wallet+applepay`), where the same account funds the transaction. A PAR cannot be used to initiate a payment.
-                            example: Q1HJZ28RKA1EBL470G9XYG90R5D3E
-                  value:
-                    required:
-                    - amount
-                    - currency
-                    type: object
-                    description: An object that contains payment amount and currency.
-                    properties:
-                      amount:
-                        type: integer
-                        description: This is a whole number including the currency exponent (e.g. GBP has an exponent of 2, so for £2.50 supply:`250`).
-                      currency:
-                        type: string
-                        description: The 3 digit currency code.
-                  _links:
-                    required:
-                    - self
-                    type: object
-                    description: link to retrieveByPaymentId.
-                    properties:
-                      self:
-                        type: object
-                        description: Self link to retrieveByPaymentId.
-                        properties:
-                          href:
-                            type: string
-                            description: RetrieveByPaymentId provides event history and next action links.
-    saleTimedOut:
+    reversalRequestSubmissionTimedOut:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Your sale request timed out.
+          description: Your reversal request timed out.
           enum:
-          - saleTimedOut
+          - reversalRequestSubmissionTimedOut
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
-    cancellationRequestSubmissionFailed:
+    cancellationRequestSubmitted:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Your cancellation request failed.
+          description: Your cancellation request was successfully sent for processing.
           enum:
-          - cancellationRequestSubmissionFailed
+          - cancellationRequestSubmitted
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
-    partialSettleLinks:
+    selfLinkOnly:
       required:
       - self
       type: object
@@ -2263,194 +2110,44 @@ components:
             href:
               type: string
               description: Self link to the page.
-            cardPayments:refund:
-              type: object
-              description: An action link to refund the full settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:refund`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to refund the full settled amount.
-                  example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
-            cardPayments:partialRefund:
-              type: object
-              description: An action link to refund a portion of the settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialRefund`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to refund a portion of the settled amount.
-                  example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
-            cardPayments:partialSettle:
-              type: object
-              description: An action link to send a portion of the authorized amount for settlement. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialSettle`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to send a portion of the authorized amount for settlement.
-                  example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
-            cardPayments:cancel:
-              type: object
-              description: An action link to cancel the full authorized amount. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:cancel`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel the full authorized amount.
-                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
-            cardPayments:reverse:
-              type: object
-              description: An action link to cancel or refund the full amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:reverse`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel or refund the full amount.
-                  example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
-            cardPayments:events:
-              type: object
-              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to retrieve the last event of the payment.
-                  example: https://try.access.worldpay.com/payments/events/{linkData}
-    partialCancelLinks:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: object
-          description: Self link to the page.
-          properties:
-            href:
-              type: string
-              description: Self link to the page.
-            cardPayments:cancel:
-              type: object
-              description: An action link to cancel the full authorized amount.<br><br> For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:cancel`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel the full authorized amount.
-                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
-            cardPayments:partialCancel:
-              type: object
-              description: An action link to cancel a portion of the authorized amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialCancel`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel a portion of the authorized amount.
-                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
-            cardPayments:settle:
-              type: object
-              description: An action link to send the full authorized amount for settlement. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:settle`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to send the full authorized amount for settlement.
-                  example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
-            cardPayments:partialSettle:
-              type: object
-              description: An action link to send a portion of the authorized amount for settlement.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialSettle`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to send a portion of the authorized amount for settlement.
-                  example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
-            cardPayments:events:
-              type: object
-              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to retrieve the last event of the payment.
-                  example: https://try.access.worldpay.com/payments/events/{linkData}
-    reversalLinks:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: object
-          description: Self link to the page.
-          properties:
-            href:
-              type: string
-              description: Self link to the page.
-            cardPayments:events:
-              type: object
-              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to retrieve the last event of the payment.
-                  example: https://try.access.worldpay.com/payments/events/{linkData}
-    lastEvent:
-      type: string
-      description: The last event received for the payment
-      example: authorizationSucceeded
-      enum:
-      - authorizationRequested
-      - authorizationSucceeded
-      - authorizationRefused
-      - authorizationFailed
-      - authorizationTimedOut
-      - saleRequested
-      - saleSucceeded
-      - saleRefused
-      - saleFailed
-      - saleTimedOut
-      - settlementRequested
-      - settlementRequestSubmitted
-      - settlementRequestSubmissionFailed
-      - settlementRequestSubmissionTimedOut
-      - refundRequested
-      - refundRequestSubmitted
-      - refundRequestSubmissionFailed
-      - refundRequestSubmissionTimedOut
-      - cancellationRequested
-      - cancellationRequestSubmitted
-      - cancellationRequestSubmissionFailed
-      - cancellationRequestSubmissionTimedOut
-      - reversalRequested
-      - reversalRequestSubmitted
-      - reversalRequestSubmissionFailed
-      - reversalRequestSubmissionTimedOut
-      x-enumDescriptions:
-        authorizationRequested: Worldpay has received your authorization request.
-        authorizationSucceeded: Your authorization request was successfully approved by the card issuer.
-        authorizationRefused: Your authorization request was refused by the card issuer.
-        authorizationFailed: Your authorization request failed.
-        authorizationTimedOut: Your authorization request timed out.
-        saleRequested: Worldpay has received your sale request.
-        saleSucceeded: Your sale request was successfully approved by the card issuer.
-        saleRefused: Your sale request was refused by the card issuer.
-        saleFailed: Your sale request failed.
-        saleTimedOut: Your sale request timed out.
-        settlementRequested: Worldpay has received your settlement request.
-        settlementRequestSubmitted: Your settlement request was successfully sent for processing.
-        settlementRequestSubmissionFailed: Your settlement request failed.
-        settlementRequestSubmissionTimedOut: Your settlement request timed out.
-        refundRequested: Worldpay has received your refund request.
-        refundRequestSubmitted: Your refund request was successfully sent for processing.
-        refundRequestSubmissionFailed: We failed to process your refund request.
-        refundRequestSubmissionTimedOut: Your refund request timed out.
-        cancellationRequested: Worldpay has received your cancellation request.
-        cancellationRequestSubmitted: Your cancellation request was successfully sent for processing.
-        cancellationRequestSubmissionFailed: Your cancellation request failed.
-        cancellationRequestSubmissionTimedOut: Your cancellation request timed out.
-        reversalRequested: Worldpay has received your reversal request.
-        reversalRequestSubmitted: Your reversal request was successfully sent for processing.
-        reversalRequestSubmissionFailed: Your reversal request failed.
-        reversalRequestSubmissionTimedOut: Your reversal request timed out.
-    refundRequestSubmissionTimedOut:
+    authorizationRefused:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Your refund request timed out.
+          description: Your authorization request was refused by the card issuer.
           enum:
-          - refundRequestSubmissionTimedOut
+          - authorizationRefused
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        outcome:
+          type: string
+          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
+          enum:
+          - refused
+        code:
+          type: string
+          description: The response code, used to identify the refusal reason.
+          example: '65'
+        description:
+          type: string
+          description: The description of the refusal reason.
+          example: Authentication Requested
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    refundRequestSubmitted:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your refund request was successfully sent for processing.
+          enum:
+          - refundRequestSubmitted
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.
@@ -2492,26 +2189,21 @@ components:
               description: The 3 digit currency code.
         commandId:
           $ref: '#/components/schemas/commandId'
-    fullRefundLinks:
+    reversalRequestSubmitted:
       required:
-      - self
+      - eventName
       type: object
       properties:
-        self:
-          type: object
-          description: Self link to the page.
-          properties:
-            href:
-              type: string
-              description: Self link to the page.
-            cardPayments:events:
-              type: object
-              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to retrieve the last event of the payment.
-                  example: https://try.access.worldpay.com/payments/events/{linkData}
+        eventName:
+          type: string
+          description: Your reversal request was successfully sent for processing.
+          enum:
+          - reversalRequestSubmitted
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
     refundRequested:
       required:
       - eventName
@@ -2548,127 +2240,6 @@ components:
               description: The 3 digit currency code.
         commandId:
           $ref: '#/components/schemas/commandId'
-    saleSucceeded:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your authorization request was successfully approved by the card issuer.
-          enum:
-          - saleSucceeded
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        outcome:
-          type: string
-          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
-          enum:
-          - authorized
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    authorizationFailed:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your authorization request failed.
-          enum:
-          - authorizationFailed
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        error:
-          type: object
-          description: All Failed events return error object with name and message.
-          properties:
-            name:
-              type: string
-              description: Example values are,
-              enum:
-              - internalErrorOccurred
-              - transactionReferenceIsADuplicate
-              - transactionHasAlreadyBeenProcessed
-              - channelIsNotSupported
-              - currencyIsNotSupported
-              - paymentInstrumentIsNotSupported
-              - fieldHasInvalidValue
-              - fieldIsEmpty
-              - cardNumberIsNotRecognized
-              - underlyingPaymentInstrumentHasExpired
-              - entityIsNotConfigured
-            message:
-              type: string
-              description: Example values are,
-              enum:
-              - Payment failed to be authorized
-              - Token is unrecognized
-              - The transaction reference is a duplicate
-              - The transaction has already been processed
-              - Currency not supported
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    reversalRequestSubmissionFailed:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your reversal request failed.
-          enum:
-          - reversalRequestSubmissionFailed
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    saleRefused:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your sale request was refused by the card issuer.
-          enum:
-          - saleRefused
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        outcome:
-          type: string
-          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
-          enum:
-          - refused
-        code:
-          type: string
-          description: The response code, used to identify the refusal reason.
-          example: '65'
-        description:
-          type: string
-          description: The description of the refusal reason.
-          example: Authentication Requested
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    refundRequestSubmissionFailed:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your refund request failed.
-          enum:
-          - refundRequestSubmissionFailed
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
     authorizationRequested:
       required:
       - eventName
@@ -2684,192 +2255,6 @@ components:
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
-    fullSettleLinks:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: object
-          description: Self link to the page.
-          properties:
-            href:
-              type: string
-              description: Self link to the page.
-            cardPayments:refund:
-              type: object
-              description: An action link to refund the full settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:refund`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to refund the full settled amount.
-                  example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
-            cardPayments:partialRefund:
-              type: object
-              description: An action link to refund a portion of the settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialRefund`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to refund a portion of the settled amount.
-                  example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
-            cardPayments:reverse:
-              type: object
-              description: An action link to cancel or refund the full amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:reverse`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to cancel or refund the full amount.
-                  example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
-            cardPayments:events:
-              type: object
-              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
-              properties:
-                href:
-                  type: string
-                  description: An action link to retrieve the last event of the payment.
-                  example: https://try.access.worldpay.com/payments/events/{linkData}
-    saleFailed:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your sale request failed.
-          enum:
-          - saleFailed
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        error:
-          type: object
-          description: All Failed events return error object with name and message.
-          properties:
-            name:
-              type: string
-              description: Example values are,
-              enum:
-              - internalErrorOccurred
-              - transactionReferenceIsADuplicate
-              - transactionHasAlreadyBeenProcessed
-              - channelIsNotSupported
-              - currencyIsNotSupported
-              - paymentInstrumentIsNotSupported
-              - fieldHasInvalidValue
-              - fieldIsEmpty
-              - cardNumberIsNotRecognized
-              - underlyingPaymentInstrumentHasExpired
-              - entityIsNotConfigured
-            message:
-              type: string
-              description: Example values are,
-              enum:
-              - Payment failed to be authorized
-              - Token is unrecognized
-              - The transaction reference is a duplicate
-              - The transaction has already been processed
-              - Currency not supported
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    settlementRequestSubmitted:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your settlement request was successfully sent for processing.
-          enum:
-          - settlementRequestSubmitted
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    authorizationRefused:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your authorization request was refused by the card issuer.
-          enum:
-          - authorizationRefused
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        outcome:
-          type: string
-          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
-          enum:
-          - refused
-        code:
-          type: string
-          description: The response code, used to identify the refusal reason.
-          example: '65'
-        description:
-          type: string
-          description: The description of the refusal reason.
-          example: Authentication Requested
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    authorizationSucceeded:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your authorization request was successfully approved by the card issuer.
-          enum:
-          - authorizationSucceeded
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        outcome:
-          type: string
-          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
-          enum:
-          - authorized
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    cancellationRequestSubmitted:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your cancellation request was successfully sent for processing.
-          enum:
-          - cancellationRequestSubmitted
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    selfLinkOnly:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: object
-          description: Self link to the page.
-          properties:
-            href:
-              type: string
-              description: Self link to the page.
-    pq_querybypaymentid_404_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          example: paymentNotFound
-        message:
-          type: string
-          example: The payment you are trying to access does not exist.
     pq_querybypaymentid_200_response:
       type: object
       properties:
@@ -3191,6 +2576,239 @@ components:
               Cancel full authorization: '#/components/schemas/fullCancelLinks'
               Cancel partial authorization: '#/components/schemas/partialCancelLinks'
               Reversal: '#/components/schemas/reversalLinks'
+    fullSettleLinks:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: object
+          description: Self link to the page.
+          properties:
+            href:
+              type: string
+              description: Self link to the page.
+            cardPayments:refund:
+              type: object
+              description: An action link to refund the full settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:refund`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to refund the full settled amount.
+                  example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+            cardPayments:partialRefund:
+              type: object
+              description: An action link to refund a portion of the settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialRefund`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to refund a portion of the settled amount.
+                  example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+            cardPayments:reverse:
+              type: object
+              description: An action link to cancel or refund the full amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:reverse`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel or refund the full amount.
+                  example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
+            cardPayments:events:
+              type: object
+              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to retrieve the last event of the payment.
+                  example: https://try.access.worldpay.com/payments/events/{linkData}
+    settlementRequestSubmissionTimedOut:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your settlement request timed out.
+          enum:
+          - settlementRequestSubmissionTimedOut
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    authorizationSucceeded:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your authorization request was successfully approved by the card issuer.
+          enum:
+          - authorizationSucceeded
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        outcome:
+          type: string
+          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
+          enum:
+          - authorized
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    partialRefundLinks:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: object
+          description: Self link to the page.
+          properties:
+            href:
+              type: string
+              description: Self link to the page.
+            cardPayments:partialRefund:
+              type: object
+              description: An action link to refund a portion of the settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialRefund`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to refund a portion of the settled amount.
+                  example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+            cardPayments:events:
+              type: object
+              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to retrieve the last event of the payment.
+                  example: https://try.access.worldpay.com/payments/events/{linkData}
+    commandId:
+      maxLength: 36
+      minLength: 25
+      pattern: ^[A-Za-z0-9_-]*$
+      type: string
+      description: Unique identifier generated by us for a single instance of an interaction (command) with the Worldpay API.
+      example: cmdRvD-OxCyXgJLQ9_jbqXAC0
+    authorizationTimedOut:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your authorization request timed out.
+          enum:
+          - authorizationTimedOut
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    fullRefundLinks:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: object
+          description: Self link to the page.
+          properties:
+            href:
+              type: string
+              description: Self link to the page.
+            cardPayments:events:
+              type: object
+              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to retrieve the last event of the payment.
+                  example: https://try.access.worldpay.com/payments/events/{linkData}
+    reversalRequestSubmissionFailed:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your reversal request failed.
+          enum:
+          - reversalRequestSubmissionFailed
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    pq_querybypaymentid_404_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: paymentNotFound
+        message:
+          type: string
+          example: The payment you are trying to access does not exist.
+    partialSettleLinks:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: object
+          description: Self link to the page.
+          properties:
+            href:
+              type: string
+              description: Self link to the page.
+            cardPayments:refund:
+              type: object
+              description: An action link to refund the full settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:refund`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to refund the full settled amount.
+                  example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+            cardPayments:partialRefund:
+              type: object
+              description: An action link to refund a portion of the settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialRefund`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to refund a portion of the settled amount.
+                  example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+            cardPayments:partialSettle:
+              type: object
+              description: An action link to send a portion of the authorized amount for settlement. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialSettle`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to send a portion of the authorized amount for settlement.
+                  example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+            cardPayments:cancel:
+              type: object
+              description: An action link to cancel the full authorized amount. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:cancel`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel the full authorized amount.
+                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+            cardPayments:reverse:
+              type: object
+              description: An action link to cancel or refund the full amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:reverse`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel or refund the full amount.
+                  example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
+            cardPayments:events:
+              type: object
+              description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to retrieve the last event of the payment.
+                  example: https://try.access.worldpay.com/payments/events/{linkData}
     cancellationRequestSubmissionTimedOut:
       required:
       - eventName
@@ -3206,6 +2824,382 @@ components:
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
+    cancellationRequestSubmissionFailed:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your cancellation request failed.
+          enum:
+          - cancellationRequestSubmissionFailed
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    pq_querybydaterange_400_response:
+      required:
+      - errorName
+      - message
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: The type of error.
+          example: invalidPageSize
+        message:
+          type: string
+          description: A description of the error.
+          example: Provided page size is not valid.
+    lastEvent:
+      type: string
+      description: The last event received for the payment
+      example: authorizationSucceeded
+      enum:
+      - authorizationRequested
+      - authorizationSucceeded
+      - authorizationRefused
+      - authorizationFailed
+      - authorizationTimedOut
+      - saleRequested
+      - saleSucceeded
+      - saleRefused
+      - saleFailed
+      - saleTimedOut
+      - settlementRequested
+      - settlementRequestSubmitted
+      - settlementRequestSubmissionFailed
+      - settlementRequestSubmissionTimedOut
+      - refundRequested
+      - refundRequestSubmitted
+      - refundRequestSubmissionFailed
+      - refundRequestSubmissionTimedOut
+      - cancellationRequested
+      - cancellationRequestSubmitted
+      - cancellationRequestSubmissionFailed
+      - cancellationRequestSubmissionTimedOut
+      - reversalRequested
+      - reversalRequestSubmitted
+      - reversalRequestSubmissionFailed
+      - reversalRequestSubmissionTimedOut
+      x-enumDescriptions:
+        authorizationRequested: Worldpay has received your authorization request.
+        authorizationSucceeded: Your authorization request was successfully approved by the card issuer.
+        authorizationRefused: Your authorization request was refused by the card issuer.
+        authorizationFailed: Your authorization request failed.
+        authorizationTimedOut: Your authorization request timed out.
+        saleRequested: Worldpay has received your sale request.
+        saleSucceeded: Your sale request was successfully approved by the card issuer.
+        saleRefused: Your sale request was refused by the card issuer.
+        saleFailed: Your sale request failed.
+        saleTimedOut: Your sale request timed out.
+        settlementRequested: Worldpay has received your settlement request.
+        settlementRequestSubmitted: Your settlement request was successfully sent for processing.
+        settlementRequestSubmissionFailed: Your settlement request failed.
+        settlementRequestSubmissionTimedOut: Your settlement request timed out.
+        refundRequested: Worldpay has received your refund request.
+        refundRequestSubmitted: Your refund request was successfully sent for processing.
+        refundRequestSubmissionFailed: We failed to process your refund request.
+        refundRequestSubmissionTimedOut: Your refund request timed out.
+        cancellationRequested: Worldpay has received your cancellation request.
+        cancellationRequestSubmitted: Your cancellation request was successfully sent for processing.
+        cancellationRequestSubmissionFailed: Your cancellation request failed.
+        cancellationRequestSubmissionTimedOut: Your cancellation request timed out.
+        reversalRequested: Worldpay has received your reversal request.
+        reversalRequestSubmitted: Your reversal request was successfully sent for processing.
+        reversalRequestSubmissionFailed: Your reversal request failed.
+        reversalRequestSubmissionTimedOut: Your reversal request timed out.
+    settlementRequestSubmissionFailed:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your settlement request failed.
+          enum:
+          - settlementRequestSubmissionFailed
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    refundRequestSubmissionTimedOut:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your refund request timed out.
+          enum:
+          - refundRequestSubmissionTimedOut
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    saleSucceeded:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your authorization request was successfully approved by the card issuer.
+          enum:
+          - saleSucceeded
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        outcome:
+          type: string
+          description: Outcome of the event. For every requested event there can be a successful or refused event outcome.
+          enum:
+          - authorized
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    authorizationFailed:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Your authorization request failed.
+          enum:
+          - authorizationFailed
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        error:
+          type: object
+          description: All Failed events return error object with name and message.
+          properties:
+            name:
+              type: string
+              description: Example values are,
+              enum:
+              - internalErrorOccurred
+              - transactionReferenceIsADuplicate
+              - transactionHasAlreadyBeenProcessed
+              - channelIsNotSupported
+              - currencyIsNotSupported
+              - paymentInstrumentIsNotSupported
+              - fieldHasInvalidValue
+              - fieldIsEmpty
+              - cardNumberIsNotRecognized
+              - underlyingPaymentInstrumentHasExpired
+              - entityIsNotConfigured
+            message:
+              type: string
+              description: Example values are,
+              enum:
+              - Payment failed to be authorized
+              - Token is unrecognized
+              - The transaction reference is a duplicate
+              - The transaction has already been processed
+              - Currency not supported
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    pq_querybydaterange_200_response:
+      required:
+      - _links
+      - _embedded
+      type: object
+      properties:
+        _links:
+          required:
+          - self
+          type: object
+          description: links to the pages.
+          properties:
+            self:
+              type: object
+              description: Self link to the page.
+              properties:
+                href:
+                  type: string
+                  description: First page as per the pageSize.
+            next:
+              type: object
+              description: Next page link if the response contains more pages.
+              properties:
+                href:
+                  type: string
+                  description: Second page as per the pageSize.
+        _embedded:
+          type: object
+          properties:
+            payments:
+              type: array
+              required:
+              - timestamp
+              - transactionReference
+              - entity
+              description: Array of payments within the date range.
+              items:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    description: Payment initial authorization time.
+                  paymentId:
+                    $ref: '#/components/schemas/paymentId'
+                  transactionReference:
+                    type: string
+                    description: A unique reference generated by you, used to identify a payment throughout its lifecycle.
+                  narrative:
+                    type: object
+                    description: An object that contains identification and further details of the merchant.
+                    properties:
+                      line1:
+                        type: string
+                        description: First line of text that appears on your customer's statement.
+                      line2:
+                        type: string
+                        description: Second line of text that appears on your customer's statement.
+                  transactionType:
+                    enum:
+                    - oneTime
+                    - cardOnFile
+                    - recurring
+                    type: string
+                    description: An object that contains transaction type.
+                  authorizationType:
+                    enum:
+                    - authorization
+                    - sale
+                    type: string
+                    description: An object that contains authorization type.
+                  entity:
+                    type: string
+                    description: Merchant entity name.
+                  lastEvent:
+                    $ref: '#/components/schemas/lastEvent'
+                  scheme:
+                    required:
+                    - reference
+                    type: object
+                    description: An object containing information returned by the card scheme.
+                    properties:
+                      reference:
+                        type: string
+                        description: The reference returned by the scheme for this particular payment authorization.
+                        example: 'MCCOLXT1C0104  '
+                  issuer:
+                    required:
+                    - authorizationCode
+                    type: object
+                    description: An object containing information returned by the issuer.
+                    properties:
+                      authorizationCode:
+                        pattern: ^[a-zA-Z0-9]+$
+                        type: string
+                        description: A code returned by the card issuer for a successful authorization. Used in reconciliation and dispute management.
+                        example: T31306
+                  paymentInstrument:
+                    type: object
+                    description: The payment instrument supplied in the authorization request.
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - card/plain
+                        - card/network
+                        - card/networkToken
+                        - card/networkToken+applepay
+                        - card/networkToken+googlepay
+                        - card/plain+masked
+                        description: The type of payment instrument supplied in the authorization request.
+                      card:
+                        type: object
+                        description: An object that contains information about the card used.
+                        properties:
+                          number:
+                            type: object
+                            description: An object that contains information about the card number.
+                            properties:
+                              cardBin:
+                                pattern: ^[0-9*]+$
+                                type: string
+                                description: The card BIN (Bank Identification Number) is the first 6 or 8 digits of the card number, and can be used to identify the card issuer, the card brand(s) (eg Visa, Cartes Bancaires), and the country. Card BINs are used to route transactions, check card capabilities, and in fraud assessments.
+                                example: '444433'
+                              last4Digits:
+                                pattern: ^[0-9*]+$
+                                type: string
+                                description: The last four digits of the card. Some characters may be obfuscated with a `*` if the PAN length is less than 16 characters.
+                                example: '1111'
+                          category:
+                            type: string
+                            description: Whether the card is classed as a consumer card or a card for commercial use.
+                            enum:
+                            - commercial
+                            - consumer
+                          countryCode:
+                            maxLength: 2
+                            minLength: 2
+                            pattern: ^[A-Z]+$
+                            type: string
+                            description: The [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes) country code that the card was issued in. May return `N/A` where the country is unknown.
+                            example: GB
+                          expiryDate:
+                            type: object
+                            description: The expiry date of the card or network token (where the supplied paymentInstrument was `card/wallet+applepay`, `card/wallet+googlepay`, `card/networkToken`, `card/networkToken+applepay` or `card/networkToken+googlepay`).
+                            properties:
+                              month:
+                                type: integer
+                              year:
+                                type: integer
+                          issuerName:
+                            type: string
+                            description: The name of the card issuer.
+                            example: AN ISSUING BANK LTD
+                          fundingType:
+                            type: string
+                            description: How the card is funded.
+                            enum:
+                            - credit
+                            - debit
+                            - prepaid
+                            - chargeCard
+                            - deferredDebit
+                          brand:
+                            type: string
+                            description: The card brand that the transaction was processed with. Sometimes referred to as the network or scheme.
+                            example: visa
+                          paymentAccountReference:
+                            type: string
+                            description: The payment account reference (PAR) is a non-financial reference that uniquely identifies the underlying cardholder account. This allows you to correlate payments made from the same account with differing instruments (e.g. `card/plain` and `card/wallet+applepay`), where the same account funds the transaction. A PAR cannot be used to initiate a payment.
+                            example: Q1HJZ28RKA1EBL470G9XYG90R5D3E
+                  value:
+                    required:
+                    - amount
+                    - currency
+                    type: object
+                    description: An object that contains payment amount and currency.
+                    properties:
+                      amount:
+                        type: integer
+                        description: This is a whole number including the currency exponent (e.g. GBP has an exponent of 2, so for £2.50 supply:`250`).
+                      currency:
+                        type: string
+                        description: The 3 digit currency code.
+                  _links:
+                    required:
+                    - self
+                    type: object
+                    description: link to retrieveByPaymentId.
+                    properties:
+                      self:
+                        type: object
+                        description: Self link to retrieveByPaymentId.
+                        properties:
+                          href:
+                            type: string
+                            description: RetrieveByPaymentId provides event history and next action links.
     pq_queryhistoricalpayments_200_response:
       required:
       - _links
@@ -3299,7 +3293,35 @@ components:
                       currency:
                         type: string
                         description: The 3 digit currency code.
-    fullCancelLinks:
+    reversalRequested:
+      required:
+      - eventName
+      type: object
+      properties:
+        eventName:
+          type: string
+          description: Worldpay has received your reversal request.
+          enum:
+          - reversalRequested
+        timestamp:
+          type: string
+          description: The ISO 8601 date-time at which the event was created.
+        value:
+          required:
+          - amount
+          - currency
+          type: object
+          description: An object that contains the amount and currency requested for reversal.
+          properties:
+            amount:
+              type: integer
+              description: This is a whole number including the currency exponent (e.g. GBP has an exponent of 2, so for £2.50 supply:`250`).
+            currency:
+              type: string
+              description: The 3 digit currency code.
+        commandId:
+          $ref: '#/components/schemas/commandId'
+    partialCancelLinks:
       required:
       - self
       type: object
@@ -3311,6 +3333,38 @@ components:
             href:
               type: string
               description: Self link to the page.
+            cardPayments:cancel:
+              type: object
+              description: An action link to cancel the full authorized amount.<br><br> For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:cancel`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel the full authorized amount.
+                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+            cardPayments:partialCancel:
+              type: object
+              description: An action link to cancel a portion of the authorized amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialCancel`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel a portion of the authorized amount.
+                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
+            cardPayments:settle:
+              type: object
+              description: An action link to send the full authorized amount for settlement. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:settle`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to send the full authorized amount for settlement.
+                  example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
+            cardPayments:partialSettle:
+              type: object
+              description: An action link to send a portion of the authorized amount for settlement.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialSettle`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to send a portion of the authorized amount for settlement.
+                  example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
             cardPayments:events:
               type: object
               description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
@@ -3319,29 +3373,7 @@ components:
                   type: string
                   description: An action link to retrieve the last event of the payment.
                   example: https://try.access.worldpay.com/payments/events/{linkData}
-    settlementRequestSubmissionFailed:
-      required:
-      - eventName
-      type: object
-      properties:
-        eventName:
-          type: string
-          description: Your settlement request failed.
-          enum:
-          - settlementRequestSubmissionFailed
-        timestamp:
-          type: string
-          description: The ISO 8601 date-time at which the event was created.
-        commandId:
-          $ref: '#/components/schemas/commandId'
-    commandId:
-      maxLength: 36
-      minLength: 25
-      pattern: ^[A-Za-z0-9_-]*$
-      type: string
-      description: Unique identifier generated by us for a single instance of an interaction (command) with the Worldpay API.
-      example: cmdRvD-OxCyXgJLQ9_jbqXAC0
-    partialRefundLinks:
+    authorizationSucceededLinks:
       required:
       - self
       type: object
@@ -3353,14 +3385,46 @@ components:
             href:
               type: string
               description: Self link to the page.
-            cardPayments:partialRefund:
+            cardPayments:cancel:
               type: object
-              description: An action link to refund a portion of the settled amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialRefund`.
+              description: An action link to cancel the full authorized amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:cancel`.
               properties:
                 href:
                   type: string
-                  description: An action link to refund a portion of the settled amount.
-                  example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+                  description: An action link to cancel the full authorized amount.
+                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+            cardPayments:partialCancel:
+              type: object
+              description: An action link to cancel a portion of the authorized amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialCancel`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel a portion of the authorized amount.
+                  example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
+            cardPayments:settle:
+              type: object
+              description: An action link to send the full authorized amount for settlement.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:settle`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to send the full authorized amount for settlement.
+                  example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
+            cardPayments:partialSettle:
+              type: object
+              description: An action link to send a portion of the authorized amount for settlement. <br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:partialSettle`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to send a portion of the authorized amount for settlement.
+                  example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+            cardPayments:reverse:
+              type: object
+              description: An action link to cancel or refund the full amount.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:reverse`.
+              properties:
+                href:
+                  type: string
+                  description: An action link to cancel or refund the full amount.
+                  example: https://try.access.worldpay.com/payments/authorizations/reversals/{linkData}
             cardPayments:events:
               type: object
               description: An action link to retrieve the last event of the payment.<br><br>For any payment query against a payment processed on Card Payments v6 or lower, the action link we return is `payments:events`.
@@ -3369,66 +3433,31 @@ components:
                   type: string
                   description: An action link to retrieve the last event of the payment.
                   example: https://try.access.worldpay.com/payments/events/{linkData}
-    paymentId:
-      maxLength: 36
-      minLength: 25
-      pattern: ^[A-Za-z0-9_-]*$
-      type: string
-      description: Unique identifier generated by us for a single payment. Generated at authorization, and maintained through successive payment actions.
-      example: pay4u_lHl2jobU5S1T2pWkq10
-    pq_querybydaterange_400_response:
-      required:
-      - errorName
-      - message
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: The type of error.
-          example: invalidPageSize
-        message:
-          type: string
-          description: A description of the error.
-          example: Provided page size is not valid.
-    pq_queryhistoricalpayments_400_response:
-      required:
-      - errorName
-      - message
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: The type of error.
-          example: entityIsNotConfigured
-        message:
-          type: string
-          description: A description of the error
-          example: Entity is not configured to use this resource
-    settlementRequestSubmissionTimedOut:
+    settlementRequestSubmitted:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Your settlement request timed out.
+          description: Your settlement request was successfully sent for processing.
           enum:
-          - settlementRequestSubmissionTimedOut
+          - settlementRequestSubmitted
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.
         commandId:
           $ref: '#/components/schemas/commandId'
-    refundRequestSubmitted:
+    saleTimedOut:
       required:
       - eventName
       type: object
       properties:
         eventName:
           type: string
-          description: Your refund request was successfully sent for processing.
+          description: Your sale request timed out.
           enum:
-          - refundRequestSubmitted
+          - saleTimedOut
         timestamp:
           type: string
           description: The ISO 8601 date-time at which the event was created.

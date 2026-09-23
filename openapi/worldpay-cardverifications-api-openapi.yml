@@ -1,12 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions CardVerifications API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Card Verifications API
+  description: Determine the validity of your customer's card to maximize authorization rates.
+  version: '6'
   x-metadata:
     category:
-    - 3DS
-    - SCA Exemptions
+    - Verifications
     business:
     - Enterprise
     catalog-list: true
@@ -24,7 +23,9 @@ paths:
   /cardVerifications:
     post:
       summary: Card Verification / Name Inquiry
-      description: Verify your customer's card.<br> Perform a name inquiry to verify the name of the cardholder.
+      description: 'Verify your customer''s card.
+
+        Perform a name inquiry to verify the name of the cardholder.'
       operationId: cardVerify
       parameters:
       - $ref: '#/components/parameters/acceptHeader'
@@ -708,400 +709,21 @@ paths:
       tags:
       - CardVerifications
 components:
-  responses:
-    '500':
-      description: An error occurred processing the request on our side.
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          schema:
-            title: error500
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                enum:
-                - internalServerError
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: internalServerError
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: An internal server error occurred
-    '403':
-      description: Boarding issue - unable to process requested merchant
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/vnd.worldpay.cardVerifications-v6+json:
-          schema:
-            title: error403
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                enum:
-                - resourceNotFound
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: boardingError
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: There has been a problem with your boarding and you cannot use this API yet, please contact support.
-          example:
-            errorName: boardingError
-            message: There has been a problem with your boarding and you cannot use this API yet, please contact support.
-    '400':
-      description: Bad Request
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          examples:
-            Validation Error:
-              $ref: '#/components/examples/validationError'
-            Header Error:
-              $ref: '#/components/examples/headerError'
-          schema:
-            title: error400
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                enum:
-                - internalErrorOccurred
-                - headerIsMissing
-                - headerHasInvalidValue
-                - bodyIsEmpty
-                - bodyIsNotJson
-                - bodyDoesNotMatchSchema
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: bodyDoesNotMatchSchema
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: A JSON body matching the expected schema must be provided.
-              validationErrors:
-                type: array
-                description: If there were field validation errors, they will be collected in this array
-                items:
-                  $ref: '#/components/schemas/validationError'
-              headerName:
-                type: string
-                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
-                example: Content-Type
-    '415':
-      description: Invalid content-type HTTP header
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          schema:
-            title: error415
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: headerHasInvalidValue
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: A valid header must be provided.
-              headerName:
-                type: string
-                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
-                example: Content-Type
-    '401':
-      description: Client is not authorized due to missing or invalid Authorization header.
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          schema:
-            title: error401
-            type: object
-            required:
-            - errorName
-            - message
-            - headerName
-            properties:
-              errorName:
-                type: string
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: accessDenied
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: Access to the requested resource has been denied
-    '404':
-      description: Not Found - unable to locate requested record
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/vnd.worldpay.cardVerifications-v6+json:
-          schema:
-            title: error400
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                enum:
-                - resourceNotFound
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: resourceNotFound
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: Unable to verify the historic outcome from the data provided
-          example:
-            errorName: resourceNotFound
-            message: Unable to verify the historic outcome from the data provided
-    404get:
-      description: Not Found - unable to locate requested record
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/vnd.worldpay.cardVerifications-v6+json:
-          schema:
-            title: error404
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                enum:
-                - verificationNotReady
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: verificationNotReady
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: The account verification was concluded, but is not ready to be viewed. Please try again later.
-          example:
-            errorName: verificationNotReady
-            message: The account verification was concluded, but is not ready to be viewed. Please try again later.
+  examples:
+    validationError:
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: A JSON body matching the expected schema must be provided.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: Field at path is not allowed.
+          jsonPath: $.transactionRef
+    headerError:
+      value:
+        errorName: headerIsMissing
+        message: A valid header must be provided.
+        headerName: Content-Type
   schemas:
-    typeCardVerification:
-      title: cardVerification
-      type: object
-      required:
-      - type
-      - merchant
-      - transactionReference
-      - instruction
-      properties:
-        type:
-          type: string
-          enum:
-          - cardVerification
-        merchant:
-          $ref: '#/components/schemas/merchant'
-        transactionReference:
-          $ref: '#/components/schemas/transactionReference'
-        instruction:
-          $ref: '#/components/schemas/instruction'
-        channel:
-          $ref: '#/components/schemas/channel'
-        authentication:
-          $ref: '#/components/schemas/authentication'
-        recipient:
-          $ref: '#/components/schemas/recipient'
-    response200:
-      required:
-      - outcome
-      - checkedAt
-      - _links
-      type: object
-      properties:
-        outcome:
-          $ref: '#/components/schemas/outcome'
-        scheme:
-          $ref: '#/components/schemas/scheme'
-        checkedAt:
-          $ref: '#/components/schemas/checkedAt'
-        refusalCode:
-          $ref: '#/components/schemas/refusalCode'
-        refusalDescription:
-          $ref: '#/components/schemas/refusalDescription'
-        advice:
-          $ref: '#/components/schemas/advice'
-        riskFactors:
-          $ref: '#/components/schemas/riskFactors'
-        paymentInstrument:
-          $ref: '#/components/schemas/paymentInstrumentCardDetails'
-        _links:
-          type: object
-          example:
-            cardVerifications:verification:
-              href: https://try.access.worldpay.com/cardVerifications/linkData
-    cardExpiryDate:
-      required:
-      - month
-      - year
-      description: The expiry date of the card
-      type: object
-      properties:
-        year:
-          type: integer
-          description: Four digit expiry year
-          format: int32
-          example: 2025
-        month:
-          type: integer
-          description: Expiry month
-          format: int32
-          example: 8
-    paymentInstrument:
-      description: An object that contains your customer's payment details.
-      oneOf:
-      - $ref: '#/components/schemas/cardPlain'
-      - $ref: '#/components/schemas/cardToken'
-      - $ref: '#/components/schemas/cardNetworkToken'
-      - $ref: '#/components/schemas/cardApplepayDecrypted'
-      - $ref: '#/components/schemas/cardGooglepayDecrypted'
-      - $ref: '#/components/schemas/cardSamsungpayDecrypted'
-    subscription:
-      title: subscription
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: type
-          type: string
-          description: The processing arrangement agreed with your customer.
-          enum:
-          - subscription
-        storedCardUsage:
-          $ref: '#/components/schemas/storedCardUsage'
-    customerAgreementType:
-      title: type
-      type: string
-      description: The processing arrangement agreed with your customer.
-      enum:
-      - installment
-    storedCardUsage:
-      description: If this optional field is not provided, `first` will be used. Set to `first` for original verification or `subsequent` to use a previously stored card.
-      type: string
-      enum:
-      - first
-      - subsequent
-    cardApplepayDecrypted:
-      title: card/networkToken+applepay
-      required:
-      - type
-      - expiryDate
-      - tokenNumber
-      type: object
-      properties:
-        type:
-          type: string
-          example: card/networkToken+applepay
-        expiryDate:
-          $ref: '#/components/schemas/cardExpiryDate'
-        tokenNumber:
-          type: string
-          description: The token number issued by Apple Pay
-        billingAddress:
-          type: object
-          description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode]'
-          required:
-          - address1
-          - city
-          - countryCode
-          - postalCode
-          properties:
-            address1:
-              type: string
-              description: Address line1 of billing address.
-              example: 221B Baker Street
-              maxLength: 80
-              minLength: 1
-            address2:
-              type: string
-              description: Address line2 of billing address.
-              example: Marylebone
-              maxLength: 80
-              minLength: 1
-            address3:
-              type: string
-              description: Address line3 of billing address.
-              example: Westminster
-              maxLength: 80
-              minLength: 1
-            postalCode:
-              $ref: '#/components/schemas/postalCode'
-            city:
-              type: string
-              description: City of billing address
-              example: London
-              maxLength: 50
-              minLength: 1
-            state:
-              type: string
-              description: Region, state, or province of billing address
-              example: GB
-              maxLength: 30
-              minLength: 1
-            countryCode:
-              type: string
-              description: The alpha-2 ISO-3166 country code of the billing address.
-              example: GB
-              pattern: ^[A-Z]{2}$
-        cardHolderName:
-          type: string
-    type:
-      type: object
-      oneOf:
-      - $ref: '#/components/schemas/typeCardVerification'
-      - $ref: '#/components/schemas/typeNameInquiry'
     cardToken-ani:
       title: card/token
       type: object
@@ -1122,408 +744,34 @@ components:
           description: CVC is a unique set of 3 or 4 numbers on the back of your customer's card. Including the CVC in your request increases the chances of the verification request outcome being verified. Our API checks to see if the CVC supplied matches the CVC held by the issuing bank.
           example: '101'
           pattern: ^\d{3,4}$
-    firstNameInquiry:
+    customerAgreementType:
+      title: type
       type: string
-      description: given name
-      maxLength: 35
-      minLength: 1
-      example: Alice
-    cardToken:
-      title: card/token
-      type: object
-      required:
-      - type
-      - href
-      properties:
-        type:
-          type: string
-          example: card/token
-        href:
-          type: string
-          description: An element that contains your token.
-          example: https://tokens/token
-        cvc:
-          type: string
-          description: CVC is a unique set of 3 or 4 numbers on the back of your customer's card. Including the CVC  in your request increases the chances of the verification request outcome being verified. Our API checks to  see if the CVC supplied matches the CVC held by the issuing bank.
-          example: '101'
-          pattern: ^\d{3,4}$
-        billingAddress:
-          type: object
-          description: 'An object containing the billing address information. If provided, it will override the billing address information from actual token  If included you must send at least: [address1, city, countryCode, postalCode]'
-          required:
-          - address1
-          - city
-          - countryCode
-          - postalCode
-          properties:
-            address1:
-              type: string
-              description: Address line1 of billing address.
-              example: 221B Baker Street
-              maxLength: 80
-              minLength: 1
-            address2:
-              type: string
-              description: Address line2 of billing address.
-              example: Marylebone
-              maxLength: 80
-              minLength: 1
-            address3:
-              type: string
-              description: Address line3 of billing address.
-              example: Westminster
-              maxLength: 80
-              minLength: 1
-            postalCode:
-              $ref: '#/components/schemas/postalCode'
-            city:
-              type: string
-              description: City of billing address
-              example: London
-              maxLength: 50
-              minLength: 1
-            state:
-              type: string
-              description: Region, state, or province of billing address
-              example: GB
-              maxLength: 30
-              minLength: 1
-            countryCode:
-              type: string
-              description: The alpha-2 ISO-3166 country code of the billing address.
-              example: GB
-    AccountNameInquiryResponseWithOutcomeNotVerifiedWithRefusalCode:
-      title: Card unsupported for name inquiry and not verified result
-      type: object
-      properties:
-        outcome:
-          $ref: '#/components/schemas/outcome'
-        nameInquiry:
-          $ref: '#/components/schemas/nameInquiry'
-        refusalCode:
-          $ref: '#/components/schemas/refusalCode'
-        refusalDescription:
-          $ref: '#/components/schemas/refusalDescription'
-        riskFactors:
-          $ref: '#/components/schemas/riskFactors'
-      example:
-        outcome: not verified
-        nameInquiry: notSupported
-        refusalCode: '15'
-        refusalDescription: No such issuer
-        riskFactors:
-        - type: nameInquiry
-          detail: firstName
-          risk: notSupported
-        - type: nameInquiry
-          detail: middleName
-          risk: notSupported
-        - type: nameInquiry
-          detail: lastName
-          risk: notSupported
-    typeNameInquiry:
-      title: nameInquiry
-      type: object
-      required:
-      - type
-      - merchant
-      - instruction
-      properties:
-        type:
-          type: string
-          enum:
-          - nameInquiry
-        merchant:
-          $ref: '#/components/schemas/aniMerchant'
-        instruction:
-          type: object
-          required:
-          - paymentInstrument
-          - cardHolder
-          properties:
-            paymentInstrument:
-              $ref: '#/components/schemas/paymentInstrument-ani'
-            cardHolder:
-              $ref: '#/components/schemas/cardHolder'
-    cardSamsungpayDecrypted:
-      title: card/networkToken+samsungpay
-      required:
-      - type
-      - expiryDate
-      - tokenNumber
-      type: object
-      properties:
-        type:
-          type: string
-          example: card/networkToken+samsungpay
-        expiryDate:
-          $ref: '#/components/schemas/cardExpiryDate'
-        tokenNumber:
-          type: string
-          description: The token number issued by Samsung Pay.
-        billingAddress:
-          type: object
-          description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode].'
-          required:
-          - address1
-          - city
-          - countryCode
-          - postalCode
-          properties:
-            address1:
-              type: string
-              description: Address line 1 of billing address.
-              example: 221B Baker Street
-              maxLength: 80
-              minLength: 1
-            address2:
-              type: string
-              description: Address line 2 of billing address.
-              example: Marylebone
-              maxLength: 80
-              minLength: 1
-            address3:
-              type: string
-              description: Address line 3 of billing address.
-              example: Westminster
-              maxLength: 80
-              minLength: 1
-            postalCode:
-              $ref: '#/components/schemas/postalCode'
-            city:
-              type: string
-              description: City of billing address.
-              example: London
-              maxLength: 50
-              minLength: 1
-            state:
-              type: string
-              description: Region, state, or province of billing address.
-              example: GB
-              maxLength: 30
-              minLength: 1
-            countryCode:
-              type: string
-              description: The alpha-2 ISO-3166 country code of the billing address.
-              example: GB
-              pattern: ^[A-Z]{2}$
-        cardHolderName:
-          type: string
-    channel:
-      type: string
-      description: 'The payment channel indicates the interaction of the cardholder with the merchant.
-
-        Supply a value of `moto` to process an authorization as a Mail Order or Telephone Order transaction.
-
-        When channel is not provided, the authorization will be processed as ecommerce `ecom` by default.
-
-
-        **NOTE:** 3DS `authentication` data cannot be supplied for MOTO payments.
-
-        '
+      description: The processing arrangement agreed with your customer.
       enum:
-      - moto
-      - ecom
-    recipient:
-      type: object
-      description: 'The details of the recipient of the payment.
-
-
-        We highly recommend you supply this, if your MCC is 6012 or 6051. Sending this field ensures you remain PSD2 compliant
-
-        and avoid potential acquirer refusals.
-
-
-        '
-      properties:
-        accountReference:
-          type: string
-          description: Partial account number.
-          example: azAZ0123
-        lastName:
-          $ref: '#/components/schemas/lastName'
-        address:
-          type: object
-          required:
-          - postalCode
-          properties:
-            postalCode:
-              $ref: '#/components/schemas/postalCode'
-        dateOfBirth:
-          type: object
-          required:
-          - day
-          - month
-          - year
-          properties:
-            day:
-              type: number
-              description: Recipient's day of birth
-              example: 1
-            month:
-              type: number
-              description: Recipient's month of birth
-              example: 2
-            year:
-              type: number
-              description: Recipient's year of birth
-              example: 2000
-    riskFactors:
-      description: List of risks involved in this verification.
-      type: array
+      - installment
+    scheme:
       required:
-      - risk
-      - type
-      items:
-        type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - cvc
-            - avs
-            - nameInquiry
-            example: avs
-          risk:
-            type: string
-            enum:
-            - notChecked
-            - notMatched
-            - notSupplied
-            - partialMatched
-            - notSupported
-            example: notMatched
-          detail:
-            type: string
-            enum:
-            - postcode
-            - address
-            - firstName
-            - middleName
-            - lastName
-            example: postcode
-      example:
-      - type: cvc
-        risk: notSupplied
-      - type: avs
-        detail: postcode
-        risk: notSupplied
-      - type: avs
-        detail: address
-        risk: notSupplied
-    nameInquiry:
+      - reference
+      type: object
+      description: Card issuer's scheme (not all issuers return this)
+      properties:
+        reference:
+          type: string
+          example: abc123
+    advice:
+      description: The [MAC (Merchant Advice Code)](/products/reference/refusal-response#refusal-advice-codes) returned by Mastercard
+      type: object
+      required:
+      - code
+      properties:
+        code:
+          type: string
+          example: '02'
+    refusalDescription:
+      description: The [description of the 'refusalCode'](/products/reference/refusal-response)
       type: string
-      enum:
-      - matched
-      - partialMatched
-      - notMatched
-      - notChecked
-      - notSupported
-      description: Result of the Cardholder Name Inquiry
-    merchant:
-      type: object
-      description: Information about the merchant.
-      required:
-      - entity
-      properties:
-        entity:
-          type: string
-          description: This should map to a profile from the Onboarding Domain. For more information contact your Relationship Manager or Worldpay Implementation Manager.
-        mcc:
-          type: string
-          description: A Merchant Category Code (MCC) can be applied to an individual request. You can only supply `mcc`, if we have enabled the dynamic MCC feature during boarding. If enabled but not provided, `merchant.mcc` defaults to a configured value. For more information contact your Relationship Manager or Worldpay Implementation Manager.
-          example: '6012'
-        paymentFacilitator:
-          type: object
-          description: 'An object containing your payment facilitator information.
-
-
-            This parameter is only required for verification if you are a payment facilitator.'
-          required:
-          - schemeId
-          - subMerchant
-          properties:
-            schemeId:
-              type: string
-              description: ' Your payment facilitator ID received from Mastercard, Visa and Amex.'
-              example: '12345678901'
-            independentSalesOrganizationId:
-              type: string
-              description: ' Independent Sales Organization (ISO) ID provided by Mastercard.'
-              example: '12345678901'
-            subMerchant:
-              type: object
-              description: Your sub-merchant's details
-              required:
-              - merchantId
-              - name
-              - address
-              - street
-              - city
-              - countryCode
-              - postalCode
-              properties:
-                reference:
-                  type: string
-                  description: Unique merchant reference
-                  example: '123456789012345'
-                  pattern: ^[0-9]{1,15}$
-                name:
-                  type: string
-                  description: The name of your subMerchant's company
-                  example: Stonewall Inn
-                  pattern: ^[A-Za-z0-9 ]{1,25}$
-                address:
-                  type: object
-                  required:
-                  - postalCode
-                  - street
-                  - city
-                  - countryCode
-                  properties:
-                    street:
-                      type: string
-                      description: Street name of your subMerchant's company
-                      example: 53 Christopher Street
-                      pattern: ^[A-Z, a-z,0-9,\s]{1,50}$
-                    state:
-                      type: string
-                      description: State of your subMerchant's company
-                      example: NY
-                      pattern: ^[A-Z]{1,3}$
-                    city:
-                      type: string
-                      description: City of your subMerchant's company
-                      example: New York City
-                      pattern: ^[A-Z, a-z,\-\s]{1,13}$
-                    countryCode:
-                      type: string
-                      description: The alpha-2 ISO-3166 country code of the billing address
-                      example: GB
-                      pattern: ^[A-Z]{2}$
-                    postalCode:
-                      type: string
-                      description: Post code/Zip code of your subMerchant's company
-                      example: '10014'
-                taxReference:
-                  type: string
-                  description: Tax Reference of your subMerchant's company
-                  example: 987-65-4321
-                  pattern: ^[A-Za-z0-9-\s]{1,20}$
-                phoneNumber:
-                  type: string
-                  description: Phonenumber of your subMerchant's company
-                  example: 987-65-4321
-                email:
-                  type: string
-                  description: Email address of your subMerchant's company
-                  example: email@example.com
-                url:
-                  type: string
-                  description: URL of submerchant's company
-                  maxLength: 255
-                  minLength: 1
-                  pattern: ^[a-zA-Z0-9@!£*#$)(+-_=.,/;:]*$
+      example: Try another card
     instruction:
       type: object
       required:
@@ -1607,126 +855,21 @@ components:
               - travel
               - other
               type: string
-    cardGooglepayDecrypted:
-      title: card/networkToken+googlepay
-      required:
-      - type
-      - expiryDate
-      - tokenNumber
-      type: object
-      properties:
-        type:
-          type: string
-          example: card/networkToken+googlepay
-        expiryDate:
-          $ref: '#/components/schemas/cardExpiryDate'
-        tokenNumber:
-          type: string
-          description: The token number issued by Google Pay.
-        billingAddress:
-          type: object
-          description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode].'
-          required:
-          - address1
-          - city
-          - countryCode
-          - postalCode
-          properties:
-            address1:
-              type: string
-              description: Address line 1 of billing address.
-              example: 221B Baker Street
-              maxLength: 80
-              minLength: 1
-            address2:
-              type: string
-              description: Address line 2 of billing address.
-              example: Marylebone
-              maxLength: 80
-              minLength: 1
-            address3:
-              type: string
-              description: Address line 3 of billing address.
-              example: Westminster
-              maxLength: 80
-              minLength: 1
-            postalCode:
-              $ref: '#/components/schemas/postalCode'
-            city:
-              type: string
-              description: City of billing address.
-              example: London
-              maxLength: 50
-              minLength: 1
-            state:
-              type: string
-              description: Region, state, or province of billing address.
-              example: GB
-              maxLength: 30
-              minLength: 1
-            countryCode:
-              type: string
-              description: The alpha-2 ISO-3166 country code of the billing address.
-              example: GB
-              pattern: ^[A-Z]{2}$
-        cardHolderName:
-          type: string
-    cardOnFile:
-      title: cardOnFile
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: type
-          type: string
-          description: The processing arrangement agreed with your customer.
-          enum:
-          - cardOnFile
-        storedCardUsage:
-          $ref: '#/components/schemas/storedCardUsage'
-    transactionReference:
+    checkedAt:
       type: string
-      description: "A unique reference generated by you. It is used to identify a payment throughout its lifecycle.\n\n64 characters max. We recommend your `transactionReference` contains between 9-20 characters for ease of onward \nprocessing.\n"
-      example: Memory265-13/08/1876
-      pattern: ^[A-Za-z0-9\-_\/!@#$%\(\)*=.:;?[\]{}~+]{1,64}$
-    validationError:
-      type: object
-      required:
-      - errorName
-      - message
-      properties:
-        errorName:
-          type: string
-          description: A machine and human readable error type for clarity and semantic understanding of the error.
-          enum:
-          - fieldIsMissing
-          - fieldMustBeString
-          - fieldMustBeNumber
-          - fieldMustBeInteger
-          - fieldMustBeBoolean
-          - fieldMustBeObject
-          - fieldMustBeArray
-          - fieldIsNull
-          - fieldIsEmpty
-          - fieldHasInvalidValue
-          - fieldIsNotAllowed
-          - numberIsTooSmall
-          - integerIsTooLarge
-          - stringIsTooShort
-          - stringIsTooLong
-          - stringFailedRegexCheck
-          - panFailedLuhnCheck
-          - dateHasInvalidFormat
-          example: fieldIsNotAllowed
-        message:
-          type: string
-          description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-          example: Field at path is not allowed.
-        jsonPath:
-          type: string
-          description: This field represents the JSON path of the element within the request body associated with the error.
-          example: $.transactionRef
+      example: '2024-03-26T19:38:29.543195Z'
+      pattern: ^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3,})Z$
+    installmentType:
+      description: Defines the type of installments service. Only merchant is available for card verification.
+      type: string
+      enum:
+      - merchant
+    postalCode:
+      type: string
+      description: Recipient's postal code.
+      maxLength: 15
+      minLength: 1
+      example: NW1 6XE
     unscheduled:
       title: unscheduled
       required:
@@ -1741,49 +884,14 @@ components:
           - unscheduled
         storedCardUsage:
           $ref: '#/components/schemas/storedCardUsage'
-    cardPlain-ani:
-      title: card/plain
-      required:
-      - type
-      - cardNumber
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - card/plain
-        expiryDate:
-          $ref: '#/components/schemas/cardExpiryDate-ani'
-        cardNumber:
-          type: string
-          description: An element that contains your customer's payment card number.
-          example: '4444333322221111'
-          pattern: ^\d{12,19}$
-        cvc:
-          type: string
-          description: 'CVC is a unique set of 3 or 4 numbers on the back of your customer''s card. Including the CVC  in your request increases the chances of the verification request outcome being verified. Our API checks to  see if the CVC supplied matches the CVC held by the issuing bank. If provided, expiryDate must be included '
-          example: '101'
-          pattern: ^\d{3,4}$
-    postalCode:
+    firstNameInquiry:
       type: string
-      description: Recipient's postal code.
-      maxLength: 15
-      minLength: 1
-      example: NW1 6XE
-    outcome:
-      type: string
-      enum:
-      - verified
-      - not verified
-      description: Result of the Card Verification
-    middleNameInquiry:
-      type: string
-      description: middle name or initial
+      description: given name
       maxLength: 35
       minLength: 1
-      example: Elizabeth
-    AccountNameInquiryResponseWithRiskFactors:
-      title: Matched name inquiry including risk factors (verified result)
+      example: Alice
+    AccountNameInquiryResponseMatched:
+      title: Matched name inquiry (verified result)
       type: object
       properties:
         outcome:
@@ -1795,57 +903,90 @@ components:
       example:
         outcome: verified
         nameInquiry: matched
-        riskFactors:
-        - type: nameInquiry
-          detail: firstName
-          risk: notSupplied
-        - type: nameInquiry
-          detail: middleName
-          risk: notSupplied
-        - type: nameInquiry
-          detail: lastName
-          risk: matched
-    cardExpiryDate-ani:
+    aniMerchant:
+      type: object
+      description: Information about the merchant.
       required:
-      - month
-      - year
-      description: The expiry date of the card. Must be present if CVC is provided
-      type: object
+      - entity
       properties:
-        year:
-          type: integer
-          description: Four digit expiry year
-          format: int32
-          example: 2025
-        month:
-          type: integer
-          description: Expiry month
-          format: int32
-          example: 8
-    AccountNameInquiryResponseWithOutcomeNotVerified:
-      title: Matched name inquiry and declined CVC (not verified result)
-      type: object
-      properties:
-        outcome:
-          $ref: '#/components/schemas/outcome'
-        nameInquiry:
-          $ref: '#/components/schemas/nameInquiry'
-        refusalCode:
-          $ref: '#/components/schemas/refusalCode'
-        refusalDescription:
-          $ref: '#/components/schemas/refusalDescription'
-        riskFactors:
-          $ref: '#/components/schemas/riskFactors'
+        entity:
+          type: string
+          description: Unique ID given to you during the onboarding process. For more information contact your Relationship Manager or Worldpay Implementation Manager.
+    lastName:
+      type: string
+      description: surname
+      maxLength: 85
+      minLength: 1
+      example: Holmes
+    riskFactors:
+      description: List of risks involved in this verification.
+      type: array
+      required:
+      - risk
+      - type
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - cvc
+            - avs
+            - nameInquiry
+            example: avs
+          risk:
+            type: string
+            enum:
+            - notChecked
+            - notMatched
+            - notSupplied
+            - partialMatched
+            - notSupported
+            example: notMatched
+          detail:
+            type: string
+            enum:
+            - postcode
+            - address
+            - firstName
+            - middleName
+            - lastName
+            example: postcode
       example:
-        outcome: not verified
-        nameInquiry: matched
-        refusalCode: N7
-        refusalDescription: Decline for CVV2 failure
-        riskFactors:
-        - type: cvc
-          risk: notMatched
-    cardNetworkToken:
-      title: card/networkToken
+      - type: cvc
+        risk: notSupplied
+      - type: avs
+        detail: postcode
+        risk: notSupplied
+      - type: avs
+        detail: address
+        risk: notSupplied
+    typeNameInquiry:
+      title: nameInquiry
+      type: object
+      required:
+      - type
+      - merchant
+      - instruction
+      properties:
+        type:
+          type: string
+          enum:
+          - nameInquiry
+        merchant:
+          $ref: '#/components/schemas/aniMerchant'
+        instruction:
+          type: object
+          required:
+          - paymentInstrument
+          - cardHolder
+          properties:
+            paymentInstrument:
+              $ref: '#/components/schemas/paymentInstrument-ani'
+            cardHolder:
+              $ref: '#/components/schemas/cardHolder'
+    cardApplepayDecrypted:
+      title: card/networkToken+applepay
       required:
       - type
       - expiryDate
@@ -1854,12 +995,12 @@ components:
       properties:
         type:
           type: string
-          example: card/networkToken
+          example: card/networkToken+applepay
         expiryDate:
           $ref: '#/components/schemas/cardExpiryDate'
         tokenNumber:
           type: string
-          description: The token number issued by the network
+          description: The token number issued by Apple Pay
         billingAddress:
           type: object
           description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode]'
@@ -1908,39 +1049,164 @@ components:
               pattern: ^[A-Z]{2}$
         cardHolderName:
           type: string
-    refusalDescription:
-      description: The [description of the 'refusalCode'](/products/reference/refusal-response)
-      type: string
-      example: Try another card
-    refusalCode:
-      description: The [refusal response code](/products/reference/refusal-response) from the acquirer
-      type: string
-      example: '6'
-    checkedAt:
-      type: string
-      example: '2024-03-26T19:38:29.543195Z'
-      pattern: ^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3,})Z$
-    scheme:
-      required:
-      - reference
+    AccountNameInquiryResponseWithOutcomeNotVerifiedWithRefusalCode:
+      title: Card unsupported for name inquiry and not verified result
       type: object
-      description: Card issuer's scheme (not all issuers return this)
       properties:
-        reference:
-          type: string
-          example: abc123
-    lastNameInquiry:
-      type: string
-      description: surname
-      maxLength: 35
-      minLength: 1
-      example: Holmes
-    paymentInstrument-ani:
+        outcome:
+          $ref: '#/components/schemas/outcome'
+        nameInquiry:
+          $ref: '#/components/schemas/nameInquiry'
+        refusalCode:
+          $ref: '#/components/schemas/refusalCode'
+        refusalDescription:
+          $ref: '#/components/schemas/refusalDescription'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+      example:
+        outcome: not verified
+        nameInquiry: notSupported
+        refusalCode: '15'
+        refusalDescription: No such issuer
+        riskFactors:
+        - type: nameInquiry
+          detail: firstName
+          risk: notSupported
+        - type: nameInquiry
+          detail: middleName
+          risk: notSupported
+        - type: nameInquiry
+          detail: lastName
+          risk: notSupported
+    response200:
+      required:
+      - outcome
+      - checkedAt
+      - _links
       type: object
-      description: An object that contains your customer's payment details.
-      oneOf:
-      - $ref: '#/components/schemas/cardPlain-ani'
-      - $ref: '#/components/schemas/cardToken-ani'
+      properties:
+        outcome:
+          $ref: '#/components/schemas/outcome'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        checkedAt:
+          $ref: '#/components/schemas/checkedAt'
+        refusalCode:
+          $ref: '#/components/schemas/refusalCode'
+        refusalDescription:
+          $ref: '#/components/schemas/refusalDescription'
+        advice:
+          $ref: '#/components/schemas/advice'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+        paymentInstrument:
+          $ref: '#/components/schemas/paymentInstrumentCardDetails'
+        _links:
+          type: object
+          example:
+            cardVerifications:verification:
+              href: https://try.access.worldpay.com/cardVerifications/linkData
+    subscription:
+      title: subscription
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: type
+          type: string
+          description: The processing arrangement agreed with your customer.
+          enum:
+          - subscription
+        storedCardUsage:
+          $ref: '#/components/schemas/storedCardUsage'
+    cardToken:
+      title: card/token
+      type: object
+      required:
+      - type
+      - href
+      properties:
+        type:
+          type: string
+          example: card/token
+        href:
+          type: string
+          description: An element that contains your token.
+          example: https://tokens/token
+        cvc:
+          type: string
+          description: CVC is a unique set of 3 or 4 numbers on the back of your customer's card. Including the CVC  in your request increases the chances of the verification request outcome being verified. Our API checks to  see if the CVC supplied matches the CVC held by the issuing bank.
+          example: '101'
+          pattern: ^\d{3,4}$
+        billingAddress:
+          type: object
+          description: 'An object containing the billing address information. If provided, it will override the billing address information from actual token  If included you must send at least: [address1, city, countryCode, postalCode]'
+          required:
+          - address1
+          - city
+          - countryCode
+          - postalCode
+          properties:
+            address1:
+              type: string
+              description: Address line1 of billing address.
+              example: 221B Baker Street
+              maxLength: 80
+              minLength: 1
+            address2:
+              type: string
+              description: Address line2 of billing address.
+              example: Marylebone
+              maxLength: 80
+              minLength: 1
+            address3:
+              type: string
+              description: Address line3 of billing address.
+              example: Westminster
+              maxLength: 80
+              minLength: 1
+            postalCode:
+              $ref: '#/components/schemas/postalCode'
+            city:
+              type: string
+              description: City of billing address
+              example: London
+              maxLength: 50
+              minLength: 1
+            state:
+              type: string
+              description: Region, state, or province of billing address
+              example: GB
+              maxLength: 30
+              minLength: 1
+            countryCode:
+              type: string
+              description: The alpha-2 ISO-3166 country code of the billing address.
+              example: GB
+    cardPlain-ani:
+      title: card/plain
+      required:
+      - type
+      - cardNumber
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - card/plain
+        expiryDate:
+          $ref: '#/components/schemas/cardExpiryDate-ani'
+        cardNumber:
+          type: string
+          description: An element that contains your customer's payment card number.
+          example: '4444333322221111'
+          pattern: ^\d{12,19}$
+        cvc:
+          type: string
+          description: 'CVC is a unique set of 3 or 4 numbers on the back of your customer''s card. Including the CVC  in your request increases the chances of the verification request outcome being verified. Our API checks to  see if the CVC supplied matches the CVC held by the issuing bank. If provided, expiryDate must be included '
+          example: '101'
+          pattern: ^\d{3,4}$
     value:
       description: Currency and value of transaction. If value is nominal, retry is requested.
       type: object
@@ -1960,6 +1226,88 @@ components:
 
             '
           example: 250
+    cardPlain:
+      title: card/plain
+      required:
+      - type
+      - expiryDate
+      - cardNumber
+      type: object
+      properties:
+        type:
+          type: string
+          example: card/plain
+        cardHolderName:
+          type: string
+          description: The name as shown on the card.
+          example: Sherlock Holmes
+        expiryDate:
+          $ref: '#/components/schemas/cardExpiryDate'
+        cardNumber:
+          type: string
+          description: An element that contains your customer's payment card number.
+          example: '4444333322221111'
+          pattern: ^\d{12,19}$
+        billingAddress:
+          type: object
+          description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode]'
+          required:
+          - address1
+          - city
+          - countryCode
+          - postalCode
+          properties:
+            address1:
+              type: string
+              description: Address line1 of billing address.
+              example: 221B Baker Street
+              maxLength: 80
+              minLength: 1
+            address2:
+              type: string
+              description: Address line2 of billing address.
+              example: Marylebone
+              maxLength: 80
+              minLength: 1
+            address3:
+              type: string
+              description: Address line3 of billing address.
+              example: Westminster
+              maxLength: 80
+              minLength: 1
+            postalCode:
+              $ref: '#/components/schemas/postalCode'
+            city:
+              type: string
+              description: City of billing address
+              example: London
+              maxLength: 50
+              minLength: 1
+            state:
+              type: string
+              description: Region, state, or province of billing address
+              example: GB
+              maxLength: 30
+              minLength: 1
+            countryCode:
+              type: string
+              description: The alpha-2 ISO-3166 country code of the billing address.
+              example: GB
+              pattern: ^[A-Z]{2}$
+        cvc:
+          type: string
+          description: CVC is a unique set of 3 or 4 numbers on the back of your customer's card. Including the CVC  in your request increases the chances of the verification request outcome being verified. Our API checks to  see if the CVC supplied matches the CVC held by the issuing bank.
+          example: '101'
+          pattern: ^\d{3,4}$
+    paymentInstrument:
+      description: An object that contains your customer's payment details.
+      oneOf:
+      - $ref: '#/components/schemas/cardPlain'
+      - $ref: '#/components/schemas/cardToken'
+      - $ref: '#/components/schemas/cardNetworkToken'
+      - $ref: '#/components/schemas/cardApplepayDecrypted'
+      - $ref: '#/components/schemas/cardGooglepayDecrypted'
+      - $ref: '#/components/schemas/cardSamsungpayDecrypted'
     authentication:
       description: "*  **threeDS** can apply OPTIONALLY to any paymentInstrument other than Apple Pay\n *  **networkToken** only applies to payment instruments: **card/networkToken** and **card/networkToken+applepay**\n **networkToken** should be mandatory for these instruments\n *  For paymentInstrument **card/networkToken** then the **threeDS** object can optionally be supplied along with the networkToken one"
       type: object
@@ -2073,28 +1421,319 @@ components:
               enum:
               - cartesBancaires
               example: cartesBancaires
-    cardPlain:
-      title: card/plain
+    storedCardUsage:
+      description: If this optional field is not provided, `first` will be used. Set to `first` for original verification or `subsequent` to use a previously stored card.
+      type: string
+      enum:
+      - first
+      - subsequent
+    type:
+      type: object
+      oneOf:
+      - $ref: '#/components/schemas/typeCardVerification'
+      - $ref: '#/components/schemas/typeNameInquiry'
+    typeCardVerification:
+      title: cardVerification
+      type: object
+      required:
+      - type
+      - merchant
+      - transactionReference
+      - instruction
+      properties:
+        type:
+          type: string
+          enum:
+          - cardVerification
+        merchant:
+          $ref: '#/components/schemas/merchant'
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        instruction:
+          $ref: '#/components/schemas/instruction'
+        channel:
+          $ref: '#/components/schemas/channel'
+        authentication:
+          $ref: '#/components/schemas/authentication'
+        recipient:
+          $ref: '#/components/schemas/recipient'
+    AccountNameInquiryResponseWithOutcomeNotVerified:
+      title: Matched name inquiry and declined CVC (not verified result)
+      type: object
+      properties:
+        outcome:
+          $ref: '#/components/schemas/outcome'
+        nameInquiry:
+          $ref: '#/components/schemas/nameInquiry'
+        refusalCode:
+          $ref: '#/components/schemas/refusalCode'
+        refusalDescription:
+          $ref: '#/components/schemas/refusalDescription'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+      example:
+        outcome: not verified
+        nameInquiry: matched
+        refusalCode: N7
+        refusalDescription: Decline for CVV2 failure
+        riskFactors:
+        - type: cvc
+          risk: notMatched
+    middleNameInquiry:
+      type: string
+      description: middle name or initial
+      maxLength: 35
+      minLength: 1
+      example: Elizabeth
+    paymentInstrument-ani:
+      type: object
+      description: An object that contains your customer's payment details.
+      oneOf:
+      - $ref: '#/components/schemas/cardPlain-ani'
+      - $ref: '#/components/schemas/cardToken-ani'
+    nameInquiry:
+      type: string
+      enum:
+      - matched
+      - partialMatched
+      - notMatched
+      - notChecked
+      - notSupported
+      description: Result of the Cardholder Name Inquiry
+    transactionReference:
+      type: string
+      description: "A unique reference generated by you. It is used to identify a payment throughout its lifecycle.\n\n64 characters max. We recommend your `transactionReference` contains between 9-20 characters for ease of onward \nprocessing.\n"
+      example: Memory265-13/08/1876
+      pattern: ^[A-Za-z0-9\-_\/!@#$%\(\)*=.:;?[\]{}~+]{1,64}$
+    lastNameInquiry:
+      type: string
+      description: surname
+      maxLength: 35
+      minLength: 1
+      example: Holmes
+    recipient:
+      type: object
+      description: 'The details of the recipient of the payment.
+
+
+        We highly recommend you supply this, if your MCC is 6012 or 6051. Sending this field ensures you remain PSD2 compliant
+
+        and avoid potential acquirer refusals.
+
+
+        '
+      properties:
+        accountReference:
+          type: string
+          description: Partial account number.
+          example: azAZ0123
+        lastName:
+          $ref: '#/components/schemas/lastName'
+        address:
+          type: object
+          required:
+          - postalCode
+          properties:
+            postalCode:
+              $ref: '#/components/schemas/postalCode'
+        dateOfBirth:
+          type: object
+          required:
+          - day
+          - month
+          - year
+          properties:
+            day:
+              type: number
+              description: Recipient's day of birth
+              example: 1
+            month:
+              type: number
+              description: Recipient's month of birth
+              example: 2
+            year:
+              type: number
+              description: Recipient's year of birth
+              example: 2000
+    cardExpiryDate:
+      required:
+      - month
+      - year
+      description: The expiry date of the card
+      type: object
+      properties:
+        year:
+          type: integer
+          description: Four digit expiry year
+          format: int32
+          example: 2025
+        month:
+          type: integer
+          description: Expiry month
+          format: int32
+          example: 8
+    outcome:
+      type: string
+      enum:
+      - verified
+      - not verified
+      description: Result of the Card Verification
+    validationError:
+      type: object
+      required:
+      - errorName
+      - message
+      properties:
+        errorName:
+          type: string
+          description: A machine and human readable error type for clarity and semantic understanding of the error.
+          enum:
+          - fieldIsMissing
+          - fieldMustBeString
+          - fieldMustBeNumber
+          - fieldMustBeInteger
+          - fieldMustBeBoolean
+          - fieldMustBeObject
+          - fieldMustBeArray
+          - fieldIsNull
+          - fieldIsEmpty
+          - fieldHasInvalidValue
+          - fieldIsNotAllowed
+          - numberIsTooSmall
+          - integerIsTooLarge
+          - stringIsTooShort
+          - stringIsTooLong
+          - stringFailedRegexCheck
+          - panFailedLuhnCheck
+          - dateHasInvalidFormat
+          example: fieldIsNotAllowed
+        message:
+          type: string
+          description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+          example: Field at path is not allowed.
+        jsonPath:
+          type: string
+          description: This field represents the JSON path of the element within the request body associated with the error.
+          example: $.transactionRef
+    cardSamsungpayDecrypted:
+      title: card/networkToken+samsungpay
       required:
       - type
       - expiryDate
-      - cardNumber
+      - tokenNumber
       type: object
       properties:
         type:
           type: string
-          example: card/plain
-        cardHolderName:
-          type: string
-          description: The name as shown on the card.
-          example: Sherlock Holmes
+          example: card/networkToken+samsungpay
         expiryDate:
           $ref: '#/components/schemas/cardExpiryDate'
-        cardNumber:
+        tokenNumber:
           type: string
-          description: An element that contains your customer's payment card number.
-          example: '4444333322221111'
-          pattern: ^\d{12,19}$
+          description: The token number issued by Samsung Pay.
+        billingAddress:
+          type: object
+          description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode].'
+          required:
+          - address1
+          - city
+          - countryCode
+          - postalCode
+          properties:
+            address1:
+              type: string
+              description: Address line 1 of billing address.
+              example: 221B Baker Street
+              maxLength: 80
+              minLength: 1
+            address2:
+              type: string
+              description: Address line 2 of billing address.
+              example: Marylebone
+              maxLength: 80
+              minLength: 1
+            address3:
+              type: string
+              description: Address line 3 of billing address.
+              example: Westminster
+              maxLength: 80
+              minLength: 1
+            postalCode:
+              $ref: '#/components/schemas/postalCode'
+            city:
+              type: string
+              description: City of billing address.
+              example: London
+              maxLength: 50
+              minLength: 1
+            state:
+              type: string
+              description: Region, state, or province of billing address.
+              example: GB
+              maxLength: 30
+              minLength: 1
+            countryCode:
+              type: string
+              description: The alpha-2 ISO-3166 country code of the billing address.
+              example: GB
+              pattern: ^[A-Z]{2}$
+        cardHolderName:
+          type: string
+    refusalCode:
+      description: The [refusal response code](/products/reference/refusal-response) from the acquirer
+      type: string
+      example: '6'
+    AccountNameInquiryResponseWithRiskFactors:
+      title: Matched name inquiry including risk factors (verified result)
+      type: object
+      properties:
+        outcome:
+          $ref: '#/components/schemas/outcome'
+        nameInquiry:
+          $ref: '#/components/schemas/nameInquiry'
+        riskFactors:
+          $ref: '#/components/schemas/riskFactors'
+      example:
+        outcome: verified
+        nameInquiry: matched
+        riskFactors:
+        - type: nameInquiry
+          detail: firstName
+          risk: notSupplied
+        - type: nameInquiry
+          detail: middleName
+          risk: notSupplied
+        - type: nameInquiry
+          detail: lastName
+          risk: matched
+    cardHolder:
+      type: object
+      description: An object with card holder's name details.
+      required:
+      - lastName
+      properties:
+        firstName:
+          $ref: '#/components/schemas/firstNameInquiry'
+        middleName:
+          $ref: '#/components/schemas/middleNameInquiry'
+        lastName:
+          $ref: '#/components/schemas/lastNameInquiry'
+    cardNetworkToken:
+      title: card/networkToken
+      required:
+      - type
+      - expiryDate
+      - tokenNumber
+      type: object
+      properties:
+        type:
+          type: string
+          example: card/networkToken
+        expiryDate:
+          $ref: '#/components/schemas/cardExpiryDate'
+        tokenNumber:
+          type: string
+          description: The token number issued by the network
         billingAddress:
           type: object
           description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode]'
@@ -2141,52 +1780,8 @@ components:
               description: The alpha-2 ISO-3166 country code of the billing address.
               example: GB
               pattern: ^[A-Z]{2}$
-        cvc:
+        cardHolderName:
           type: string
-          description: CVC is a unique set of 3 or 4 numbers on the back of your customer's card. Including the CVC  in your request increases the chances of the verification request outcome being verified. Our API checks to  see if the CVC supplied matches the CVC held by the issuing bank.
-          example: '101'
-          pattern: ^\d{3,4}$
-    cardHolder:
-      type: object
-      description: An object with card holder's name details.
-      required:
-      - lastName
-      properties:
-        firstName:
-          $ref: '#/components/schemas/firstNameInquiry'
-        middleName:
-          $ref: '#/components/schemas/middleNameInquiry'
-        lastName:
-          $ref: '#/components/schemas/lastNameInquiry'
-    installmentType:
-      description: Defines the type of installments service. Only merchant is available for card verification.
-      type: string
-      enum:
-      - merchant
-    aniMerchant:
-      type: object
-      description: Information about the merchant.
-      required:
-      - entity
-      properties:
-        entity:
-          type: string
-          description: Unique ID given to you during the onboarding process. For more information contact your Relationship Manager or Worldpay Implementation Manager.
-    lastName:
-      type: string
-      description: surname
-      maxLength: 85
-      minLength: 1
-      example: Holmes
-    advice:
-      description: The [MAC (Merchant Advice Code)](/products/reference/refusal-response#refusal-advice-codes) returned by Mastercard
-      type: object
-      required:
-      - code
-      properties:
-        code:
-          type: string
-          example: '02'
     installment:
       title: installment
       required:
@@ -2199,19 +1794,102 @@ components:
           $ref: '#/components/schemas/installmentType'
         storedCardUsage:
           $ref: '#/components/schemas/storedCardUsage'
-    AccountNameInquiryResponseMatched:
-      title: Matched name inquiry (verified result)
+    channel:
+      type: string
+      description: 'The payment channel indicates the interaction of the cardholder with the merchant.
+
+        Supply a value of `moto` to process an authorization as a Mail Order or Telephone Order transaction.
+
+        When channel is not provided, the authorization will be processed as ecommerce `ecom` by default.
+
+
+        **NOTE:** 3DS `authentication` data cannot be supplied for MOTO payments.
+
+        '
+      enum:
+      - moto
+      - ecom
+    cardGooglepayDecrypted:
+      title: card/networkToken+googlepay
+      required:
+      - type
+      - expiryDate
+      - tokenNumber
       type: object
       properties:
-        outcome:
-          $ref: '#/components/schemas/outcome'
-        nameInquiry:
-          $ref: '#/components/schemas/nameInquiry'
-        riskFactors:
-          $ref: '#/components/schemas/riskFactors'
-      example:
-        outcome: verified
-        nameInquiry: matched
+        type:
+          type: string
+          example: card/networkToken+googlepay
+        expiryDate:
+          $ref: '#/components/schemas/cardExpiryDate'
+        tokenNumber:
+          type: string
+          description: The token number issued by Google Pay.
+        billingAddress:
+          type: object
+          description: 'An object containing the billing address information.  If included you must send at least: [address1, city, countryCode, postalCode].'
+          required:
+          - address1
+          - city
+          - countryCode
+          - postalCode
+          properties:
+            address1:
+              type: string
+              description: Address line 1 of billing address.
+              example: 221B Baker Street
+              maxLength: 80
+              minLength: 1
+            address2:
+              type: string
+              description: Address line 2 of billing address.
+              example: Marylebone
+              maxLength: 80
+              minLength: 1
+            address3:
+              type: string
+              description: Address line 3 of billing address.
+              example: Westminster
+              maxLength: 80
+              minLength: 1
+            postalCode:
+              $ref: '#/components/schemas/postalCode'
+            city:
+              type: string
+              description: City of billing address.
+              example: London
+              maxLength: 50
+              minLength: 1
+            state:
+              type: string
+              description: Region, state, or province of billing address.
+              example: GB
+              maxLength: 30
+              minLength: 1
+            countryCode:
+              type: string
+              description: The alpha-2 ISO-3166 country code of the billing address.
+              example: GB
+              pattern: ^[A-Z]{2}$
+        cardHolderName:
+          type: string
+    cardExpiryDate-ani:
+      required:
+      - month
+      - year
+      description: The expiry date of the card. Must be present if CVC is provided
+      type: object
+      properties:
+        year:
+          type: integer
+          description: Four digit expiry year
+          format: int32
+          example: 2025
+        month:
+          type: integer
+          description: Expiry month
+          format: int32
+          example: 8
     paymentInstrumentCardDetails:
       title: paymentInstrument
       type: object
@@ -2265,30 +1943,353 @@ components:
           type: string
         expiryDate:
           $ref: '#/components/schemas/cardExpiryDate'
-  examples:
-    headerError:
-      value:
-        errorName: headerIsMissing
-        message: A valid header must be provided.
-        headerName: Content-Type
-    validationError:
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: A JSON body matching the expected schema must be provided.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: Field at path is not allowed.
-          jsonPath: $.transactionRef
+    merchant:
+      type: object
+      description: Information about the merchant.
+      required:
+      - entity
+      properties:
+        entity:
+          type: string
+          description: This should map to a profile from the Onboarding Domain. For more information contact your Relationship Manager or Worldpay Implementation Manager.
+        mcc:
+          type: string
+          description: A Merchant Category Code (MCC) can be applied to an individual request. You can only supply `mcc`, if we have enabled the dynamic MCC feature during boarding. If enabled but not provided, `merchant.mcc` defaults to a configured value. For more information contact your Relationship Manager or Worldpay Implementation Manager.
+          example: '6012'
+        paymentFacilitator:
+          type: object
+          description: 'An object containing your payment facilitator information.
+
+
+            This parameter is only required for verification if you are a payment facilitator.'
+          required:
+          - schemeId
+          - subMerchant
+          properties:
+            schemeId:
+              type: string
+              description: ' Your payment facilitator ID received from Mastercard, Visa and Amex.'
+              example: '12345678901'
+            independentSalesOrganizationId:
+              type: string
+              description: ' Independent Sales Organization (ISO) ID provided by Mastercard.'
+              example: '12345678901'
+            subMerchant:
+              type: object
+              description: Your sub-merchant's details
+              required:
+              - merchantId
+              - name
+              - address
+              - street
+              - city
+              - countryCode
+              - postalCode
+              properties:
+                reference:
+                  type: string
+                  description: Unique merchant reference
+                  example: '123456789012345'
+                  pattern: ^[0-9]{1,15}$
+                name:
+                  type: string
+                  description: The name of your subMerchant's company
+                  example: Stonewall Inn
+                  pattern: ^[A-Za-z0-9 ]{1,25}$
+                address:
+                  type: object
+                  required:
+                  - postalCode
+                  - street
+                  - city
+                  - countryCode
+                  properties:
+                    street:
+                      type: string
+                      description: Street name of your subMerchant's company
+                      example: 53 Christopher Street
+                      pattern: ^[A-Z, a-z,0-9,\s]{1,50}$
+                    state:
+                      type: string
+                      description: State of your subMerchant's company
+                      example: NY
+                      pattern: ^[A-Z]{1,3}$
+                    city:
+                      type: string
+                      description: City of your subMerchant's company
+                      example: New York City
+                      pattern: ^[A-Z, a-z,\-\s]{1,13}$
+                    countryCode:
+                      type: string
+                      description: The alpha-2 ISO-3166 country code of the billing address
+                      example: GB
+                      pattern: ^[A-Z]{2}$
+                    postalCode:
+                      type: string
+                      description: Post code/Zip code of your subMerchant's company
+                      example: '10014'
+                taxReference:
+                  type: string
+                  description: Tax Reference of your subMerchant's company
+                  example: 987-65-4321
+                  pattern: ^[A-Za-z0-9-\s]{1,20}$
+                phoneNumber:
+                  type: string
+                  description: Phonenumber of your subMerchant's company
+                  example: 987-65-4321
+                email:
+                  type: string
+                  description: Email address of your subMerchant's company
+                  example: email@example.com
+                url:
+                  type: string
+                  description: URL of submerchant's company
+                  maxLength: 255
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9@!£*#$)(+-_=.,/;:]*$
+    cardOnFile:
+      title: cardOnFile
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: type
+          type: string
+          description: The processing arrangement agreed with your customer.
+          enum:
+          - cardOnFile
+        storedCardUsage:
+          $ref: '#/components/schemas/storedCardUsage'
+  responses:
+    '404':
+      description: Not Found - unable to locate requested record
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/vnd.worldpay.cardVerifications-v6+json:
+          schema:
+            title: error400
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - resourceNotFound
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: resourceNotFound
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: Unable to verify the historic outcome from the data provided
+          example:
+            errorName: resourceNotFound
+            message: Unable to verify the historic outcome from the data provided
+    '403':
+      description: Boarding issue - unable to process requested merchant
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/vnd.worldpay.cardVerifications-v6+json:
+          schema:
+            title: error403
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - resourceNotFound
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: boardingError
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: There has been a problem with your boarding and you cannot use this API yet, please contact support.
+          example:
+            errorName: boardingError
+            message: There has been a problem with your boarding and you cannot use this API yet, please contact support.
+    '401':
+      description: Client is not authorized due to missing or invalid Authorization header.
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error401
+            type: object
+            required:
+            - errorName
+            - message
+            - headerName
+            properties:
+              errorName:
+                type: string
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: accessDenied
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: Access to the requested resource has been denied
+    '400':
+      description: Bad Request
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          examples:
+            Validation Error:
+              $ref: '#/components/examples/validationError'
+            Header Error:
+              $ref: '#/components/examples/headerError'
+          schema:
+            title: error400
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - internalErrorOccurred
+                - headerIsMissing
+                - headerHasInvalidValue
+                - bodyIsEmpty
+                - bodyIsNotJson
+                - bodyDoesNotMatchSchema
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: bodyDoesNotMatchSchema
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: A JSON body matching the expected schema must be provided.
+              validationErrors:
+                type: array
+                description: If there were field validation errors, they will be collected in this array
+                items:
+                  $ref: '#/components/schemas/validationError'
+              headerName:
+                type: string
+                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
+                example: Content-Type
+    404get:
+      description: Not Found - unable to locate requested record
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/vnd.worldpay.cardVerifications-v6+json:
+          schema:
+            title: error404
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - verificationNotReady
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: verificationNotReady
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: The account verification was concluded, but is not ready to be viewed. Please try again later.
+          example:
+            errorName: verificationNotReady
+            message: The account verification was concluded, but is not ready to be viewed. Please try again later.
+    '415':
+      description: Invalid content-type HTTP header
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error415
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: headerHasInvalidValue
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: A valid header must be provided.
+              headerName:
+                type: string
+                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
+                example: Content-Type
+    '500':
+      description: An error occurred processing the request on our side.
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error500
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - internalServerError
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: internalServerError
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: An internal server error occurred
   parameters:
-    contentTypeHeader:
-      name: Content-Type
+    acceptHeader:
+      name: Accept
       in: header
       required: true
       schema:
         type: string
         example: application/vnd.worldpay.cardVerifications-v6+json
-    acceptHeader:
-      name: Accept
+    contentTypeHeader:
+      name: Content-Type
       in: header
       required: true
       schema:
@@ -2304,3 +2305,4 @@ components:
     BasicAuth:
       type: http
       scheme: basic
+      description: "username:password = merchant1:password  \nBase-64 encoded = bWVyY2hhbnQxcGFzc3dvcmQ=\n"

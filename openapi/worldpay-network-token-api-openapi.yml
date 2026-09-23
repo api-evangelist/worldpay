@@ -1,16 +1,15 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Network token API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
+  title: Tokens Network token API
   version: '3'
   x-metadata:
     category:
-    - 3DS
-    - SCA Exemptions
+    - Tokens
     business:
     - Enterprise
     catalog-list: true
     generated: false
+  description: Minimize the exposure of sensitive card details and increase the security of your customer's card details.
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
@@ -27,10 +26,7 @@ paths:
       tags:
       - Network token
       summary: Request provisioning for a network token and returns a reference for use later
-      description: 'Request to provision a network token.
-
-
-        '
+      description: Request to provision a network token.
       operationId: provisionNetworkToken
       requestBody:
         content:
@@ -429,10 +425,7 @@ paths:
       tags:
       - Network token
       summary: Provision a cryptogram for short time use based on a network token
-      description: 'TBD.
-
-
-        '
+      description: TBD.
       operationId: getNetworkTokenCryptogram
       requestBody:
         content:
@@ -470,6 +463,106 @@ paths:
                         templated: true
 components:
   schemas:
+    tokens_network_cryptograms_200_response:
+      required:
+      - cryptogramDetails
+      - _links
+      type: object
+      properties:
+        cryptogramDetails:
+          required:
+          - cryptogram
+          - eci
+          type: object
+          properties:
+            cryptogram:
+              type: string
+            eci:
+              type: string
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
+    tokens_network_provision_error_with_optional_validation_response:
+      required:
+      - errorName
+      - message
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        validationErrors:
+          type: array
+          items:
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+              message:
+                type: string
+              jsonPath:
+                type: string
+    tokens_network_cryptograms:
+      required:
+      - tokenNumber
+      type: object
+      properties:
+        tokenNumber:
+          type: string
+    tokens_network_provision:
+      required:
+      - paymentInstrument
+      - merchant
+      type: object
+      properties:
+        paymentInstrument:
+          required:
+          - type
+          type: object
+          properties:
+            type:
+              type: string
+            cardHolderName:
+              type: string
+              description: The name on your customer's card.
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                year:
+                  type: integer
+            cardNumber:
+              type: string
+            href:
+              type: string
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about your merchant account.
+          properties:
+            entity:
+              type: string
+              description: Identifies merchant account for billing, reporting and reconciliation. Contact your Worldpay Implementation Manager for more details.
+    tokens_network_provision_error_response:
+      required:
+      - errorName
+      - message
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
     tokens_network_query_200_response:
       required:
       - tokenPaymentInstrument
@@ -551,23 +644,6 @@ components:
           title: Links
           type: object
           additionalProperties: true
-    tokens_network_cryptograms:
-      required:
-      - tokenNumber
-      type: object
-      properties:
-        tokenNumber:
-          type: string
-    tokens_network_provision_error_response:
-      required:
-      - errorName
-      - message
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
     tokens_network_provision_200_response:
       required:
       - tokenReference
@@ -650,89 +726,6 @@ components:
                 type: string
               message:
                 type: string
-        _links:
-          title: Links
-          type: object
-          additionalProperties: true
-    tokens_network_provision:
-      required:
-      - paymentInstrument
-      - merchant
-      type: object
-      properties:
-        paymentInstrument:
-          required:
-          - type
-          type: object
-          properties:
-            type:
-              type: string
-            cardHolderName:
-              type: string
-              description: The name on your customer's card.
-            cardExpiryDate:
-              required:
-              - month
-              - year
-              type: object
-              properties:
-                month:
-                  type: integer
-                year:
-                  type: integer
-            cardNumber:
-              type: string
-            href:
-              type: string
-        merchant:
-          required:
-          - entity
-          type: object
-          description: An object that contains information about your merchant account.
-          properties:
-            entity:
-              type: string
-              description: Identifies merchant account for billing, reporting and reconciliation. Contact your Worldpay Implementation Manager for more details.
-    tokens_network_provision_error_with_optional_validation_response:
-      required:
-      - errorName
-      - message
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        validationErrors:
-          type: array
-          items:
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-              message:
-                type: string
-              jsonPath:
-                type: string
-    tokens_network_cryptograms_200_response:
-      required:
-      - cryptogramDetails
-      - _links
-      type: object
-      properties:
-        cryptogramDetails:
-          required:
-          - cryptogram
-          - eci
-          type: object
-          properties:
-            cryptogram:
-              type: string
-            eci:
-              type: string
         _links:
           title: Links
           type: object

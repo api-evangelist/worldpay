@@ -1,16 +1,16 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Batch payout API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Account Payouts Batch payout API
+  description: Send funds to your customer's bank accounts and search for payouts using parameters.
+  version: '2025-01-01'
   x-metadata:
-    category:
-    - 3DS
-    - SCA Exemptions
     business:
     - Enterprise
+    - Marketplaces
     catalog-list: true
-    generated: false
+    category:
+    - Payouts
+    generated: true
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
@@ -233,15 +233,172 @@ paths:
                 message: Unexpected Issue. Please try again
 components:
   schemas:
-    WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.PayoutBatchUniqueIdAndUbrV3:
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Party:
+      required:
+      - partyType
       type: object
       properties:
-        transactionReference:
+        partyId:
+          maximum: 36
+          minimum: 36
+          type:
+          - string
+          - 'null'
+          description: Id of the party for the payment request. This field is currently not used.
+          example: 1E016F5E-9D4A-49E7-B44C-A4C8AAE8290D
+        partyType:
+          enum:
+          - beneficiary
+          - payer
           type: string
-          nullable: true
-        payoutRequestId:
+          description: Party type.
+        partyReference:
+          maximum: 64
+          minimum: 3
+          type:
+          - string
+          - 'null'
+          description: "Your reference for this party. Must be unique within an entity. Allowed values are a-z, A-Z, 0-9, spaces and hyphens. \n\n Only supply either `partyReference` or `personalDetails`.\n\n <b>Note:</b> Do not provide for beneficiaries, or for crypto or wallet payouts. Supply `personalDetails` instead."
+        customerReference:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: 'The reference of the payer: Domain ID, Account Number, Tax ID, BIC, Internal Customer ID or any other numerical or alphanumerical unique identifier of the customer where the payment request has originated. Special characters are restricted.'
+        personalDetails:
+          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PersonalDetails'
+        address:
+          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PartyAddress'
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.WalletDetails:
+      type: object
+      properties:
+        walletIdentifierType:
+          enum:
+          - walletId
+          - email
+          - phoneNumber
           type: string
-          nullable: true
+          description: ''
+        walletIdentifier:
+          maximum: 64
+          minimum: 0
+          type:
+          - string
+          - 'null'
+          description: Beneficiary wallet identifier.
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PartyAddress:
+      type: object
+      properties:
+        city:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: City of the address.
+        state:
+          maximum: 35
+          minimum: 2
+          type:
+          - string
+          - 'null'
+          description: State of the address.
+        countryCode:
+          maximum: 2
+          minimum: 2
+          type:
+          - string
+          - 'null'
+          description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the address.
+        address1:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Address line 1.
+        address2:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Address line 2.
+        postalCode:
+          maximum: 20
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: PostalCode of the address.
+        type:
+          enum:
+          - home
+          - business
+          - poBox
+          - other
+          type:
+          - string
+          - 'null'
+          description: Type of party address.
+        residentialStatus:
+          enum:
+          - resident
+          - nonResident
+          - other
+          type:
+          - string
+          - 'null'
+          description: Type of residency.
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Merchant:
+      required:
+      - entity
+      type: object
+      properties:
+        entity:
+          maximum: 32
+          minimum: 1
+          type: string
+          description: Your entity reference created as part of on-boarding. Used to route the request in Access Worldpay.
+          example: default
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        jsonPath:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.BatchPayout:
       required:
@@ -258,113 +415,51 @@ components:
         merchant:
           $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Merchant'
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Source:
-      type: object
-      properties:
-        accountNumber:
-          maximum: 16
-          minimum: 16
-          type: string
-          description: Specifies which account should fund the payout, overriding the default account for your `entity`. Common uses include paying sellers from your own account (e.g. credit notes) or choosing among multiple accounts in the same currency. The account must belong to your `entity`.
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.BatchIdentifier:
-      type: object
-      properties:
-        entity:
-          type: string
-          nullable: true
-        idempotencyKey:
-          type: string
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PartyAddress:
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.BankAddress:
       type: object
       properties:
         city:
           maximum: 35
           minimum: 1
-          type: string
+          type:
+          - string
+          - 'null'
           description: City of the address.
-          nullable: true
         state:
           maximum: 35
           minimum: 2
-          type: string
+          type:
+          - string
+          - 'null'
           description: State of the address.
-          nullable: true
         countryCode:
           maximum: 2
           minimum: 2
-          type: string
+          type:
+          - string
+          - 'null'
           description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the address.
-          nullable: true
         address1:
           maximum: 35
           minimum: 1
-          type: string
+          type:
+          - string
+          - 'null'
           description: Address line 1.
-          nullable: true
         address2:
           maximum: 35
           minimum: 1
-          type: string
+          type:
+          - string
+          - 'null'
           description: Address line 2.
-          nullable: true
         postalCode:
           maximum: 20
           minimum: 1
-          type: string
+          type:
+          - string
+          - 'null'
           description: PostalCode of the address.
-          nullable: true
-        type:
-          enum:
-          - home
-          - business
-          - poBox
-          - other
-          type: string
-          description: Type of party address.
-          nullable: true
-        residentialStatus:
-          enum:
-          - resident
-          - nonResident
-          - other
-          type: string
-          description: Type of residency.
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.PayoutBatchRequest:
-      type: object
-      properties:
-        merchant:
-          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Merchant'
-        payouts:
-          maximum: 500
-          minimum: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.BatchPayout'
-          description: Holds information about the individual payouts.
-          nullable: true
-        notificationUrl:
-          type: string
-          description: Currently not in use.
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
-      type: object
-      properties:
-        errorName:
-          type: string
-          nullable: true
-        message:
-          type: string
-          nullable: true
-        jsonPath:
-          type: string
-          nullable: true
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PurposeOfPayment:
       type: object
@@ -447,333 +542,6 @@ components:
           type: string
           description: Description for purpose of payout. This is mandatory for some payout routes.
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Phone:
-      type: object
-      properties:
-        number:
-          maximum: 20
-          minimum: 1
-          type: string
-          description: Phone number of the party. Mandatory if you have provided `prefix`. Special characters are restricted.
-          nullable: true
-        prefix:
-          maximum: 3
-          minimum: 1
-          type: string
-          description: Phone dialing country code of the party. Mandatory if you have provided `phoneNumber`. Special characters are restricted. International country calling code following ITU-T standard. Must be 1-3 digits e.g. \"44\" or \"420\"
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.CurrencyInfo:
-      required:
-      - sourceCurrency
-      type: object
-      properties:
-        sourceCurrency:
-          maximum: 3
-          minimum: 3
-          type: string
-          description: Source [currency code](/products/reference/supported-countries-currencies#currency-codes) for the payout (if different to `targetCurrency`, Foreign Exchange (FX) is applied).
-        sourceAmount:
-          maximum: 10
-          minimum: 1
-          type: number
-          description: Source amount. If `targetAmount` is not stated, this amount is used. Must be a positive value up to 2 decimal places. <br><br> **Important:** Do not include `sourceAmount` and `targetAmount` in the same request, only send one or the other. The request will fail if both are supplied.
-          format: double
-          nullable: true
-        targetCurrency:
-          maximum: 3
-          minimum: 3
-          type: string
-          description: Target <a href="/products/reference/supported-countries-currencies#currency-codes">ISO 4217 alpha-3 currency codes</a> for the payout (if different to `sourceCurrency`, Foreign Exchange (FX) is applied).
-          nullable: true
-        targetAmount:
-          maximum: 10
-          minimum: 1
-          type: number
-          description: Target amount. If `sourceAmount` is not specified, this amount is used. Must be a positive value up to 2 decimal places. <br><br> **Important:** Do not include `sourceAmount` and `targetAmount` in the same request, only send one or the other. The request will fail if both are supplied.
-          format: double
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Narrative:
-      type: object
-      properties:
-        line1:
-          maximum: 50
-          minimum: 6
-          type: string
-          description: Reference that may appear on beneficiary statements.
-          nullable: true
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Party:
-      required:
-      - partyType
-      type: object
-      properties:
-        partyId:
-          maximum: 36
-          minimum: 36
-          type: string
-          description: Id of the party for the payment request. This field is currently not used.
-          nullable: true
-          example: 1E016F5E-9D4A-49E7-B44C-A4C8AAE8290D
-        partyType:
-          enum:
-          - beneficiary
-          - payer
-          type: string
-          description: Party type.
-        partyReference:
-          maximum: 64
-          minimum: 3
-          type: string
-          description: "Your reference for this party. Must be unique within an entity. Allowed values are a-z, A-Z, 0-9, spaces and hyphens. \n\n Only supply either `partyReference` or `personalDetails`.\n\n <b>Note:</b> Do not provide for beneficiaries, or for crypto or wallet payouts. Supply `personalDetails` instead."
-          nullable: true
-        customerReference:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: 'The reference of the payer: Domain ID, Account Number, Tax ID, BIC, Internal Customer ID or any other numerical or alphanumerical unique identifier of the customer where the payment request has originated. Special characters are restricted.'
-          nullable: true
-        personalDetails:
-          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PersonalDetails'
-        address:
-          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PartyAddress'
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.BankDetails:
-      type: object
-      description: "The bank details of the beneficiary.\n\n  **Note:** View our [bank coverage guide](/products/marketplaces/coverage/bank) for country specific requirements."
-      properties:
-        iban:
-          maximum: 34
-          minimum: 1
-          type: string
-          description: Beneficiary IBAN. You must either provide `iban` or `accountNumber`.
-          nullable: true
-        branchCode:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: Beneficiary account branch code.
-          nullable: true
-        bankCode:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: Beneficiary account bank code.
-          nullable: true
-        swiftBic:
-          maximum: 11
-          minimum: 8
-          type: string
-          description: Beneficiary bank account SWIFT/BIC.
-          nullable: true
-        bankName:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: Beneficiary bank name.
-          nullable: true
-        accountType:
-          enum:
-          - checking
-          - savings
-          - moneyMarket
-          - certificateOfDeposit
-          - vista
-          - other
-          type: string
-          description: Type of the account.
-          nullable: true
-        accountNumber:
-          maximum: 64
-          minimum: 0
-          type: string
-          description: Beneficiary bank account number.
-          nullable: true
-        payoutInstrumentId:
-          type: string
-          description: A unique ID generated by us, holding the beneficiary bank details. You receive this in the response after successfully creating a payout instrument in our <a href="/products/parties/openapi/payout-instruments">Parties API</a>.
-          nullable: true
-        payoutInstrumentReference:
-          type: string
-          description: Your reference for this `payoutInstrument`, must be unique within an entity.
-          nullable: true
-        address:
-          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.BankAddress'
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PersonalDetails:
-      type: object
-      properties:
-        companyName:
-          maximum: 140
-          minimum: 1
-          type: string
-          description: Name of the party if not an individual. Mandatory where `type` is "company", "institution" or "government" (Government). Must not be provided when `type` is "person" or "soletrader".
-          nullable: true
-        firstName:
-          maximum: 50
-          minimum: 1
-          type: string
-          description: First name of the party. Mandatory where `type` is "person" or "soletrader". See <a href="/products/reference/formatting#name-field-formatting-account-payouts-api">formatting rules</a>.
-          nullable: true
-        middleName:
-          maximum: 50
-          minimum: 1
-          type: string
-          description: Middle name of the party (applicable when `type` is "person" or "soletrader"). See <a href="/products/reference/formatting#name-field-formatting-account-payouts-api">formatting rules</a>.
-          nullable: true
-        lastName:
-          maximum: 50
-          minimum: 1
-          type: string
-          description: Last name of the party. Mandatory where `type` is "person" or "soletrader". See <a href="/products/reference/formatting#name-field-formatting-account-payouts-api">formatting rules</a>.
-          nullable: true
-        fullName:
-          type: string
-          nullable: true
-          readOnly: true
-        dateOfBirth:
-          maximum: 10
-          minimum: 10
-          pattern: yyyy-MM-dd
-          type: string
-          description: Date of birth.
-          nullable: true
-          example: '2024-01-01'
-        email:
-          type: string
-          description: Email address of the party. This field will be available for use as part of the future enhancements to the Account Payouts API in 2025. Must be a valid email address format.
-          nullable: true
-        title:
-          maximum: 3
-          enum:
-          - mr
-          - miss
-          - mrs
-          - ms
-          - mx
-          - dr
-          - misc
-          type: string
-          description: Title for the person. Only supply when `type` is "person" or "sole trader".
-          nullable: true
-        type:
-          enum:
-          - company
-          - person
-          - institution
-          - government
-          - soletrader
-          - other
-          type: string
-          description: Entity description of the party, type is required when partyType is beneficiary
-          nullable: true
-        phones:
-          type: array
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Phone'
-          nullable: true
-        identityDocuments:
-          type: array
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Identity'
-          nullable: true
-        dateOfIncorporation:
-          maximum: 10
-          minimum: 10
-          pattern: yyyy-MM-dd
-          type: string
-          description: Date of the Incorporation of the Company. Not allowed if for a person or sole trader.
-          nullable: true
-          example: '2024-01-01'
-      additionalProperties: false
-      description: Only supply either `partyReference` or `personalDetails`.
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Identity:
-      type: object
-      properties:
-        issuingInstitution:
-          type: string
-          description: Issuing institution that provided identification type. Cannot be provided if the conditional fields in the identity section are missing.
-          nullable: true
-        issuingCountry:
-          type: string
-          description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of identification type origin. Mandatory if `identityDocuments.type`/`identityDocuments.number` is populated.
-        type:
-          enum:
-          - passport
-          - taxId
-          - nationalInsurance
-          - driverLicence
-          - companyVatNumber
-          - citizenshipCard
-          - nationalId
-          - workPermit
-          - employmentPass
-          - studentPass
-          - permanentResidentCard
-          - companyRegistrationNumber
-          - other
-          type: string
-          description: Type of identification. Mandatory if `identityDocuments.number` is populated.
-          nullable: true
-        validFrom:
-          maximum: 10
-          minimum: 10
-          type: string
-          description: Identification type start date. Must be a Gregorian calendar date with ISO 8601 format YYYY-MM-DD. Cannot be provided if conditional fields in the identity section are missing.
-          nullable: true
-        validTo:
-          maximum: 10
-          minimum: 10
-          type: string
-          description: Identification type end date. Must be a Gregorian calendar date with ISO 8601 format YYYY-MM-DD. Cannot be provided if conditional fields in the identity section are missing.
-          nullable: true
-        number:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: Identification number that is presented in the identification type. Mandatory if `identityDocuments.type` is populated.
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.BankAddress:
-      type: object
-      properties:
-        city:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: City of the address.
-          nullable: true
-        state:
-          maximum: 35
-          minimum: 2
-          type: string
-          description: State of the address.
-          nullable: true
-        countryCode:
-          maximum: 2
-          minimum: 2
-          type: string
-          description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the address.
-          nullable: true
-        address1:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: Address line 1.
-          nullable: true
-        address2:
-          maximum: 35
-          minimum: 1
-          type: string
-          description: Address line 2.
-          nullable: true
-        postalCode:
-          maximum: 20
-          minimum: 1
-          type: string
-          description: PostalCode of the address.
-          nullable: true
-      additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PayoutInstruction:
       required:
       - countryCode
@@ -785,9 +553,10 @@ components:
           type: string
           description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the payout destination.
         expandableKeyValuePairs:
-          type: object
+          type:
+          - object
+          - 'null'
           description: JSON object of key-value pairs used to supply additional data. The keys and values that you might need to process an account payout to a specific destination, are communicated during the on-boarding process. Duplicate key names are not allowed.
-          nullable: true
         channel:
           enum:
           - ach sd
@@ -802,19 +571,22 @@ components:
           - polygon
           - solana
           - paypal
-          type: string
+          type:
+          - string
+          - 'null'
           description: Preferable channel for the payout. Multiple values can be added with a comma-separator, to indicate order of preference.
-          nullable: true
         quoteId:
-          type: string
+          type:
+          - string
+          - 'null'
           description: ID of the <a href="/products/fx">FX quote</a> for the request. This must be a valid, active quote which is for the same source and target currencies as the payout request. It must have valid `intent` of "FORWARD FX" or "PAYOUT".
-          nullable: true
         scheduleDate:
           maximum: 10
           minimum: 10
-          type: string
+          type:
+          - string
+          - 'null'
           description: Scheduled date of the payout request. Must be a Gregorian calendar date with ISO format 8601 YYYY-MM-DD. This field is currently not used.
-          nullable: true
         source:
           $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Source'
         beneficiaryBankDetails:
@@ -839,55 +611,350 @@ components:
           - return
           - customerToBusiness
           - businessToCustomer
-          type: string
+          type:
+          - string
+          - 'null'
           description: Type of transaction. This is mandatory for some payout routes - please check <a href="/products/marketplaces/coverage/bank">country specific requirements</a>.
-          nullable: true
         beneficiaryWalletDetails:
           $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.WalletDetails'
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.WalletDetails:
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Narrative:
       type: object
       properties:
-        walletIdentifierType:
-          enum:
-          - walletId
-          - email
-          - phoneNumber
-          type: string
-          description: ''
-        walletIdentifier:
-          maximum: 64
-          minimum: 0
-          type: string
-          description: Beneficiary wallet identifier.
-          nullable: true
+        line1:
+          maximum: 50
+          minimum: 6
+          type:
+          - string
+          - 'null'
+          description: Reference that may appear on beneficiary statements.
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
+    WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.PayoutBatchUniqueIdAndUbrV3:
       type: object
       properties:
-        errorName:
-          type: string
-          nullable: true
-        message:
-          type: string
-          nullable: true
-        validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
-          nullable: true
+        transactionReference:
+          type:
+          - string
+          - 'null'
+        payoutRequestId:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Merchant:
-      required:
-      - entity
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Source:
+      type: object
+      properties:
+        accountNumber:
+          maximum: 16
+          minimum: 16
+          type:
+          - string
+          - 'null'
+          description: Specifies which account should fund the payout, overriding the default account for your `entity`. Common uses include paying sellers from your own account (e.g. credit notes) or choosing among multiple accounts in the same currency. The account must belong to your `entity`.
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.BatchIdentifier:
       type: object
       properties:
         entity:
-          maximum: 32
+          type:
+          - string
+          - 'null'
+        idempotencyKey:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.CurrencyInfo:
+      required:
+      - sourceCurrency
+      type: object
+      properties:
+        sourceCurrency:
+          maximum: 3
+          minimum: 3
+          type: string
+          description: Source [currency code](/products/reference/supported-countries-currencies#currency-codes) for the payout (if different to `targetCurrency`, Foreign Exchange (FX) is applied).
+        sourceAmount:
+          maximum: 10
+          minimum: 1
+          type:
+          - number
+          - 'null'
+          description: Source amount. If `targetAmount` is not stated, this amount is used. Must be a positive value up to 2 decimal places. <br><br> **Important:** Do not include `sourceAmount` and `targetAmount` in the same request, only send one or the other. The request will fail if both are supplied.
+          format: double
+        targetCurrency:
+          maximum: 3
+          minimum: 3
+          type:
+          - string
+          - 'null'
+          description: Target <a href="/products/reference/supported-countries-currencies#currency-codes">ISO 4217 alpha-3 currency codes</a> for the payout (if different to `sourceCurrency`, Foreign Exchange (FX) is applied).
+        targetAmount:
+          maximum: 10
+          minimum: 1
+          type:
+          - number
+          - 'null'
+          description: Target amount. If `sourceAmount` is not specified, this amount is used. Must be a positive value up to 2 decimal places. <br><br> **Important:** Do not include `sourceAmount` and `targetAmount` in the same request, only send one or the other. The request will fail if both are supplied.
+          format: double
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.PersonalDetails:
+      type: object
+      properties:
+        companyName:
+          maximum: 140
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Name of the party if not an individual. Mandatory where `type` is "company", "institution" or "government" (Government). Must not be provided when `type` is "person" or "soletrader".
+        firstName:
+          maximum: 50
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: First name of the party. Mandatory where `type` is "person" or "soletrader". See <a href="/products/reference/formatting#name-field-formatting-account-payouts-api">formatting rules</a>.
+        middleName:
+          maximum: 50
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Middle name of the party (applicable when `type` is "person" or "soletrader"). See <a href="/products/reference/formatting#name-field-formatting-account-payouts-api">formatting rules</a>.
+        lastName:
+          maximum: 50
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Last name of the party. Mandatory where `type` is "person" or "soletrader". See <a href="/products/reference/formatting#name-field-formatting-account-payouts-api">formatting rules</a>.
+        fullName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        dateOfBirth:
+          maximum: 10
+          minimum: 10
+          pattern: yyyy-MM-dd
+          type:
+          - string
+          - 'null'
+          description: Date of birth.
+          example: '2024-01-01'
+        email:
+          type:
+          - string
+          - 'null'
+          description: Email address of the party. This field will be available for use as part of the future enhancements to the Account Payouts API in 2025. Must be a valid email address format.
+        title:
+          maximum: 3
+          enum:
+          - mr
+          - miss
+          - mrs
+          - ms
+          - mx
+          - dr
+          - misc
+          type:
+          - string
+          - 'null'
+          description: Title for the person. Only supply when `type` is "person" or "sole trader".
+        type:
+          enum:
+          - company
+          - person
+          - institution
+          - government
+          - soletrader
+          - other
+          type:
+          - string
+          - 'null'
+          description: Entity description of the party, type is required when partyType is beneficiary
+        phones:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Phone'
+        identityDocuments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Identity'
+        dateOfIncorporation:
+          maximum: 10
+          minimum: 10
+          pattern: yyyy-MM-dd
+          type:
+          - string
+          - 'null'
+          description: Date of the Incorporation of the Company. Not allowed if for a person or sole trader.
+          example: '2024-01-01'
+      additionalProperties: false
+      description: Only supply either `partyReference` or `personalDetails`.
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.BankDetails:
+      type: object
+      description: "The bank details of the beneficiary.\n\n  **Note:** View our [bank coverage guide](/products/marketplaces/coverage/bank) for country specific requirements."
+      properties:
+        iban:
+          maximum: 34
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Beneficiary IBAN. You must either provide `iban` or `accountNumber`.
+        branchCode:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Beneficiary account branch code.
+        bankCode:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Beneficiary account bank code.
+        swiftBic:
+          maximum: 11
+          minimum: 8
+          type:
+          - string
+          - 'null'
+          description: Beneficiary bank account SWIFT/BIC.
+        bankName:
+          maximum: 35
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Beneficiary bank name.
+        accountType:
+          enum:
+          - checking
+          - savings
+          - moneyMarket
+          - certificateOfDeposit
+          - vista
+          - other
+          type:
+          - string
+          - 'null'
+          description: Type of the account.
+        accountNumber:
+          maximum: 64
+          minimum: 0
+          type:
+          - string
+          - 'null'
+          description: Beneficiary bank account number.
+        payoutInstrumentId:
+          type:
+          - string
+          - 'null'
+          description: A unique ID generated by us, holding the beneficiary bank details. You receive this in the response after successfully creating a payout instrument in our <a href="/products/parties/openapi/payout-instruments">Parties API</a>.
+        payoutInstrumentReference:
+          type:
+          - string
+          - 'null'
+          description: Your reference for this `payoutInstrument`, must be unique within an entity.
+        address:
+          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.BankAddress'
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.PayoutBatchRequest:
+      type: object
+      properties:
+        merchant:
+          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Merchant'
+        payouts:
+          maximum: 500
+          minimum: 1
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutBatch.V2.Models.BatchPayout'
+          description: Holds information about the individual payouts.
+        notificationUrl:
+          type:
+          - string
+          - 'null'
+          description: Currently not in use.
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Identity:
+      type: object
+      properties:
+        issuingInstitution:
+          type:
+          - string
+          - 'null'
+          description: Issuing institution that provided identification type. Cannot be provided if the conditional fields in the identity section are missing.
+        issuingCountry:
+          type: string
+          description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of identification type origin. Mandatory if `identityDocuments.type`/`identityDocuments.number` is populated.
+        type:
+          enum:
+          - passport
+          - taxId
+          - nationalInsurance
+          - driverLicence
+          - companyVatNumber
+          - citizenshipCard
+          - nationalId
+          - workPermit
+          - employmentPass
+          - studentPass
+          - permanentResidentCard
+          - companyRegistrationNumber
+          - other
+          type:
+          - string
+          - 'null'
+          description: Type of identification. Mandatory if `identityDocuments.number` is populated.
+        validFrom:
+          maximum: 10
+          minimum: 10
+          type:
+          - string
+          - 'null'
+          description: Identification type start date. Must be a Gregorian calendar date with ISO 8601 format YYYY-MM-DD. Cannot be provided if conditional fields in the identity section are missing.
+        validTo:
+          maximum: 10
+          minimum: 10
+          type:
+          - string
+          - 'null'
+          description: Identification type end date. Must be a Gregorian calendar date with ISO 8601 format YYYY-MM-DD. Cannot be provided if conditional fields in the identity section are missing.
+        number:
+          maximum: 35
           minimum: 1
           type: string
-          description: Your entity reference created as part of on-boarding. Used to route the request in Access Worldpay.
-          example: default
+          description: Identification number that is presented in the identification type. Mandatory if `identityDocuments.type` is populated.
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Payout.V3.Models.Phone:
+      type: object
+      properties:
+        number:
+          maximum: 20
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Phone number of the party. Mandatory if you have provided `prefix`. Special characters are restricted.
+        prefix:
+          maximum: 3
+          minimum: 1
+          type:
+          - string
+          - 'null'
+          description: Phone dialing country code of the party. Mandatory if you have provided `phoneNumber`. Special characters are restricted. International country calling code following ITU-T standard. Must be 1-3 digits e.g. \"44\" or \"420\"
       additionalProperties: false
   securitySchemes:
     BasicAuth:

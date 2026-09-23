@@ -1,16 +1,16 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Accounts API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
+  title: Worldpay Accounts API
+  version: '2025-01-01'
   x-metadata:
-    category:
-    - 3DS
-    - SCA Exemptions
     business:
     - Enterprise
+    - Marketplaces
     catalog-list: true
-    generated: false
+    category:
+    - Accounts
+    generated: true
+  description: 'Operations tagged Accounts across 3 of this provider''s published API definitions: worldpay-balance-openapi.yaml, worldpay-statements-openapi.yaml, worldpay-transfers-openapi.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
@@ -113,6 +113,11 @@ paths:
                 message: Unexpected issue occured
       tags:
       - Accounts
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /accounts:
     get:
       summary: Get details for all your accounts
@@ -249,6 +254,11 @@ paths:
                 message: Unexpected issue occured
       tags:
       - Accounts
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /accounts/statements:
     get:
       summary: Query account statement items
@@ -558,6 +568,11 @@ paths:
                 message: An internal server error occurred
       tags:
       - Accounts
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /accounts/transfer:
     post:
       summary: Transfer funds between your accounts
@@ -681,20 +696,107 @@ paths:
                 message: InternalServerError
       tags:
       - Accounts
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
 components:
   schemas:
-    ValidationErrors_2:
+    AccountResponse:
+      type: object
+      properties:
+        entity:
+          type:
+          - string
+          - 'null'
+          description: Unique ID given during the on-boarding process.
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Account'
+          description: Collection of the account details
+      additionalProperties: false
+      description: The Get Account response
+    AwQueryParameterErrorModel:
       type: object
       properties:
         errorName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         message:
-          type: string
-          nullable: true
-        jsonPath:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
+        queryParameter:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Header Name
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AwQueryParameterErrorModel'
+          description: Collection of error details
+      additionalProperties: false
+    Account:
+      type: object
+      properties:
+        accountNumber:
+          type:
+          - string
+          - 'null'
+          description: The account number.
+        accountName:
+          type:
+          - string
+          - 'null'
+          description: Name of the account given to you as part of on-boarding.
+        currency:
+          type:
+          - string
+          - 'null'
+          description: The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account.
+        clearedBalance:
+          type: number
+          description: The cleared balance.
+          format: double
+        unclearedBalance:
+          type: number
+          description: The uncleared balance.
+          format: double
+        balance:
+          type: number
+          description: The total balance.
+          format: double
+        accountStatus:
+          type:
+          - string
+          - 'null'
+          description: The status of the account.
       additionalProperties: false
     PageInformation:
       type: object
@@ -712,23 +814,176 @@ components:
           type: integer
           format: int32
       additionalProperties: false
+    AccountByEntityResponse:
+      type: object
+      properties:
+        entity:
+          type:
+          - string
+          - 'null'
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Account'
+        pagination:
+          $ref: '#/components/schemas/PageInformation'
+      additionalProperties: false
+    BaseAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Header Name
+      additionalProperties: false
+    ExternalAccountStatementItemsV2:
+      type: object
+      properties:
+        transactionReference:
+          type:
+          - string
+          - 'null'
+          description: Your unique reference for the transaction.
+        transferType:
+          type:
+          - string
+          - 'null'
+          description: The transfer type.
+        amount:
+          type: number
+          description: The amount.
+          format: double
+        timestamp:
+          type: string
+          description: The posting date of the specific statement item.
+          format: date-time
+        fundingType:
+          type:
+          - string
+          - 'null'
+          description: A credit or debit operation. Value can be `credit` or `debit`.
+        rate:
+          type:
+          - number
+          - 'null'
+          description: The rate applied for FX conversion.
+          format: double
+        cleared:
+          type:
+          - string
+          - 'null'
+          description: Cleared balance or uncleared balance. Value can be `yes` or `no`.
+        description:
+          type:
+          - string
+          - 'null'
+          description: The description of this statement item.
+        statementItemId:
+          type: string
+          description: The statement identifier.
+          format: uuid
+        balance:
+          type: number
+          description: The balance that resulted from this statement item's transaction.
+          format: double
+        statementNumber:
+          type: integer
+          description: The statement number.
+          format: int64
+        narrative:
+          $ref: '#/components/schemas/ExternalNarrativeV2'
+        countryCode:
+          type:
+          - string
+          - 'null'
+          description: The country code.
+        originalCurrency:
+          type:
+          - string
+          - 'null'
+          description: "For statement items (debits/credits) with no FX conversion involved, `originalCurrency` value will be null.\n\nIn case an FX conversion is involved, then:\n\n - For debit items, `originalCurrency` shows the target currency.\n - For credit items, `originalCurrency` shows the source currency."
+        originalAmount:
+          type:
+          - number
+          - 'null'
+          description: "For statement items (debits/credits) with no FX conversion involved, `originalAmount` value will be null.\n\nIn case an FX conversion is involved, then:\n\n - For debit items, `originalAmount` shows the target amount.\n - For credit items, `originalAmount` shows the source amount."
+          format: double
+      additionalProperties: false
+    ValidationErrors:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        queryParameter:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ExtendedAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code for this endpoint.
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message.
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Error message.
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ValidationErrors'
+          description: Collection of error details. This field may be omitted from the response depending on the nature of the error.
+      additionalProperties: false
     ExternalStatementResponseV2:
       type: object
       properties:
         accountNumber:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The account number.
-          nullable: true
         currency:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The currency, determined by the first item in the list. The currency is the same for all items.
-          nullable: true
         accountStatementItems:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/ExternalAccountStatementItemsV2'
           description: A collection of account statement items.
-          nullable: true
         pageNumber:
           type: integer
           description: The page number. Default is 1 if no value is provided. This value specifies the exact page of each list of statements that you want to retrieve.
@@ -746,179 +1001,81 @@ components:
           description: The total number of records.
           format: int32
       additionalProperties: false
-    ValidationErrors:
+    ExternalNarrativeV2:
       type: object
       properties:
-        errorName:
-          type: string
-          nullable: true
-        message:
-          type: string
-          nullable: true
-        queryParameter:
-          type: string
-          nullable: true
+        line1:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     BaseAccessErrorResponse_2:
       type: object
       properties:
         errorName:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Unique response code for this endpoint.
-          nullable: true
         message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Error message.
-          nullable: true
         headerName:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Error message.
-          nullable: true
       additionalProperties: false
-    ExtendedAccessErrorResponse:
+    ValidationErrors_2:
       type: object
       properties:
         errorName:
-          type: string
-          description: Unique response code for this endpoint.
-          nullable: true
+          type:
+          - string
+          - 'null'
         message:
-          type: string
-          description: Error message.
-          nullable: true
-        headerName:
-          type: string
-          description: Error message.
-          nullable: true
+          type:
+          - string
+          - 'null'
+        jsonPath:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ExtendedAccessErrorResponse_2:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
         validationErrors:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
-            $ref: '#/components/schemas/ValidationErrors'
-          description: Collection of error details. This field may be omitted from the response depending on the nature of the error.
-          nullable: true
+            $ref: '#/components/schemas/ValidationErrors_2'
       additionalProperties: false
-    AccountByEntityResponse:
+    TransferResponse:
       type: object
-      properties:
-        entity:
-          type: string
-          nullable: true
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Account'
-          nullable: true
-        pagination:
-          $ref: '#/components/schemas/PageInformation'
-      additionalProperties: false
-    AwQueryParameterErrorModel:
-      type: object
-      properties:
-        errorName:
-          type: string
-          nullable: true
-        message:
-          type: string
-          nullable: true
-        queryParameter:
-          type: string
-          nullable: true
-      additionalProperties: false
-    ExternalAccountStatementItemsV2:
-      type: object
-      properties:
-        transactionReference:
-          type: string
-          description: Your unique reference for the transaction.
-          nullable: true
-        transferType:
-          type: string
-          description: The transfer type.
-          nullable: true
-        amount:
-          type: number
-          description: The amount.
-          format: double
-        timestamp:
-          type: string
-          description: The posting date of the specific statement item.
-          format: date-time
-        fundingType:
-          type: string
-          description: A credit or debit operation. Value can be `credit` or `debit`.
-          nullable: true
-        rate:
-          type: number
-          description: The rate applied for FX conversion.
-          format: double
-          nullable: true
-        cleared:
-          type: string
-          description: Cleared balance or uncleared balance. Value can be `yes` or `no`.
-          nullable: true
-        description:
-          type: string
-          description: The description of this statement item.
-          nullable: true
-        statementItemId:
-          type: string
-          description: The statement identifier.
-          format: uuid
-        balance:
-          type: number
-          description: The balance that resulted from this statement item's transaction.
-          format: double
-        statementNumber:
-          type: integer
-          description: The statement number.
-          format: int64
-        narrative:
-          $ref: '#/components/schemas/ExternalNarrativeV2'
-        countryCode:
-          type: string
-          description: The country code.
-          nullable: true
-        originalCurrency:
-          type: string
-          description: "For statement items (debits/credits) with no FX conversion involved, `originalCurrency` value will be null.\r\n\r\nIn case an FX conversion is involved, then:\r\n\r\n - For debit items, `originalCurrency` shows the target currency.\r\n - For credit items, `originalCurrency` shows the source currency."
-          nullable: true
-        originalAmount:
-          type: number
-          description: "For statement items (debits/credits) with no FX conversion involved, `originalAmount` value will be null.\r\n\r\nIn case an FX conversion is involved, then:\r\n\r\n - For debit items, `originalAmount` shows the target amount.\r\n - For credit items, `originalAmount` shows the source amount."
-          format: double
-          nullable: true
       additionalProperties: false
     BaseAccessErrorResponse_3:
       type: object
       properties:
         errorName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         message:
-          type: string
-          nullable: true
-      additionalProperties: false
-    ErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Unique response code
-          nullable: true
-        message:
-          type: string
-          description: Error message
-          nullable: true
-        headerName:
-          type: string
-          description: Header Name
-          nullable: true
-        validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/AwQueryParameterErrorModel'
-          description: Collection of error details
-          nullable: true
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     TransferRequest:
       required:
@@ -953,100 +1110,17 @@ components:
           description: You can use this to describe what the transfer is for.
           example: A narrative
         quoteId:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The `quoteId` returned by the [FX API](/products/fx/create-fxquote).
-          nullable: true
           example: QuoteId
-      additionalProperties: false
-    BaseAccessErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Unique response code
-          nullable: true
-        message:
-          type: string
-          description: Error message
-          nullable: true
-        headerName:
-          type: string
-          description: Header Name
-          nullable: true
-      additionalProperties: false
-    AccountResponse:
-      type: object
-      properties:
-        entity:
-          type: string
-          description: Unique ID given during the on-boarding process.
-          nullable: true
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Account'
-          description: Collection of the account details
-          nullable: true
-      additionalProperties: false
-      description: The Get Account response
-    ExtendedAccessErrorResponse_2:
-      type: object
-      properties:
-        errorName:
-          type: string
-          nullable: true
-        message:
-          type: string
-          nullable: true
-        validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrors_2'
-          nullable: true
-      additionalProperties: false
-    TransferResponse:
-      type: object
-      additionalProperties: false
-    Account:
-      type: object
-      properties:
-        accountNumber:
-          type: string
-          description: The account number.
-          nullable: true
-        accountName:
-          type: string
-          description: Name of the account given to you as part of on-boarding.
-          nullable: true
-        currency:
-          type: string
-          description: The [ISO 4217 currency codes](/products/reference/supported-countries-currencies#iso-currency-codes) of the account.
-          nullable: true
-        clearedBalance:
-          type: number
-          description: The cleared balance.
-          format: double
-        unclearedBalance:
-          type: number
-          description: The uncleared balance.
-          format: double
-        balance:
-          type: number
-          description: The total balance.
-          format: double
-        accountStatus:
-          type: string
-          description: The status of the account.
-          nullable: true
-      additionalProperties: false
-    ExternalNarrativeV2:
-      type: object
-      properties:
-        line1:
-          type: string
-          nullable: true
       additionalProperties: false
   securitySchemes:
     BasicAuth:
       type: http
       scheme: basic
+x-refined-from:
+- worldpay-balance-openapi.yaml
+- worldpay-statements-openapi.yaml
+- worldpay-transfers-openapi.yaml

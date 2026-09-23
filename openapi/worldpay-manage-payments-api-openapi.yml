@@ -1,16 +1,10 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: 3DS 3DS actions Manage payments API
-  description: "Protect your business and meet regulatory requirements by verifying your customer's identity.\n\n__Authentication header__\n  ```\n    Authorization: {your_credentials}\n  ```\nReplace `{your_credentials}` with your base64-encoded Basic Auth username and password given to your by your Worldpay Implementation Manager.\n<br /> <br />\n\nYou **must** use the `Authorization` header for any request you send to our 3DS API.\n\n__Accept/Content-Type header__\n  ```\n  Content-Type: application/vnd.worldpay.verifications.customers-v3.hal+json\n  Accept: application/vnd.worldpay.verifications.customers-v3.hal+json\n  ```\nWe use the Accept header to identify which version of our API you are using. You must use the Accept header for any request you send to our 3DS API.\n\nWe require the Content-Type header if the request you're sending includes a request body, and if the HTTP method is a `POST` or a `PUT`.\n<br /><br />\n\n\n__DNS whitelisting__  \nWhitelist the following URLs:\n* `https://try.access.worldpay.com/`\n* `https://access.worldpay.com/`\n\nPlease ensure you use DNS whitelisting, not explicit IP whitelisting."
-  version: '3'
-  x-metadata:
-    category:
-    - 3DS
-    - SCA Exemptions
-    business:
-    - Enterprise
-    catalog-list: true
-    generated: false
+  title: Worldpay Manage payments API
+  x-refined-note:
+  - x-metadata differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Manage payments across 2 of this provider''s published API definitions: worldpay-card-payments-openapi.yaml, worldpay-payments-openapi.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://try.access.worldpay.com
   description: Test (Try)
@@ -19,12 +13,12 @@ servers:
 security:
 - BasicAuth: []
 tags:
-- name: Manage payments
+- name: Manage Payments
 paths:
   /payments/settlements/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Settle for full amount
       description: To receive all the funds from the customer, send us a settle request.
       operationId: settle
@@ -139,10 +133,15 @@ paths:
             aapplication/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/settlements/partials/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Settle for partial amount
       description: To receive a portion of the funds of a payment, send us a partial settle request.
       operationId: partialSettlement
@@ -295,12 +294,20 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/settlements/refunds/full/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Refund full amount
-      description: "Send a refund request to return the full settled amount to your customer.\n\n  **Note:** No request body is needed for this request."
+      description: 'Send a refund request to return the full settled amount to your customer.
+
+
+        **Note:** No request body is needed for this request.'
       operationId: refund
       parameters:
       - name: linkData
@@ -404,12 +411,19 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/settlements/refunds/partials/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Refund partial amount
-      description: "Send a partial refund request to return a portion of the settled amount to your customer.\n Send the amount to refund and the authorization currency in the body."
+      description: 'Send a partial refund request to return a portion of the settled amount to your customer.
+
+        Send the amount to refund and the authorization currency in the body.'
       operationId: partialRefund
       parameters:
       - name: linkData
@@ -531,12 +545,20 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/authorizations/cancellations/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Cancel full authorization
-      description: "If you don't want to proceed with a payment, you can send a full cancel request.\n\n **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund."
+      description: 'If you don''t want to proceed with a payment, you can send a full cancel request.
+
+
+        **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund.'
       operationId: cancel
       parameters:
       - name: linkData
@@ -638,12 +660,20 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/authorizations/cancellations/partials/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Cancel partial authorization
-      description: "If you don't want to proceed with a payment, you can send a partial cancel request.\n\n  **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund."
+      description: 'If you don''t want to proceed with a payment, you can send a partial cancel request.
+
+
+        **Note:** You can only cancel a payment which is authorized. If the payment is settled, you must create a refund.'
       operationId: partialCancel
       parameters:
       - name: linkData
@@ -757,12 +787,20 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/authorizations/incrementalAuthorizations/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Increase authorization amount
-      description: "If you want to increase an initial estimated authorization amount (submitted with `estimated` set to `true`), you can send a incremental authorization request.\n\n **Note:** You must use the latest next action links returned by the incremental authorization response to settle (full/partial) and cancel (full/partial) the increased authorized amount. Using the next action links returned in your estimated authorization response will not use any increased amounts."
+      description: 'If you want to increase an initial estimated authorization amount (submitted with `estimated` set to `true`), you can send a incremental authorization request.
+
+
+        **Note:** You must use the latest next action links returned by the incremental authorization response to settle (full/partial) and cancel (full/partial) the increased authorized amount. Using the next action links returned in your estimated authorization response will not use any increased amounts.'
       operationId: increaseAuthorize
       parameters:
       - name: linkData
@@ -902,12 +940,20 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /payments/sales/reversals/{linkData}:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Reversal
-      description: "Your reversal request is processed as a cancel or refund request. This depends on the time passed after your sale request was submitted. For US entities the payment is refunded after one day after a successful sale request. Any other payment moves to refunded after 15 minutes.\n\n  **Note:** No request body is needed for this request."
+      description: 'Your reversal request is processed as a cancel or refund request. This depends on the time passed after your sale request was submitted. For US entities the payment is refunded after one day after a successful sale request. Any other payment moves to refunded after 15 minutes.
+
+
+        **Note:** No request body is needed for this request.'
       operationId: reversal
       parameters:
       - name: linkData
@@ -1004,10 +1050,15 @@ paths:
             application/vnd.worldpay.payments-v7+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}:
     get:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Payment query request
       description: Query a payment
       operationId: queryEvents
@@ -1066,10 +1117,15 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: '04'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}/settlements:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Submit a payment settle request
       description: Settle a payment
       operationId: settle
@@ -1151,10 +1207,15 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: '05'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}/partialSettlements:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Submit a payment partial settle request
       description: Partially settle a payment
       operationId: partialSettle
@@ -1249,10 +1310,15 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: '06'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}/refunds:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Submit a payment refund request
       description: Refund a payment
       operationId: refund
@@ -1329,10 +1395,15 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: '07'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}/partialRefunds:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Submit a payment partial refund request
       description: Partially refund a payment
       operationId: partialRefund
@@ -1427,10 +1498,15 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: 08
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}/cancellations:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Submit a payment cancel request
       description: Cancel a payment
       operationId: cancel
@@ -1507,10 +1583,15 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: 09
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
   /api/payments/{linkData}/reversals:
     post:
       tags:
-      - Manage payments
+      - Manage Payments
       summary: Submit a payment reverse request
       description: Reverse a payment
       operationId: reversal
@@ -1592,48 +1673,160 @@ paths:
                 Internal server error:
                   $ref: '#/components/examples/500'
       x-orderingPosition: '10'
+    servers:
+    - url: https://try.access.worldpay.com
+      description: Test (Try)
+    - url: https://access.worldpay.com
+      description: Live
 components:
   schemas:
-    ReversalResponse:
-      properties:
-        outcome:
-          type: string
-          enum:
-          - sentForReversal
-        _links:
-          $ref: '#/components/schemas/PaymentsLink'
-    PaymentsActionReverse:
+    payments_links_list_partialCancel:
       type: object
-      description: Reverse the payment. See [details](/products/payments/openapi/manage-payments/reversal)
       properties:
-        href:
-          type: string
-        method:
-          type: string
-          default: POST
-    PaymentsPartialSettleRequest:
+        cardPayments:cancel:
+          type: object
+          description: An action link to cancel the full authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+        cardPayments:partialCancel:
+          type: object
+          description: An action link to cancel a portion of the authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel a portion of the authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
+        cardPayments:settle:
+          type: object
+          description: An action link to send the full authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send the full authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
+        cardPayments:partialSettle:
+          type: object
+          description: An action link to send a portion of the authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send a portion of the authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    payments_cancel:
       type: object
       properties:
         reference:
           type: string
           minLength: 1
-        sequence:
-          $ref: '#/components/schemas/PaymentsSequence'
-        value:
-          $ref: '#/components/schemas/Value'
+          maxLength: 128
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: full-cancellation-reference
+    scheme:
       required:
       - reference
-      - value
-    PaymentsSettleRequest: {}
-    CancelResponse:
+      type: object
+      description: An object containing information returned by the card scheme.
       properties:
-        outcome:
+        reference:
           type: string
-          enum:
-          - sentForCancellation
+          minLength: 1
+          maxLength: 255
+          description: The reference returned by the scheme for this particular payment authorization. The scheme reference returned in a customer initiated transaction should be provided in all subsequent merchant initiated transactions.
+          example: 'MCCOLXT1C0104  '
+    paymentId:
+      maxLength: 36
+      minLength: 21
+      pattern: ^[A-Za-z0-9_-]+$
+      type: string
+      description: Unique identifier generated by us for a single payment. Generated at authorization, and maintained through successive payment actions.
+      example: payI-dUcet9fk4_X4qZU0hpU0
+    payments_partialSettle_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
         _links:
-          $ref: '#/components/schemas/PaymentsLink'
-    payments_settle:
+          $ref: '#/components/schemas/payments_links_list_partialSettle'
+    payments_links_list_partialSettle:
+      type: object
+      properties:
+        cardPayments:refund:
+          type: object
+          description: An action link to refund the full settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund the full settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+        cardPayments:partialRefund:
+          type: object
+          description: An action link to refund a portion of the settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund a portion of the settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+        cardPayments:partialSettle:
+          type: object
+          description: An action link to send a portion of the authorized amount for settlement.
+          properties:
+            href:
+              type: string
+              description: An action link to send a portion of the authorized amount for settlement.
+              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
+        cardPayments:cancel:
+          type: object
+          description: An action link to cancel the full authorized amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel the full authorized amount.
+              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
+        cardPayments:reverse:
+          type: object
+          description: An action link to cancel or refund the full amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel or refund the full amount.
+              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    payments_links_list_fullCancel:
+      type: object
+      properties:
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    payments_partialCancel:
+      required:
+      - value
+      - reference
       type: object
       properties:
         reference:
@@ -1642,14 +1835,268 @@ components:
           minLength: 1
           pattern: ^[-A-Za-z0-9]*$
           description: A reference generated by you to identify a payment throughout its lifecycle.
-          example: full-settle-reference
+          example: partial-cancellation-reference
         value:
+          $ref: '#/components/schemas/value'
+    payments_increaseAuthorize_response_refused:
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request.
+        refusalCode:
+          type: string
+          description: Response code for the request to increase the authorized amount.
+        refusalDescription:
+          type: string
+          description: Additional context on the refusal.
+          example: Insufficient Funds
+    order:
+      type: object
+      description: An object containing details about the order.
+      properties:
+        taxExempt:
+          type: boolean
+          description: A flag to indicate whether the purchase is exempt from tax. Must be set to `true` if `order.salesTax` is 0.
+        orderDate:
           type: object
-          description: An object that contains information about the value of the payment.
+          description: Date of the order.
           properties:
-            surchargeAmount:
+            day:
               type: integer
-              description: "The charging amount representing processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n  **Note:** The surcharge fee is included in the total transaction amount, e.g. if the `value.surchargeAmount` is $20 and the total authorization amount was $100, then the actual cost of goods/services is 80."
+            month:
+              type: integer
+            year:
+              type: integer
+          required:
+          - day
+          - month
+          - year
+        items:
+          description: Array of order items. You can send up to 99 individual order objects within this array.
+          items:
+            type: object
+            required:
+            - name
+            properties:
+              commodityCode:
+                maxLength: 12
+                minLength: 1
+                type: string
+                description: Commodity code as defined by the National Institute of Governmental Purchasing.
+                pattern: ^[A-Za-z0-9@!£*#$)(-+_=.,/;:'"]{1,12}$
+                example: ABC123@#
+              totalTaxAmount:
+                type: integer
+                description: Total tax amount for the item(s).
+              unitCost:
+                type: integer
+                description: The price of one unit of the item purchased.
+              totalAmount:
+                type: integer
+                description: Total cost of the item(s) including tax.
+              totalAmountNoTax:
+                type: integer
+                description: Total cost of the item(s) excluding tax.
+              unitOfMeasure:
+                maxLength: 8
+                minLength: 1
+                type: string
+                description: The unit of measure of the purchased item. Explains how to interpret `items.quantity` field, e.g. quantity = 15, unitOfMeasure = kg.
+                pattern: ^[A-Za-z0-9@!£*#$)(+_=.,/;:'"-]{1,8}$
+              name:
+                maxLength: 26
+                minLength: 1
+                type: string
+                description: Name of the item(s).
+                pattern: ^[A-Za-z0-9 @!£*#$)(+_=.,/;:'"-]{1,26}$
+              quantity:
+                type: integer
+                description: Number of items purchased.
+              productCode:
+                maxLength: 12
+                minLength: 1
+                type: string
+                description: Merchant defined product code.
+                pattern: ^[A-Za-z0-9@!£*#\$)(+_=.,/;:'"-]{1,12}$
+              totalDiscountAmount:
+                type: integer
+                description: Total discount amount for the item(s).
+          type: array
+        dutyAmount:
+          type: integer
+          description: Total amount of duty costs for the order.
+        salesTax:
+          type: integer
+          description: Total amount of sales tax for the order. Must be provided if `merchant.taxReference` is supplied.
+        shippingAmount:
+          type: integer
+          description: Total amount of shipping costs for the order.
+        invoiceReference:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Invoice reference for the order.
+          pattern: ^[A-Za-z0-9 @!£*#\$)\(+_=.,/;:'"-]{1,15}$
+        discountAmount:
+          type: integer
+          description: Total amount of discounts for the order.
+    payments_increaseAuthorize_response:
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of the request.
+          example: authorized
+        amounts:
+          type: object
+          description: An object containing transaction amounts.
+          properties:
+            totalAuthorized:
+              type: integer
+              description: The total amount authorized. The sum of the original estimated authorization and all subsequent successful requests to increase the authorized amount.
+            currency:
+              type: string
+              maxLength: 3
+              minLength: 3
+              pattern: ^[A-Z]$
+              description: 'The three character currency code. See list of <a href="/products/reference/supported-countries-currencies#iso-currency-codes">supported currencies</a>. '
+              example: USD
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_increaseAuthorizedAmount'
+    payments_refund:
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: An optional reference generated by you to identify a payment throughout its lifecycle.
+          example: refund-reference
+        fastRefund:
+          type: object
+          description: Allows you to request a faster refund.
+          required:
+          - enabled
+          properties:
+            enabled:
+              type: boolean
+              description: Set to `true` to request fast refund.
+            fallbackToStandard:
+              type: boolean
+              description: Fall back to standard refund processing in case the fast refund fails. Must be present if fast refund is set to `true`.
+    payments_partialRefund:
+      required:
+      - value
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: partial-refund-reference
+        value:
+          allOf:
+          - $ref: '#/components/schemas/value'
+          - type: object
+            properties:
+              surchargeAmount:
+                type: integer
+                description: "The charging amount representing processing and service fees of the original transaction.\n\n  **Note:** The surcharge fee is included in the partial refund amount, e.g. if the `value.surchargeAmount` was $20 and the `value.amount` was $100, then the actual cost of goods/services was $80."
+              convenienceAmount:
+                type: integer
+                description: "The charging amount representing the offer of a convenient payment method or channel (such as online booking fee) of the original transaction.\n\n  **Note:** Convenience fee is included in the partial refund amount, e.g. if the `value.convenienceAmount` was $20 and the `value.amount` was $100, then the actual cost of goods/services was $80."
+        merchant:
+          type: object
+          description: Contains information about the merchant.
+          properties:
+            marketplace:
+              type: object
+              description: Supply additional data for marketplace use cases.
+              properties:
+                splitFundingReference:
+                  maxLength: 256
+                  minLength: 1
+                  pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+                  type: string
+                  description: A reference that you can use to split acquiring funding into your secondary bank account. Available for marketplaces and other merchant types. Not available for North America or Latin America payments. Contact your Worldpay Implementation Manager to enable.
+        fastRefund:
+          type: object
+          description: Allows you to request a faster refund.
+          required:
+          - enabled
+          properties:
+            enabled:
+              type: boolean
+              description: Set to `true` to request fast refund.
+            fallbackToStandard:
+              type: boolean
+              description: Request to fall back to standard refund processing in case the fast refund fails. Must be present if fast refund is set to `true`.
+    value:
+      required:
+      - amount
+      - currency
+      type: object
+      description: An object that contains information about the value of the payment.
+      properties:
+        amount:
+          type: integer
+          description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
+          example: 250
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          pattern: ^[A-Z]$
+          description: ' The three character currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).'
+          example: USD
+    commandId:
+      maxLength: 36
+      minLength: 21
+      pattern: ^[A-Za-z0-9_-]+$
+      type: string
+      description: Unique identifier generated by us for a single instance of an interaction (command) with the Worldpay API.
+      example: cmdRvD-OxCyXgJLQ9_jbqXAC0
+    issuer:
+      required:
+      - authorizationCode
+      type: object
+      description: An object containing information returned by the issuer.
+      properties:
+        authorizationCode:
+          pattern: ^[a-zA-Z0-9]+$
+          type: string
+          description: A code returned by the card issuer for a successful authorization. Used in reconciliation and dispute management.
+          example: T31306
+    payments_partialSettle:
+      required:
+      - value
+      - reference
+      type: object
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[-A-Za-z0-9]*$
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: partial-settle-reference
+        value:
+          allOf:
+          - $ref: '#/components/schemas/value'
+          - type: object
+            properties:
+              surchargeAmount:
+                type: integer
+                description: "The charging amount representing the processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n **Note:** The `surchargeAmount` is included in the partial settlement amount, e.g. if the `value.surchargeAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
         merchant:
           type: object
           description: Contains information about the merchant.
@@ -1657,6 +2104,23 @@ components:
             taxReference:
               type: string
               description: Merchant's tax reference.
+            marketplace:
+              type: object
+              description: Supply additional data for marketplace use cases.
+              properties:
+                sellerCountryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]{2}$
+                  type: string
+                  description: Your seller's country code in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes). Required if the seller is located in a different country to the marketplace's domicile.
+                  example: FR
+                splitFundingReference:
+                  maxLength: 256
+                  minLength: 1
+                  pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+                  type: string
+                  description: A reference that you can use to split acquiring funding into your secondary bank account. Available for marketplaces and other merchant types. Not available for North America or Latin America payments. Contact your Worldpay Implementation Manager to enable.
         customer:
           type: object
           description: Additional customer data.
@@ -1670,53 +2134,49 @@ components:
           $ref: '#/components/schemas/order'
         industryData:
           $ref: '#/components/schemas/industryData'
-    SettleResponse:
-      properties:
-        outcome:
-          type: string
-          enum:
-          - sentForSettlement
-        paymentId:
-          type: string
-        _links:
-          $ref: '#/components/schemas/PaymentsLink'
-        _actions:
-          $ref: '#/components/schemas/SettleActionList'
-    payments_partialRefund_response:
-      type: object
-      properties:
-        paymentId:
-          $ref: '#/components/schemas/paymentId'
-        commandId:
-          $ref: '#/components/schemas/commandId'
-        _links:
-          $ref: '#/components/schemas/payments_links_list_partialRefund'
+        sequence:
+          type: object
+          required:
+          - number
+          - total
+          description: The sequence number and total number of expected partial settlement requests for the payment.
+          properties:
+            number:
+              type: integer
+            total:
+              type: integer
     payments_fullCancel_response:
       type: object
       properties:
         _links:
           $ref: '#/components/schemas/payments_links_list_fullCancel'
-    PaymentsSequence:
-      type: object
-      description: The sequence number and total number of expected partial settlement requests for the payment.
-      properties:
-        number:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int32
-      required:
-      - number
-      - total
-    PaymentsLink:
-      description: Return details about the status of the payment.
-      properties:
-        self:
-          $ref: '#/components/schemas/Self'
-    payments_links_list_reversal:
+    payments_links_list_fullSettle:
       type: object
       properties:
+        cardPayments:refund:
+          type: object
+          description: An action link to refund the full settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund the full settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
+        cardPayments:partialRefund:
+          type: object
+          description: An action link to refund a portion of the settled amount.
+          properties:
+            href:
+              type: string
+              description: An action link to refund a portion of the settled amount.
+              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
+        cardPayments:reverse:
+          type: object
+          description: An action link to cancel or refund the full amount.
+          properties:
+            href:
+              type: string
+              description: An action link to cancel or refund the full amount.
+              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
         cardPayments:events:
           type: object
           description: An action link to retrieve the last event of the payment.
@@ -1725,79 +2185,6 @@ components:
               type: string
               description: An action link to retrieve the last event of the payment.
               example: https://try.access.worldpay.com/payments/events/{linkData}
-    Self:
-      properties:
-        href:
-          type: string
-    Value:
-      type: object
-      description: The value and currency.
-      properties:
-        currency:
-          type: string
-          description: ' The three character currency code. See list of <a href="/products/reference/supported-countries-currencies#iso-currency-codes">supported currencies</a> '
-          example: USD
-          minLength: 1
-        amount:
-          type: integer
-          format: int32
-          description: 'The payment amount. Implied decimal. For example, 250 GBP = £2.50
-
-            When set to `0` will perform a card verification instead of a payment as part of a new `customerAgreement`.'
-          example: 250
-        acceptPartialAmount:
-          type: boolean
-          description: Set to `true` to accept a partial authorization amount. You can charge the remainder of the amount using a different payment credential with a new authorization request.
-      required:
-      - amount
-      - currency
-    PartialRefundActionList:
-      type: object
-      properties:
-        partiallyRefundPayment:
-          $ref: '#/components/schemas/PaymentsActionPartialRefund'
-    shipping:
-      type: object
-      description: An object containing shipping details.
-      properties:
-        sender:
-          type: object
-          properties:
-            address:
-              type: object
-              description: An object containing sender's (shipped from) address.
-              properties:
-                postalCode:
-                  maxLength: 10
-                  minLength: 1
-                  pattern: ^[a-zA-Z0-9 ]*$
-                  type: string
-        recipient:
-          type: object
-          properties:
-            address:
-              type: object
-              description: An object containing recipient's shipping address.
-              properties:
-                countryCode:
-                  maxLength: 2
-                  minLength: 2
-                  pattern: ^[A-Z]*$
-                  type: string
-                postalCode:
-                  maxLength: 10
-                  minLength: 1
-                  pattern: ^[a-zA-Z0-9 ]*$
-                  type: string
-    SettleActionList:
-      type: object
-      properties:
-        refundPayment:
-          $ref: '#/components/schemas/PaymentsActionRefund'
-        partiallyRefundPayment:
-          $ref: '#/components/schemas/PaymentsActionPartialRefund'
-        reversePayment:
-          $ref: '#/components/schemas/PaymentsActionReverse'
     payments_links_list_fullRefund:
       type: object
       properties:
@@ -1809,14 +2196,7 @@ components:
               type: string
               description: An action link to retrieve the last event of the payment.
               example: https://try.access.worldpay.com/payments/events/{linkData}
-    ErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-    payments_partialSettle_response:
+    payments_partialRefund_response:
       type: object
       properties:
         paymentId:
@@ -1824,18 +2204,19 @@ components:
         commandId:
           $ref: '#/components/schemas/commandId'
         _links:
-          $ref: '#/components/schemas/payments_links_list_partialSettle'
-    payments_links_list_fullCancel:
+          $ref: '#/components/schemas/payments_links_list_partialRefund'
+    payments_increaseAuthorize:
+      required:
+      - value
       type: object
       properties:
-        cardPayments:events:
-          type: object
-          description: An action link to retrieve the last event of the payment.
-          properties:
-            href:
-              type: string
-              description: An action link to retrieve the last event of the payment.
-              example: https://try.access.worldpay.com/payments/events/{linkData}
+        value:
+          $ref: '#/components/schemas/value'
+    payments_partialCancel_response:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/payments_links_list_partialCancel'
     industryData:
       type: object
       description: An object containing industry specific order data.
@@ -2045,676 +2426,6 @@ components:
       - airlineCode
       - agentCode
       - passenger
-    payments_increaseAuthorize_response:
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: Outcome of the request.
-          example: authorized
-        amounts:
-          type: object
-          description: An object containing transaction amounts.
-          properties:
-            totalAuthorized:
-              type: integer
-              description: The total amount authorized. The sum of the original estimated authorization and all subsequent successful requests to increase the authorized amount.
-            currency:
-              type: string
-              maxLength: 3
-              minLength: 3
-              pattern: ^[A-Z]$
-              description: 'The three character currency code. See list of <a href="/products/reference/supported-countries-currencies#iso-currency-codes">supported currencies</a>. '
-              example: USD
-        issuer:
-          $ref: '#/components/schemas/issuer'
-        scheme:
-          $ref: '#/components/schemas/scheme'
-        _links:
-          $ref: '#/components/schemas/payments_links_list_increaseAuthorizedAmount'
-    QueryEventsResponse:
-      type: object
-      properties:
-        lastEvent:
-          type: string
-          description: "\nThe lastEvent field represents the latest high‑level outcome of a payment in our Payments API. It reflects the result of the most recent payment command (for example authorization, settlement, or refund) rather than the raw lifecycle event stream. \n\nWe return it in:\n  - `GET` requests made via our Payments API\n  -  responses from our Payment Queries API when querying historical payments\n            \n{% admonition type=\"info\" %}\nOur Payment Queries API exposes lower‑level lifecycle events (`eventName`). We map these to a single Payments API `lastEvent` value.\nFor the full mapping between our Payment Queries API events and Payments API `lastEvent` values, see [lastEvent mapping in the Payment Queries API documentation](/products/payment-queries/query-archive#lastevent-mapping).\n{% /admonition %}"
-          enum:
-          - Authorized
-          - Refused
-          - Sent for Settlement
-          - Sent for Refund
-          - Sent for Cancellation
-          - Refund failed
-          - Settlement failed
-          - Settled
-          - Refunded
-          - Error
-          - Expired
-          x-enumDescriptions:
-            Authorized: The payment has been approved and the funds have been reserved in your customer's account.
-            Sent for Refund: A request has been made to send funds back to your customer's account.
-            Error: The payment wasn't completed. You may want to reattempt the payment.
-            Expired: The authorization validity period ended before a settlement or cancel request was made.
-            Settlement failed: A settlement request couldn't be processed. Funds have not been transferred to your Worldpay account.
-            Refused: Your payment request has been declined.
-            Refund failed: A refund request couldn't be processed and the funds were returned to your account.
-            Sent for Cancellation: A request has been made to cancel the payment without sending it for settlement.
-            Settled: We have received the funds and are preparing to transfer them to your bank account. This event is only available in certain use cases.
-            Sent for Settlement: A request has been made to move the reserved funds in your customer's account and transfer them to your Worldpay account.
-            Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
-        _actions:
-          $ref: '#/components/schemas/QueryActionList'
-    PaymentsPartialRefundRequest:
-      type: object
-      properties:
-        reference:
-          type: string
-          minLength: 1
-        value:
-          $ref: '#/components/schemas/Value'
-      required:
-      - reference
-      - value
-    PartialSettleResponse:
-      properties:
-        outcome:
-          type: string
-          enum:
-          - sentForSettlement
-        paymentId:
-          type: string
-        _links:
-          $ref: '#/components/schemas/PaymentsLink'
-        _actions:
-          $ref: '#/components/schemas/PartialSettleActionList'
-    payments_fullRefund_response:
-      type: object
-      properties:
-        paymentId:
-          $ref: '#/components/schemas/paymentId'
-        commandId:
-          $ref: '#/components/schemas/commandId'
-        _links:
-          $ref: '#/components/schemas/payments_links_list_fullRefund'
-    order:
-      type: object
-      description: An object containing details about the order.
-      properties:
-        taxExempt:
-          type: boolean
-          description: A flag to indicate whether the purchase is exempt from tax. Must be set to `true` if `order.salesTax` is 0.
-        orderDate:
-          type: object
-          description: Date of the order.
-          properties:
-            day:
-              type: integer
-            month:
-              type: integer
-            year:
-              type: integer
-          required:
-          - day
-          - month
-          - year
-        items:
-          description: Array of order items. You can send up to 99 individual order objects within this array.
-          items:
-            type: object
-            required:
-            - name
-            properties:
-              commodityCode:
-                maxLength: 12
-                minLength: 1
-                type: string
-                description: Commodity code as defined by the National Institute of Governmental Purchasing.
-                pattern: ^[A-Za-z0-9@!£*#$)(-+_=.,/;:'"]{1,12}$
-                example: ABC123@#
-              totalTaxAmount:
-                type: integer
-                description: Total tax amount for the item(s).
-              unitCost:
-                type: integer
-                description: The price of one unit of the item purchased.
-              totalAmount:
-                type: integer
-                description: Total cost of the item(s) including tax.
-              totalAmountNoTax:
-                type: integer
-                description: Total cost of the item(s) excluding tax.
-              unitOfMeasure:
-                maxLength: 8
-                minLength: 1
-                type: string
-                description: The unit of measure of the purchased item. Explains how to interpret `items.quantity` field, e.g. quantity = 15, unitOfMeasure = kg.
-                pattern: ^[A-Za-z0-9@!£*#$)(+_=.,/;:'"-]{1,8}$
-              name:
-                maxLength: 26
-                minLength: 1
-                type: string
-                description: Name of the item(s).
-                pattern: ^[A-Za-z0-9 @!£*#$)(+_=.,/;:'"-]{1,26}$
-              quantity:
-                type: integer
-                description: Number of items purchased.
-              productCode:
-                maxLength: 12
-                minLength: 1
-                type: string
-                description: Merchant defined product code.
-                pattern: ^[A-Za-z0-9@!£*#\$)(+_=.,/;:'"-]{1,12}$
-              totalDiscountAmount:
-                type: integer
-                description: Total discount amount for the item(s).
-          type: array
-        dutyAmount:
-          type: integer
-          description: Total amount of duty costs for the order.
-        salesTax:
-          type: integer
-          description: Total amount of sales tax for the order. Must be provided if `merchant.taxReference` is supplied.
-        shippingAmount:
-          type: integer
-          description: Total amount of shipping costs for the order.
-        invoiceReference:
-          maxLength: 15
-          minLength: 1
-          type: string
-          description: Invoice reference for the order.
-          pattern: ^[A-Za-z0-9 @!£*#\$)\(+_=.,/;:'"-]{1,15}$
-        discountAmount:
-          type: integer
-          description: Total amount of discounts for the order.
-    ValidationErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        validationErrors:
-          type: array
-          description: Further error details
-          items:
-            type: object
-            properties:
-              errorName:
-                type: string
-              message:
-                type: string
-              jsonPath:
-                type: string
-    payments_partialCancel:
-      required:
-      - value
-      - reference
-      type: object
-      properties:
-        reference:
-          type: string
-          maxLength: 128
-          minLength: 1
-          pattern: ^[-A-Za-z0-9]*$
-          description: A reference generated by you to identify a payment throughout its lifecycle.
-          example: partial-cancellation-reference
-        value:
-          $ref: '#/components/schemas/value'
-    HeaderErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        headerName:
-          type: string
-    PartialSettleActionList:
-      type: object
-      properties:
-        refundPayment:
-          $ref: '#/components/schemas/PaymentsActionRefund'
-        partiallyRefundPayment:
-          $ref: '#/components/schemas/PaymentsActionPartialRefund'
-        partiallySettlePayment:
-          $ref: '#/components/schemas/PaymentsActionPartialSettle'
-        cancelPayment:
-          $ref: '#/components/schemas/PaymentsActionCancel'
-        reversePayment:
-          $ref: '#/components/schemas/PaymentsActionReverse'
-    PaymentsActionSettle:
-      type: object
-      description: Fully settle the payment. See [details](/products/payments/openapi/manage-payments/settle)
-      properties:
-        href:
-          type: string
-        method:
-          type: string
-          default: POST
-    payments_increaseAuthorize_response_refused:
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: Outcome of the request.
-        refusalCode:
-          type: string
-          description: Response code for the request to increase the authorized amount.
-        refusalDescription:
-          type: string
-          description: Additional context on the refusal.
-          example: Insufficient Funds
-    payments_partialRefund:
-      required:
-      - value
-      - reference
-      type: object
-      properties:
-        reference:
-          type: string
-          maxLength: 128
-          minLength: 1
-          pattern: ^[-A-Za-z0-9]*$
-          description: A reference generated by you to identify a payment throughout its lifecycle.
-          example: partial-refund-reference
-        value:
-          allOf:
-          - $ref: '#/components/schemas/value'
-          - type: object
-            properties:
-              surchargeAmount:
-                type: integer
-                description: "The charging amount representing processing and service fees of the original transaction.\n\n  **Note:** The surcharge fee is included in the partial refund amount, e.g. if the `value.surchargeAmount` was $20 and the `value.amount` was $100, then the actual cost of goods/services was $80."
-              convenienceAmount:
-                type: integer
-                description: "The charging amount representing the offer of a convenient payment method or channel (such as online booking fee) of the original transaction.\n\n  **Note:** Convenience fee is included in the partial refund amount, e.g. if the `value.convenienceAmount` was $20 and the `value.amount` was $100, then the actual cost of goods/services was $80."
-        merchant:
-          type: object
-          description: Contains information about the merchant.
-          properties:
-            marketplace:
-              type: object
-              description: Supply additional data for marketplace use cases.
-              properties:
-                splitFundingReference:
-                  maxLength: 256
-                  minLength: 1
-                  pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-                  type: string
-                  description: A reference that you can use to split acquiring funding into your secondary bank account. Available for marketplaces and other merchant types. Not available for North America or Latin America payments. Contact your Worldpay Implementation Manager to enable.
-        fastRefund:
-          type: object
-          description: Allows you to request a faster refund.
-          required:
-          - enabled
-          properties:
-            enabled:
-              type: boolean
-              description: Set to `true` to request fast refund.
-            fallbackToStandard:
-              type: boolean
-              description: Request to fall back to standard refund processing in case the fast refund fails. Must be present if fast refund is set to `true`.
-    payments_cancel:
-      type: object
-      properties:
-        reference:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: ^[-A-Za-z0-9]*$
-          description: A reference generated by you to identify a payment throughout its lifecycle.
-          example: full-cancellation-reference
-    PaymentsActionRefund:
-      type: object
-      description: Fully refund the payment. See [details](/products/payments/openapi/manage-payments/refund)
-      properties:
-        href:
-          type: string
-        method:
-          type: string
-          default: POST
-    PaymentsReversalRequest: {}
-    payments_partialSettle:
-      required:
-      - value
-      - reference
-      type: object
-      properties:
-        reference:
-          type: string
-          maxLength: 128
-          minLength: 1
-          pattern: ^[-A-Za-z0-9]*$
-          description: A reference generated by you to identify a payment throughout its lifecycle.
-          example: partial-settle-reference
-        value:
-          allOf:
-          - $ref: '#/components/schemas/value'
-          - type: object
-            properties:
-              surchargeAmount:
-                type: integer
-                description: "The charging amount representing the processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n **Note:** The `surchargeAmount` is included in the partial settlement amount, e.g. if the `value.surchargeAmount` is $20 and the `value.amount` is $100, then the actual cost of goods/services is $80."
-        merchant:
-          type: object
-          description: Contains information about the merchant.
-          properties:
-            taxReference:
-              type: string
-              description: Merchant's tax reference.
-            marketplace:
-              type: object
-              description: Supply additional data for marketplace use cases.
-              properties:
-                sellerCountryCode:
-                  maxLength: 2
-                  minLength: 2
-                  pattern: ^[A-Z]{2}$
-                  type: string
-                  description: Your seller's country code in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes). Required if the seller is located in a different country to the marketplace's domicile.
-                  example: FR
-                splitFundingReference:
-                  maxLength: 256
-                  minLength: 1
-                  pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-                  type: string
-                  description: A reference that you can use to split acquiring funding into your secondary bank account. Available for marketplaces and other merchant types. Not available for North America or Latin America payments. Contact your Worldpay Implementation Manager to enable.
-        customer:
-          type: object
-          description: Additional customer data.
-          properties:
-            reference:
-              type: string
-              description: Merchant-generated customer reference.
-        shipping:
-          $ref: '#/components/schemas/shipping'
-        order:
-          $ref: '#/components/schemas/order'
-        industryData:
-          $ref: '#/components/schemas/industryData'
-        sequence:
-          type: object
-          required:
-          - number
-          - total
-          description: The sequence number and total number of expected partial settlement requests for the payment.
-          properties:
-            number:
-              type: integer
-            total:
-              type: integer
-    QueryActionList:
-      type: object
-      properties:
-        cancelPayment:
-          $ref: '#/components/schemas/PaymentsActionCancel'
-        partiallySettlePayment:
-          $ref: '#/components/schemas/PaymentsActionPartialSettle'
-        settlePayment:
-          $ref: '#/components/schemas/PaymentsActionSettle'
-        refundPayment:
-          $ref: '#/components/schemas/PaymentsActionRefund'
-        partiallyRefundPayment:
-          $ref: '#/components/schemas/PaymentsActionPartialRefund'
-        reversePayment:
-          $ref: '#/components/schemas/PaymentsActionReverse'
-    scheme:
-      required:
-      - reference
-      type: object
-      description: An object containing information returned by the card scheme.
-      properties:
-        reference:
-          type: string
-          minLength: 1
-          maxLength: 255
-          description: The reference returned by the scheme for this particular payment authorization. The scheme reference returned in a customer initiated transaction should be provided in all subsequent merchant initiated transactions.
-          example: 'MCCOLXT1C0104  '
-    payments_partialCancel_response:
-      type: object
-      properties:
-        _links:
-          $ref: '#/components/schemas/payments_links_list_partialCancel'
-    PaymentsActionPartialSettle:
-      type: object
-      description: Partially settle the payment. See [details](/products/payments/openapi/manage-payments/partialsettle) including what to add in the request body.
-      properties:
-        href:
-          type: string
-        method:
-          type: string
-          default: POST
-    payments_links_list_partialCancel:
-      type: object
-      properties:
-        cardPayments:cancel:
-          type: object
-          description: An action link to cancel the full authorized amount.
-          properties:
-            href:
-              type: string
-              description: An action link to cancel the full authorized amount.
-              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
-        cardPayments:partialCancel:
-          type: object
-          description: An action link to cancel a portion of the authorized amount.
-          properties:
-            href:
-              type: string
-              description: An action link to cancel a portion of the authorized amount.
-              example: https://try.access.worldpay.com/payments/authorizations/cancellations/partials/{linkData}
-        cardPayments:settle:
-          type: object
-          description: An action link to send the full authorized amount for settlement.
-          properties:
-            href:
-              type: string
-              description: An action link to send the full authorized amount for settlement.
-              example: https://try.access.worldpay.com/payments/settlements/full/{linkData}
-        cardPayments:partialSettle:
-          type: object
-          description: An action link to send a portion of the authorized amount for settlement.
-          properties:
-            href:
-              type: string
-              description: An action link to send a portion of the authorized amount for settlement.
-              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
-        cardPayments:events:
-          type: object
-          description: An action link to retrieve the last event of the payment.
-          properties:
-            href:
-              type: string
-              description: An action link to retrieve the last event of the payment.
-              example: https://try.access.worldpay.com/payments/events/{linkData}
-    issuer:
-      required:
-      - authorizationCode
-      type: object
-      description: An object containing information returned by the issuer.
-      properties:
-        authorizationCode:
-          pattern: ^[a-zA-Z0-9]+$
-          type: string
-          description: A code returned by the card issuer for a successful authorization. Used in reconciliation and dispute management.
-          example: T31306
-    payments_links_list_fullSettle:
-      type: object
-      properties:
-        cardPayments:refund:
-          type: object
-          description: An action link to refund the full settled amount.
-          properties:
-            href:
-              type: string
-              description: An action link to refund the full settled amount.
-              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
-        cardPayments:partialRefund:
-          type: object
-          description: An action link to refund a portion of the settled amount.
-          properties:
-            href:
-              type: string
-              description: An action link to refund a portion of the settled amount.
-              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
-        cardPayments:reverse:
-          type: object
-          description: An action link to cancel or refund the full amount.
-          properties:
-            href:
-              type: string
-              description: An action link to cancel or refund the full amount.
-              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
-        cardPayments:events:
-          type: object
-          description: An action link to retrieve the last event of the payment.
-          properties:
-            href:
-              type: string
-              description: An action link to retrieve the last event of the payment.
-              example: https://try.access.worldpay.com/payments/events/{linkData}
-    commandId:
-      maxLength: 36
-      minLength: 21
-      pattern: ^[A-Za-z0-9_-]+$
-      type: string
-      description: Unique identifier generated by us for a single instance of an interaction (command) with the Worldpay API.
-      example: cmdRvD-OxCyXgJLQ9_jbqXAC0
-    paymentId:
-      maxLength: 36
-      minLength: 21
-      pattern: ^[A-Za-z0-9_-]+$
-      type: string
-      description: Unique identifier generated by us for a single payment. Generated at authorization, and maintained through successive payment actions.
-      example: payI-dUcet9fk4_X4qZU0hpU0
-    value:
-      required:
-      - amount
-      - currency
-      type: object
-      description: An object that contains information about the value of the payment.
-      properties:
-        amount:
-          type: integer
-          description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
-          example: 250
-        currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          pattern: ^[A-Z]$
-          description: ' The three character currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).'
-          example: USD
-    PartialRefundResponse:
-      properties:
-        outcome:
-          type: string
-          enum:
-          - sentForPartialRefund
-        paymentId:
-          type: string
-        _links:
-          $ref: '#/components/schemas/PaymentsLink'
-        _actions:
-          $ref: '#/components/schemas/PartialRefundActionList'
-    ValidationErrorResponse_2:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        jsonPath:
-          type: string
-        validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorResponse_2'
-    payments_fullSettle_response:
-      type: object
-      properties:
-        paymentId:
-          $ref: '#/components/schemas/paymentId'
-        commandId:
-          $ref: '#/components/schemas/commandId'
-        _links:
-          $ref: '#/components/schemas/payments_links_list_fullSettle'
-    PaymentsActionPartialRefund:
-      type: object
-      description: Partially refund the payment. See [details](/products/payments/openapi/manage-payments/partialrefund)
-      properties:
-        href:
-          type: string
-        method:
-          type: string
-          default: POST
-    payments_increaseAuthorize:
-      required:
-      - value
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/value'
-    PaymentsActionCancel:
-      type: object
-      description: Cancel the payment. See [details](/products/payments/openapi/manage-payments/cancel)
-      properties:
-        href:
-          type: string
-        method:
-          type: string
-          default: POST
-    payments_links_list_partialSettle:
-      type: object
-      properties:
-        cardPayments:refund:
-          type: object
-          description: An action link to refund the full settled amount.
-          properties:
-            href:
-              type: string
-              description: An action link to refund the full settled amount.
-              example: https://try.access.worldpay.com/payments/settlements/refunds/full/{linkData}
-        cardPayments:partialRefund:
-          type: object
-          description: An action link to refund a portion of the settled amount.
-          properties:
-            href:
-              type: string
-              description: An action link to refund a portion of the settled amount.
-              example: https://try.access.worldpay.com/payments/settlements/refunds/partials/{linkData}
-        cardPayments:partialSettle:
-          type: object
-          description: An action link to send a portion of the authorized amount for settlement.
-          properties:
-            href:
-              type: string
-              description: An action link to send a portion of the authorized amount for settlement.
-              example: https://try.access.worldpay.com/payments/settlements/partials/{linkData}
-        cardPayments:cancel:
-          type: object
-          description: An action link to cancel the full authorized amount.
-          properties:
-            href:
-              type: string
-              description: An action link to cancel the full authorized amount.
-              example: https://try.access.worldpay.com/payments/authorizations/cancellations/{linkData}
-        cardPayments:reverse:
-          type: object
-          description: An action link to cancel or refund the full amount.
-          properties:
-            href:
-              type: string
-              description: An action link to cancel or refund the full amount.
-              example: https://try.access.worldpay.com/payments/sales/reversals/{linkData}
-        cardPayments:events:
-          type: object
-          description: An action link to retrieve the last event of the payment.
-          properties:
-            href:
-              type: string
-              description: An action link to retrieve the last event of the payment.
-              example: https://try.access.worldpay.com/payments/events/{linkData}
     payments_links_list_partialRefund:
       type: object
       properties:
@@ -2734,7 +2445,45 @@ components:
               type: string
               description: An action link to retrieve the last event of the payment.
               example: https://try.access.worldpay.com/payments/events/{linkData}
-    payments_refund:
+    shipping:
+      type: object
+      description: An object containing shipping details.
+      properties:
+        sender:
+          type: object
+          properties:
+            address:
+              type: object
+              description: An object containing sender's (shipped from) address.
+              properties:
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+        recipient:
+          type: object
+          properties:
+            address:
+              type: object
+              description: An object containing recipient's shipping address.
+              properties:
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                postalCode:
+                  maxLength: 10
+                  minLength: 1
+                  pattern: ^[a-zA-Z0-9 ]*$
+                  type: string
+    payments_reversal_response:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/payments_links_list_reversal'
+    payments_settle:
       type: object
       properties:
         reference:
@@ -2742,25 +2491,81 @@ components:
           maxLength: 128
           minLength: 1
           pattern: ^[-A-Za-z0-9]*$
-          description: An optional reference generated by you to identify a payment throughout its lifecycle.
-          example: refund-reference
-        fastRefund:
+          description: A reference generated by you to identify a payment throughout its lifecycle.
+          example: full-settle-reference
+        value:
           type: object
-          description: Allows you to request a faster refund.
-          required:
-          - enabled
+          description: An object that contains information about the value of the payment.
           properties:
-            enabled:
-              type: boolean
-              description: Set to `true` to request fast refund.
-            fallbackToStandard:
-              type: boolean
-              description: Fall back to standard refund processing in case the fast refund fails. Must be present if fast refund is set to `true`.
-    payments_reversal_response:
+            surchargeAmount:
+              type: integer
+              description: "The charging amount representing processing and service fees. Ensure that the `surchargeAmount` complies with local regulations and card network rules before applying.\n\n  **Note:** The surcharge fee is included in the total transaction amount, e.g. if the `value.surchargeAmount` is $20 and the total authorization amount was $100, then the actual cost of goods/services is 80."
+        merchant:
+          type: object
+          description: Contains information about the merchant.
+          properties:
+            taxReference:
+              type: string
+              description: Merchant's tax reference.
+        customer:
+          type: object
+          description: Additional customer data.
+          properties:
+            reference:
+              type: string
+              description: Merchant-generated customer reference.
+        shipping:
+          $ref: '#/components/schemas/shipping'
+        order:
+          $ref: '#/components/schemas/order'
+        industryData:
+          $ref: '#/components/schemas/industryData'
+    ErrorResponse:
       type: object
       properties:
+        errorName:
+          type: string
+        message:
+          type: string
+    payments_fullRefund_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
         _links:
-          $ref: '#/components/schemas/payments_links_list_reversal'
+          $ref: '#/components/schemas/payments_links_list_fullRefund'
+    payments_links_list_reversal:
+      type: object
+      properties:
+        cardPayments:events:
+          type: object
+          description: An action link to retrieve the last event of the payment.
+          properties:
+            href:
+              type: string
+              description: An action link to retrieve the last event of the payment.
+              example: https://try.access.worldpay.com/payments/events/{linkData}
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+              message:
+                type: string
+              jsonPath:
+                type: string
     payments_links_list_increaseAuthorizedAmount:
       type: object
       properties:
@@ -2812,6 +2617,265 @@ components:
               type: string
               description: An action link to retrieve the last event of the payment.
               example: https://try.access.worldpay.com/payments/events/{linkData}
+    payments_fullSettle_response:
+      type: object
+      properties:
+        paymentId:
+          $ref: '#/components/schemas/paymentId'
+        commandId:
+          $ref: '#/components/schemas/commandId'
+        _links:
+          $ref: '#/components/schemas/payments_links_list_fullSettle'
+    CancelResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForCancellation
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+    PartialSettleResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForSettlement
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+        _actions:
+          $ref: '#/components/schemas/PartialSettleActionList'
+    PaymentsReversalRequest: {}
+    PaymentsPartialSettleRequest:
+      type: object
+      properties:
+        reference:
+          type: string
+          minLength: 1
+        sequence:
+          $ref: '#/components/schemas/PaymentsSequence'
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - reference
+      - value
+    PaymentsLink:
+      description: Return details about the status of the payment.
+      properties:
+        self:
+          $ref: '#/components/schemas/Self'
+    PartialRefundActionList:
+      type: object
+      properties:
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+    SettleResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForSettlement
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+        _actions:
+          $ref: '#/components/schemas/SettleActionList'
+    PaymentsActionReverse:
+      type: object
+      description: Reverse the payment. See [details](/products/payments/openapi/manage-payments/reversal)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    QueryEventsResponse:
+      type: object
+      properties:
+        lastEvent:
+          type: string
+          description: "\nThe lastEvent field represents the latest high‑level outcome of a payment in our Payments API. It reflects the result of the most recent payment command (for example authorization, settlement, or refund) rather than the raw lifecycle event stream. \n\nWe return it in:\n  - `GET` requests made via our Payments API\n  -  responses from our Payment Queries API when querying historical payments\n            \n{% admonition type=\"info\" %}\nOur Payment Queries API exposes lower‑level lifecycle events (`eventName`). We map these to a single Payments API `lastEvent` value.\nFor the full mapping between our Payment Queries API events and Payments API `lastEvent` values, see [lastEvent mapping in the Payment Queries API documentation](/products/payment-queries/query-archive#lastevent-mapping).\n{% /admonition %}"
+          enum:
+          - Authorized
+          - Refused
+          - Sent for Settlement
+          - Sent for Refund
+          - Sent for Cancellation
+          - Refund failed
+          - Settlement failed
+          - Settled
+          - Refunded
+          - Error
+          - Expired
+          x-enumDescriptions:
+            Authorized: The payment has been approved and the funds have been reserved in your customer's account.
+            Sent for Refund: A request has been made to send funds back to your customer's account.
+            Error: The payment wasn't completed. You may want to reattempt the payment.
+            Expired: The authorization validity period ended before a settlement or cancel request was made.
+            Settlement failed: A settlement request couldn't be processed. Funds have not been transferred to your Worldpay account.
+            Refused: Your payment request has been declined.
+            Refund failed: A refund request couldn't be processed and the funds were returned to your account.
+            Sent for Cancellation: A request has been made to cancel the payment without sending it for settlement.
+            Settled: We have received the funds and are preparing to transfer them to your bank account. This event is only available in certain use cases.
+            Sent for Settlement: A request has been made to move the reserved funds in your customer's account and transfer them to your Worldpay account.
+            Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
+        _actions:
+          $ref: '#/components/schemas/QueryActionList'
+    PaymentsActionSettle:
+      type: object
+      description: Fully settle the payment. See [details](/products/payments/openapi/manage-payments/settle)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    PaymentsSequence:
+      type: object
+      description: The sequence number and total number of expected partial settlement requests for the payment.
+      properties:
+        number:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+      required:
+      - number
+      - total
+    PaymentsSettleRequest: {}
+    ReversalResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForReversal
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+    Value:
+      type: object
+      description: The value and currency.
+      properties:
+        currency:
+          type: string
+          description: ' The three character currency code. See list of <a href="/products/reference/supported-countries-currencies#iso-currency-codes">supported currencies</a> '
+          example: USD
+          minLength: 1
+        amount:
+          type: integer
+          format: int32
+          description: 'The payment amount. Implied decimal. For example, 250 GBP = £2.50
+
+            When set to `0` will perform a card verification instead of a payment as part of a new `customerAgreement`.'
+          example: 250
+        acceptPartialAmount:
+          type: boolean
+          description: Set to `true` to accept a partial authorization amount. You can charge the remainder of the amount using a different payment credential with a new authorization request.
+      required:
+      - amount
+      - currency
+    PaymentsActionCancel:
+      type: object
+      description: Cancel the payment. See [details](/products/payments/openapi/manage-payments/cancel)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    PaymentsPartialRefundRequest:
+      type: object
+      properties:
+        reference:
+          type: string
+          minLength: 1
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - reference
+      - value
+    PaymentsActionPartialSettle:
+      type: object
+      description: Partially settle the payment. See [details](/products/payments/openapi/manage-payments/partialsettle) including what to add in the request body.
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    QueryActionList:
+      type: object
+      properties:
+        cancelPayment:
+          $ref: '#/components/schemas/PaymentsActionCancel'
+        partiallySettlePayment:
+          $ref: '#/components/schemas/PaymentsActionPartialSettle'
+        settlePayment:
+          $ref: '#/components/schemas/PaymentsActionSettle'
+        refundPayment:
+          $ref: '#/components/schemas/PaymentsActionRefund'
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+        reversePayment:
+          $ref: '#/components/schemas/PaymentsActionReverse'
+    PartialRefundResponse:
+      properties:
+        outcome:
+          type: string
+          enum:
+          - sentForPartialRefund
+        paymentId:
+          type: string
+        _links:
+          $ref: '#/components/schemas/PaymentsLink'
+        _actions:
+          $ref: '#/components/schemas/PartialRefundActionList'
+    PaymentsActionRefund:
+      type: object
+      description: Fully refund the payment. See [details](/products/payments/openapi/manage-payments/refund)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    SettleActionList:
+      type: object
+      properties:
+        refundPayment:
+          $ref: '#/components/schemas/PaymentsActionRefund'
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+        reversePayment:
+          $ref: '#/components/schemas/PaymentsActionReverse'
+    ValidationErrorResponse_2:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        jsonPath:
+          type: string
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorResponse_2'
+    PaymentsActionPartialRefund:
+      type: object
+      description: Partially refund the payment. See [details](/products/payments/openapi/manage-payments/partialrefund)
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          default: POST
+    Self:
+      properties:
+        href:
+          type: string
     RefundResponse:
       properties:
         outcome:
@@ -2822,26 +2886,32 @@ components:
           type: string
         _links:
           $ref: '#/components/schemas/PaymentsLink'
+    PartialSettleActionList:
+      type: object
+      properties:
+        refundPayment:
+          $ref: '#/components/schemas/PaymentsActionRefund'
+        partiallyRefundPayment:
+          $ref: '#/components/schemas/PaymentsActionPartialRefund'
+        partiallySettlePayment:
+          $ref: '#/components/schemas/PaymentsActionPartialSettle'
+        cancelPayment:
+          $ref: '#/components/schemas/PaymentsActionCancel'
+        reversePayment:
+          $ref: '#/components/schemas/PaymentsActionReverse'
+    HeaderErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        headerName:
+          type: string
   examples:
-    query-202:
+    sent-for-reversal-202:
       value:
-        lastEvent: Authorized
-        _actions:
-          cancelPayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
-            method: POST
-          settlePayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements
-            method: POST
-          partiallySettlePayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
-            method: POST
-          reversePayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
-            method: POST
-    sent-for-refund-202:
-      value:
-        outcome: sentForRefund
+        outcome: sentForReversal
         _links:
           self:
             href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amp3aEvr3BYtH3ZBei61fRGtglovAih6FUXj2880UCtZGZ21djyVQzY36sEFMZMvXsW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ6i4R8ak4j6oWbsrX5AP4ErD6p2VzRF0yzljcK%2BKWD8%2BEEBcQpn0%3ADcXCJRXfVD0ibZ%3AVhRHFzbbwymcuTiRbNw%3D
@@ -2861,38 +2931,10 @@ components:
           reversePayment:
             href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
             method: POST
-    sent-for-partial-refund-202:
+    '404':
       value:
-        outcome: sentForPartialRefund
-        _links:
-          self:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
-        _actions:
-          partiallyRefundPayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
-            method: POST
-    sent-for-partial-settlement-202:
-      value:
-        outcome: sentForSettlement
-        _links:
-          self:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5UW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
-        _actions:
-          refundPayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds
-            method: POST
-          partiallyRefundPayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
-            method: POST
-          partiallySettlePayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
-            method: POST
-          reversePayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
-            method: POST
-          cancelPayment:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
-            method: POST
+        errorName: endpointNotFound
+        message: Requested endpoint was not found.
     '400':
       value:
         errorName: bodyDoesNotMatchSchema
@@ -2901,20 +2943,22 @@ components:
         - errorName: fieldIsNotAllowed
           message: Field at path is not allowed.
           jsonPath: $.instruction.paymentInstrument.narrative
-    '415':
+    query-202:
       value:
-        errorName: headerHasInvalidValue
-        message: A valid header must be provided.
-        headerName: Content-Type
-    '500':
-      value:
-        errorName: internalErrorOccurred
-        message: We cannot currently process your request. Please contact support.
-    '406':
-      value:
-        errorName: headerIsMissing
-        message: A valid header must be provided.
-        headerName: Content-Type
+        lastEvent: Authorized
+        _actions:
+          cancelPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
+            method: POST
+          settlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/settlements
+            method: POST
+          partiallySettlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmYlUBT%2BOr7P8TngA%3ARIDbhErtAINgae8%3Al%2Bp%3A9IMRtnTDLLTmIV7UYK%3Ak9rhdyhosW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ7HtOLQhO1odRTC6UgXfG5MadLi6%3AwYpXojOybmc%3AWO461azZ4FL3HolsmUtf6UuHbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3AmZ%2BxHZ9nDpadu%2BBh7pRyJwnWeiSFTlqKvbrBxNm3HV0xann55pFjZ7qi4DNGZtx9zW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ%3AAwSoo6RsrBugbhEp0K8HxZkfVrqy4oVlW8FdQ7kIuZOH78i6pPLzArc%2BOtMdnU%3ArZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
     sent-for-cancellation-202:
       value:
         outcome: sentForCancellation
@@ -2954,16 +2998,6 @@ components:
         _links:
           self:
             href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Am1abCnrwHIBOLZ%3A8ZpsSaLoyDtB%3A8H%2BxSOOOGjEbko3O%3A%3A7gTMASwaw7KY3SuOCoh4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ3ZOMOj3ix5oo3ctSHv2uo5m6InByzI1XuTONS3N8O%2B1%2BuC8Xk67Ze0uAJk%2BrJN9o7Z%3AVhRHFzbbwymcuTiRbNw%3D
-    '404':
-      value:
-        errorName: endpointNotFound
-        message: Requested endpoint was not found.
-    sent-for-reversal-202:
-      value:
-        outcome: sentForReversal
-        _links:
-          self:
-            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amp3aEvr3BYtH3ZBei61fRGtglovAih6FUXj2880UCtZGZ21djyVQzY36sEFMZMvXsW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ6i4R8ak4j6oWbsrX5AP4ErD6p2VzRF0yzljcK%2BKWD8%2BEEBcQpn0%3ADcXCJRXfVD0ibZ%3AVhRHFzbbwymcuTiRbNw%3D
     partial-settle:
       value:
         sequence:
@@ -2973,17 +3007,72 @@ components:
           amount: 500
           currency: GBP
         reference: partial-settle-reference
+    '415':
+      value:
+        errorName: headerHasInvalidValue
+        message: A valid header must be provided.
+        headerName: Content-Type
     '401':
       value:
         errorName: accessDenied
         message: Access to the requested resource has been denied.
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: We cannot currently process your request. Please contact support.
+    sent-for-partial-settlement-202:
+      value:
+        outcome: sentForSettlement
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5UW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          refundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/refunds
+            method: POST
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+          partiallySettlePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialSettlements
+            method: POST
+          reversePayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/reversals
+            method: POST
+          cancelPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/cancellations
+            method: POST
+    sent-for-partial-refund-202:
+      value:
+        outcome: sentForPartialRefund
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D
+        _actions:
+          partiallyRefundPayment:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amrpc69OgkOdsQcFu1REHDtf%3ADmgAoXvDPFmn0QZPIS4H4gS5sW2Mrlt4M7c6S1k5U4KCq84ktTU7AB2kOFpTY0bs7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ9hxVM07vmgQjdqz1DxFQ6AqNuDe44KOEtBqjjis8%3APhltX3idEtP6TkjNfQHRCHVbZ%3AVhRHFzbbwymcuTiRbNw%3D/partialRefunds
+            method: POST
+    sent-for-refund-202:
+      value:
+        outcome: sentForRefund
+        _links:
+          self:
+            href: https://try.access.worldpay.com/api/payments/eyJrIjoiazNhYjYzMiIsImxpbmtWZXJzaW9uIjoiNS4wLjAifQ%3D%3D.sN%3Ag8wd64bwkbrp0md%2BbPxcanBnk2zLdsIqSa1pR99GeDrCwEtsymFb5gQw9WlrStDTK3eIWPy93y%3A7njc4649JSrU7%2BvFDl1J36%2BcwOkX0lW4Z%2BfnZKMutoUGX3m1%3Amp3aEvr3BYtH3ZBei61fRGtglovAih6FUXj2880UCtZGZ21djyVQzY36sEFMZMvXsW6eOLVNOsPL6ecsn3Dp377s7pWRQKSZJKSFIJvAisP8cBzFPzqireuqfCu5ojcm60gRSsqS3glurO24RJkg5SrpRjgY6g7ca8uoA7tKDk9OVOIwORF5sGPHSSGMa2bEl2lMUkAANoWclQHiGzxWQQ6i4R8ak4j6oWbsrX5AP4ErD6p2VzRF0yzljcK%2BKWD8%2BEEBcQpn0%3ADcXCJRXfVD0ibZ%3AVhRHFzbbwymcuTiRbNw%3D
     partial-refund:
       value:
         value:
           amount: 10
           currency: GBP
         reference: partial-refund-reference
+    '406':
+      value:
+        errorName: headerIsMissing
+        message: A valid header must be provided.
+        headerName: Content-Type
   securitySchemes:
     BasicAuth:
       type: http
       scheme: basic
+x-refined-from:
+- worldpay-card-payments-openapi.yaml
+- worldpay-payments-openapi.yaml
