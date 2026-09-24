@@ -45,7 +45,7 @@ tags:
 - Recurring Billing
 - Payouts
 - Foreign Exchange
-- Financial-Services
+- Financial Services
 - Fintech
 tags_raw:
 - Payments
@@ -58,6 +58,7 @@ tags_raw:
 - Foreign Exchange
 - Financial Services
 - Fintech
+- Financial-Services
 apis:
 - name: Worldpay Tokens API
   description: >-
@@ -295,8 +296,6 @@ apis:
     url: openapi/worldpay-3ds-actions-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-accounts-api
@@ -313,8 +312,6 @@ apis:
     url: openapi/worldpay-accounts-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-achverifications-api
@@ -329,8 +326,6 @@ apis:
     url: openapi/worldpay-achverifications-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-apmpayments-api
@@ -345,8 +340,6 @@ apis:
     url: openapi/worldpay-apmpayments-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-balance-accounts-api
@@ -361,8 +354,6 @@ apis:
     url: openapi/worldpay-balance-accounts-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-batch-payout-api
@@ -377,8 +368,6 @@ apis:
     url: openapi/worldpay-batch-payout-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-beneficial-owners-api
@@ -395,8 +384,6 @@ apis:
     url: openapi/worldpay-beneficial-owners-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-cardverifications-api
@@ -411,8 +398,6 @@ apis:
     url: openapi/worldpay-cardverifications-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-exemptions-api
@@ -427,8 +412,6 @@ apis:
     url: openapi/worldpay-exemptions-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-fraudsight-api
@@ -443,8 +426,6 @@ apis:
     url: openapi/worldpay-fraudsight-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-get-payouts-api
@@ -459,8 +440,6 @@ apis:
     url: openapi/worldpay-get-payouts-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-get-payouts-by-payout-request-id-api
@@ -475,8 +454,6 @@ apis:
     url: openapi/worldpay-get-payouts-by-payout-request-id-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-identity-verification-api
@@ -493,8 +470,6 @@ apis:
     url: openapi/worldpay-identity-verification-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-manage-payments-api
@@ -511,8 +486,6 @@ apis:
     url: openapi/worldpay-manage-payments-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-moneytransfers-api
@@ -527,8 +500,6 @@ apis:
     url: openapi/worldpay-moneytransfers-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-network-token-api
@@ -543,8 +514,6 @@ apis:
     url: openapi/worldpay-network-token-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-operational-api
@@ -559,8 +528,6 @@ apis:
     url: openapi/worldpay-operational-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-parties-api
@@ -575,8 +542,6 @@ apis:
     url: openapi/worldpay-parties-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payment-api
@@ -593,8 +558,6 @@ apis:
     url: openapi/worldpay-payment-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payment-lifecycle-api
@@ -609,8 +572,6 @@ apis:
     url: openapi/worldpay-payment-lifecycle-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payment-pages-api
@@ -625,8 +586,6 @@ apis:
     url: openapi/worldpay-payment-pages-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payout-instruments-api
@@ -641,8 +600,6 @@ apis:
     url: openapi/worldpay-payout-instruments-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payouts-api
@@ -657,8 +614,6 @@ apis:
     url: openapi/worldpay-payouts-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-query-a-payment-api
@@ -673,8 +628,6 @@ apis:
     url: openapi/worldpay-query-a-payment-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-single-payout-api
@@ -689,8 +642,6 @@ apis:
     url: openapi/worldpay-single-payout-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-splitpayments-api
@@ -707,8 +658,6 @@ apis:
     url: openapi/worldpay-splitpayments-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-token-api
@@ -725,8 +674,6 @@ apis:
     url: openapi/worldpay-token-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-update-api
@@ -742,8 +689,6 @@ apis:
     url: openapi/worldpay-update-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-verifications-api
@@ -760,8 +705,6 @@ apis:
     url: openapi/worldpay-verifications-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-verifiedtokens-api
@@ -776,8 +719,6 @@ apis:
     url: openapi/worldpay-verifiedtokens-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-card-payments-api
@@ -792,8 +733,6 @@ apis:
     url: openapi/worldpay-card-payments-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-foreign-exchange-api
@@ -808,8 +747,6 @@ apis:
     url: openapi/worldpay-foreign-exchange-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 - aid: worldpay:worldpay-payment-queries-api
@@ -824,8 +761,6 @@ apis:
     url: openapi/worldpay-payment-queries-api-openapi.yml
   - type: Documentation
     url: https://docs.worldpay.com/access/products/payments
-  - type: GraphQL
-    url: graphql/worldpay-graphql.md
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 common:
