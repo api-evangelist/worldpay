@@ -158,74 +158,6 @@ paths:
                 Service Unavailable:
                   $ref: '#/components/examples/503'
 components:
-  examples:
-    Perform_IVS_Company_modular:
-      value:
-        performIdentityVerification: true
-    '500':
-      value:
-        errorName: internalErrorOccurred
-        message: An error occurred within the service (potentially due to an interaction with a downstream service).
-    Get_IVS_Company_200_modular:
-      description: Get Identiy Verification Status on a party of a company (modular)
-      value:
-        overall:
-          identityVerificationState: started
-          identityVerificationMethod: identityVerificationService
-        party:
-          identityVerificationState: started
-          partyReference: Linnea474
-          partyId: parWcAyq5G2-1KwvsEkFAKwz0
-        beneficialOwners:
-        - identityVerificationState: started
-          beneficialOwnerReference: Mac551
-          beneficialOwnerId: parAZo80iViOTdKRJi4Oq14Z0
-        - identityVerificationState: started
-          beneficialOwnerReference: Thea799
-          beneficialOwnerId: parB5ON-IEK4olrLuHvjEDpE0
-        - identityVerificationState: started
-          beneficialOwnerReference: Santino227
-          beneficialOwnerId: parNKRss9vllWyX1MUVOj7b-0
-    '400':
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: The identified field is present when it is explicitly not allowed in the request.
-          jsonPath: $.additionalData
-    Perform_IVS_Company_200_modular:
-      description: Identity Verification Status on a party of a company (modular)
-      value:
-        overall:
-          identityVerificationState: started
-          identityVerificationMethod: identityVerificationService
-        party:
-          identityVerificationState: started
-          partyReference: Euna925
-          partyId: par1Bbf6r80Q3mEvhp_xBKNM0
-        beneficialOwners:
-        - identityVerificationState: started
-          beneficialOwnerReference: Floy829
-          beneficialOwnerId: parsH2dSCcczQveB-GQNx0qq0
-        - identityVerificationState: started
-          beneficialOwnerReference: Christina843
-          beneficialOwnerId: parbQR-8sRkYASaOzOVPX5d10
-        - identityVerificationState: started
-          beneficialOwnerReference: Arlo912
-          beneficialOwnerId: pargosUuzW0vv8HrWsCTuadb0
-    400_Invalid_Url:
-      value:
-        errorName: urlContainsInvalidValue
-        message: The URL contains a value or values that are invalid.
-        validationErrors:
-        - errorName: fieldHasInvalidValue
-          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
-          jsonPath: $.partyId
-    '503':
-      value:
-        errorName: serviceUnavailable
-        message: Service cannot fulfil the request even though service functions witout internal errors.
   schemas:
     IdentityVerificationInfo:
       type: object
@@ -263,6 +195,49 @@ components:
           type: string
           description: The message associated with link returned from Identity Verification Status (IVS).
           readOnly: true
+    IdentityVerificationResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: An ordinal error type that is part of the API contract. It is machine readable, but also human readable for clarity and semantic understanding of the error.
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          description: A human readable message giving a corrective action for the error. THIS IS NOT FOR MACHINE CONSUMPTION.
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponseItem'
+        pathParameter:
+          type: string
+        queryParameter:
+          type: string
+        jsonPath:
+          type: string
+        overall:
+          $ref: '#/components/schemas/IdentityVerificationInfo'
+        party:
+          $ref: '#/components/schemas/PartyIdentityVerificationInfo'
+        beneficialOwners:
+          type: array
+          items:
+            $ref: '#/components/schemas/BeneficialOwnerIdentityVerificationInfo'
+    ErrorResponseItem:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        jsonPath:
+          type: string
+        queryParameter:
+          type: string
+        pathParameter:
+          type: string
     ErrorResponse:
       type: object
       properties:
@@ -336,27 +311,6 @@ components:
           maxLength: 64
           minLength: 3
           pattern: ^[A-Za-z0-9\-_ ]*$
-    ErrorResponseItem:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-        jsonPath:
-          type: string
-        queryParameter:
-          type: string
-        pathParameter:
-          type: string
-    IdentityVerification:
-      type: object
-      properties:
-        performIdentityVerification:
-          type: boolean
-          writeOnly: true
     BeneficialOwnerIdentityVerificationInfo:
       type: object
       properties:
@@ -407,34 +361,80 @@ components:
           type: string
           description: A unique identifier for the beneficial owner generated by us.
           readOnly: true
-    IdentityVerificationResponse:
+    IdentityVerification:
       type: object
       properties:
-        errorName:
-          type: string
-          description: An ordinal error type that is part of the API contract. It is machine readable, but also human readable for clarity and semantic understanding of the error.
-          example: bodyDoesNotMatchSchema
-        message:
-          type: string
-          description: A human readable message giving a corrective action for the error. THIS IS NOT FOR MACHINE CONSUMPTION.
-        validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorResponseItem'
-        pathParameter:
-          type: string
-        queryParameter:
-          type: string
-        jsonPath:
-          type: string
+        performIdentityVerification:
+          type: boolean
+          writeOnly: true
+  examples:
+    Perform_IVS_Company_modular:
+      value:
+        performIdentityVerification: true
+    Perform_IVS_Company_200_modular:
+      description: Identity Verification Status on a party of a company (modular)
+      value:
         overall:
-          $ref: '#/components/schemas/IdentityVerificationInfo'
+          identityVerificationState: started
+          identityVerificationMethod: identityVerificationService
         party:
-          $ref: '#/components/schemas/PartyIdentityVerificationInfo'
+          identityVerificationState: started
+          partyReference: Euna925
+          partyId: par1Bbf6r80Q3mEvhp_xBKNM0
         beneficialOwners:
-          type: array
-          items:
-            $ref: '#/components/schemas/BeneficialOwnerIdentityVerificationInfo'
+        - identityVerificationState: started
+          beneficialOwnerReference: Floy829
+          beneficialOwnerId: parsH2dSCcczQveB-GQNx0qq0
+        - identityVerificationState: started
+          beneficialOwnerReference: Christina843
+          beneficialOwnerId: parbQR-8sRkYASaOzOVPX5d10
+        - identityVerificationState: started
+          beneficialOwnerReference: Arlo912
+          beneficialOwnerId: pargosUuzW0vv8HrWsCTuadb0
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+    Get_IVS_Company_200_modular:
+      description: Get Identiy Verification Status on a party of a company (modular)
+      value:
+        overall:
+          identityVerificationState: started
+          identityVerificationMethod: identityVerificationService
+        party:
+          identityVerificationState: started
+          partyReference: Linnea474
+          partyId: parWcAyq5G2-1KwvsEkFAKwz0
+        beneficialOwners:
+        - identityVerificationState: started
+          beneficialOwnerReference: Mac551
+          beneficialOwnerId: parAZo80iViOTdKRJi4Oq14Z0
+        - identityVerificationState: started
+          beneficialOwnerReference: Thea799
+          beneficialOwnerId: parB5ON-IEK4olrLuHvjEDpE0
+        - identityVerificationState: started
+          beneficialOwnerReference: Santino227
+          beneficialOwnerId: parNKRss9vllWyX1MUVOj7b-0
+    400_Invalid_Url:
+      value:
+        errorName: urlContainsInvalidValue
+        message: The URL contains a value or values that are invalid.
+        validationErrors:
+        - errorName: fieldHasInvalidValue
+          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
+          jsonPath: $.partyId
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: The identified field is present when it is explicitly not allowed in the request.
+          jsonPath: $.additionalData
+    '503':
+      value:
+        errorName: serviceUnavailable
+        message: Service cannot fulfil the request even though service functions witout internal errors.
   securitySchemes:
     basicAuth:
       type: http

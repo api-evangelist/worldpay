@@ -122,85 +122,6 @@ paths:
       - Exemptions
 components:
   schemas:
-    validation_errors:
-      type: object
-      required:
-      - errorName
-      - jsonPath
-      - message
-      properties:
-        errorName:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Unique name of the validation error
-        jsonPath:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Location of the field in request body for which the error occurred
-        message:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Error description message
-    card_networktoken:
-      required:
-      - type
-      - tokenNumber
-      - cardExpiryDate
-      type: object
-      properties:
-        type:
-          type: string
-          format: card/networkToken
-          description: An identifier for the `paymentInstrument` being used.
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: Object containing card expiry information
-          properties:
-            month:
-              maximum: 12
-              minimum: 1
-              type: integer
-              description: Card expiry month
-            year:
-              maximum: 9999
-              minimum: 1
-              type: integer
-              description: Card expiry year
-        tokenNumber:
-          maxLength: 19
-          minLength: 10
-          pattern: ^[0-9]*$
-          type: string
-          description: The network token number
-        cardHolderName:
-          maxLength: 255
-          minLength: 1
-          type: string
-          description: The name on the customer's card.
-        billingAddress:
-          $ref: '#/components/schemas/billingAddress'
-    exemptions_assessment_503_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
     exemptions_assessment_401_response:
       required:
       - message
@@ -217,48 +138,6 @@ components:
           maxLength: 2048
           minLength: 1
           description: The unique error name
-    card_front:
-      required:
-      - type
-      - cardNumber
-      - cardHolderName
-      - cardExpiryDate
-      type: object
-      properties:
-        type:
-          type: string
-          format: card/front
-          description: An identifier for the `paymentInstrument` being used.
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: Object containing card expiry information
-          properties:
-            month:
-              maximum: 12
-              minimum: 1
-              type: integer
-              description: Card expiry month
-            year:
-              maximum: 9999
-              minimum: 1
-              type: integer
-              description: Card expiry year
-        cardNumber:
-          maxLength: 19
-          minLength: 10
-          pattern: ^[0-9]*$
-          type: string
-          description: Clear card number (PAN).
-        billingAddress:
-          $ref: '#/components/schemas/billingAddress'
-        cardHolderName:
-          maxLength: 255
-          minLength: 1
-          type: string
-          description: The name on the customer's card.
     exemptions_assessment_200_response:
       required:
       - outcome
@@ -346,51 +225,119 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/validation_errors'
-    billingAddress:
+    card_tokenized:
       required:
-      - address1
-      - city
-      - postalCode
-      - countryCode
+      - type
+      - href
       type: object
-      description: An object containing the billing address information.
       properties:
-        city:
-          maxLength: 50
+        type:
+          type: string
+          format: card/tokenized
+          description: An identifier for the `paymentInstrument` being used.
+        href:
           minLength: 1
           type: string
-          description: Billing address city
-        address1:
-          maxLength: 80
+          description: An `http` address that contains your link to an Access Token
+    exemptions_assessment_503_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+    card_front:
+      required:
+      - type
+      - cardNumber
+      - cardHolderName
+      - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/front
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: Object containing card expiry information
+          properties:
+            month:
+              maximum: 12
+              minimum: 1
+              type: integer
+              description: Card expiry month
+            year:
+              maximum: 9999
+              minimum: 1
+              type: integer
+              description: Card expiry year
+        cardNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: Clear card number (PAN).
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
+        cardHolderName:
+          maxLength: 255
           minLength: 1
           type: string
-          description: Billing address line 1
-        postalCode:
-          maxLength: 15
+          description: The name on the customer's card.
+    card_networktoken:
+      required:
+      - type
+      - tokenNumber
+      - cardExpiryDate
+      type: object
+      properties:
+        type:
+          type: string
+          format: card/networkToken
+          description: An identifier for the `paymentInstrument` being used.
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: Object containing card expiry information
+          properties:
+            month:
+              maximum: 12
+              minimum: 1
+              type: integer
+              description: Card expiry month
+            year:
+              maximum: 9999
+              minimum: 1
+              type: integer
+              description: Card expiry year
+        tokenNumber:
+          maxLength: 19
+          minLength: 10
+          pattern: ^[0-9]*$
+          type: string
+          description: The network token number
+        cardHolderName:
+          maxLength: 255
           minLength: 1
           type: string
-          description: Billing address postal code
-        countryCode:
-          maxLength: 2
-          minLength: 2
-          pattern: ^[A-Z]{2}$
-          type: string
-          description: Billing address country code
-        state:
-          maxLength: 30
-          minLength: 1
-          type: string
-          description: Billing address state. Should only be provided following the `ISO-3611-2` two-character sub division (e.g.“CA” for California).
-        address2:
-          maxLength: 80
-          minLength: 1
-          type: string
-          description: Billing address line 2
-        address3:
-          maxLength: 80
-          minLength: 1
-          type: string
-          description: Billing address line 3
+          description: The name on the customer's card.
+        billingAddress:
+          $ref: '#/components/schemas/billingAddress'
     exemptions_assessment:
       required:
       - transactionReference
@@ -730,82 +677,81 @@ components:
               pattern: ^[A-Za-z0-9_-]*$
               type: string
               description: Use the sessionId specified in the ThreatMetrix Device Data Collection to link this data to the assessment.
-    card_tokenized:
-      required:
-      - type
-      - href
+    validation_errors:
       type: object
+      required:
+      - errorName
+      - jsonPath
+      - message
       properties:
-        type:
-          type: string
-          format: card/tokenized
-          description: An identifier for the `paymentInstrument` being used.
-        href:
+        errorName:
+          maxLength: 2048
           minLength: 1
           type: string
-          description: An `http` address that contains your link to an Access Token
+          description: Unique name of the validation error
+        jsonPath:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Location of the field in request body for which the error occurred
+        message:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Error description message
+    billingAddress:
+      required:
+      - address1
+      - city
+      - postalCode
+      - countryCode
+      type: object
+      description: An object containing the billing address information.
+      properties:
+        city:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Billing address city
+        address1:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 1
+        postalCode:
+          maxLength: 15
+          minLength: 1
+          type: string
+          description: Billing address postal code
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]{2}$
+          type: string
+          description: Billing address country code
+        state:
+          maxLength: 30
+          minLength: 1
+          type: string
+          description: Billing address state. Should only be provided following the `ISO-3611-2` two-character sub division (e.g.“CA” for California).
+        address2:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 2
+        address3:
+          maxLength: 80
+          minLength: 1
+          type: string
+          description: Billing address line 3
   examples:
-    assessment-response-exemption-authentication-lowrisk:
-      description: lowRisk exemption granted to be applied in 3DS authentication request
+    assessment-response-no-exemption:
+      description: No exemption is granted, use 3DS authentication
       value:
-        outcome: exemption
+        outcome: noExemption
         transactionReference: Memory265-13/08/1876
-        exemption:
-          placement: authentication
-          type: lowRisk
         riskProfile:
           href: https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
-    assessment-response-exemption-authorization-lowrisk:
-      description: lowRisk exemption granted to be applied in payment authorization request
-      value:
-        outcome: exemption
-        transactionReference: Memory265-13/08/1876
-        exemption:
-          placement: authorization
-          type: lowRisk
-        riskProfile:
-          href: https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
-    assessment-request-token:
-      description: Exemption assessment using a Worldpay Token
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        doNotApplyExemption: false
-        exemption:
-          capability: authorizationAndAuthentication
-          request:
-            placement: authorization
-            type: lowValue
-        instruction:
-          paymentInstrument:
-            type: card/tokenized
-            href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
-          value:
-            currency: GBP
-            amount: 250
-        deviceData:
-          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
-        riskData:
-          account:
-            email: test@test.com
-            dateOfBirth: '1990-09-09'
-          transaction:
-            firstName: Sherlock
-            lastName: Holmes
-            phoneNumber: '02031234321'
-          shipping:
-            firstName: James
-            lastName: Moriarty
-            address:
-              address1: The Palatine Centre
-              address2: Durham University
-              address3: Stockton Road
-              postalCode: DH1 3LE
-              city: Durham
-              state: County Durham
-              countryCode: GB
-              phoneNumber: 01911234321
     assessment-request-networkToken:
       description: Exemption assessment using a network token
       value:
@@ -858,16 +804,57 @@ components:
               state: County Durham
               countryCode: GB
               phoneNumber: 01911234321
-    assessment-response-exemption-authorization-lowvalue:
-      description: lowValue exemption granted to be applied in payment authorization request
+    assessment-response-exemption-authentication-lowrisk:
+      description: lowRisk exemption granted to be applied in 3DS authentication request
       value:
         outcome: exemption
         transactionReference: Memory265-13/08/1876
         exemption:
-          placement: authorization
-          type: lowValue
+          placement: authentication
+          type: lowRisk
         riskProfile:
           href: https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-request-token:
+      description: Exemption assessment using a Worldpay Token
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        doNotApplyExemption: false
+        exemption:
+          capability: authorizationAndAuthentication
+          request:
+            placement: authorization
+            type: lowValue
+        instruction:
+          paymentInstrument:
+            type: card/tokenized
+            href: https://try.access.worldpay.com/tokens/MTIzNDU2Nzg5MDEyMzQ1Ng
+          value:
+            currency: GBP
+            amount: 250
+        deviceData:
+          collectionReference: 0_4XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXX8G6
+        riskData:
+          account:
+            email: test@test.com
+            dateOfBirth: '1990-09-09'
+          transaction:
+            firstName: Sherlock
+            lastName: Holmes
+            phoneNumber: '02031234321'
+          shipping:
+            firstName: James
+            lastName: Moriarty
+            address:
+              address1: The Palatine Centre
+              address2: Durham University
+              address3: Stockton Road
+              postalCode: DH1 3LE
+              city: Durham
+              state: County Durham
+              countryCode: GB
+              phoneNumber: 01911234321
     assessment-request-card:
       description: Exemption assessment using the card instrument
       value:
@@ -921,11 +908,24 @@ components:
               state: County Durham
               countryCode: GB
               phoneNumber: 01911234321
-    assessment-response-no-exemption:
-      description: No exemption is granted, use 3DS authentication
+    assessment-response-exemption-authorization-lowrisk:
+      description: lowRisk exemption granted to be applied in payment authorization request
       value:
-        outcome: noExemption
+        outcome: exemption
         transactionReference: Memory265-13/08/1876
+        exemption:
+          placement: authorization
+          type: lowRisk
+        riskProfile:
+          href: https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
+    assessment-response-exemption-authorization-lowvalue:
+      description: lowValue exemption granted to be applied in payment authorization request
+      value:
+        outcome: exemption
+        transactionReference: Memory265-13/08/1876
+        exemption:
+          placement: authorization
+          type: lowValue
         riskProfile:
           href: https://access.worldpay.com/riskprofile/eyJrIjoxLCJkIjoialRBL0FFelBzcnZ
   securitySchemes:

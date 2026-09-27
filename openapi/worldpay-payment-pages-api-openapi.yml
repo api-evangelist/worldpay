@@ -796,6 +796,52 @@ paths:
       - Payment Pages
 components:
   schemas:
+    ResultURLs:
+      type: object
+      description: An object containing the different URLs we redirect your customers to when we receive the payment result. We recommend that you provide us with your custom result URLs.
+      properties:
+        cancelURL:
+          type: string
+          description: When your customer cancels a transaction, we redirect that customer to the cancel URL.
+        errorURL:
+          type: string
+          description: When we receive the payment result for an erroneous payment, we redirect your customer to the error URL.
+        expiryURL:
+          type: string
+          description: When a customer leaves the payment transaction uncompleted within the maximum allowed time frame, we redirect your customer to the expiry URL.
+        failureURL:
+          type: string
+          description: When a payment fails, we redirect your customer to the failure URL.
+        pendingURL:
+          type: string
+          description: When we receive the payment result for a pending payment transaction, we redirect your customer to the pending URL.
+        successURL:
+          type: string
+          description: When we receive the payment result for a successful payment, we redirect your customer to the success URL.
+    Inputs:
+      type: object
+      description: Defines custom styling options for input fields including placeholder text and validation messages.
+      properties:
+        backgroundColor:
+          type: string
+          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        border:
+          $ref: '#/components/schemas/Border'
+        color:
+          type: string
+          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        fonts:
+          $ref: '#/components/schemas/Fonts'
+        placeholder:
+          $ref: '#/components/schemas/Placeholder'
+        validation:
+          $ref: '#/components/schemas/Validation'
     Settlement:
       type: object
       description: A value when specified allows you to turn auto settlement off. The default behavior is "true" and there is nothing to specify.
@@ -804,88 +850,106 @@ components:
           type: boolean
         cancelOn:
           $ref: '#/components/schemas/CancelOn'
-    CreateToken:
+    HoverButtons:
       type: object
-      description: An object that instructs us to create a token for the payment details supplied.
+      description: Styles applied when the button is hovered over by a pointing device (where supported).
       properties:
-        description:
+        backgroundColor:
           type: string
-          description: 'A description of your token. If not supplied, a default description is created for you.  '
-          maxLength: 255
-          minLength: 1
-          pattern: ^([^&<]*)$
-        namespace:
+          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        border:
+          $ref: '#/components/schemas/Border'
+          description: Border settings, including color, width, and style.
+        color:
           type: string
-          description: A namespace is used to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace.
-          maxLength: 64
-          minLength: 1
-        optIn:
-          type: string
-          description: 'Used to choose how the customer could opt into their payment details being tokenized.
-
-
-            SILENT - (default value) The card details are always saved (you must already have their consent to do this)
-
-
-            NOTIFY - The card details are always saved (you must already have their consent to do this) and your customer will see this within our hosted payment pages
-
-
-            ASK - The card details are saved if your customer provides their consent. This adds a "Save payment details" tickbox to the page, which they tick to opt-in, or ignore to opt-out.
-
-            '
-          enum:
-          - SILENT
-          - NOTIFY
-          - ASK
-        type:
-          type: string
-          description: The type of token to be created.
-          enum:
-          - worldpay
-      required:
-      - optIn
-      - type
-    CustomerAgreement:
+          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        fonts:
+          $ref: '#/components/schemas/Fonts'
+          description: Font styling properties, including family and size.
+    Fonts:
       type: object
-      description: Contains specific customer agreements for the transaction. If this is present, then the creationToken must also be present.
+      description: Defines font styling options for text displayed on the payment pages, including the list of preferred font families.
       properties:
-        storedCardUsage:
-          type: string
-          description: 'How the card is being used.
-
-            '
-          enum:
-          - first
-          - subsequent
-          x-enumDescriptions:
-            first: Use this when storing a card. Applicable when `type` is "cardOnFile" or "subscription".
-            subsequent: Use this when taking payment with a previously stored card. Only applicable for `type` "cardOnFile".
-        type:
-          type: string
-          description: 'The processing arrangement agreed with your customer.
-
-            '
-          enum:
-          - cardOnFile
-          - subscription
-          x-enumDescriptions:
-            cardOnFile: Use this for Cardholder Initiated Transactions (CITs).
-            subscription: Use this where subsequent payments are processed without the cardholder being present aka Merchant Initiated Transactions (MITs). Subsequent payments must be submitted directly through the [Payments API](/products/payments/openapi).
-      required:
-      - storedCardUsage
-      - type
-    TokenPaymentInstrument:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/PaymentInstrument'
-      - type: object
-        properties:
-          href:
+        family:
+          type: array
+          description: List of preferred font families for text on the payment page (e.g Arial, Times New Roman).
+          items:
             type: string
-            description: The URL to an Access token. We return this after token creation via the API or webhook callback.
+            description: List of preferred font families for text on the payment page (e.g Arial, Times New Roman).
+            maxLength: 50
+            minLength: 0
+          maxItems: 20
+          minItems: 0
+    Page:
+      type: object
+      description: Defines default styling for the payment page. These settings apply globally unless overridden by more specific component styles (e.g buttons, inputs).
+      properties:
+        backgroundColor:
+          type: string
+          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        border:
+          $ref: '#/components/schemas/Border'
+        color:
+          type: string
+          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        fonts:
+          $ref: '#/components/schemas/Fonts'
+    Narrative:
+      type: object
+      description: The text that appears on your customer's statement. Used to identify the merchant.
+      properties:
+        line1:
+          type: string
+          description: line1 is used to provide basic details about the merchant.
+          pattern: ^[a-zA-Z0-9\-\.\,\ ]*$
       required:
-      - href
+      - line1
+    RiskData:
+      type: object
+      description: Data used for fraud and risk protection.
+      properties:
+        account:
+          $ref: '#/components/schemas/RiskDataAccount'
+        custom:
+          $ref: '#/components/schemas/RiskDataCustom'
+        shipping:
+          $ref: '#/components/schemas/RiskDataShipping'
+        transaction:
+          $ref: '#/components/schemas/RiskDataTransaction'
+    PaymentInstrument:
+      type: object
+      description: An object that contains the payment type and details.
+      discriminator:
+        mapping:
+          card/tokenized: '#/components/schemas/TokenPaymentInstrument'
+        propertyName: type
+      properties:
+        type:
+          type: string
+          description: The type of instrument.
+      required:
       - type
+    ThreeDS:
+      type: object
+      description: An object containing 3DS authentication preferences, which you can use to turn 3DS off.
+      properties:
+        type:
+          type: string
+          description: The 3DS type.
+          enum:
+          - disabled
     HostedProperties:
       type: object
       description: Add properties customization to allow merchants to specify the look of the payment page.
@@ -1033,145 +1097,151 @@ components:
         validation:
           $ref: '#/components/schemas/Validation'
           description: Custom styling for validation messages on input fields.
-    RiskDataTransactionHistory:
+    RiskDataCustom:
       type: object
-      description: Object containing details of the last transaction.
+      description: An object containing all data that can be used to configure manual fraud rules.
       properties:
-        addCardsLastDay:
-          type: integer
-          format: int32
-          description: Number of attempts to add a card in the last 24hrs.
-          maximum: 999
-          minimum: 0
-        attemptsLastDay:
-          type: integer
-          format: int32
-          description: Number of transactions (successful or abandoned) for this cardholder account within the last 24 hours.
-          maximum: 999
-          minimum: 0
-        attemptsLastYear:
-          type: integer
-          format: int32
-          description: Number of transactions (successful or abandoned) for this cardholder account within the last year.
-          maximum: 999
-          minimum: 0
-        completedLastSixMonths:
-          type: integer
-          format: int32
-          description: Number of purchases with this customer account during the previous six months.
-          maximum: 9999
-          minimum: 0
-        shippingAddressFirstUsedAt:
+        number1:
           type: string
-          description: The ISO 8601 date of when the shipping address, used for this transaction, was first used.
-          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
-    BillingAddress:
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number2:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number3:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number4:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number5:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number6:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number7:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number8:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        number9:
+          type: string
+          description: Custom numeric value you can use to configure manual fraud rules.
+        string1:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string2:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string3:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string4:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string5:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string6:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string7:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string8:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+        string9:
+          type: string
+          description: Custom string value you can use to configure manual fraud rules.
+    AwpApiErrorResponse:
       type: object
-      description: An object containing the billing address information.
       properties:
-        address1:
+        errorName:
           type: string
-          description: Address line 1.
-          maxLength: 85
-          minLength: 0
-        address2:
+        message:
           type: string
-          description: Address line 2.
-          maxLength: 85
-          minLength: 0
-        address3:
-          type: string
-          description: Address line 3.
-          maxLength: 85
-          minLength: 0
-        city:
-          type: string
-          description: Address city.
-          maxLength: 50
-          minLength: 0
-        countryCode:
-          type: string
-          description: The supported ISO 3166-1 alpha-2 country code.
-        firstName:
-          type: string
-          description: The customer's first name.
-          maxLength: 22
-          minLength: 1
-        lastName:
-          type: string
-          description: The customer's last name.
-          maxLength: 22
-          minLength: 1
-        postalCode:
-          type: string
-          description: 'Required for all countries except the following: * IE'
-          maxLength: 15
-          minLength: 0
-        state:
-          type: string
-          description: Address state or region.
-          maxLength: 50
-          minLength: 0
-    ResultURLs:
+    Value:
       type: object
-      description: An object containing the different URLs we redirect your customers to when we receive the payment result. We recommend that you provide us with your custom result URLs.
+      description: The payment amount.
       properties:
-        cancelURL:
+        amount:
+          type: integer
+          format: int64
+          description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
+          minimum: 1
+        currency:
           type: string
-          description: When your customer cancels a transaction, we redirect that customer to the cancel URL.
-        errorURL:
-          type: string
-          description: When we receive the payment result for an erroneous payment, we redirect your customer to the error URL.
-        expiryURL:
-          type: string
-          description: When a customer leaves the payment transaction uncompleted within the maximum allowed time frame, we redirect your customer to the expiry URL.
-        failureURL:
-          type: string
-          description: When a payment fails, we redirect your customer to the failure URL.
-        pendingURL:
-          type: string
-          description: When we receive the payment result for a pending payment transaction, we redirect your customer to the pending URL.
-        successURL:
-          type: string
-          description: When we receive the payment result for a successful payment, we redirect your customer to the success URL.
-    Narrative:
-      type: object
-      description: The text that appears on your customer's statement. Used to identify the merchant.
-      properties:
-        line1:
-          type: string
-          description: line1 is used to provide basic details about the merchant.
-          pattern: ^[a-zA-Z0-9\-\.\,\ ]*$
+          description: The three character currency code. See list of <a href="https://developer.worldpay.com/products/reference/useful-tables/#currency-codes">supported currencies</a>.
       required:
-      - line1
-    Border:
+      - amount
+    CustomerAgreement:
       type: object
-      description: Defines border styling options for elements on the payment page, including color, width, radius and style.
+      description: Contains specific customer agreements for the transaction. If this is present, then the creationToken must also be present.
       properties:
-        color:
+        storedCardUsage:
           type: string
-          description: 'Defines border color in hex format. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          description: 'How the card is being used.
+
+            '
+          enum:
+          - first
+          - subsequent
+          x-enumDescriptions:
+            first: Use this when storing a card. Applicable when `type` is "cardOnFile" or "subscription".
+            subsequent: Use this when taking payment with a previously stored card. Only applicable for `type` "cardOnFile".
+        type:
+          type: string
+          description: 'The processing arrangement agreed with your customer.
+
+            '
+          enum:
+          - cardOnFile
+          - subscription
+          x-enumDescriptions:
+            cardOnFile: Use this for Cardholder Initiated Transactions (CITs).
+            subscription: Use this where subsequent payments are processed without the cardholder being present aka Merchant Initiated Transactions (MITs). Subsequent payments must be submitted directly through the [Payments API](/products/payments/openapi).
+      required:
+      - storedCardUsage
+      - type
+    TransactionResponseLink:
+      type: object
+      properties:
+        href:
+          type: string
+          description: Link to query our database by `transactionReference` which gives you the `paymentId`. You can then use this to make follow on actions such as cancelling and refunding a payment.
+    FocusButtons:
+      type: object
+      description: Styles applied when the button receives focus (e.g. via keyboard navigation or user interaction).
+      properties:
+        backgroundColor:
+          type: string
+          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
           maxLength: 20
           minLength: 0
           pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        radius:
+        border:
+          $ref: '#/components/schemas/Border'
+          description: Border settings, including color, width, and style.
+        color:
           type: string
-          description: Defines border radius in pixels (0-10), must include `px` suffix.
+          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
           maxLength: 20
           minLength: 0
-          pattern: (([1-2]?[0-9])|30)px
-        style:
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        fonts:
+          $ref: '#/components/schemas/Fonts'
+    Placeholder:
+      type: object
+      description: Defines styling options for placeholder text in input fields.
+      properties:
+        color:
           type: string
-          description: 'Border style allowed values: solid, none, dotted, dashed, double.'
+          description: 'Hex color code for the placeholder text. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
           maxLength: 20
           minLength: 0
-          pattern: solid|none|dotted|dashed|double
-        width:
-          type: string
-          description: Defines border width in pixels (0-10), must include `px` suffix.
-          maxLength: 20
-          minLength: 0
-          pattern: ([0-9]|10)px
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
     RiskDataAccount:
       type: object
       description: Object containing all customer account related risk data.
@@ -1220,6 +1290,91 @@ components:
 
             '
           pattern: guestUser|registeredUser|federatedAccount|issuerCredentials|thirdPartyAuthentication|fidoAuthenticator
+    CancelOn:
+      type: object
+      description: Optional object to control skip auto-cancel behavior for CVC mismatch.
+      properties:
+        cvcNotMatched:
+          type: string
+          description: Must be `disabled` to skip auto-cancel on CVC mismatch.
+          example: disabled
+    BillingAddress:
+      type: object
+      description: An object containing the billing address information.
+      properties:
+        address1:
+          type: string
+          description: Address line 1.
+          maxLength: 85
+          minLength: 0
+        address2:
+          type: string
+          description: Address line 2.
+          maxLength: 85
+          minLength: 0
+        address3:
+          type: string
+          description: Address line 3.
+          maxLength: 85
+          minLength: 0
+        city:
+          type: string
+          description: Address city.
+          maxLength: 50
+          minLength: 0
+        countryCode:
+          type: string
+          description: The supported ISO 3166-1 alpha-2 country code.
+        firstName:
+          type: string
+          description: The customer's first name.
+          maxLength: 22
+          minLength: 1
+        lastName:
+          type: string
+          description: The customer's last name.
+          maxLength: 22
+          minLength: 1
+        postalCode:
+          type: string
+          description: 'Required for all countries except the following: * IE'
+          maxLength: 15
+          minLength: 0
+        state:
+          type: string
+          description: Address state or region.
+          maxLength: 50
+          minLength: 0
+    TokenPaymentInstrument:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/PaymentInstrument'
+      - type: object
+        properties:
+          href:
+            type: string
+            description: The URL to an Access token. We return this after token creation via the API or webhook callback.
+      required:
+      - href
+      - type
+    Links:
+      type: object
+      description: Object including a link allowing you to query our [Payment Queries API](/access/products/payment-queries) to retrieve the `paymentId` with which you can manage your payment.
+      properties:
+        self:
+          $ref: '#/components/schemas/TransactionResponseLink'
+    RiskDataGiftCardsPurchase:
+      type: object
+      description: Provided when the order is being used to purchase a gift card.
+      properties:
+        quantity:
+          type: integer
+          format: int32
+          description: The number of gift cards being purchased.
+          maximum: 99
+          minimum: 1
+        totalValue:
+          $ref: '#/components/schemas/RiskDataTotalValue'
     FocusableButtons:
       type: object
       description: Defines hover and focus styling for buttons on the HPP page.
@@ -1247,26 +1402,68 @@ components:
         hover:
           $ref: '#/components/schemas/HoverButtons'
           description: Styles applied when the button is hovered over by a pointing device(where supported).
-    Value:
+    Border:
       type: object
-      description: The payment amount.
+      description: Defines border styling options for elements on the payment page, including color, width, radius and style.
       properties:
-        amount:
-          type: integer
-          format: int64
-          description: The payment amount. This is a whole number with an exponent e.g. if exponent is two, 250 is 2.50.
-          minimum: 1
-        currency:
+        color:
           type: string
-          description: The three character currency code. See list of <a href="https://developer.worldpay.com/products/reference/useful-tables/#currency-codes">supported currencies</a>.
-      required:
-      - amount
-    TransactionResponseLink:
+          description: 'Defines border color in hex format. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        radius:
+          type: string
+          description: Defines border radius in pixels (0-10), must include `px` suffix.
+          maxLength: 20
+          minLength: 0
+          pattern: (([1-2]?[0-9])|30)px
+        style:
+          type: string
+          description: 'Border style allowed values: solid, none, dotted, dashed, double.'
+          maxLength: 20
+          minLength: 0
+          pattern: solid|none|dotted|dashed|double
+        width:
+          type: string
+          description: Defines border width in pixels (0-10), must include `px` suffix.
+          maxLength: 20
+          minLength: 0
+          pattern: ([0-9]|10)px
+    Customisation:
       type: object
+      description: Add CSS options for each payment to customize the look and feel of the payment page.
       properties:
-        href:
+        backgroundColor:
           type: string
-          description: Link to query our database by `transactionReference` which gives you the `paymentId`. You can then use this to make follow on actions such as cancelling and refunding a payment.
+          description: 'Background color for the payment page in hex format. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        buttons:
+          $ref: '#/components/schemas/FocusableButtons'
+        color:
+          type: string
+          description: 'Text color for the payment page in hex format. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        fonts:
+          $ref: '#/components/schemas/Fonts'
+        inputs:
+          $ref: '#/components/schemas/FocusableInputs'
+        page:
+          $ref: '#/components/schemas/Page'
+    ValidationStatus:
+      type: object
+      description: Styling properties for validation status messages, defining colors for success or error states.
+      properties:
+        color:
+          type: string
+          description: 'Hex color code defining the style of the validation messages. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
+          maxLength: 20
+          minLength: 0
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
     Merchant:
       type: object
       description: An object that contains information about the merchant.
@@ -1279,14 +1476,14 @@ components:
           pattern: ^([A-Za-z0-9]+[A-Za-z0-9 ]*)?$
       required:
       - entity
-    CancelOn:
+    Validation:
       type: object
-      description: Optional object to control skip auto-cancel behavior for CVC mismatch.
+      description: Styling properties for validation messages in input fields, including success and error indicators.
       properties:
-        cvcNotMatched:
-          type: string
-          description: Must be `disabled` to skip auto-cancel on CVC mismatch.
-          example: disabled
+        error:
+          $ref: '#/components/schemas/ValidationStatus'
+        ok:
+          $ref: '#/components/schemas/ValidationStatus'
     Transaction:
       type: object
       description: The request used to setup a new HPP URL.
@@ -1394,6 +1591,34 @@ components:
       - narrative
       - transactionReference
       - value
+    RiskDataHistory:
+      type: object
+      description: History of the customer's account.
+      properties:
+        createdAt:
+          type: string
+          description: The ISO 8601 date of when the customer's account was created.
+          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
+        modifiedAt:
+          type: string
+          description: The ISO 8601 date of when the customer's account was last modified.
+          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
+        passwordModifiedAt:
+          type: string
+          description: The ISO 8601 date of when the customer's account password was last modified.
+          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
+        paymentAccountEnrolledAt:
+          type: string
+          description: The ISO 8601 date of when the payment account was added to the customer's account.
+          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
+    Fraud:
+      type: object
+      properties:
+        type:
+          type: string
+          description: You can use this to disable FraudSight for this request.
+          enum:
+          - disabled
     RiskDataTransaction:
       type: object
       description: Object containing all customer transaction related risk data.
@@ -1425,121 +1650,65 @@ components:
         reorder:
           type: boolean
           description: Indicates whether this transaction is a reorder of a previous order.
-    PaymentInstrument:
+    RiskDataTotalValue:
       type: object
-      description: An object that contains the payment type and details.
-      discriminator:
-        mapping:
-          card/tokenized: '#/components/schemas/TokenPaymentInstrument'
-        propertyName: type
+      description: The payment amount.
       properties:
-        type:
+        amount:
+          type: integer
+          format: int32
+          description: The amount being placed on the gift card.
+          minimum: 0
+        currency:
           type: string
-          description: The type of instrument.
+          description: The three character currency code. See list of <a href="https://developer.worldpay.com/products/reference/useful-tables/#currency-codes">supported currencies</a>.
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]{3}$
       required:
-      - type
-    FocusButtons:
+      - amount
+      - currency
+    RiskDataTransactionHistory:
       type: object
-      description: Styles applied when the button receives focus (e.g. via keyboard navigation or user interaction).
+      description: Object containing details of the last transaction.
       properties:
-        backgroundColor:
+        addCardsLastDay:
+          type: integer
+          format: int32
+          description: Number of attempts to add a card in the last 24hrs.
+          maximum: 999
+          minimum: 0
+        attemptsLastDay:
+          type: integer
+          format: int32
+          description: Number of transactions (successful or abandoned) for this cardholder account within the last 24 hours.
+          maximum: 999
+          minimum: 0
+        attemptsLastYear:
+          type: integer
+          format: int32
+          description: Number of transactions (successful or abandoned) for this cardholder account within the last year.
+          maximum: 999
+          minimum: 0
+        completedLastSixMonths:
+          type: integer
+          format: int32
+          description: Number of purchases with this customer account during the previous six months.
+          maximum: 9999
+          minimum: 0
+        shippingAddressFirstUsedAt:
           type: string
-          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        border:
-          $ref: '#/components/schemas/Border'
-          description: Border settings, including color, width, and style.
-        color:
-          type: string
-          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        fonts:
-          $ref: '#/components/schemas/Fonts'
-    RiskDataHistory:
-      type: object
-      description: History of the customer's account.
-      properties:
-        createdAt:
-          type: string
-          description: The ISO 8601 date of when the customer's account was created.
+          description: The ISO 8601 date of when the shipping address, used for this transaction, was first used.
           pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
-        modifiedAt:
-          type: string
-          description: The ISO 8601 date of when the customer's account was last modified.
-          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
-        passwordModifiedAt:
-          type: string
-          description: The ISO 8601 date of when the customer's account password was last modified.
-          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
-        paymentAccountEnrolledAt:
-          type: string
-          description: The ISO 8601 date of when the payment account was added to the customer's account.
-          pattern: ^([0-9]{4})(-)(1[0-2]|0[1-9])\2(3[01]|0[1-9]|[12][0-9])$
-    RiskData:
+    SuccessfulCreateTransactionResponse:
       type: object
-      description: Data used for fraud and risk protection.
+      description: Response for when a HPP URL is created.
       properties:
-        account:
-          $ref: '#/components/schemas/RiskDataAccount'
-        custom:
-          $ref: '#/components/schemas/RiskDataCustom'
-        shipping:
-          $ref: '#/components/schemas/RiskDataShipping'
-        transaction:
-          $ref: '#/components/schemas/RiskDataTransaction'
-    ValidationStatus:
-      type: object
-      description: Styling properties for validation status messages, defining colors for success or error states.
-      properties:
-        color:
+        _links:
+          $ref: '#/components/schemas/Links'
+        url:
           type: string
-          description: 'Hex color code defining the style of the validation messages. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-    ThreeDS:
-      type: object
-      description: An object containing 3DS authentication preferences, which you can use to turn 3DS off.
-      properties:
-        type:
-          type: string
-          description: The 3DS type.
-          enum:
-          - disabled
-    Customisation:
-      type: object
-      description: Add CSS options for each payment to customize the look and feel of the payment page.
-      properties:
-        backgroundColor:
-          type: string
-          description: 'Background color for the payment page in hex format. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        buttons:
-          $ref: '#/components/schemas/FocusableButtons'
-        color:
-          type: string
-          description: 'Text color for the payment page in hex format. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        fonts:
-          $ref: '#/components/schemas/Fonts'
-        inputs:
-          $ref: '#/components/schemas/FocusableInputs'
-        page:
-          $ref: '#/components/schemas/Page'
-    Links:
-      type: object
-      description: Object including a link allowing you to query our [Payment Queries API](/access/products/payment-queries) to retrieve the `paymentId` with which you can manage your payment.
-      properties:
-        self:
-          $ref: '#/components/schemas/TransactionResponseLink'
+          description: The URL where your customer can be redirected to, to complete their payment.
     RiskDataShippingAddress:
       type: object
       properties:
@@ -1590,113 +1759,47 @@ components:
       - city
       - countryCode
       - postalCode
-    Placeholder:
+    CreateToken:
       type: object
-      description: Defines styling options for placeholder text in input fields.
+      description: An object that instructs us to create a token for the payment details supplied.
       properties:
-        color:
+        description:
           type: string
-          description: 'Hex color code for the placeholder text. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-    RiskDataCustom:
-      type: object
-      description: An object containing all data that can be used to configure manual fraud rules.
-      properties:
-        number1:
+          description: 'A description of your token. If not supplied, a default description is created for you.  '
+          maxLength: 255
+          minLength: 1
+          pattern: ^([^&<]*)$
+        namespace:
           type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number2:
+          description: A namespace is used to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace.
+          maxLength: 64
+          minLength: 1
+        optIn:
           type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number3:
+          description: 'Used to choose how the customer could opt into their payment details being tokenized.
+
+
+            SILENT - (default value) The card details are always saved (you must already have their consent to do this)
+
+
+            NOTIFY - The card details are always saved (you must already have their consent to do this) and your customer will see this within our hosted payment pages
+
+
+            ASK - The card details are saved if your customer provides their consent. This adds a "Save payment details" tickbox to the page, which they tick to opt-in, or ignore to opt-out.
+
+            '
+          enum:
+          - SILENT
+          - NOTIFY
+          - ASK
+        type:
           type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number4:
-          type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number5:
-          type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number6:
-          type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number7:
-          type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number8:
-          type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        number9:
-          type: string
-          description: Custom numeric value you can use to configure manual fraud rules.
-        string1:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string2:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string3:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string4:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string5:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string6:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string7:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string8:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-        string9:
-          type: string
-          description: Custom string value you can use to configure manual fraud rules.
-    RiskDataGiftCardsPurchase:
-      type: object
-      description: Provided when the order is being used to purchase a gift card.
-      properties:
-        quantity:
-          type: integer
-          format: int32
-          description: The number of gift cards being purchased.
-          maximum: 99
-          minimum: 1
-        totalValue:
-          $ref: '#/components/schemas/RiskDataTotalValue'
-    Page:
-      type: object
-      description: Defines default styling for the payment page. These settings apply globally unless overridden by more specific component styles (e.g buttons, inputs).
-      properties:
-        backgroundColor:
-          type: string
-          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        border:
-          $ref: '#/components/schemas/Border'
-        color:
-          type: string
-          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        fonts:
-          $ref: '#/components/schemas/Fonts'
-    AwpApiErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
+          description: The type of token to be created.
+          enum:
+          - worldpay
+      required:
+      - optIn
+      - type
     RiskDataShipping:
       type: object
       description: Object containing all data related to how the order will be shipped.
@@ -1753,109 +1856,6 @@ components:
           type: string
           description: The timeframe to ship the purchased goods.
           pattern: electronic|twoDaysPlus|nextDay|sameDay
-    Validation:
-      type: object
-      description: Styling properties for validation messages in input fields, including success and error indicators.
-      properties:
-        error:
-          $ref: '#/components/schemas/ValidationStatus'
-        ok:
-          $ref: '#/components/schemas/ValidationStatus'
-    RiskDataTotalValue:
-      type: object
-      description: The payment amount.
-      properties:
-        amount:
-          type: integer
-          format: int32
-          description: The amount being placed on the gift card.
-          minimum: 0
-        currency:
-          type: string
-          description: The three character currency code. See list of <a href="https://developer.worldpay.com/products/reference/useful-tables/#currency-codes">supported currencies</a>.
-          maxLength: 3
-          minLength: 3
-          pattern: ^[A-Z]{3}$
-      required:
-      - amount
-      - currency
-    HoverButtons:
-      type: object
-      description: Styles applied when the button is hovered over by a pointing device (where supported).
-      properties:
-        backgroundColor:
-          type: string
-          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        border:
-          $ref: '#/components/schemas/Border'
-          description: Border settings, including color, width, and style.
-        color:
-          type: string
-          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        fonts:
-          $ref: '#/components/schemas/Fonts'
-          description: Font styling properties, including family and size.
-    Fraud:
-      type: object
-      properties:
-        type:
-          type: string
-          description: You can use this to disable FraudSight for this request.
-          enum:
-          - disabled
-    Inputs:
-      type: object
-      description: Defines custom styling options for input fields including placeholder text and validation messages.
-      properties:
-        backgroundColor:
-          type: string
-          description: 'Hex color code for background color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        border:
-          $ref: '#/components/schemas/Border'
-        color:
-          type: string
-          description: 'Hex color code for text color. You can use three digit or six digit codes (e.g. #FFO or #DD99CC).'
-          maxLength: 20
-          minLength: 0
-          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
-        fonts:
-          $ref: '#/components/schemas/Fonts'
-        placeholder:
-          $ref: '#/components/schemas/Placeholder'
-        validation:
-          $ref: '#/components/schemas/Validation'
-    Fonts:
-      type: object
-      description: Defines font styling options for text displayed on the payment pages, including the list of preferred font families.
-      properties:
-        family:
-          type: array
-          description: List of preferred font families for text on the payment page (e.g Arial, Times New Roman).
-          items:
-            type: string
-            description: List of preferred font families for text on the payment page (e.g Arial, Times New Roman).
-            maxLength: 50
-            minLength: 0
-          maxItems: 20
-          minItems: 0
-    SuccessfulCreateTransactionResponse:
-      type: object
-      description: Response for when a HPP URL is created.
-      properties:
-        _links:
-          $ref: '#/components/schemas/Links'
-        url:
-          type: string
-          description: The URL where your customer can be redirected to, to complete their payment.
   securitySchemes:
     BasicAuth:
       scheme: BasicAuth

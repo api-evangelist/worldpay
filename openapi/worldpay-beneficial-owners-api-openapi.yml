@@ -309,215 +309,6 @@ paths:
                   $ref: '#/components/examples/503'
 components:
   examples:
-    '500':
-      value:
-        errorName: internalErrorOccurred
-        message: An error occurred within the service (potentially due to an interaction with a downstream service).
-    Create_Beneficial_Owner_modular:
-      value:
-        beneficialOwnerReference: xdl12goH60
-        personalDetails:
-          title: Dr
-          firstName: John
-          middleName: Illusionet
-          lastName: Bailey
-          alias: John Smith
-          socialSecurityNumber: 333-55-6666
-          residentialStatus: nonResident
-          dateOfBirth: '1972-05-22'
-          nationality: GB
-          address:
-            address1: 200 Downing Street
-            address2: Flat 404
-            city: London
-            type: home
-            countryCode: GB
-            postalCode: SW1A 2AA
-          currentAddressLessThanThreeYears: true
-          previousHomeAddress:
-            address1: 425 Oxford Street
-            address2: Flat 101
-            city: London
-            type: home
-            countryCode: GB
-            postalCode: W1D 1LP
-        relationshipToBusiness:
-          ownershipPercentage: 10
-          director: false
-          isPrincipalOwner: false
-          position: partner
-        identityDocuments:
-        - type: passport
-          number: B98765432
-          issuingInstitution: UK Passport Office
-          issuingCountry: GB
-          validFrom: '2018-05-15'
-          validTo: '2028-05-15'
-        email: John.bailey@example.com
-        phones:
-        - number: 0205556789
-          prefix: '44'
-    '400':
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: The identified field is present when it is explicitly not allowed in the request.
-          jsonPath: $.additionalData
-    Update_Beneficial_Owner_modular:
-      value:
-        beneficialOwnerReference: uWBzL2nzx3
-        personalDetails:
-          title: Dr
-          firstName: John
-          middleName: Illusionet
-          lastName: Bailey
-          alias: John bailey
-          socialSecurityNumber: 333-55-6566
-          residentialStatus: nonResident
-          dateOfBirth: '1972-05-22'
-          nationality: GB
-          address:
-            address1: 200 Downing Street
-            address2: Flat 404
-            city: London
-            type: home
-            countryCode: GB
-            postalCode: SW1A 2AA
-          currentAddressLessThanThreeYears: true
-          previousHomeAddress:
-            address1: 200 Oxford Street
-            address2: Flat 101
-            city: London
-            type: home
-            countryCode: GB
-            postalCode: W1D 1LP
-        relationshipToBusiness:
-          ownershipPercentage: 10
-          director: false
-          isPrincipalOwner: true
-          position: partner
-        identityDocuments:
-        - type: passport
-          number: B98765432
-          issuingInstitution: UK Passport Office
-          issuingCountry: GB
-          validFrom: '2018-05-15'
-          validTo: '2028-05-15'
-        email: John.bailey@example.com
-        phones:
-        - number: 0205556789
-          prefix: '44'
-    Update_Beneficial_Owner_200_modular:
-      description: Update the beneficial owner for a party company (modular)
-      value:
-        identityVerificationState: notVerified
-        identityVerificationMethod: identityVerificationService
-        beneficialOwnerReference: Gerson337
-        beneficialOwnerId: pardPhiwdlp8VcnS8U7LHVbE0
-        personalDetails:
-          title: Dr
-          firstName: John
-          middleName: Illusionet
-          lastName: Bailey
-          alias: John Bailey
-          socialSecurityNumber: 393-55-6666
-          dateOfBirth: '1972-05-22'
-          address:
-            address1: 200 Downing Street
-            address2: Flat 404
-            city: London
-            countryCode: GB
-            postalCode: SW1A 2AA
-            type: home
-          residentialStatus: nonResident
-          nationality: GB
-          currentAddressLessThanThreeYears: true
-          previousHomeAddress:
-            address1: 200 Oxford Street
-            address2: Flat 101
-            city: London
-            countryCode: GB
-            postalCode: W1D 1LP
-            type: home
-        relationshipToBusiness:
-          ownershipPercentage: 10
-          director: false
-          isPrincipalOwner: true
-          position: partner
-        email: John.bailey@example.com
-        phones:
-        - prefix: '44'
-          number: 0205556789
-        identityDocuments:
-        - type: passport
-          number: B98765432
-          issuingInstitution: UK Passport Office
-          issuingCountry: GB
-          validFrom: '2018-05-15'
-          validTo: '2028-05-15'
-        dateTimeCreated: '2025-04-10T15:45:06.349Z'
-        version: 2
-        dateTimeUpdated: '2025-04-10T15:45:09.389Z'
-    400_Invalid_Url:
-      value:
-        errorName: urlContainsInvalidValue
-        message: The URL contains a value or values that are invalid.
-        validationErrors:
-        - errorName: fieldHasInvalidValue
-          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
-          jsonPath: $.partyId
-    Beneficial_owner_created_201_modular:
-      description: Beneficial owner for existing party type company (modular)
-      value:
-        identityVerificationState: notVerified
-        identityVerificationMethod: identityVerificationService
-        beneficialOwnerReference: owner28
-        beneficialOwnerId: parNtJbNC8_fd_HRKyQRekiN0
-        personalDetails:
-          title: Dr
-          firstName: John
-          middleName: Illusionet
-          lastName: Bailey
-          alias: John bailey
-          socialSecurityNumber: 333-55-1666
-          dateOfBirth: '1972-05-22'
-          address:
-            address1: 200 Downing Street
-            address2: Flat 404
-            city: London
-            countryCode: GB
-            postalCode: SW1A 2AA
-            type: home
-          residentialStatus: nonResident
-          nationality: GB
-          currentAddressLessThanThreeYears: true
-          previousHomeAddress:
-            address1: 425 Oxford Street
-            address2: Flat 101
-            city: London
-            countryCode: GB
-            postalCode: W1D 1LP
-            type: home
-        relationshipToBusiness:
-          ownershipPercentage: 10
-          director: false
-          isPrincipalOwner: false
-          position: partner
-        email: John.bailey@example.com
-        phones:
-        - prefix: '44'
-          number: 0205556789
-        identityDocuments:
-        - type: passport
-          number: B98765432
-          issuingInstitution: UK Passport Office
-          issuingCountry: GB
-          validFrom: '2018-05-15'
-          validTo: '2028-05-15'
-        dateTimeCreated: '2025-03-20T18:33:41.480Z'
-        version: 0
     Get_Beneficial_Owner_200_modular:
       description: Get a beneficial owner
       value:
@@ -569,11 +360,276 @@ components:
         dateTimeCreated: '2025-04-07T20:47:59.479Z'
         dateTimeUpdated: '2025-04-08T20:47:59.479Z'
         version: 1
+    Update_Beneficial_Owner_200_modular:
+      description: Update the beneficial owner for a party company (modular)
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        beneficialOwnerReference: Gerson337
+        beneficialOwnerId: pardPhiwdlp8VcnS8U7LHVbE0
+        personalDetails:
+          title: Dr
+          firstName: John
+          middleName: Illusionet
+          lastName: Bailey
+          alias: John Bailey
+          socialSecurityNumber: 393-55-6666
+          dateOfBirth: '1972-05-22'
+          address:
+            address1: 200 Downing Street
+            address2: Flat 404
+            city: London
+            countryCode: GB
+            postalCode: SW1A 2AA
+            type: home
+          residentialStatus: nonResident
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          previousHomeAddress:
+            address1: 200 Oxford Street
+            address2: Flat 101
+            city: London
+            countryCode: GB
+            postalCode: W1D 1LP
+            type: home
+        relationshipToBusiness:
+          ownershipPercentage: 10
+          director: false
+          isPrincipalOwner: true
+          position: partner
+        email: John.bailey@example.com
+        phones:
+        - prefix: '44'
+          number: 0205556789
+        identityDocuments:
+        - type: passport
+          number: B98765432
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2018-05-15'
+          validTo: '2028-05-15'
+        dateTimeCreated: '2025-04-10T15:45:06.349Z'
+        version: 2
+        dateTimeUpdated: '2025-04-10T15:45:09.389Z'
+    Update_Beneficial_Owner_modular:
+      value:
+        beneficialOwnerReference: uWBzL2nzx3
+        personalDetails:
+          title: Dr
+          firstName: John
+          middleName: Illusionet
+          lastName: Bailey
+          alias: John bailey
+          socialSecurityNumber: 333-55-6566
+          residentialStatus: nonResident
+          dateOfBirth: '1972-05-22'
+          nationality: GB
+          address:
+            address1: 200 Downing Street
+            address2: Flat 404
+            city: London
+            type: home
+            countryCode: GB
+            postalCode: SW1A 2AA
+          currentAddressLessThanThreeYears: true
+          previousHomeAddress:
+            address1: 200 Oxford Street
+            address2: Flat 101
+            city: London
+            type: home
+            countryCode: GB
+            postalCode: W1D 1LP
+        relationshipToBusiness:
+          ownershipPercentage: 10
+          director: false
+          isPrincipalOwner: true
+          position: partner
+        identityDocuments:
+        - type: passport
+          number: B98765432
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2018-05-15'
+          validTo: '2028-05-15'
+        email: John.bailey@example.com
+        phones:
+        - number: 0205556789
+          prefix: '44'
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+    Create_Beneficial_Owner_modular:
+      value:
+        beneficialOwnerReference: xdl12goH60
+        personalDetails:
+          title: Dr
+          firstName: John
+          middleName: Illusionet
+          lastName: Bailey
+          alias: John Smith
+          socialSecurityNumber: 333-55-6666
+          residentialStatus: nonResident
+          dateOfBirth: '1972-05-22'
+          nationality: GB
+          address:
+            address1: 200 Downing Street
+            address2: Flat 404
+            city: London
+            type: home
+            countryCode: GB
+            postalCode: SW1A 2AA
+          currentAddressLessThanThreeYears: true
+          previousHomeAddress:
+            address1: 425 Oxford Street
+            address2: Flat 101
+            city: London
+            type: home
+            countryCode: GB
+            postalCode: W1D 1LP
+        relationshipToBusiness:
+          ownershipPercentage: 10
+          director: false
+          isPrincipalOwner: false
+          position: partner
+        identityDocuments:
+        - type: passport
+          number: B98765432
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2018-05-15'
+          validTo: '2028-05-15'
+        email: John.bailey@example.com
+        phones:
+        - number: 0205556789
+          prefix: '44'
+    400_Invalid_Url:
+      value:
+        errorName: urlContainsInvalidValue
+        message: The URL contains a value or values that are invalid.
+        validationErrors:
+        - errorName: fieldHasInvalidValue
+          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
+          jsonPath: $.partyId
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: The identified field is present when it is explicitly not allowed in the request.
+          jsonPath: $.additionalData
+    Beneficial_owner_created_201_modular:
+      description: Beneficial owner for existing party type company (modular)
+      value:
+        identityVerificationState: notVerified
+        identityVerificationMethod: identityVerificationService
+        beneficialOwnerReference: owner28
+        beneficialOwnerId: parNtJbNC8_fd_HRKyQRekiN0
+        personalDetails:
+          title: Dr
+          firstName: John
+          middleName: Illusionet
+          lastName: Bailey
+          alias: John bailey
+          socialSecurityNumber: 333-55-1666
+          dateOfBirth: '1972-05-22'
+          address:
+            address1: 200 Downing Street
+            address2: Flat 404
+            city: London
+            countryCode: GB
+            postalCode: SW1A 2AA
+            type: home
+          residentialStatus: nonResident
+          nationality: GB
+          currentAddressLessThanThreeYears: true
+          previousHomeAddress:
+            address1: 425 Oxford Street
+            address2: Flat 101
+            city: London
+            countryCode: GB
+            postalCode: W1D 1LP
+            type: home
+        relationshipToBusiness:
+          ownershipPercentage: 10
+          director: false
+          isPrincipalOwner: false
+          position: partner
+        email: John.bailey@example.com
+        phones:
+        - prefix: '44'
+          number: 0205556789
+        identityDocuments:
+        - type: passport
+          number: B98765432
+          issuingInstitution: UK Passport Office
+          issuingCountry: GB
+          validFrom: '2018-05-15'
+          validTo: '2028-05-15'
+        dateTimeCreated: '2025-03-20T18:33:41.480Z'
+        version: 0
     '503':
       value:
         errorName: serviceUnavailable
         message: Service cannot fulfil the request even though service functions witout internal errors.
   schemas:
+    Address:
+      type: object
+      description: Object containing details about the address.
+      properties:
+        address1:
+          type: string
+          description: 'The address.
+
+
+            Must consist of at least two letters, two words, and one number.'
+          example: 1847 Kingsbury Court
+          maxLength: 35
+          minLength: 2
+        address2:
+          type: string
+          description: Line two of the address.
+          example: Unit 42
+          maxLength: 35
+          minLength: 2
+        city:
+          type: string
+          description: The city of this address.
+          example: London
+          maxLength: 35
+          minLength: 1
+        state:
+          type: string
+          description: The state of this address.
+          example: Greater London
+          maxLength: 35
+          minLength: 2
+        countryCode:
+          type: string
+          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes).
+          example: GB
+          maxLength: 2
+          minLength: 2
+        postalCode:
+          type: string
+          description: The postal code of this address.
+          example: NW9 0RR
+          maxLength: 20
+          minLength: 1
+        type:
+          type: string
+          description: Identifies the type of this address.
+          enum:
+          - home
+          - business
+          - poBox
+          - other
+          example: home
+      required:
+      - address1
+      - city
+      - countryCode
     BeneficialOwners:
       type: object
       properties:
@@ -660,6 +716,21 @@ components:
       - beneficialOwnerReference
       - personalDetails
       - relationshipToBusiness
+    ErrorResponseItem:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        jsonPath:
+          type: string
+        queryParameter:
+          type: string
+        pathParameter:
+          type: string
     ErrorResponse:
       type: object
       properties:
@@ -682,90 +753,23 @@ components:
           type: string
       readOnly: true
       title: Error Response
-    RelationshipToBusiness:
+    Phone:
       type: object
+      description: Object containing phone information.
       properties:
-        ownershipPercentage:
-          type: number
-          description: Percentage of the ownership of the beneficial owner over the company.
-          format: double
-          maximum: 100
-        director:
-          type: boolean
-          description: 'A flag indicating if the beneficial owner is also a director for the company.
-
-            '
-        isPrincipalOwner:
-          type: boolean
-          description: 'A flag indicating if the beneficial owner is also a principal owner for the company.<br>
-
-            **Note:** You can set no more than **one** beneficial owner per party record of type `company`, as principal owner.
-
-            '
-          example: true
-        position:
+        prefix:
           type: string
-          description: Type of position of the beneficial owner within the company.
-          enum:
-          - soleTrader
-          - accountant
-          - bursar
-          - chairman
-          - chairwoman
-          - chiefExecutiveOfficer
-          - clerk
-          - companySecretary
-          - creditController
-          - deputyLeader
-          - generalManager
-          - leader
-          - manager
-          - managingDirector
-          - master
-          - guarantor
-          - mayor
-          - officeManager
-          - operationsManager
-          - president
-          - principal
-          - proprietor
-          - townClerk
-          - director
-          - apportionmentAndOversight
-          - chiefExecutive
-          - complianceOversight
-          - directorUnincorporatedAssociate
-          - nonExecutiveDirector
-          - significantManagement
-          - smallFriendlySociety
-          - chairperson
-          - designatedMember
-          - secretary
-          - trustee
-          - treasurer
-          - businessRepresentative
-          - authorisedSignatory
-          - signatory
-          - technicalContact
-          - contractSignatory
-          - publicOfficer
-          - controller
-          - beneficialOwner
-          - partner
-          - shareholder
-          - chiefFinancialOfficer
-          - chiefOperatingOfficer
-          - beneficiary
-          - charitySecretary
-          - member
-          - protector
-          - settlor
-          - soleProprietor
-          - nonDesignatedMember
+          description: The dialing prefix for the phone number.
+          example: '44'
+          pattern: ^[0-9]{1,3}$
+        number:
+          type: string
+          description: The phone number, without dashes.
+          example: '4281234'
+          pattern: '[0-9]{1,20}'
       required:
-      - director
-      - ownershipPercentage
-      - position
+      - number
+      - prefix
     IdentityDocument:
       type: object
       description: An identity document.
@@ -814,94 +818,6 @@ components:
       - number
       - type
       title: identityDocument
-    Address:
-      type: object
-      description: Object containing details about the address.
-      properties:
-        address1:
-          type: string
-          description: 'The address.
-
-
-            Must consist of at least two letters, two words, and one number.'
-          example: 1847 Kingsbury Court
-          maxLength: 35
-          minLength: 2
-        address2:
-          type: string
-          description: Line two of the address.
-          example: Unit 42
-          maxLength: 35
-          minLength: 2
-        city:
-          type: string
-          description: The city of this address.
-          example: London
-          maxLength: 35
-          minLength: 1
-        state:
-          type: string
-          description: The state of this address.
-          example: Greater London
-          maxLength: 35
-          minLength: 2
-        countryCode:
-          type: string
-          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes).
-          example: GB
-          maxLength: 2
-          minLength: 2
-        postalCode:
-          type: string
-          description: The postal code of this address.
-          example: NW9 0RR
-          maxLength: 20
-          minLength: 1
-        type:
-          type: string
-          description: Identifies the type of this address.
-          enum:
-          - home
-          - business
-          - poBox
-          - other
-          example: home
-      required:
-      - address1
-      - city
-      - countryCode
-    Phone:
-      type: object
-      description: Object containing phone information.
-      properties:
-        prefix:
-          type: string
-          description: The dialing prefix for the phone number.
-          example: '44'
-          pattern: ^[0-9]{1,3}$
-        number:
-          type: string
-          description: The phone number, without dashes.
-          example: '4281234'
-          pattern: '[0-9]{1,20}'
-      required:
-      - number
-      - prefix
-    ErrorResponseItem:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-        jsonPath:
-          type: string
-        queryParameter:
-          type: string
-        pathParameter:
-          type: string
     PersonalDetailsForBeneficialOwner:
       type: object
       properties:
@@ -998,6 +914,90 @@ components:
       - firstName
       - lastName
       - title
+    RelationshipToBusiness:
+      type: object
+      properties:
+        ownershipPercentage:
+          type: number
+          description: Percentage of the ownership of the beneficial owner over the company.
+          format: double
+          maximum: 100
+        director:
+          type: boolean
+          description: 'A flag indicating if the beneficial owner is also a director for the company.
+
+            '
+        isPrincipalOwner:
+          type: boolean
+          description: 'A flag indicating if the beneficial owner is also a principal owner for the company.<br>
+
+            **Note:** You can set no more than **one** beneficial owner per party record of type `company`, as principal owner.
+
+            '
+          example: true
+        position:
+          type: string
+          description: Type of position of the beneficial owner within the company.
+          enum:
+          - soleTrader
+          - accountant
+          - bursar
+          - chairman
+          - chairwoman
+          - chiefExecutiveOfficer
+          - clerk
+          - companySecretary
+          - creditController
+          - deputyLeader
+          - generalManager
+          - leader
+          - manager
+          - managingDirector
+          - master
+          - guarantor
+          - mayor
+          - officeManager
+          - operationsManager
+          - president
+          - principal
+          - proprietor
+          - townClerk
+          - director
+          - apportionmentAndOversight
+          - chiefExecutive
+          - complianceOversight
+          - directorUnincorporatedAssociate
+          - nonExecutiveDirector
+          - significantManagement
+          - smallFriendlySociety
+          - chairperson
+          - designatedMember
+          - secretary
+          - trustee
+          - treasurer
+          - businessRepresentative
+          - authorisedSignatory
+          - signatory
+          - technicalContact
+          - contractSignatory
+          - publicOfficer
+          - controller
+          - beneficialOwner
+          - partner
+          - shareholder
+          - chiefFinancialOfficer
+          - chiefOperatingOfficer
+          - beneficiary
+          - charitySecretary
+          - member
+          - protector
+          - settlor
+          - soleProprietor
+          - nonDesignatedMember
+      required:
+      - director
+      - ownershipPercentage
+      - position
   securitySchemes:
     basicAuth:
       type: http

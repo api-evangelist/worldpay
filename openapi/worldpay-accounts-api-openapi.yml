@@ -577,7 +577,7 @@ paths:
     post:
       summary: Transfer funds between your accounts
       description: Transfer funds between your accounts.
-      operationId: ReceiveTransferRequest
+      operationId: postAccountsTransfer
       parameters:
       - name: WP-Api-Version
         in: header
@@ -696,6 +696,8 @@ paths:
                 message: InternalServerError
       tags:
       - Accounts
+      x-operation-id-source: normalized
+      x-operation-id-original: ReceiveTransferRequest
     servers:
     - url: https://try.access.worldpay.com
       description: Test (Try)
@@ -703,64 +705,21 @@ paths:
       description: Live
 components:
   schemas:
-    AccountResponse:
+    PageInformation:
       type: object
       properties:
-        entity:
-          type:
-          - string
-          - 'null'
-          description: Unique ID given during the on-boarding process.
-        accounts:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Account'
-          description: Collection of the account details
-      additionalProperties: false
-      description: The Get Account response
-    AwQueryParameterErrorModel:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        queryParameter:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-          description: Unique response code
-        message:
-          type:
-          - string
-          - 'null'
-          description: Error message
-        headerName:
-          type:
-          - string
-          - 'null'
-          description: Header Name
-        validationErrors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AwQueryParameterErrorModel'
-          description: Collection of error details
+        pageNumber:
+          type: integer
+          format: int32
+        recordsPerPage:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        totalNumberOfRecords:
+          type: integer
+          format: int32
       additionalProperties: false
     Account:
       type: object
@@ -798,37 +757,47 @@ components:
           - 'null'
           description: The status of the account.
       additionalProperties: false
-    PageInformation:
+    ErrorResponse:
       type: object
       properties:
-        pageNumber:
-          type: integer
-          format: int32
-        recordsPerPage:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-        totalNumberOfRecords:
-          type: integer
-          format: int32
-      additionalProperties: false
-    AccountByEntityResponse:
-      type: object
-      properties:
-        entity:
+        errorName:
           type:
           - string
           - 'null'
-        accounts:
+          description: Unique response code
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Header Name
+        validationErrors:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Account'
-        pagination:
-          $ref: '#/components/schemas/PageInformation'
+            $ref: '#/components/schemas/AwQueryParameterErrorModel'
+          description: Collection of error details
+      additionalProperties: false
+    AwQueryParameterErrorModel:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        queryParameter:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     BaseAccessErrorResponse:
       type: object
@@ -848,6 +817,81 @@ components:
           - string
           - 'null'
           description: Header Name
+      additionalProperties: false
+    AccountResponse:
+      type: object
+      properties:
+        entity:
+          type:
+          - string
+          - 'null'
+          description: Unique ID given during the on-boarding process.
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Account'
+          description: Collection of the account details
+      additionalProperties: false
+      description: The Get Account response
+    AccountByEntityResponse:
+      type: object
+      properties:
+        entity:
+          type:
+          - string
+          - 'null'
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Account'
+        pagination:
+          $ref: '#/components/schemas/PageInformation'
+      additionalProperties: false
+    ExtendedAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code for this endpoint.
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message.
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Error message.
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ValidationErrors'
+          description: Collection of error details. This field may be omitted from the response depending on the nature of the error.
+      additionalProperties: false
+    ValidationErrors:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        queryParameter:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     ExternalAccountStatementItemsV2:
       type: object
@@ -922,23 +966,15 @@ components:
           description: "For statement items (debits/credits) with no FX conversion involved, `originalAmount` value will be null.\n\nIn case an FX conversion is involved, then:\n\n - For debit items, `originalAmount` shows the target amount.\n - For credit items, `originalAmount` shows the source amount."
           format: double
       additionalProperties: false
-    ValidationErrors:
+    ExternalNarrativeV2:
       type: object
       properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        queryParameter:
+        line1:
           type:
           - string
           - 'null'
       additionalProperties: false
-    ExtendedAccessErrorResponse:
+    BaseAccessErrorResponse_2:
       type: object
       properties:
         errorName:
@@ -956,13 +992,6 @@ components:
           - string
           - 'null'
           description: Error message.
-        validationErrors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ValidationErrors'
-          description: Collection of error details. This field may be omitted from the response depending on the nature of the error.
       additionalProperties: false
     ExternalStatementResponseV2:
       type: object
@@ -1001,49 +1030,6 @@ components:
           description: The total number of records.
           format: int32
       additionalProperties: false
-    ExternalNarrativeV2:
-      type: object
-      properties:
-        line1:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    BaseAccessErrorResponse_2:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-          description: Unique response code for this endpoint.
-        message:
-          type:
-          - string
-          - 'null'
-          description: Error message.
-        headerName:
-          type:
-          - string
-          - 'null'
-          description: Error message.
-      additionalProperties: false
-    ValidationErrors_2:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        jsonPath:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     ExtendedAccessErrorResponse_2:
       type: object
       properties:
@@ -1062,10 +1048,7 @@ components:
           items:
             $ref: '#/components/schemas/ValidationErrors_2'
       additionalProperties: false
-    TransferResponse:
-      type: object
-      additionalProperties: false
-    BaseAccessErrorResponse_3:
+    ValidationErrors_2:
       type: object
       properties:
         errorName:
@@ -1073,6 +1056,10 @@ components:
           - string
           - 'null'
         message:
+          type:
+          - string
+          - 'null'
+        jsonPath:
           type:
           - string
           - 'null'
@@ -1115,6 +1102,21 @@ components:
           - 'null'
           description: The `quoteId` returned by the [FX API](/products/fx/create-fxquote).
           example: QuoteId
+      additionalProperties: false
+    BaseAccessErrorResponse_3:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TransferResponse:
+      type: object
       additionalProperties: false
   securitySchemes:
     BasicAuth:

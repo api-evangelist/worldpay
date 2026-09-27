@@ -700,15 +700,236 @@ paths:
                     message: Requested method is not allowed
 components:
   schemas:
-    tokens_token_500_response:
+    token_creation:
       type: object
       properties:
-        errorName:
+        paymentInstrument:
+          type: object
+          description: An object that contains the payment type and details. All sub-fields are mandatory with the exception of billingAddress (see below).
+          properties:
+            type:
+              type: string
+              description: card/front
+            cardHolderName:
+              type: string
+              maxLength: 255
+              minLength: 1
+              description: The name on your customer's card.
+            cardNumber:
+              type: string
+              maxLength: 19
+              minLength: 10
+              pattern: ^[0-9]*$
+              description: Contains your customer's card number.
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  type: integer
+                  maximum: 12
+                  minimum: 1
+                year:
+                  type: integer
+                  maximum: 9999
+                  minimum: 1
+            billingAddress:
+              required:
+              - address1
+              - postalCode
+              - city
+              - countryCode
+              type: object
+              description: Contains the billing address information.
+              properties:
+                address1:
+                  type: string
+                  maxLength: 80
+                  minLength: 1
+                postalCode:
+                  type: string
+                  maxLength: 15
+                  minLength: 1
+                city:
+                  type: string
+                  maxLength: 50
+                  minLength: 1
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                address2:
+                  maxLength: 80
+                  type: string
+                address3:
+                  maxLength: 80
+                  type: string
+                state:
+                  type: string
+                  maxLength: 30
+                  minLength: 1
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about your merchant account.
+          properties:
+            entity:
+              type: string
+              description: Identifies merchant account for billing, reporting and reconciliation. Contact your Worldpay Implementation Manager for more details.
+        description:
           type: string
-          example: tokenizationNotEnabled
-        message:
+          minLength: 1
+          maxLength: 255
+          pattern: ^[^&<]*$
+          description: A description of your token. If not supplied, a default description is created for you.
+        tokenExpiryDateTime:
           type: string
-          example: Tokenization not enabled
+          format: date-time
+          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
+        namespace:
+          type: string
+          minLength: 1
+          maxLength: 64
+          description: A reference to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace. If supplied, must not start with an underscore, must not contain spaces, '&' or '<'.
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+      required:
+      - paymentInstrument
+      - merchant
+    tokens_token_200_response:
+      required:
+      - tokenPaymentInstrument
+      - description
+      - tokenExpiryDateTime
+      - paymentInstrument
+      - _links
+      type: object
+      properties:
+        tokenPaymentInstrument:
+          type: object
+          properties:
+            type:
+              type: string
+              description: Indicating the type of this token.
+            href:
+              type: string
+              description: Link to the corresponding token.
+        tokenId:
+          maxLength: 21
+          minLength: 15
+          pattern: ^[0-9A-HJ-NP-Z]+$
+          description: Worldpay's internal identifier for a token. If supplied, must be between 15 and 21 characters, must consist of digits and upper-case characters excluding 'I' and 'O'.
+          type: string
+        description:
+          maxLength: 255
+          minLength: 1
+          pattern: ^[^&<]*$
+          type: string
+          description: A description of your token. If not supplied, a default description is created for you.
+        tokenExpiryDateTime:
+          type: string
+          format: date-time
+          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
+        namespace:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: A reference to group up to 16 cards, e.g. for one customer.
+        paymentInstrument:
+          required:
+          - cardNumber
+          - cardExpiryDate
+          type: object
+          properties:
+            cardNumber:
+              maxLength: 19
+              minLength: 10
+              pattern: ^[0-9\*]*$
+              type: string
+            cardExpiryDate:
+              required:
+              - month
+              - year
+              type: object
+              properties:
+                month:
+                  maximum: 12
+                  minimum: 1
+                  type: integer
+                year:
+                  maximum: 9999
+                  type: integer
+            type:
+              type: string
+            cardHolderName:
+              maxLength: 255
+              minLength: 1
+              type: string
+              description: The name on your customer's card.
+            bin:
+              maxLength: 6
+              minLength: 6
+              pattern: \d{6}
+              type: string
+            brand:
+              maxLength: 255
+              minLength: 1
+              type: string
+            fundingType:
+              maxLength: 7
+              minLength: 5
+              type: string
+            billingAddress:
+              required:
+              - address1
+              - postalCode
+              - city
+              - countryCode
+              type: object
+              properties:
+                address1:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                countryCode:
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]*$
+                  type: string
+                address2:
+                  type: string
+                address3:
+                  type: string
+                state:
+                  type: string
+            networkType:
+              maxLength: 255
+              minLength: 1
+              type: string
+            last4Digits:
+              maxLength: 4
+              minLength: 4
+              type: string
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+        _links:
+          title: Links
+          type: object
+          additionalProperties: true
     tokens_token_429_response:
       type: object
       properties:
@@ -718,6 +939,15 @@ components:
         message:
           type: string
           example: Maximum number of updates for this token exceeded
+    tokens_token_403_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: tooManyTokensForNamespace
+        message:
+          type: string
+          example: Too many tokens created for this namespace
     tokens_token_404_response:
       type: object
       properties:
@@ -727,6 +957,58 @@ components:
         message:
           type: string
           example: Requested resource was not found
+    tokens_token:
+      type: object
+      properties:
+        schemeTransactionReference:
+          maxLength: 56
+          minLength: 1
+          pattern: ^[a-zA-Z0-9 ]*$
+          type: string
+          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
+        cardHolderName:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: The name on your customer's card.
+        description:
+          maxLength: 255
+          minLength: 1
+          pattern: ^[^&<]*$
+          type: string
+        month:
+          maximum: 12
+          minimum: 1
+          type: integer
+        year:
+          maximum: 9999
+          type: integer
+        address1:
+          type: string
+        address2:
+          type: string
+        address3:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        countryCode:
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]*$
+          type: string
+    tokens_token_422_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: unrecognizedCardBrand
+        message:
+          type: string
+          example: The card brand is not recognized
     tokens_token_409_response:
       required:
       - tokenPaymentInstrument
@@ -895,321 +1177,6 @@ components:
           title: Links
           type: object
           additionalProperties: true
-    tokens_token_422_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          example: unrecognizedCardBrand
-        message:
-          type: string
-          example: The card brand is not recognized
-    tokens_token_405_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          example: methodNotAllowed
-        message:
-          type: string
-          example: Requested method is not allowed
-    tokens_token_200_response:
-      required:
-      - tokenPaymentInstrument
-      - description
-      - tokenExpiryDateTime
-      - paymentInstrument
-      - _links
-      type: object
-      properties:
-        tokenPaymentInstrument:
-          type: object
-          properties:
-            type:
-              type: string
-              description: Indicating the type of this token.
-            href:
-              type: string
-              description: Link to the corresponding token.
-        tokenId:
-          maxLength: 21
-          minLength: 15
-          pattern: ^[0-9A-HJ-NP-Z]+$
-          description: Worldpay's internal identifier for a token. If supplied, must be between 15 and 21 characters, must consist of digits and upper-case characters excluding 'I' and 'O'.
-          type: string
-        description:
-          maxLength: 255
-          minLength: 1
-          pattern: ^[^&<]*$
-          type: string
-          description: A description of your token. If not supplied, a default description is created for you.
-        tokenExpiryDateTime:
-          type: string
-          format: date-time
-          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
-        namespace:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: A reference to group up to 16 cards, e.g. for one customer.
-        paymentInstrument:
-          required:
-          - cardNumber
-          - cardExpiryDate
-          type: object
-          properties:
-            cardNumber:
-              maxLength: 19
-              minLength: 10
-              pattern: ^[0-9\*]*$
-              type: string
-            cardExpiryDate:
-              required:
-              - month
-              - year
-              type: object
-              properties:
-                month:
-                  maximum: 12
-                  minimum: 1
-                  type: integer
-                year:
-                  maximum: 9999
-                  type: integer
-            type:
-              type: string
-            cardHolderName:
-              maxLength: 255
-              minLength: 1
-              type: string
-              description: The name on your customer's card.
-            bin:
-              maxLength: 6
-              minLength: 6
-              pattern: \d{6}
-              type: string
-            brand:
-              maxLength: 255
-              minLength: 1
-              type: string
-            fundingType:
-              maxLength: 7
-              minLength: 5
-              type: string
-            billingAddress:
-              required:
-              - address1
-              - postalCode
-              - city
-              - countryCode
-              type: object
-              properties:
-                address1:
-                  type: string
-                postalCode:
-                  type: string
-                city:
-                  type: string
-                countryCode:
-                  maxLength: 2
-                  minLength: 2
-                  pattern: ^[A-Z]*$
-                  type: string
-                address2:
-                  type: string
-                address3:
-                  type: string
-                state:
-                  type: string
-            networkType:
-              maxLength: 255
-              minLength: 1
-              type: string
-            last4Digits:
-              maxLength: 4
-              minLength: 4
-              type: string
-        schemeTransactionReference:
-          maxLength: 56
-          minLength: 1
-          pattern: ^[a-zA-Z0-9 ]*$
-          type: string
-          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
-        _links:
-          title: Links
-          type: object
-          additionalProperties: true
-    token_creation:
-      type: object
-      properties:
-        paymentInstrument:
-          type: object
-          description: An object that contains the payment type and details. All sub-fields are mandatory with the exception of billingAddress (see below).
-          properties:
-            type:
-              type: string
-              description: card/front
-            cardHolderName:
-              type: string
-              maxLength: 255
-              minLength: 1
-              description: The name on your customer's card.
-            cardNumber:
-              type: string
-              maxLength: 19
-              minLength: 10
-              pattern: ^[0-9]*$
-              description: Contains your customer's card number.
-            cardExpiryDate:
-              required:
-              - month
-              - year
-              type: object
-              properties:
-                month:
-                  type: integer
-                  maximum: 12
-                  minimum: 1
-                year:
-                  type: integer
-                  maximum: 9999
-                  minimum: 1
-            billingAddress:
-              required:
-              - address1
-              - postalCode
-              - city
-              - countryCode
-              type: object
-              description: Contains the billing address information.
-              properties:
-                address1:
-                  type: string
-                  maxLength: 80
-                  minLength: 1
-                postalCode:
-                  type: string
-                  maxLength: 15
-                  minLength: 1
-                city:
-                  type: string
-                  maxLength: 50
-                  minLength: 1
-                countryCode:
-                  maxLength: 2
-                  minLength: 2
-                  pattern: ^[A-Z]*$
-                  type: string
-                address2:
-                  maxLength: 80
-                  type: string
-                address3:
-                  maxLength: 80
-                  type: string
-                state:
-                  type: string
-                  maxLength: 30
-                  minLength: 1
-        merchant:
-          required:
-          - entity
-          type: object
-          description: An object that contains information about your merchant account.
-          properties:
-            entity:
-              type: string
-              description: Identifies merchant account for billing, reporting and reconciliation. Contact your Worldpay Implementation Manager for more details.
-        description:
-          type: string
-          minLength: 1
-          maxLength: 255
-          pattern: ^[^&<]*$
-          description: A description of your token. If not supplied, a default description is created for you.
-        tokenExpiryDateTime:
-          type: string
-          format: date-time
-          description: The date/time after which the token is unavailable, expressed in ISO 8601 format. If not supplied, the default expiry date/time is 90 days in Try and 4 years in the Live environment.<br/><br/>We extend the expiry in Live by 4 years, if under half of the time remains on the token.
-        namespace:
-          type: string
-          minLength: 1
-          maxLength: 64
-          description: A reference to group up to 16 cards, e.g. for one customer. A card can exist in more than one namespace. If supplied, must not start with an underscore, must not contain spaces, '&' or '<'.
-        schemeTransactionReference:
-          maxLength: 56
-          minLength: 1
-          pattern: ^[a-zA-Z0-9 ]*$
-          type: string
-          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
-      required:
-      - paymentInstrument
-      - merchant
-    tokens_token:
-      type: object
-      properties:
-        schemeTransactionReference:
-          maxLength: 56
-          minLength: 1
-          pattern: ^[a-zA-Z0-9 ]*$
-          type: string
-          description: A value provided by Visa or Mastercard which tracks recurring transactions.<br/><br/><b>Note:</b> You are not normally expected to provide a value for schemeTransactionReference. If you are using the [Verified Tokens API](/products/verified-tokens/@v3/index.md) to create tokens, it is automatically included where applicable.
-        cardHolderName:
-          maxLength: 255
-          minLength: 1
-          type: string
-          description: The name on your customer's card.
-        description:
-          maxLength: 255
-          minLength: 1
-          pattern: ^[^&<]*$
-          type: string
-        month:
-          maximum: 12
-          minimum: 1
-          type: integer
-        year:
-          maximum: 9999
-          type: integer
-        address1:
-          type: string
-        address2:
-          type: string
-        address3:
-          type: string
-        postalCode:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        countryCode:
-          maxLength: 2
-          minLength: 2
-          pattern: ^[A-Z]*$
-          type: string
-    tokens_token_400_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          example: bodyDoesNotMatchSchema
-        message:
-          type: string
-          example: The json body provided does not match the expected schema
-        validationErrors:
-          type: array
-          description: Further error details
-          items:
-            type: object
-            properties:
-              errorName:
-                type: string
-                example: fieldHasInvalidValue
-              message:
-                type: string
-                example: Card expiry month too small - must be between 1 & 12
-              jsonPath:
-                type: string
-                example: $.paymentInstrument.cardExpiryDate.month
     tokens_token_201_response:
       required:
       - tokenPaymentInstrument
@@ -1336,15 +1303,48 @@ components:
           title: Links
           type: object
           additionalProperties: true
-    tokens_token_403_response:
+    tokens_token_405_response:
       type: object
       properties:
         errorName:
           type: string
-          example: tooManyTokensForNamespace
+          example: methodNotAllowed
         message:
           type: string
-          example: Too many tokens created for this namespace
+          example: Requested method is not allowed
+    tokens_token_400_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          example: The json body provided does not match the expected schema
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+                example: fieldHasInvalidValue
+              message:
+                type: string
+                example: Card expiry month too small - must be between 1 & 12
+              jsonPath:
+                type: string
+                example: $.paymentInstrument.cardExpiryDate.month
+    tokens_token_500_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          example: tokenizationNotEnabled
+        message:
+          type: string
+          example: Tokenization not enabled
   securitySchemes:
     BasicAuth:
       type: http

@@ -320,6 +320,61 @@ paths:
                 message: An unexpected error occurred.
 components:
   schemas:
+    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.GetOriginalItemResponse:
+      type: object
+      properties:
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem'
+        pagination:
+          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination'
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination:
+      required:
+      - pageNumber
+      - pageSize
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: Positive whole number indicating which page of the statement to return. Greater than 0.
+          format: int32
+        pageSize:
+          maximum: 499
+          minimum: 1
+          type: integer
+          description: Number of items listed per page.
+          format: int32
+        pageCount:
+          type: integer
+          description: Total number of pages.
+          format: int32
+        totalNumberOfRecords:
+          type: integer
+          description: Total number of items listed across all pages.
+          format: int32
+      additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem:
       required:
       - payoutRequestId
@@ -477,24 +532,6 @@ components:
           - 'null'
           description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the payout destination.
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        validationErrors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
-      additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
       type: object
       properties:
@@ -510,43 +547,6 @@ components:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination:
-      required:
-      - pageNumber
-      - pageSize
-      type: object
-      properties:
-        pageNumber:
-          type: integer
-          description: Positive whole number indicating which page of the statement to return. Greater than 0.
-          format: int32
-        pageSize:
-          maximum: 499
-          minimum: 1
-          type: integer
-          description: Number of items listed per page.
-          format: int32
-        pageCount:
-          type: integer
-          description: Total number of pages.
-          format: int32
-        totalNumberOfRecords:
-          type: integer
-          description: Total number of items listed across all pages.
-          format: int32
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.GetOriginalItemResponse:
-      type: object
-      properties:
-        items:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem'
-        pagination:
-          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination'
       additionalProperties: false
   securitySchemes:
     BasicAuth:

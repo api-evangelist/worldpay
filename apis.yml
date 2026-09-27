@@ -158,7 +158,7 @@ apis:
   baseURL: https://access.worldpay.com
   tags:
   - Alternative Payments
-  - E-Wallets
+  - Digital Wallet
   - Buy Now Pay Later
   - Local Payment Methods
   tags_raw:
@@ -166,6 +166,7 @@ apis:
   - eWallets
   - BNPL
   - Local Payment Methods
+  - E-Wallets
   properties:
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
