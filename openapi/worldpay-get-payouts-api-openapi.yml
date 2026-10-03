@@ -320,6 +320,18 @@ paths:
                 message: An unexpected error occurred.
 components:
   schemas:
+    WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.GetOriginalItemResponse:
+      type: object
+      properties:
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem'
+        pagination:
+          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination'
+      additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
       type: object
       properties:
@@ -337,18 +349,6 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.GetOriginalItemResponse:
-      type: object
-      properties:
-        items:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem'
-        pagination:
-          $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination'
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination:
       required:
@@ -374,6 +374,22 @@ components:
           type: integer
           description: Total number of items listed across all pages.
           format: int32
+      additionalProperties: false
+    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        jsonPath:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem:
       required:
@@ -531,22 +547,6 @@ components:
           - string
           - 'null'
           description: <a href="/products/reference/supported-countries-currencies#iso-country-codes">ISO 3166-1 Alpha-2 country code</a> of the payout destination.
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        jsonPath:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
   securitySchemes:
     BasicAuth:

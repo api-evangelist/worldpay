@@ -239,6 +239,53 @@ paths:
       - MoneyTransfers
 components:
   schemas:
+    _1:
+      required:
+      - billingAddress
+      - cardExpiryDate
+      - cardHolderName
+      - cardNumber
+      - type
+      type: object
+      properties:
+        billingAddress:
+          required:
+          - countryCode
+          - postalCode
+          type: object
+          properties:
+            countryCode:
+              type: string
+            postalCode:
+              type: string
+            address1:
+              type: string
+            address2:
+              type: string
+            address3:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        cardHolderName:
+          type: string
+        cardNumber:
+          type: string
+        type:
+          type: string
+        cvc:
+          type: string
     moneyTransfers_pushToCard:
       required:
       - instruction
@@ -341,68 +388,6 @@ components:
           description: A timestamp of receivedAt.
         type:
           type: string
-    moneyTransfers_query_200_response:
-      required:
-      - _links
-      - outcome
-      - receivedAt
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: outcome of moneyTransfers request.
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt.
-        type:
-          type: string
-    _1:
-      required:
-      - billingAddress
-      - cardExpiryDate
-      - cardHolderName
-      - cardNumber
-      - type
-      type: object
-      properties:
-        billingAddress:
-          required:
-          - countryCode
-          - postalCode
-          type: object
-          properties:
-            countryCode:
-              type: string
-            postalCode:
-              type: string
-            address1:
-              type: string
-            address2:
-              type: string
-            address3:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-        cardHolderName:
-          type: string
-        cardNumber:
-          type: string
-        type:
-          type: string
-        cvc:
-          type: string
     _2:
       required:
       - href
@@ -434,6 +419,21 @@ components:
             state:
               type: string
         cvc:
+          type: string
+    moneyTransfers_query_200_response:
+      required:
+      - _links
+      - outcome
+      - receivedAt
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: outcome of moneyTransfers request.
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt.
+        type:
           type: string
   securitySchemes:
     BasicAuth:

@@ -705,22 +705,6 @@ paths:
       description: Live
 components:
   schemas:
-    PageInformation:
-      type: object
-      properties:
-        pageNumber:
-          type: integer
-          format: int32
-        recordsPerPage:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-        totalNumberOfRecords:
-          type: integer
-          format: int32
-      additionalProperties: false
     Account:
       type: object
       properties:
@@ -757,32 +741,6 @@ components:
           - 'null'
           description: The status of the account.
       additionalProperties: false
-    ErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-          description: Unique response code
-        message:
-          type:
-          - string
-          - 'null'
-          description: Error message
-        headerName:
-          type:
-          - string
-          - 'null'
-          description: Header Name
-        validationErrors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AwQueryParameterErrorModel'
-          description: Collection of error details
-      additionalProperties: false
     AwQueryParameterErrorModel:
       type: object
       properties:
@@ -798,25 +756,6 @@ components:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    BaseAccessErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-          description: Unique response code
-        message:
-          type:
-          - string
-          - 'null'
-          description: Error message
-        headerName:
-          type:
-          - string
-          - 'null'
-          description: Header Name
       additionalProperties: false
     AccountResponse:
       type: object
@@ -851,6 +790,75 @@ components:
         pagination:
           $ref: '#/components/schemas/PageInformation'
       additionalProperties: false
+    ErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Header Name
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AwQueryParameterErrorModel'
+          description: Collection of error details
+      additionalProperties: false
+    BaseAccessErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Header Name
+      additionalProperties: false
+    PageInformation:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        recordsPerPage:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        totalNumberOfRecords:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ExternalNarrativeV2:
+      type: object
+      properties:
+        line1:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     ExtendedAccessErrorResponse:
       type: object
       properties:
@@ -876,22 +884,6 @@ components:
           items:
             $ref: '#/components/schemas/ValidationErrors'
           description: Collection of error details. This field may be omitted from the response depending on the nature of the error.
-      additionalProperties: false
-    ValidationErrors:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        queryParameter:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
     ExternalAccountStatementItemsV2:
       type: object
@@ -966,33 +958,6 @@ components:
           description: "For statement items (debits/credits) with no FX conversion involved, `originalAmount` value will be null.\n\nIn case an FX conversion is involved, then:\n\n - For debit items, `originalAmount` shows the target amount.\n - For credit items, `originalAmount` shows the source amount."
           format: double
       additionalProperties: false
-    ExternalNarrativeV2:
-      type: object
-      properties:
-        line1:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    BaseAccessErrorResponse_2:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-          description: Unique response code for this endpoint.
-        message:
-          type:
-          - string
-          - 'null'
-          description: Error message.
-        headerName:
-          type:
-          - string
-          - 'null'
-          description: Error message.
-      additionalProperties: false
     ExternalStatementResponseV2:
       type: object
       properties:
@@ -1030,6 +995,41 @@ components:
           description: The total number of records.
           format: int32
       additionalProperties: false
+    BaseAccessErrorResponse_2:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+          description: Unique response code for this endpoint.
+        message:
+          type:
+          - string
+          - 'null'
+          description: Error message.
+        headerName:
+          type:
+          - string
+          - 'null'
+          description: Error message.
+      additionalProperties: false
+    ValidationErrors:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        queryParameter:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     ExtendedAccessErrorResponse_2:
       type: object
       properties:
@@ -1047,22 +1047,6 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/ValidationErrors_2'
-      additionalProperties: false
-    ValidationErrors_2:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        jsonPath:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
     TransferRequest:
       required:
@@ -1111,6 +1095,22 @@ components:
           - string
           - 'null'
         message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ValidationErrors_2:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        jsonPath:
           type:
           - string
           - 'null'

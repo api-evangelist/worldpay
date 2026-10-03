@@ -235,37 +235,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    payments_events_recovery_200_response:
-      required:
-      - lastEvent
-      type: object
-      properties:
-        lastEvent:
-          type: string
-          enum:
-          - Authorized
-          - Refused
-          - Sent for Settlement
-          - Sent for Refund
-          - Send for Cancellation
-          - Refund failed
-          - Settlement failed
-          - Settled
-          - Refunded
-          - Error
-          - Expired
-          x-enumDescriptions:
-            Authorized: The payment has been approved and the funds have been reserved in your customer's account.
-            Refused: Your payment request has been declined.
-            Sent for Settlement: A request has been made to move the reserved funds in your customer's account and transfer them to your Worldpay account.
-            Sent for Refund: A request has been made to send funds back to your customer's account.
-            Sent for Cancelation: A request has been made to cancel the payment without sending it for settlement.
-            Refund failed: A refund request couldn't be processed and the funds were returned to your account.
-            Settlement failed: A settlement request couldn't be processed. Funds have not been transferred to your Worldpay account.
-            Settled: We have received the funds and are preparing to transfer them to your bank account. This event is only available in certain use cases.
-            Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
-            Error: The payment wasn't completed. You may want to reattempt the payment.
-            Expired: The authorization validity period ended before a settlement or cancel request was made.
     ErrorResponse:
       type: object
       properties:
@@ -298,6 +267,37 @@ components:
             Sent for Settlement: A request has been made to move the reserved funds in your customer's account and transfer them to your Worldpay account.
             Sent for Refund: A request has been made to send funds back to your customer's account.
             Sent for Cancellation: A request has been made to cancel the payment without sending it for settlement.
+            Refund failed: A refund request couldn't be processed and the funds were returned to your account.
+            Settlement failed: A settlement request couldn't be processed. Funds have not been transferred to your Worldpay account.
+            Settled: We have received the funds and are preparing to transfer them to your bank account. This event is only available in certain use cases.
+            Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
+            Error: The payment wasn't completed. You may want to reattempt the payment.
+            Expired: The authorization validity period ended before a settlement or cancel request was made.
+    payments_events_recovery_200_response:
+      required:
+      - lastEvent
+      type: object
+      properties:
+        lastEvent:
+          type: string
+          enum:
+          - Authorized
+          - Refused
+          - Sent for Settlement
+          - Sent for Refund
+          - Send for Cancellation
+          - Refund failed
+          - Settlement failed
+          - Settled
+          - Refunded
+          - Error
+          - Expired
+          x-enumDescriptions:
+            Authorized: The payment has been approved and the funds have been reserved in your customer's account.
+            Refused: Your payment request has been declined.
+            Sent for Settlement: A request has been made to move the reserved funds in your customer's account and transfer them to your Worldpay account.
+            Sent for Refund: A request has been made to send funds back to your customer's account.
+            Sent for Cancelation: A request has been made to cancel the payment without sending it for settlement.
             Refund failed: A refund request couldn't be processed and the funds were returned to your account.
             Settlement failed: A settlement request couldn't be processed. Funds have not been transferred to your Worldpay account.
             Settled: We have received the funds and are preparing to transfer them to your bank account. This event is only available in certain use cases.

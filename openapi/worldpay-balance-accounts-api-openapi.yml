@@ -261,17 +261,67 @@ paths:
                   $ref: '#/components/examples/503'
 components:
   examples:
-    BalanceAccount_Company_created_201_modular:
-      description: Balance account for a party of an existing company (modular)
+    Get_BalanceAccount_Company_200_modular:
+      description: Balance account for a party of type company (modular)
       value:
         currency: USD
         payoutInstrumentReference: primaryBusinessAccount
         frequency: daily
         balanceAccountId: parGWfE__Xr1F-AmY0v72fwR0
         dateTimeCreated: '2025-04-16T20:46:27.014Z'
+        dateTimeUpdated: '2025-04-17T20:46:27.014Z'
+        version: 1
+        accountNumber: '12345678'
+        nextPayoutDate: '2026-03-19'
+    Create_BalanceAccount_SoleTrader_modular:
+      value:
+        currency: USD
+        scheduledPayoutDay: friday
+        frequency: monthly
+        recurrence: first
+        payoutInstrumentReference: primaryBusinessAccount
+    Update_Balance_Account_SoleTrader_modular:
+      value:
+        currency: USD
+        payoutInstrumentReference: primaryBusinessAccount
+        scheduledPayoutDay: thursday
+        frequency: weekly
+        balanceAccountId: parApcraCq1bmBuCotAMoyss0
+        dateTimeCreated: '2025-04-16T20:46:26.852Z'
+        dateTimeUpdated: '2025-04-16T20:46:29.901Z'
+        version: 1
+        accountNumber: '12345678'
+        nextPayoutDate: '2026-03-19'
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: The identified field is present when it is explicitly not allowed in the request.
+          jsonPath: $.additionalData
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+    BalanceAccount_Person_created_201_modular:
+      description: Balance account for a party of an existing person (modular)
+      value:
+        currency: EUR
+        payoutInstrumentReference: personalCheckingAccount2
+        scheduledPayoutDay: friday
+        frequency: weekly
+        balanceAccountId: pareBH4YMkUx7MA2X7bnS4750
+        dateTimeCreated: '2025-04-16T20:46:26.727Z'
         version: 0
         accountNumber: '12345678'
         nextPayoutDate: '2026-03-19'
+    Create_BalanceAccount_Person_modular:
+      value:
+        currency: EUR
+        payoutInstrumentReference: personalCheckingAccount2
+        scheduledPayoutDay: friday
+        frequency: weekly
     Get_BalanceAccount_Person_200_modular:
       description: Balance account for a party of type person (modular)
       value:
@@ -284,50 +334,22 @@ components:
         version: 0
         accountNumber: '12345678'
         nextPayoutDate: '2026-03-19'
-    '503':
-      value:
-        errorName: serviceUnavailable
-        message: Service cannot fulfil the request even though service functions witout internal errors.
-    Get_BalanceAccount_SoleTrader_200_modular:
-      description: Balance account for a party of type sole trader (modular)
-      value:
-        currency: USD
-        payoutInstrumentReference: primaryBusinessAccount
-        scheduledPayoutDay: friday
-        frequency: monthly
-        recurrence: first
-        balanceAccountId: parApcraCq1bmBuCotAMoyss0
-        dateTimeCreated: '2025-04-16T20:46:26.852Z'
-        version: 0
-        accountNumber: '12345678'
-        nextPayoutDate: '2026-03-19'
-    400_Invalid_Url:
-      value:
-        errorName: urlContainsInvalidValue
-        message: The URL contains a value or values that are invalid.
-        validationErrors:
-        - errorName: fieldHasInvalidValue
-          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
-          jsonPath: $.partyId
     Create_BalanceAccount_Company_modular:
       value:
         currency: USD
         frequency: daily
         payoutInstrumentReference: primaryBusinessAccount
-    '400':
+    BalanceAccount_Company_created_201_modular:
+      description: Balance account for a party of an existing company (modular)
       value:
-        errorName: bodyDoesNotMatchSchema
-        message: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: The identified field is present when it is explicitly not allowed in the request.
-          jsonPath: $.additionalData
-    Create_BalanceAccount_Person_modular:
-      value:
-        currency: EUR
-        payoutInstrumentReference: personalCheckingAccount2
-        scheduledPayoutDay: friday
-        frequency: weekly
+        currency: USD
+        payoutInstrumentReference: primaryBusinessAccount
+        frequency: daily
+        balanceAccountId: parGWfE__Xr1F-AmY0v72fwR0
+        dateTimeCreated: '2025-04-16T20:46:27.014Z'
+        version: 0
+        accountNumber: '12345678'
+        nextPayoutDate: '2026-03-19'
     Update_Balance_Account_SoleTrader_200_modular:
       description: Update balance account for existing party of a sole trader (modular)
       value:
@@ -341,44 +363,17 @@ components:
         version: 2
         accountNumber: '12345678'
         nextPayoutDate: '2026-03-19'
-    '500':
-      value:
-        errorName: internalErrorOccurred
-        message: An error occurred within the service (potentially due to an interaction with a downstream service).
-    Update_Balance_Account_SoleTrader_modular:
+    Get_BalanceAccount_SoleTrader_200_modular:
+      description: Balance account for a party of type sole trader (modular)
       value:
         currency: USD
         payoutInstrumentReference: primaryBusinessAccount
-        scheduledPayoutDay: thursday
-        frequency: weekly
+        scheduledPayoutDay: friday
+        frequency: monthly
+        recurrence: first
         balanceAccountId: parApcraCq1bmBuCotAMoyss0
         dateTimeCreated: '2025-04-16T20:46:26.852Z'
-        dateTimeUpdated: '2025-04-16T20:46:29.901Z'
-        version: 1
-        accountNumber: '12345678'
-        nextPayoutDate: '2026-03-19'
-    BalanceAccount_Person_created_201_modular:
-      description: Balance account for a party of an existing person (modular)
-      value:
-        currency: EUR
-        payoutInstrumentReference: personalCheckingAccount2
-        scheduledPayoutDay: friday
-        frequency: weekly
-        balanceAccountId: pareBH4YMkUx7MA2X7bnS4750
-        dateTimeCreated: '2025-04-16T20:46:26.727Z'
         version: 0
-        accountNumber: '12345678'
-        nextPayoutDate: '2026-03-19'
-    Get_BalanceAccount_Company_200_modular:
-      description: Balance account for a party of type company (modular)
-      value:
-        currency: USD
-        payoutInstrumentReference: primaryBusinessAccount
-        frequency: daily
-        balanceAccountId: parGWfE__Xr1F-AmY0v72fwR0
-        dateTimeCreated: '2025-04-16T20:46:27.014Z'
-        dateTimeUpdated: '2025-04-17T20:46:27.014Z'
-        version: 1
         accountNumber: '12345678'
         nextPayoutDate: '2026-03-19'
     BalanceAccount_SoleTrader_created_201_modular:
@@ -394,14 +389,101 @@ components:
         version: 0
         accountNumber: '12345678'
         nextPayoutDate: '2026-03-19'
-    Create_BalanceAccount_SoleTrader_modular:
+    '503':
       value:
-        currency: USD
-        scheduledPayoutDay: friday
-        frequency: monthly
-        recurrence: first
-        payoutInstrumentReference: primaryBusinessAccount
+        errorName: serviceUnavailable
+        message: Service cannot fulfil the request even though service functions witout internal errors.
+    400_Invalid_Url:
+      value:
+        errorName: urlContainsInvalidValue
+        message: The URL contains a value or values that are invalid.
+        validationErrors:
+        - errorName: fieldHasInvalidValue
+          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
+          jsonPath: $.partyId
   schemas:
+    UpdateBalanceAccountRequest:
+      type: object
+      description: Request payload for updating a balance account.
+      properties:
+        currency:
+          type: string
+          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
+          example: GBP
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]*$
+        payoutInstrumentReference:
+          type: string
+          description: 'A reference of the `payoutInstrument` created by you. This
+
+            field holds the beneficiary bank details. Use this to direct payouts to
+
+            the relevant beneficiary. This must be unique within an entity.
+
+            '
+          example: primaryBusinessAccount
+        scheduledPayoutDay:
+          type: string
+          description: The scheduled payout day for this `balanceAccount`. You must provide this for "weekly" and "monthly" `frequency`.
+          enum:
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          example: friday
+        frequency:
+          type: string
+          description: 'Scheduled payout frequency for this `balanceAccount`:\
+
+            **daily** - payouts are processed every business day\
+
+            **weekly** - you must include `scheduledPayoutDay`\
+
+            **monthly** - you must include `scheduledPayoutDay` and `recurrence`
+
+            '
+          enum:
+          - daily
+          - weekly
+          - monthly
+          example: weekly
+        recurrence:
+          type: string
+          description: The week of the month the payout is paid out. You must provide this for "monthly" `frequency`.
+          enum:
+          - first
+          - second
+          - third
+          - fourth
+          example: first
+        balanceAccountId:
+          type: string
+          description: Unique ID created by us to identify a balance account. This is sent in the response after `balanceAccount` creation.
+        dateTimeCreated:
+          type: string
+          description: The date and time that the balance account was created, as an ISO 8601 zoned date time.
+          example: 2025-01-23T12:23:445.222Z
+        dateTimeUpdated:
+          type: string
+          description: The date and time that the balance account was last updated, as an ISO 8601 zoned date time.
+          example: 2025-01-25T02:43:499.202Z
+        version:
+          type: integer
+          format: int32
+        accountNumber:
+          type: string
+          description: The number of your balanceAccount.
+        nextPayoutDate:
+          type: string
+          format: date
+          description: The upcoming payout date of the existing schedule for this `balanceAccountId`. You can retrieve this via our GET endpoint.
+          example: '2025-02-14'
+      required:
+      - currency
+      - nextPayoutDate
+      - payoutInstrumentReference
     ErrorResponse:
       type: object
       properties:
@@ -523,88 +605,6 @@ components:
           type: string
         pathParameter:
           type: string
-    UpdateBalanceAccountRequest:
-      type: object
-      description: Request payload for updating a balance account.
-      properties:
-        currency:
-          type: string
-          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
-          example: GBP
-          maxLength: 3
-          minLength: 3
-          pattern: ^[A-Z]*$
-        payoutInstrumentReference:
-          type: string
-          description: 'A reference of the `payoutInstrument` created by you. This
-
-            field holds the beneficiary bank details. Use this to direct payouts to
-
-            the relevant beneficiary. This must be unique within an entity.
-
-            '
-          example: primaryBusinessAccount
-        scheduledPayoutDay:
-          type: string
-          description: The scheduled payout day for this `balanceAccount`. You must provide this for "weekly" and "monthly" `frequency`.
-          enum:
-          - monday
-          - tuesday
-          - wednesday
-          - thursday
-          - friday
-          example: friday
-        frequency:
-          type: string
-          description: 'Scheduled payout frequency for this `balanceAccount`:\
-
-            **daily** - payouts are processed every business day\
-
-            **weekly** - you must include `scheduledPayoutDay`\
-
-            **monthly** - you must include `scheduledPayoutDay` and `recurrence`
-
-            '
-          enum:
-          - daily
-          - weekly
-          - monthly
-          example: weekly
-        recurrence:
-          type: string
-          description: The week of the month the payout is paid out. You must provide this for "monthly" `frequency`.
-          enum:
-          - first
-          - second
-          - third
-          - fourth
-          example: first
-        balanceAccountId:
-          type: string
-          description: Unique ID created by us to identify a balance account. This is sent in the response after `balanceAccount` creation.
-        dateTimeCreated:
-          type: string
-          description: The date and time that the balance account was created, as an ISO 8601 zoned date time.
-          example: 2025-01-23T12:23:445.222Z
-        dateTimeUpdated:
-          type: string
-          description: The date and time that the balance account was last updated, as an ISO 8601 zoned date time.
-          example: 2025-01-25T02:43:499.202Z
-        version:
-          type: integer
-          format: int32
-        accountNumber:
-          type: string
-          description: The number of your balanceAccount.
-        nextPayoutDate:
-          type: string
-          format: date
-          description: The upcoming payout date of the existing schedule for this `balanceAccountId`. You can retrieve this via our GET endpoint.
-          example: '2025-02-14'
-      required:
-      - currency
-      - nextPayoutDate
-      - payoutInstrumentReference
   securitySchemes:
     basicAuth:
       type: http

@@ -255,12 +255,190 @@ paths:
                     message: Invalid access token
 components:
   schemas:
+    transactionReference:
+      maxLength: 64
+      minLength: 1
+      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
+      type: string
+      description: A unique reference for authentication. For example, e-commerce order code.
     entity:
       maxLength: 64
       minLength: 1
       pattern: ^[A-Za-z0-9 ]*$
       type: string
       description: Used to route the request in Access Worldpay, created as part of on-boarding.
+    value:
+      required:
+      - amount
+      - currency
+      type: object
+      description: An object that contains information about the value of the assessment.
+      properties:
+        amount:
+          maximum: 99999999999
+          minimum: 0
+          type: integer
+          description: The authentication amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50. You can find the relevant exponent in our [currency table](/products/reference/supported-countries-currencies#iso-currency-codes). The assessment amount should be equal to the authorization amount. We recommend you delay assessment until the amount is known, or ensure it's greater than the total transaction amount.
+        currency:
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]{3}$
+          type: string
+          description: The three digit currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
+    fraudsight_updatePayment_401_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
+    fraudsight_updateFraud:
+      required:
+      - transactionReference
+      - merchant
+      - riskProfile
+      - source
+      - sourceDate
+      - acquirerReference
+      - fraudReasonCode
+      - value
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about the merchant and API level configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        riskProfile:
+          maxLength: 2048
+          minLength: 39
+          type: string
+          format: uri
+          description: Represents the outcome of the original fraud assessment. Used to link subsequent Fraud related requests.
+        source:
+          enum:
+          - SAFE
+          - TC40
+          type: string
+          description: Source format of confirmed fraud cases.
+        sourceDate:
+          maxLength: 20
+          type: string
+          format: date-time
+          description: Date/time of source fraud file (TC40/SAFE).
+        acquirerReference:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Acquirer Reference Number (ARN) - unique value assigned to a credit or debit card transaction.
+        fraudReasonCode:
+          maxLength: 16
+          minLength: 1
+          type: string
+          description: 'Visa and Mastercard reason codes:
+
+
+            | FraudReasonCode | FraudReasonDescription                |   |   |   |
+
+            |-----------------|---------------------------------------|---|---|---|
+
+            | 00              | Lost                                  |   |   |   |
+
+            | 01              | Stolen                                |   |   |   |
+
+            | 02              | Card not received                     |   |   |   |
+
+            | 03              | Fraudulent application                |   |   |   |
+
+            | 04              | Counterfeit                           |   |   |   |
+
+            | 05              | Account Takeover                      |   |   |   |
+
+            | 06              | Cardholder not present                |   |   |   |
+
+            | 07              | Imprinting of multiple sale drafts    |   |   |   |
+
+            | 08              | Other                                 |   |   |   |
+
+            | 900             | Lost                                  |   |   |   |
+
+            | 901             | Stolen                                |   |   |   |
+
+            | 902             | Card not received                     |   |   |   |
+
+            | 903             | Fraudulent application                |   |   |   |
+
+            | 904             | Counterfeit                           |   |   |   |
+
+            | 905             | Account Takeover                      |   |   |   |
+
+            | 906             | Cardholder not present                |   |   |   |
+
+            | 907             | Imprinting of multiple sale drafts    |   |   |   |
+
+            | 908             | Other                                 |   |   |   |
+
+            | 908             | Other                                 |   |   |   |
+
+            | 919             | Other                                 |   |   |   |
+
+            | A               | Incorrect Processing                  |   |   |   |
+
+            | B               | Account or Credentials Takeover Fraud |   |   |   |'
+        value:
+          $ref: '#/components/schemas/value'
+    validation_errors:
+      type: object
+      required:
+      - errorName
+      - jsonPath
+      - message
+      properties:
+        errorName:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Unique name of the validation error.
+        jsonPath:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Location of the field in request body for which the error occurred.
+        message:
+          maxLength: 2048
+          minLength: 1
+          type: string
+          description: Error description message.
+    fraudsight_updateFraud_401_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
     fraudsight_updateChargeback_400_response:
       required:
       - message
@@ -282,6 +460,109 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/validation_errors'
+    fraudsight_updateChargeback:
+      required:
+      - transactionReference
+      - merchant
+      - riskProfile
+      - sourceDate
+      - acquirerReference
+      - chargebackReasonCode
+      - chargebackCaseReference
+      - chargebackValue
+      type: object
+      properties:
+        transactionReference:
+          $ref: '#/components/schemas/transactionReference'
+        merchant:
+          required:
+          - entity
+          type: object
+          description: An object that contains information about the merchant and API level configuration.
+          properties:
+            entity:
+              $ref: '#/components/schemas/entity'
+        riskProfile:
+          maxLength: 2048
+          minLength: 39
+          type: string
+          format: uri
+          description: Represents the outcome of the original fraud assessment. Used to link subsequent fraud related requests.
+        sourceDate:
+          maxLength: 20
+          type: string
+          format: date-time
+          description: Date/time of source fraud file (TC40/SAFE).
+        acquirerReference:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Acquirer Reference Number (ARN) - unique value assigned to a credit or debit card transaction.
+        chargebackReasonCode:
+          maxLength: 4
+          minLength: 2
+          type: string
+          description: Visa and Mastercard reason codes.
+        chargebackCaseReference:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Case reference for a specific chargeback.
+        chargebackValue:
+          required:
+          - amount
+          - currency
+          type: object
+          description: Object containing value of the chargeback transaction.
+          properties:
+            amount:
+              maximum: 999999999
+              minimum: 0
+              type: integer
+              description: The chargeback amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50.
+            currency:
+              maxLength: 3
+              minLength: 3
+              pattern: ^[A-Z]{3}$
+              type: string
+              description: The three digit currency code.
+    fraudsight_updateFraud_400_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name
+        validationErrors:
+          description: Object containing details of validation errors occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/validation_errors'
+    fraudsight_updateChargeback_401_response:
+      required:
+      - message
+      - errorName
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The error description message.
+        errorName:
+          type: string
+          maxLength: 2048
+          minLength: 1
+          description: The unique error name.
     fraudsight_updatePayment:
       required:
       - transactionReference
@@ -395,287 +676,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/validation_errors'
-    fraudsight_updateFraud_400_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name
-        validationErrors:
-          description: Object containing details of validation errors occurred.
-          type: array
-          items:
-            $ref: '#/components/schemas/validation_errors'
-    fraudsight_updateChargeback_401_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name.
-    fraudsight_updatePayment_401_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name.
-    value:
-      required:
-      - amount
-      - currency
-      type: object
-      description: An object that contains information about the value of the assessment.
-      properties:
-        amount:
-          maximum: 99999999999
-          minimum: 0
-          type: integer
-          description: The authentication amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50. You can find the relevant exponent in our [currency table](/products/reference/supported-countries-currencies#iso-currency-codes). The assessment amount should be equal to the authorization amount. We recommend you delay assessment until the amount is known, or ensure it's greater than the total transaction amount.
-        currency:
-          maxLength: 3
-          minLength: 3
-          pattern: ^[A-Z]{3}$
-          type: string
-          description: The three digit currency code. See list of [supported currencies](/products/reference/supported-countries-currencies#iso-currency-codes).
-    validation_errors:
-      type: object
-      required:
-      - errorName
-      - jsonPath
-      - message
-      properties:
-        errorName:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Unique name of the validation error.
-        jsonPath:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Location of the field in request body for which the error occurred.
-        message:
-          maxLength: 2048
-          minLength: 1
-          type: string
-          description: Error description message.
-    transactionReference:
-      maxLength: 64
-      minLength: 1
-      pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
-      type: string
-      description: A unique reference for authentication. For example, e-commerce order code.
-    fraudsight_updateFraud:
-      required:
-      - transactionReference
-      - merchant
-      - riskProfile
-      - source
-      - sourceDate
-      - acquirerReference
-      - fraudReasonCode
-      - value
-      type: object
-      properties:
-        transactionReference:
-          $ref: '#/components/schemas/transactionReference'
-        merchant:
-          required:
-          - entity
-          type: object
-          description: An object that contains information about the merchant and API level configuration.
-          properties:
-            entity:
-              $ref: '#/components/schemas/entity'
-        riskProfile:
-          maxLength: 2048
-          minLength: 39
-          type: string
-          format: uri
-          description: Represents the outcome of the original fraud assessment. Used to link subsequent Fraud related requests.
-        source:
-          enum:
-          - SAFE
-          - TC40
-          type: string
-          description: Source format of confirmed fraud cases.
-        sourceDate:
-          maxLength: 20
-          type: string
-          format: date-time
-          description: Date/time of source fraud file (TC40/SAFE).
-        acquirerReference:
-          maxLength: 128
-          minLength: 1
-          type: string
-          description: Acquirer Reference Number (ARN) - unique value assigned to a credit or debit card transaction.
-        fraudReasonCode:
-          maxLength: 16
-          minLength: 1
-          type: string
-          description: 'Visa and Mastercard reason codes:
-
-
-            | FraudReasonCode | FraudReasonDescription                |   |   |   |
-
-            |-----------------|---------------------------------------|---|---|---|
-
-            | 00              | Lost                                  |   |   |   |
-
-            | 01              | Stolen                                |   |   |   |
-
-            | 02              | Card not received                     |   |   |   |
-
-            | 03              | Fraudulent application                |   |   |   |
-
-            | 04              | Counterfeit                           |   |   |   |
-
-            | 05              | Account Takeover                      |   |   |   |
-
-            | 06              | Cardholder not present                |   |   |   |
-
-            | 07              | Imprinting of multiple sale drafts    |   |   |   |
-
-            | 08              | Other                                 |   |   |   |
-
-            | 900             | Lost                                  |   |   |   |
-
-            | 901             | Stolen                                |   |   |   |
-
-            | 902             | Card not received                     |   |   |   |
-
-            | 903             | Fraudulent application                |   |   |   |
-
-            | 904             | Counterfeit                           |   |   |   |
-
-            | 905             | Account Takeover                      |   |   |   |
-
-            | 906             | Cardholder not present                |   |   |   |
-
-            | 907             | Imprinting of multiple sale drafts    |   |   |   |
-
-            | 908             | Other                                 |   |   |   |
-
-            | 908             | Other                                 |   |   |   |
-
-            | 919             | Other                                 |   |   |   |
-
-            | A               | Incorrect Processing                  |   |   |   |
-
-            | B               | Account or Credentials Takeover Fraud |   |   |   |'
-        value:
-          $ref: '#/components/schemas/value'
-    fraudsight_updateFraud_401_response:
-      required:
-      - message
-      - errorName
-      type: object
-      properties:
-        message:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The error description message.
-        errorName:
-          type: string
-          maxLength: 2048
-          minLength: 1
-          description: The unique error name.
-    fraudsight_updateChargeback:
-      required:
-      - transactionReference
-      - merchant
-      - riskProfile
-      - sourceDate
-      - acquirerReference
-      - chargebackReasonCode
-      - chargebackCaseReference
-      - chargebackValue
-      type: object
-      properties:
-        transactionReference:
-          $ref: '#/components/schemas/transactionReference'
-        merchant:
-          required:
-          - entity
-          type: object
-          description: An object that contains information about the merchant and API level configuration.
-          properties:
-            entity:
-              $ref: '#/components/schemas/entity'
-        riskProfile:
-          maxLength: 2048
-          minLength: 39
-          type: string
-          format: uri
-          description: Represents the outcome of the original fraud assessment. Used to link subsequent fraud related requests.
-        sourceDate:
-          maxLength: 20
-          type: string
-          format: date-time
-          description: Date/time of source fraud file (TC40/SAFE).
-        acquirerReference:
-          maxLength: 128
-          minLength: 1
-          type: string
-          description: Acquirer Reference Number (ARN) - unique value assigned to a credit or debit card transaction.
-        chargebackReasonCode:
-          maxLength: 4
-          minLength: 2
-          type: string
-          description: Visa and Mastercard reason codes.
-        chargebackCaseReference:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: Case reference for a specific chargeback.
-        chargebackValue:
-          required:
-          - amount
-          - currency
-          type: object
-          description: Object containing value of the chargeback transaction.
-          properties:
-            amount:
-              maximum: 999999999
-              minimum: 0
-              type: integer
-              description: The chargeback amount. This is a whole number with an exponent, e.g. if exponent is two, 250 is 2.50.
-            currency:
-              maxLength: 3
-              minLength: 3
-              pattern: ^[A-Z]{3}$
-              type: string
-              description: The three digit currency code.
   examples:
     chargeback-request:
       description: Chargeback (fraud) information provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider
@@ -691,6 +691,21 @@ components:
         chargebackValue:
           currency: GBP
           amount: 250
+    payment-request-authorized:
+      description: Authorized payment outcome details are provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider.
+      value:
+        transactionReference: Memory265-13/08/1876
+        merchant:
+          entity: default
+        riskProfile: https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
+        paymentOutcome: authorized
+        cvcResult: matched
+        avsResult:
+          address: matched
+          postcode: matched
+        authentication:
+          version: 2.1.0
+          eci: '05'
     payment-request-refused:
       description: Refusal payment outcome details are provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider
       value:
@@ -722,21 +737,6 @@ components:
         value:
           currency: GBP
           amount: 250
-    payment-request-authorized:
-      description: Authorized payment outcome details are provided to the FraudSight service. This could be from any Worldpay or 3rd party payment provider.
-      value:
-        transactionReference: Memory265-13/08/1876
-        merchant:
-          entity: default
-        riskProfile: https://access.worldpay.com/riskprofile/ewogICJ2ZXJzaW9uIiA6IDEsCiAgImtleSIgOiAxLAogICJkYXRhIiA6ICJ5d1NnSzMwYnNGZXVYalR0QUJ0QWdnT3UvK3VhcktrL3c1dCtmSFd4dUFXRmVMZUpuM0MyaEtnYnZlZEdnbGtRY1h4LzltN1pSZGVXZWRBQ1ZvTmxZdFNiZUxaSmFrZXZxenVndFQ2bG44NkpNTW5CeGJSRFVWWWY3dTd5SXVuVFJLK0NYZS9tODRkaHdTUWVnZlYyYTRCb1RaQVNKK0RpcGpmYUxkK1lETlJFclVyZ1c0TGIvOGhvNnFzbFVBU0dSem8zRVRkMEdIUTZXZ1dIT2t1UVBabUF1NXZuVFdBeGZrSEQ5SkdrT1BoV1pMMmIyZm9yNWNOMzZvWUhOY2dkT0lKdkhNMEg5TG1oRDM1RXA4T3R2WWptVmNXS25FZmtLZ0RrK09KRDNLb2pobG
-        paymentOutcome: authorized
-        cvcResult: matched
-        avsResult:
-          address: matched
-          postcode: matched
-        authentication:
-          version: 2.1.0
-          eci: '05'
   securitySchemes:
     BasicAuth:
       type: http
