@@ -272,286 +272,6 @@ paths:
                 Service Unavailable:
                   $ref: '#/components/examples/503'
 components:
-  examples:
-    Get_PayoutInstrument_Person_200_modular:
-      description: Get a payoutInstrument for a party of person  (modular)
-      value:
-        payoutInstrumentReference: personalCheckingAccount
-        payoutInstrumentId: parVID57-ep4PqX6J-25AkZk0
-        payoutInstrumentType: bankAccount
-        currency: EUR
-        dateTimeCreated: '2025-04-07T20:48:00.227Z'
-        version: 0
-        accountHolderName: Case H. Mitchell
-        swiftBic: BUKBGB22
-        bankCode: '045110'
-        accountNumber: '23198765'
-        accountType: checking
-        iban: GB892019000123456789
-        bankName: Metro Bank
-        address:
-          address1: 17 Neo-London Financial Tower
-          address2: Suite 1288
-          city: London
-          countryCode: GB
-          postalCode: EC1A 1BB
-          type: business
-        branchCode: Barclays Branch
-    Update_PayoutInstrument_Company_modular:
-      value:
-        accountHolderName: Tessier-Ashpool Systems Ltd.
-        payoutInstrumentType: bankAccount
-        swiftBic: FSFCUS33
-        bankCode: '045110'
-        branchCode: Muswell Hill Branch
-        accountNumber: '2276581'
-        accountType: savings
-        iban: GB33TASS12345678901234
-        bankName: Freeside Financial Corporation
-        payoutInstrumentReference: primaryBusinessAccount
-        currency: EUR
-        address:
-          address1: 9105 Villa Straylight
-          address2: Freeside
-          type: business
-          city: York
-          state: NA
-          countryCode: GB
-          postalCode: L502 MK54
-    Create_PayoutInstrument_SoleTrader_modular:
-      value:
-        accountHolderName: Case H. Mitchell
-        payoutInstrumentType: bankAccount
-        swiftBic: BUKBGB22
-        bankCode: '045110'
-        branchCode: Barclays Branch
-        accountNumber: '23198765'
-        accountType: checking
-        iban: GB892019000123456789
-        bankName: Metro Bank
-        payoutInstrumentReference: primaryBusinessAccount
-        currency: USD
-        address:
-          address1: 17 Neo-London Financial Tower
-          address2: Suite 1288
-          type: business
-          city: London
-          countryCode: GB
-          postalCode: EC1A 1BB
-    PayoutInstrument_Person_created_201_modular:
-      description: PayoutInstrument for a person (modular)
-      value:
-        payoutInstrumentReference: personalCheckingAccount
-        payoutInstrumentId: parF4BlVTN_zIcADcyBpXK6J0
-        payoutInstrumentType: bankAccount
-        currency: EUR
-        dateTimeCreated: '2025-04-07T20:42:24.408Z'
-        version: 0
-        accountHolderName: Case H. Mitchell
-        swiftBic: BUKBGB22
-        bankCode: '045110'
-        accountNumber: '23198765'
-        accountType: checking
-        iban: GB892019000123456789
-        bankName: Metro Bank
-        address:
-          address1: 17 Neo-London Financial Tower
-          address2: Suite 1288
-          city: London
-          countryCode: GB
-          postalCode: EC1A 1BB
-          type: business
-        branchCode: Barclays Branch
-    '400':
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: The identified field is present when it is explicitly not allowed in the request.
-          jsonPath: $.additionalData
-    '500':
-      value:
-        errorName: internalErrorOccurred
-        message: An error occurred within the service (potentially due to an interaction with a downstream service).
-    Get_PayoutInstrument_SoleTrader_200_modular:
-      description: Get a payoutInstrument for a party of soleTrader  (modular)
-      value:
-        payoutInstrumentReference: primaryBusinessAccount
-        payoutInstrumentId: partA3SpNddFfGPV0fYk_zI-0
-        payoutInstrumentType: bankAccount
-        currency: USD
-        dateTimeCreated: '2025-04-07T20:48:00.660Z'
-        version: 0
-        accountHolderName: Case H. Mitchell
-        swiftBic: BUKBGB22
-        bankCode: '045110'
-        accountNumber: '23198765'
-        accountType: checking
-        iban: GB892019000123456789
-        bankName: Metro Bank
-        address:
-          address1: 17 Neo-London Financial Tower
-          address2: Suite 1288
-          city: London
-          countryCode: GB
-          postalCode: EC1A 1BB
-          type: business
-        branchCode: Barclays Branch
-    Create_PayoutInstrument_Company_modular:
-      value:
-        accountHolderName: Tessier-Ashpool Systems Ltd.
-        payoutInstrumentType: bankAccount
-        swiftBic: FSFCUS33
-        bankCode: '045110'
-        branchCode: Muswell Hill Branch
-        accountNumber: '22765819'
-        accountType: savings
-        iban: GB33TASS12345678901234
-        bankName: Freeside Financial Corporation
-        payoutInstrumentReference: primaryBusinessAccount
-        currency: USD
-        address:
-          address1: 3 Villa Straylight
-          address2: Freeside
-          type: business
-          city: York
-          state: NA
-          countryCode: GB
-          postalCode: L502 MK54
-    Update_PayoutInstrument_Company_200_modular:
-      description: Update payout instrument for existing party of a company (modular)
-      value:
-        payoutInstrumentReference: primaryBusinessAccount
-        payoutInstrumentId: parWm7eF6Dfwry4EYQdpXSSB0
-        payoutInstrumentType: bankAccount
-        currency: EUR
-        dateTimeCreated: '2025-04-22T19:24:07.680Z'
-        dateTimeUpdated: '2025-04-22T19:24:11.462Z'
-        version: 2
-        accountHolderName: Tessier-Ashpool Systems Ltd.
-        swiftBic: FSFCUS33
-        bankCode: '045110'
-        accountNumber: '2276581'
-        accountType: savings
-        iban: GB33TASS12345678901234
-        bankName: Freeside Financial Corporation
-        address:
-          address1: 9105 Villa Straylight
-          address2: Freeside
-          city: York
-          state: NA
-          countryCode: GB
-          postalCode: L502 MK54
-          type: business
-        branchCode: Muswell Hill Branch
-    Get_PayoutInstrument_Company_200_modular:
-      description: Get a payoutInstrument for a party of company (modular)
-      value:
-        payoutInstrumentReference: primaryBusinessAccount
-        payoutInstrumentId: parRI-eYCnF_sOAK59-38hUF0
-        payoutInstrumentType: bankAccount
-        currency: USD
-        dateTimeCreated: '2025-04-24T18:22:16.393Z'
-        dateTimeUpdated: '2025-04-25T18:22:16.393Z'
-        version: 1
-        accountHolderName: Tessier-Ashpool Systems Ltd.
-        swiftBic: FSFCUS33
-        bankCode: '045110'
-        accountNumber: '22765819'
-        accountType: savings
-        iban: GB33TASS12345678901234
-        bankName: Freeside Financial Corporation
-        address:
-          address1: 3 Villa Straylight
-          address2: Freeside
-          city: York
-          state: NA
-          countryCode: GB
-          postalCode: L502 MK54
-          type: business
-        branchCode: Muswell Hill Branch
-    PayoutInstrument_SoleTrader_created_201_modular:
-      description: PayoutInstrument for a soleTrader (modular)
-      value:
-        payoutInstrumentReference: primaryBusinessAccount
-        payoutInstrumentId: parC_x1lzotG7wnqx1_Den9E0
-        payoutInstrumentType: bankAccount
-        currency: USD
-        dateTimeCreated: '2025-04-07T20:42:24.759Z'
-        version: 0
-        accountHolderName: Case H. Mitchell
-        swiftBic: BUKBGB22
-        bankCode: '045110'
-        accountNumber: '23198765'
-        accountType: checking
-        iban: GB892019000123456789
-        bankName: Metro Bank
-        address:
-          address1: 17 Neo-London Financial Tower
-          address2: Suite 1288
-          city: London
-          countryCode: GB
-          postalCode: EC1A 1BB
-          type: business
-        branchCode: Barclays Branch
-    Create_PayoutInstrument_Person_modular:
-      value:
-        accountHolderName: Case H. Mitchell
-        payoutInstrumentType: bankAccount
-        swiftBic: BUKBGB22
-        bankCode: '045110'
-        branchCode: Barclays Branch
-        accountNumber: '23198765'
-        accountType: checking
-        iban: GB892019000123456789
-        bankName: Metro Bank
-        payoutInstrumentReference: personalCheckingAccount
-        currency: EUR
-        address:
-          address1: 17 Neo-London Financial Tower
-          address2: Suite 1288
-          type: business
-          city: London
-          countryCode: GB
-          postalCode: EC1A 1BB
-    PayoutInstrument_Company_created_201_modular:
-      description: PayoutInstrument for a company (modular)
-      value:
-        payoutInstrumentReference: primaryBusinessAccount
-        payoutInstrumentId: parbLmHCft8cLP8XXsay63fQ0
-        payoutInstrumentType: bankAccount
-        currency: USD
-        dateTimeCreated: '2025-04-24T18:05:41.525Z'
-        version: 0
-        accountHolderName: Tessier-Ashpool Systems Ltd.
-        swiftBic: FSFCUS33
-        bankCode: '045110'
-        accountNumber: '22765819'
-        accountType: savings
-        iban: GB33TASS12345678901234
-        bankName: Freeside Financial Corporation
-        address:
-          address1: 3 Villa Straylight
-          address2: Freeside
-          city: York
-          state: NA
-          countryCode: GB
-          postalCode: L502 MK54
-          type: business
-        branchCode: Muswell Hill Branch
-    '503':
-      value:
-        errorName: serviceUnavailable
-        message: Service cannot fulfil the request even though service functions witout internal errors.
-    400_Invalid_Url:
-      value:
-        errorName: urlContainsInvalidValue
-        message: The URL contains a value or values that are invalid.
-        validationErrors:
-        - errorName: fieldHasInvalidValue
-          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
-          jsonPath: $.partyId
   schemas:
     NanoId:
       type: object
@@ -560,6 +280,125 @@ components:
           type: string
         nanoId:
           type: string
+    Wallet:
+      type: object
+      properties:
+        payoutInstrumentReference:
+          type: string
+          description: 'A reference of the `payoutInstrument` created by you. This
+
+            field holds the beneficiary bank details. Use this to direct payouts to
+
+            the relevant beneficiary. This must be unique within an entity.
+
+            '
+          example: personalCheckingAccount
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        payoutInstrumentId:
+          type: string
+          description: An ID generated by us to identify a payout instrument. You receive this in the response after successfully creating a payout instrument.
+          example: parOk0YlPtQogrqQdz7_fKXs0
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+        payoutInstrumentType:
+          type: string
+          description: The type of the payout instrument.
+          enum:
+          - bankAccount
+          - wallet
+          - card
+        currency:
+          type: string
+          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
+          example: GBP
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]*$
+        dateTimeCreated:
+          type: string
+          description: The date and time the `payoutInstrument` was created, as an ISO 8601 zoned date time.
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time the `payoutInstrument` was updated, as an ISO 8601 zoned date time.
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+      required:
+      - currency
+    ErrorResponseItem:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        jsonPath:
+          type: string
+        queryParameter:
+          type: string
+        pathParameter:
+          type: string
+    Card:
+      type: object
+      properties:
+        payoutInstrumentReference:
+          type: string
+          description: 'A reference of the `payoutInstrument` created by you. This
+
+            field holds the beneficiary bank details. Use this to direct payouts to
+
+            the relevant beneficiary. This must be unique within an entity.
+
+            '
+          example: primaryBusinessAccount
+          maxLength: 64
+          minLength: 3
+          pattern: ^[A-Za-z0-9\-_ ]*$
+        payoutInstrumentId:
+          type: string
+          description: An ID generated by us to identify a payout instrument. You receive this in the response after successfully creating a payout instrument.
+          example: parOk0YlPtQogrqQdz7_fKXs0
+          maxLength: 25
+          minLength: 25
+          pattern: ^par[a-zA-Z0-9-_]*0$
+        payoutInstrumentType:
+          type: string
+          description: The type of the payout instrument.
+          enum:
+          - bankAccount
+          - wallet
+          - card
+        currency:
+          type: string
+          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
+          example: GBP
+          maxLength: 3
+          minLength: 3
+          pattern: ^[A-Z]*$
+        dateTimeCreated:
+          type: string
+          description: The date and time the `payoutInstrument` was created, as an ISO 8601 zoned date time.
+          readOnly: true
+        dateTimeUpdated:
+          type: string
+          description: The date and time the `payoutInstrument` was updated, as an ISO 8601 zoned date time.
+          readOnly: true
+        version:
+          type: integer
+          format: int32
+        id:
+          $ref: '#/components/schemas/NanoId'
+        token:
+          type: string
+      required:
+      - currency
     ErrorResponse:
       type: object
       properties:
@@ -582,6 +421,62 @@ components:
           type: string
       readOnly: true
       title: Error Response
+    Address:
+      type: object
+      description: Object containing details about the address.
+      properties:
+        address1:
+          type: string
+          description: 'The address.
+
+
+            Must consist of at least two letters, two words, and one number.'
+          example: 1847 Kingsbury Court
+          maxLength: 35
+          minLength: 2
+        address2:
+          type: string
+          description: Line two of the address.
+          example: Unit 42
+          maxLength: 35
+          minLength: 2
+        city:
+          type: string
+          description: The city of this address.
+          example: London
+          maxLength: 35
+          minLength: 1
+        state:
+          type: string
+          description: The state of this address.
+          example: Greater London
+          maxLength: 35
+          minLength: 2
+        countryCode:
+          type: string
+          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes).
+          example: GB
+          maxLength: 2
+          minLength: 2
+        postalCode:
+          type: string
+          description: The postal code of this address.
+          example: NW9 0RR
+          maxLength: 20
+          minLength: 1
+        type:
+          type: string
+          description: Identifies the type of this address.
+          enum:
+          - home
+          - business
+          - poBox
+          - other
+          example: home
+      required:
+      - address1
+      - city
+      - countryCode
     BankAccount:
       type: object
       properties:
@@ -659,181 +554,286 @@ components:
           type: string
       required:
       - currency
-    Address:
-      type: object
-      description: Object containing details about the address.
-      properties:
-        address1:
-          type: string
-          description: 'The address.
-
-
-            Must consist of at least two letters, two words, and one number.'
-          example: 1847 Kingsbury Court
-          maxLength: 35
-          minLength: 2
-        address2:
-          type: string
-          description: Line two of the address.
-          example: Unit 42
-          maxLength: 35
-          minLength: 2
-        city:
-          type: string
-          description: The city of this address.
-          example: London
-          maxLength: 35
-          minLength: 1
-        state:
-          type: string
-          description: The state of this address.
-          example: Greater London
-          maxLength: 35
-          minLength: 2
-        countryCode:
-          type: string
-          description: The country code specified in [ISO 3166-1 Alpha-2 code format](/products/reference/supported-countries-currencies#iso-country-codes).
-          example: GB
-          maxLength: 2
-          minLength: 2
-        postalCode:
-          type: string
-          description: The postal code of this address.
-          example: NW9 0RR
-          maxLength: 20
-          minLength: 1
-        type:
-          type: string
-          description: Identifies the type of this address.
-          enum:
-          - home
-          - business
-          - poBox
-          - other
-          example: home
-      required:
-      - address1
-      - city
-      - countryCode
-    Card:
-      type: object
-      properties:
-        payoutInstrumentReference:
-          type: string
-          description: 'A reference of the `payoutInstrument` created by you. This
-
-            field holds the beneficiary bank details. Use this to direct payouts to
-
-            the relevant beneficiary. This must be unique within an entity.
-
-            '
-          example: primaryBusinessAccount
-          maxLength: 64
-          minLength: 3
-          pattern: ^[A-Za-z0-9\-_ ]*$
-        payoutInstrumentId:
-          type: string
-          description: An ID generated by us to identify a payout instrument. You receive this in the response after successfully creating a payout instrument.
-          example: parOk0YlPtQogrqQdz7_fKXs0
-          maxLength: 25
-          minLength: 25
-          pattern: ^par[a-zA-Z0-9-_]*0$
-        payoutInstrumentType:
-          type: string
-          description: The type of the payout instrument.
-          enum:
-          - bankAccount
-          - wallet
-          - card
-        currency:
-          type: string
-          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
-          example: GBP
-          maxLength: 3
-          minLength: 3
-          pattern: ^[A-Z]*$
-        dateTimeCreated:
-          type: string
-          description: The date and time the `payoutInstrument` was created, as an ISO 8601 zoned date time.
-          readOnly: true
-        dateTimeUpdated:
-          type: string
-          description: The date and time the `payoutInstrument` was updated, as an ISO 8601 zoned date time.
-          readOnly: true
-        version:
-          type: integer
-          format: int32
-        id:
-          $ref: '#/components/schemas/NanoId'
-        token:
-          type: string
-      required:
-      - currency
-    ErrorResponseItem:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-        jsonPath:
-          type: string
-        queryParameter:
-          type: string
-        pathParameter:
-          type: string
-    Wallet:
-      type: object
-      properties:
-        payoutInstrumentReference:
-          type: string
-          description: 'A reference of the `payoutInstrument` created by you. This
-
-            field holds the beneficiary bank details. Use this to direct payouts to
-
-            the relevant beneficiary. This must be unique within an entity.
-
-            '
-          example: personalCheckingAccount
-          maxLength: 64
-          minLength: 3
-          pattern: ^[A-Za-z0-9\-_ ]*$
-        payoutInstrumentId:
-          type: string
-          description: An ID generated by us to identify a payout instrument. You receive this in the response after successfully creating a payout instrument.
-          example: parOk0YlPtQogrqQdz7_fKXs0
-          maxLength: 25
-          minLength: 25
-          pattern: ^par[a-zA-Z0-9-_]*0$
-        payoutInstrumentType:
-          type: string
-          description: The type of the payout instrument.
-          enum:
-          - bankAccount
-          - wallet
-          - card
-        currency:
-          type: string
-          description: The currency in [ISO 4217 currency format](/products/reference/supported-countries-currencies#iso-currency-codes).
-          example: GBP
-          maxLength: 3
-          minLength: 3
-          pattern: ^[A-Z]*$
-        dateTimeCreated:
-          type: string
-          description: The date and time the `payoutInstrument` was created, as an ISO 8601 zoned date time.
-          readOnly: true
-        dateTimeUpdated:
-          type: string
-          description: The date and time the `payoutInstrument` was updated, as an ISO 8601 zoned date time.
-          readOnly: true
-        version:
-          type: integer
-          format: int32
-      required:
-      - currency
+  examples:
+    '400':
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: The identified field is present when it is explicitly not allowed in the request.
+          jsonPath: $.additionalData
+    PayoutInstrument_Person_created_201_modular:
+      description: PayoutInstrument for a person (modular)
+      value:
+        payoutInstrumentReference: personalCheckingAccount
+        payoutInstrumentId: parF4BlVTN_zIcADcyBpXK6J0
+        payoutInstrumentType: bankAccount
+        currency: EUR
+        dateTimeCreated: '2025-04-07T20:42:24.408Z'
+        version: 0
+        accountHolderName: Case H. Mitchell
+        swiftBic: BUKBGB22
+        bankCode: '045110'
+        accountNumber: '23198765'
+        accountType: checking
+        iban: GB892019000123456789
+        bankName: Metro Bank
+        address:
+          address1: 17 Neo-London Financial Tower
+          address2: Suite 1288
+          city: London
+          countryCode: GB
+          postalCode: EC1A 1BB
+          type: business
+        branchCode: Barclays Branch
+    Get_PayoutInstrument_SoleTrader_200_modular:
+      description: Get a payoutInstrument for a party of soleTrader  (modular)
+      value:
+        payoutInstrumentReference: primaryBusinessAccount
+        payoutInstrumentId: partA3SpNddFfGPV0fYk_zI-0
+        payoutInstrumentType: bankAccount
+        currency: USD
+        dateTimeCreated: '2025-04-07T20:48:00.660Z'
+        version: 0
+        accountHolderName: Case H. Mitchell
+        swiftBic: BUKBGB22
+        bankCode: '045110'
+        accountNumber: '23198765'
+        accountType: checking
+        iban: GB892019000123456789
+        bankName: Metro Bank
+        address:
+          address1: 17 Neo-London Financial Tower
+          address2: Suite 1288
+          city: London
+          countryCode: GB
+          postalCode: EC1A 1BB
+          type: business
+        branchCode: Barclays Branch
+    '500':
+      value:
+        errorName: internalErrorOccurred
+        message: An error occurred within the service (potentially due to an interaction with a downstream service).
+    '503':
+      value:
+        errorName: serviceUnavailable
+        message: Service cannot fulfil the request even though service functions witout internal errors.
+    Get_PayoutInstrument_Company_200_modular:
+      description: Get a payoutInstrument for a party of company (modular)
+      value:
+        payoutInstrumentReference: primaryBusinessAccount
+        payoutInstrumentId: parRI-eYCnF_sOAK59-38hUF0
+        payoutInstrumentType: bankAccount
+        currency: USD
+        dateTimeCreated: '2025-04-24T18:22:16.393Z'
+        dateTimeUpdated: '2025-04-25T18:22:16.393Z'
+        version: 1
+        accountHolderName: Tessier-Ashpool Systems Ltd.
+        swiftBic: FSFCUS33
+        bankCode: '045110'
+        accountNumber: '22765819'
+        accountType: savings
+        iban: GB33TASS12345678901234
+        bankName: Freeside Financial Corporation
+        address:
+          address1: 3 Villa Straylight
+          address2: Freeside
+          city: York
+          state: NA
+          countryCode: GB
+          postalCode: L502 MK54
+          type: business
+        branchCode: Muswell Hill Branch
+    Update_PayoutInstrument_Company_modular:
+      value:
+        accountHolderName: Tessier-Ashpool Systems Ltd.
+        payoutInstrumentType: bankAccount
+        swiftBic: FSFCUS33
+        bankCode: '045110'
+        branchCode: Muswell Hill Branch
+        accountNumber: '2276581'
+        accountType: savings
+        iban: GB33TASS12345678901234
+        bankName: Freeside Financial Corporation
+        payoutInstrumentReference: primaryBusinessAccount
+        currency: EUR
+        address:
+          address1: 9105 Villa Straylight
+          address2: Freeside
+          type: business
+          city: York
+          state: NA
+          countryCode: GB
+          postalCode: L502 MK54
+    PayoutInstrument_SoleTrader_created_201_modular:
+      description: PayoutInstrument for a soleTrader (modular)
+      value:
+        payoutInstrumentReference: primaryBusinessAccount
+        payoutInstrumentId: parC_x1lzotG7wnqx1_Den9E0
+        payoutInstrumentType: bankAccount
+        currency: USD
+        dateTimeCreated: '2025-04-07T20:42:24.759Z'
+        version: 0
+        accountHolderName: Case H. Mitchell
+        swiftBic: BUKBGB22
+        bankCode: '045110'
+        accountNumber: '23198765'
+        accountType: checking
+        iban: GB892019000123456789
+        bankName: Metro Bank
+        address:
+          address1: 17 Neo-London Financial Tower
+          address2: Suite 1288
+          city: London
+          countryCode: GB
+          postalCode: EC1A 1BB
+          type: business
+        branchCode: Barclays Branch
+    400_Invalid_Url:
+      value:
+        errorName: urlContainsInvalidValue
+        message: The URL contains a value or values that are invalid.
+        validationErrors:
+        - errorName: fieldHasInvalidValue
+          message: Party 'parDgfhD9O5lWVjWiUOo3Cdf0' was not found.
+          jsonPath: $.partyId
+    Create_PayoutInstrument_Person_modular:
+      value:
+        accountHolderName: Case H. Mitchell
+        payoutInstrumentType: bankAccount
+        swiftBic: BUKBGB22
+        bankCode: '045110'
+        branchCode: Barclays Branch
+        accountNumber: '23198765'
+        accountType: checking
+        iban: GB892019000123456789
+        bankName: Metro Bank
+        payoutInstrumentReference: personalCheckingAccount
+        currency: EUR
+        address:
+          address1: 17 Neo-London Financial Tower
+          address2: Suite 1288
+          type: business
+          city: London
+          countryCode: GB
+          postalCode: EC1A 1BB
+    Create_PayoutInstrument_SoleTrader_modular:
+      value:
+        accountHolderName: Case H. Mitchell
+        payoutInstrumentType: bankAccount
+        swiftBic: BUKBGB22
+        bankCode: '045110'
+        branchCode: Barclays Branch
+        accountNumber: '23198765'
+        accountType: checking
+        iban: GB892019000123456789
+        bankName: Metro Bank
+        payoutInstrumentReference: primaryBusinessAccount
+        currency: USD
+        address:
+          address1: 17 Neo-London Financial Tower
+          address2: Suite 1288
+          type: business
+          city: London
+          countryCode: GB
+          postalCode: EC1A 1BB
+    PayoutInstrument_Company_created_201_modular:
+      description: PayoutInstrument for a company (modular)
+      value:
+        payoutInstrumentReference: primaryBusinessAccount
+        payoutInstrumentId: parbLmHCft8cLP8XXsay63fQ0
+        payoutInstrumentType: bankAccount
+        currency: USD
+        dateTimeCreated: '2025-04-24T18:05:41.525Z'
+        version: 0
+        accountHolderName: Tessier-Ashpool Systems Ltd.
+        swiftBic: FSFCUS33
+        bankCode: '045110'
+        accountNumber: '22765819'
+        accountType: savings
+        iban: GB33TASS12345678901234
+        bankName: Freeside Financial Corporation
+        address:
+          address1: 3 Villa Straylight
+          address2: Freeside
+          city: York
+          state: NA
+          countryCode: GB
+          postalCode: L502 MK54
+          type: business
+        branchCode: Muswell Hill Branch
+    Get_PayoutInstrument_Person_200_modular:
+      description: Get a payoutInstrument for a party of person  (modular)
+      value:
+        payoutInstrumentReference: personalCheckingAccount
+        payoutInstrumentId: parVID57-ep4PqX6J-25AkZk0
+        payoutInstrumentType: bankAccount
+        currency: EUR
+        dateTimeCreated: '2025-04-07T20:48:00.227Z'
+        version: 0
+        accountHolderName: Case H. Mitchell
+        swiftBic: BUKBGB22
+        bankCode: '045110'
+        accountNumber: '23198765'
+        accountType: checking
+        iban: GB892019000123456789
+        bankName: Metro Bank
+        address:
+          address1: 17 Neo-London Financial Tower
+          address2: Suite 1288
+          city: London
+          countryCode: GB
+          postalCode: EC1A 1BB
+          type: business
+        branchCode: Barclays Branch
+    Update_PayoutInstrument_Company_200_modular:
+      description: Update payout instrument for existing party of a company (modular)
+      value:
+        payoutInstrumentReference: primaryBusinessAccount
+        payoutInstrumentId: parWm7eF6Dfwry4EYQdpXSSB0
+        payoutInstrumentType: bankAccount
+        currency: EUR
+        dateTimeCreated: '2025-04-22T19:24:07.680Z'
+        dateTimeUpdated: '2025-04-22T19:24:11.462Z'
+        version: 2
+        accountHolderName: Tessier-Ashpool Systems Ltd.
+        swiftBic: FSFCUS33
+        bankCode: '045110'
+        accountNumber: '2276581'
+        accountType: savings
+        iban: GB33TASS12345678901234
+        bankName: Freeside Financial Corporation
+        address:
+          address1: 9105 Villa Straylight
+          address2: Freeside
+          city: York
+          state: NA
+          countryCode: GB
+          postalCode: L502 MK54
+          type: business
+        branchCode: Muswell Hill Branch
+    Create_PayoutInstrument_Company_modular:
+      value:
+        accountHolderName: Tessier-Ashpool Systems Ltd.
+        payoutInstrumentType: bankAccount
+        swiftBic: FSFCUS33
+        bankCode: '045110'
+        branchCode: Muswell Hill Branch
+        accountNumber: '22765819'
+        accountType: savings
+        iban: GB33TASS12345678901234
+        bankName: Freeside Financial Corporation
+        payoutInstrumentReference: primaryBusinessAccount
+        currency: USD
+        address:
+          address1: 3 Villa Straylight
+          address2: Freeside
+          type: business
+          city: York
+          state: NA
+          countryCode: GB
+          postalCode: L502 MK54
   securitySchemes:
     basicAuth:
       type: http

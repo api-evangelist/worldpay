@@ -499,39 +499,223 @@ paths:
       tags:
       - Payment lifecycle
 components:
-  schemas:
-    ShippingSettlement:
-      type: object
-      properties:
-        courier:
-          type: array
+  examples:
+    query-202-sentForRefund:
+      value:
+        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        lastEvent: sentForRefund
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        _actions: {}
+    payment-reversal-klarna:
+      value:
+        reference: string
+        value:
+          amount: 12
+          currency: EUR
+        order:
           items:
-            $ref: '#/components/schemas/CourierSettlement'
-    CourierSettlement:
-      type: object
-      properties:
-        trackingId:
-          type: string
-          description: If you are providing multiple entries, a 255 character total limit exists for the combined trackingId length.
-          maxLength: 100
-          minLength: 1
-    AccessApiValidationErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
+          - productCode: fff1223
+            name: Red Hat
+            quantity: 1
+            unitCost: 1234
+            totalTaxAmount: 0
+            totalAmount: 1234
+            productUrl: https://example.com
+            imageUrl: https://example.com
+          - productCode: fff1226
+            name: Red Hat
+            quantity: 1
+            unitCost: 1234
+            totalTaxAmount: 0
+            totalAmount: 1234
+            productUrl: https://example.com
+            imageUrl: https://example.com
+    response-401:
+      value:
+        errorName: unauthorized
+        message: Invalid authentication
+    query-202-sentForSettlement:
+      value:
+        paymentId: HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE
+        lastEvent: sentForSettlement
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE
+        _actions:
+          reverse:
+            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE/reversals
+            method: POST
+          partialReverse:
+            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE/reversals
+            method: POST
+    query-202-authorized:
+      value:
+        paymentId: HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4
+        lastEvent: authorized
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4
+        _actions:
+          reverse:
+            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4/reversals
+            method: POST
+          partialReverse:
+            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4/reversals
+            method: POST
+    payment-reversal:
+      value:
+        reference: string
+        value:
+          amount: 12
+          currency: AED
+    response-500:
+      value:
+        errorName: internalErrorOccurred
+        message: An internal problem occurred with your request, please try again.
+    settlement-202:
+      value:
+        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        lastEvent: sentForSettlement
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        _actions: {}
+        commandId: cmdEy5vwB0krLe9eMwAcE66c0
+    reverse-202:
+      value:
+        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        lastEvent: sentForRefund
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        _actions: {}
+        commandId: cmdfD7kJPxS4EiQhq3zCFcny0
+    confirm-payment-201:
+      value:
+        paymentId: uK9Oh5zz4yKhGuFofhhnC_h2WwCXUTVwK1Lx7OP-WOiwgLd0DJ5uYK8NLsKG-rFtM4xXFxk15W-f-R1c3u_fq6rRIVQO_lZhwklop_5RcXz35RD_4TJfbjKQAyEFQXOTgUZHQIK3iu8VcHfOiFVHyN-y7ZDRr24t7o6s_bHlZxpba-zPVQ7PG1AztEwRCfVJ
+        lastEvent: authorized
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/uK9Oh5zz4yKhGuFofhhnC_h2WwCXUTVwK1Lx7OP-WOiwgLd0DJ5uYK8NLsKG-rFtM4xXFxk15W-f-R1c3u_fq6rRIVQO_lZhwklop_5RcXz35RD_4TJfbjKQAyEFQXOTgUZHQIK3iu8VcHfOiFVHyN-y7ZDRr24t7o6s_bHlZxpba-zPVQ7PG1AztEwRCfVJ
+        _actions: {}
+    payment-settlement-klarna:
+      value:
+        reference: string
+        value:
+          amount: 12
+          currency: AED
+        shipping:
+          courier:
+          - trackingId: BBB0000000
+        order:
+          items:
+          - name: Panaphonics DH12-HK & Accessories
+            quantity: 1
+            unitCost: 12000
+            totalTaxAmount: 12000
+            totalAmount: 2000
+            productUrl: http://www.merchanturl.com/products/f2ytrdmn
+            imageUrl: http://www.merchanturl.com/products/f2ytrdmn_small.jpg
+    response-400:
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: The json body provided does not match the expected schema
         validationErrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccessApiValidationError'
-    Links:
+        - errorName: fieldHasInvalidValue
+          message: Field is mandatory
+          jsonPath: $.instruction.value.amount
+    payment-reversal-pix:
+      value:
+        reference: string
+        value:
+          amount: 12
+          currency: BRL
+        reasonCode: BE08
+    query-202-pending:
+      value:
+        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        lastEvent: pending
+        _links:
+          self:
+            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
+        _actions: {}
+    payment-settlement:
+      value:
+        reference: string
+        value:
+          amount: 12
+          currency: AED
+    response-404:
+      value:
+        errorName: paymentNotFound
+        message: Payment resource not found.
+  schemas:
+    SettlementPayload:
       type: object
-      description: Links to resources related to the request.
+      description: Settlement request
       properties:
-        self:
-          $ref: '#/components/schemas/SelfLink'
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\\-]*$
+        value:
+          $ref: '#/components/schemas/Value'
+        shipping:
+          $ref: '#/components/schemas/ShippingSettlement'
+        order:
+          $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
+      required:
+      - value
+    AccessApiValidationError:
+      description: Validation error object.
+    KlarnaNetworkOrderItemSettlement:
+      type: object
+      description: Object that contains details for one line of the order. There can be multiple object items.
+      properties:
+        productCode:
+          type: string
+          description: Your customer facing product code, e.g. SKU (Stock Keeping Unit) or similar.
+          maxLength: 255
+          minLength: 1
+          pattern: ^([a-zA-Z0-9]*)$
+        name:
+          type: string
+          description: Description or name of item e.g., “Mobile Phone”.
+          maxLength: 1024
+          minLength: 1
+          pattern: ([a-zA-Z0-9 ]*)
+        quantity:
+          type: integer
+          description: Number of items being purchased.
+          minimum: 1
+        unitCost:
+          type: integer
+          maximum: 2147483648
+          minimum: -2147483648
+          description: Cost for each unit of the item with tax included.
+        totalTaxAmount:
+          type: integer
+          description: 'How much of totalAmount is tax. If you need to work it out backwards the formula is: totalTaxAmount = totalAmount - (totalAmount / (1+(taxRate/10000))).'
+          maximum: 2147483648
+          minimum: 0
+        totalAmount:
+          type: integer
+          description: 'Sum of all chargeable elements on the line added together. Formula is: totalAmount = (unitCost x quantity) - totalDiscountAmount.'
+          minimum: -2147483648
+          maximum: 2147483648
+        productUrl:
+          type: string
+          description: Link to the product page that can later be embedded in communications between Klarna and your customer.
+          maxLength: 2048
+          minLength: 1
+        imageUrl:
+          type: string
+          description: "Link to the product image that can later be embedded in communications between Klarna and your customer.\n\n Note: we recommend you submit this to improve the post-purchase customer experience."
+          maxLength: 2048
+          minLength: 1
     Value:
       type: object
       description: The value of the payment.
@@ -698,39 +882,21 @@ components:
       required:
       - amount
       - currency
-    AccessApiValidationError:
-      description: Validation error object.
-    Reversal:
+    CourierSettlement:
       type: object
-      description: Partial reversal request
       properties:
-        reference:
+        trackingId:
           type: string
-          maxLength: 128
+          description: If you are providing multiple entries, a 255 character total limit exists for the combined trackingId length.
+          maxLength: 100
           minLength: 1
-          pattern: ^[a-zA-Z0-9\\-]*$
-        value:
-          $ref: '#/components/schemas/Value'
-        reasonCode:
-          type: string
-          description: Mandatory for Pix payment method, not relevant for other payment methods.
-          enum:
-          - BE08
-          - FR01
-          - MD06
-          - SL02
-        order:
-          $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
-      required:
-      - value
-    KlarnaNetworkOrderSettlement:
+    ShippingSettlement:
       type: object
-      description: Object that contains the complete list of lines relating to the transaction.
       properties:
-        items:
+        courier:
           type: array
           items:
-            $ref: '#/components/schemas/KlarnaNetworkOrderItemSettlement'
+            $ref: '#/components/schemas/CourierSettlement'
     ActionLinkV2:
       type: object
       description: Link to resources to reverse operation.
@@ -756,46 +922,25 @@ components:
           $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
       required:
       - value
-    PartialReversal:
+    ActionsQuery:
       type: object
-      description: Partial reversal request
       properties:
-        reference:
-          type: string
-          maxLength: 128
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\\-]*$
-        value:
-          $ref: '#/components/schemas/Value'
-        reasonCode:
-          type: string
-          description: Mandatory for Pix payment method, not relevant for other payment methods.
-          enum:
-          - BE08
-          - FR01
-          - MD06
-          - SL02
-        order:
-          $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
-      required:
-      - value
-    SettlementPayload:
+        reverse:
+          $ref: '#/components/schemas/ActionLinkV2'
+        partialReverse:
+          $ref: '#/components/schemas/ActionLinkV2'
+        settle:
+          $ref: '#/components/schemas/ActionLinkV2'
+        partialSettle:
+          $ref: '#/components/schemas/ActionLinkV2'
+    KlarnaNetworkOrderSettlement:
       type: object
-      description: Settlement request
+      description: Object that contains the complete list of lines relating to the transaction.
       properties:
-        reference:
-          type: string
-          maxLength: 128
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\\-]*$
-        value:
-          $ref: '#/components/schemas/Value'
-        shipping:
-          $ref: '#/components/schemas/ShippingSettlement'
-        order:
-          $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
-      required:
-      - value
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/KlarnaNetworkOrderItemSettlement'
     ApmPaymentResourceNoActionsSettlement:
       type: object
       description: A payment resource.
@@ -894,51 +1039,17 @@ components:
           type: object
         commandId:
           type: string
-    KlarnaNetworkOrderItemSettlement:
+    AccessApiValidationErrorResponse:
       type: object
-      description: Object that contains details for one line of the order. There can be multiple object items.
       properties:
-        productCode:
+        errorName:
           type: string
-          description: Your customer facing product code, e.g. SKU (Stock Keeping Unit) or similar.
-          maxLength: 255
-          minLength: 1
-          pattern: ^([a-zA-Z0-9]*)$
-        name:
+        message:
           type: string
-          description: Description or name of item e.g., “Mobile Phone”.
-          maxLength: 1024
-          minLength: 1
-          pattern: ([a-zA-Z0-9 ]*)
-        quantity:
-          type: integer
-          description: Number of items being purchased.
-          minimum: 1
-        unitCost:
-          type: integer
-          maximum: 2147483648
-          minimum: -2147483648
-          description: Cost for each unit of the item with tax included.
-        totalTaxAmount:
-          type: integer
-          description: 'How much of totalAmount is tax. If you need to work it out backwards the formula is: totalTaxAmount = totalAmount - (totalAmount / (1+(taxRate/10000))).'
-          maximum: 2147483648
-          minimum: 0
-        totalAmount:
-          type: integer
-          description: 'Sum of all chargeable elements on the line added together. Formula is: totalAmount = (unitCost x quantity) - totalDiscountAmount.'
-          minimum: -2147483648
-          maximum: 2147483648
-        productUrl:
-          type: string
-          description: Link to the product page that can later be embedded in communications between Klarna and your customer.
-          maxLength: 2048
-          minLength: 1
-        imageUrl:
-          type: string
-          description: "Link to the product image that can later be embedded in communications between Klarna and your customer.\n\n Note: we recommend you submit this to improve the post-purchase customer experience."
-          maxLength: 2048
-          minLength: 1
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessApiValidationError'
     AccessApiErrorResponse:
       type: object
       properties:
@@ -946,6 +1057,29 @@ components:
           type: string
         message:
           type: string
+    PartialReversal:
+      type: object
+      description: Partial reversal request
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\\-]*$
+        value:
+          $ref: '#/components/schemas/Value'
+        reasonCode:
+          type: string
+          description: Mandatory for Pix payment method, not relevant for other payment methods.
+          enum:
+          - BE08
+          - FR01
+          - MD06
+          - SL02
+        order:
+          $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
+      required:
+      - value
     ApmPaymentResourceQuery:
       type: object
       description: A payment resource.
@@ -993,175 +1127,41 @@ components:
           $ref: '#/components/schemas/Links'
         _actions:
           $ref: '#/components/schemas/ActionsQuery'
+    Reversal:
+      type: object
+      description: Partial reversal request
+      properties:
+        reference:
+          type: string
+          maxLength: 128
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\\-]*$
+        value:
+          $ref: '#/components/schemas/Value'
+        reasonCode:
+          type: string
+          description: Mandatory for Pix payment method, not relevant for other payment methods.
+          enum:
+          - BE08
+          - FR01
+          - MD06
+          - SL02
+        order:
+          $ref: '#/components/schemas/KlarnaNetworkOrderSettlement'
+      required:
+      - value
+    Links:
+      type: object
+      description: Links to resources related to the request.
+      properties:
+        self:
+          $ref: '#/components/schemas/SelfLink'
     SelfLink:
       type: object
       description: The URL you can invoke to fetch the last event for the payment.
       properties:
         href:
           type: string
-    ActionsQuery:
-      type: object
-      properties:
-        reverse:
-          $ref: '#/components/schemas/ActionLinkV2'
-        partialReverse:
-          $ref: '#/components/schemas/ActionLinkV2'
-        settle:
-          $ref: '#/components/schemas/ActionLinkV2'
-        partialSettle:
-          $ref: '#/components/schemas/ActionLinkV2'
-  examples:
-    query-202-pending:
-      value:
-        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        lastEvent: pending
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        _actions: {}
-    confirm-payment-201:
-      value:
-        paymentId: uK9Oh5zz4yKhGuFofhhnC_h2WwCXUTVwK1Lx7OP-WOiwgLd0DJ5uYK8NLsKG-rFtM4xXFxk15W-f-R1c3u_fq6rRIVQO_lZhwklop_5RcXz35RD_4TJfbjKQAyEFQXOTgUZHQIK3iu8VcHfOiFVHyN-y7ZDRr24t7o6s_bHlZxpba-zPVQ7PG1AztEwRCfVJ
-        lastEvent: authorized
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/uK9Oh5zz4yKhGuFofhhnC_h2WwCXUTVwK1Lx7OP-WOiwgLd0DJ5uYK8NLsKG-rFtM4xXFxk15W-f-R1c3u_fq6rRIVQO_lZhwklop_5RcXz35RD_4TJfbjKQAyEFQXOTgUZHQIK3iu8VcHfOiFVHyN-y7ZDRr24t7o6s_bHlZxpba-zPVQ7PG1AztEwRCfVJ
-        _actions: {}
-    query-202-sentForSettlement:
-      value:
-        paymentId: HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE
-        lastEvent: sentForSettlement
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE
-        _actions:
-          reverse:
-            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE/reversals
-            method: POST
-          partialReverse:
-            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ3ARjxkddPEGy1lc7iYKKMalDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C3hdIC81cD2YK2o8Arh-whkOhzH5eLvBJHPh6ir8ugqJiAywCh6RPZhv8QHDyzDZDE/reversals
-            method: POST
-    response-500:
-      value:
-        errorName: internalErrorOccurred
-        message: An internal problem occurred with your request, please try again.
-    reverse-202:
-      value:
-        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        lastEvent: sentForRefund
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        _actions: {}
-        commandId: cmdfD7kJPxS4EiQhq3zCFcny0
-    query-202-sentForRefund:
-      value:
-        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        lastEvent: sentForRefund
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        _actions: {}
-    payment-settlement-klarna:
-      value:
-        reference: string
-        value:
-          amount: 12
-          currency: AED
-        shipping:
-          courier:
-          - trackingId: BBB0000000
-        order:
-          items:
-          - name: Panaphonics DH12-HK & Accessories
-            quantity: 1
-            unitCost: 12000
-            totalTaxAmount: 12000
-            totalAmount: 2000
-            productUrl: http://www.merchanturl.com/products/f2ytrdmn
-            imageUrl: http://www.merchanturl.com/products/f2ytrdmn_small.jpg
-    payment-reversal-pix:
-      value:
-        reference: string
-        value:
-          amount: 12
-          currency: BRL
-        reasonCode: BE08
-    payment-reversal:
-      value:
-        reference: string
-        value:
-          amount: 12
-          currency: AED
-    response-400:
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: The json body provided does not match the expected schema
-        validationErrors:
-        - errorName: fieldHasInvalidValue
-          message: Field is mandatory
-          jsonPath: $.instruction.value.amount
-    response-401:
-      value:
-        errorName: unauthorized
-        message: Invalid authentication
-    query-202-authorized:
-      value:
-        paymentId: HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4
-        lastEvent: authorized
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4
-        _actions:
-          reverse:
-            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4/reversals
-            method: POST
-          partialReverse:
-            href: https://try.access.worldpay.com/apmPayments/HZ75WBkfRwmD9YzLSZFnQ0aww_aMF9fAHidQrEC483OlDSUrxrcX5x_wn93uYUZB26bWaGtSc4n1mbKHCn5p1tAsrh_YcN6kEXom71Xl4C2pzlfJNMqKvq0mYDWxvR0iOhzH5eLvBJHPh6ir8ugqJmt5VJZ_vcfGLqPgLOBUAk4/reversals
-            method: POST
-    response-404:
-      value:
-        errorName: paymentNotFound
-        message: Payment resource not found.
-    payment-settlement:
-      value:
-        reference: string
-        value:
-          amount: 12
-          currency: AED
-    payment-reversal-klarna:
-      value:
-        reference: string
-        value:
-          amount: 12
-          currency: EUR
-        order:
-          items:
-          - productCode: fff1223
-            name: Red Hat
-            quantity: 1
-            unitCost: 1234
-            totalTaxAmount: 0
-            totalAmount: 1234
-            productUrl: https://example.com
-            imageUrl: https://example.com
-          - productCode: fff1226
-            name: Red Hat
-            quantity: 1
-            unitCost: 1234
-            totalTaxAmount: 0
-            totalAmount: 1234
-            productUrl: https://example.com
-            imageUrl: https://example.com
-    settlement-202:
-      value:
-        paymentId: 3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        lastEvent: sentForSettlement
-        _links:
-          self:
-            href: https://try.access.worldpay.com/apmPayments/3Ihrz_xFV1nTRAHhJABserDF09eNdqnSHh2H8qlv7QIZ4iW8JjMy1wo4b2GozzFtfnOUMIZGm4eSqTixJe1tGDzD3NTuoxp7Ud1N920NPyBiaK1MePsYPNh4StVn5GLv9dz9tm3t0o9KS2dze2cQ2iJdjRiX7-j4OEhFc5W4W6hK1prAjyQIHthwfovFL63f
-        _actions: {}
-        commandId: cmdEy5vwB0krLe9eMwAcE66c0
   securitySchemes:
     BasicAuth:
       type: http

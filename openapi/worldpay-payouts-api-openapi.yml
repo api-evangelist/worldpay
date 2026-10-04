@@ -990,24 +990,92 @@ paths:
       - Payouts
 components:
   schemas:
-    scheme:
-      type: object
+    card_networkToken:
       required:
-      - name
+      - type
+      - tokenNumber
+      - expiryDate
+      type: object
+      description: Network Payment Token details.
       properties:
-        name:
+        type:
           type: string
-          description: The name of the card scheme that was used to process your payout request
-          enum:
-          - visa
-          - mastercard
-          x-enumDescriptions:
-            visa: Processed with Visa Direct
-            mastercard: Processed with Mastercard Send
-        reference:
+        tokenNumber:
           type: string
-          description: The reference returned by the card scheme for your payout request.
-          example: '520000000001'
+          description: The network payment token number.
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]*$
+          example: '4444333322221111'
+        expiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: The expiry date of the network token. Must be a date in the future.
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+    card_plain:
+      required:
+      - type
+      - cardNumber
+      - cardExpiryDate
+      type: object
+      description: Plain card details.
+      properties:
+        type:
+          type: string
+        cardNumber:
+          type: string
+          description: Your customer's payout card number.
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]*$
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: The expiry date of your customer's card. Must be a date in the future.
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        cardHolderName:
+          type: string
+          pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
+          description: The name on your customer's card. This is not a mandatory field, however it is recommended that you supply this to improve authorization rates. If not supplied, the default is "Not Supplied". Must not contain only numeric characters.
+        billingAddress:
+          required:
+          - countryCode
+          - postalCode
+          type: object
+          description: An object containing the billing address information. We recommend you provide `billingAddress` fields for all Payout requests.
+          properties:
+            countryCode:
+              type: string
+              description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+            postalCode:
+              type: string
+            address1:
+              type: string
+              description: First line of the address. Required if `city` is provided.
+            address2:
+              type: string
+              description: Second line of the address.
+            address3:
+              type: string
+              description: Third line of the address.
+            city:
+              type: string
+              description: City. Required if `address1` is provided.
+            state:
+              type: string
+              description: "Billing contact state code.\n\n * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).\n * For all other regions and provinces around the world, this is a free text field.\n\n  Example:\n\n  * `AZ`\n\n * `Cambridgeshire`"
     payouts_payouts_400_response:
       type: object
       properties:
@@ -1037,6 +1105,89 @@ components:
                 type: string
                 description: The name of the missing query parameter
                 example: transactionReference
+    payouts_basicDisbursement_201_response:
+      required:
+      - _links
+      - outcome
+      - receivedAt
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of payouts request.
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt.
+        _links:
+          type: object
+          properties:
+            payouts:payout:
+              type: object
+              description: Your card payout resource.
+              properties:
+                href:
+                  type: string
+                  description: Your card payout resource.
+                  example: https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
+    payouts_basicDisbursement_422_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: fieldHasInvalidValue
+        message:
+          type: string
+          description: Error message
+          example: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
+        jsonPath:
+          type: string
+          example: $.merchant.entity
+    scheme:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the card scheme that was used to process your payout request
+          enum:
+          - visa
+          - mastercard
+          x-enumDescriptions:
+            visa: Processed with Visa Direct
+            mastercard: Processed with Mastercard Send
+        reference:
+          type: string
+          description: The reference returned by the card scheme for your payout request.
+          example: '520000000001'
+    payouts_query_200_response:
+      required:
+      - outcome
+      - receivedAt
+      - _links
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: outcome of payouts query request
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt
+    card_tokenized:
+      required:
+      - type
+      - href
+      type: object
+      description: Tokenized card details.
+      properties:
+        type:
+          type: string
+        href:
+          type: string
+          description: An object that contains your link to an Access Token.
     payouts_fastAccess_201_response:
       required:
       - _links
@@ -1103,92 +1254,6 @@ components:
                   type: string
                   description: Your card payout resource.
                   example: https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
-    card_tokenized:
-      required:
-      - type
-      - href
-      type: object
-      description: Tokenized card details.
-      properties:
-        type:
-          type: string
-        href:
-          type: string
-          description: An object that contains your link to an Access Token.
-    applepay_decrypted:
-      required:
-      - type
-      - dpan
-      - cardExpiryDate
-      type: object
-      description: Wallet details.
-      properties:
-        type:
-          type: string
-        dpan:
-          type: string
-          description: The device primary account number (DPAN).
-          maxLength: 19
-          minLength: 12
-          pattern: ^[0-9]*$
-          example: '4444333322221111'
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: The expiry date of the payout DPAN. Must be a date in the future.
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-        billingAddress:
-          required:
-          - countryCode
-          - postalCode
-          type: object
-          description: An object containing the billing address information. We recommend you provide `billingAddress` fields for all Payout requests.
-          properties:
-            countryCode:
-              type: string
-              description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
-            postalCode:
-              type: string
-            address1:
-              type: string
-              description: First line of the address. Required if `city` is provided.
-            address2:
-              type: string
-              description: Second line of the address.
-            address3:
-              type: string
-              description: Third line of the address.
-            city:
-              type: string
-              description: City. Required if `address1` is provided.
-            state:
-              type: string
-              description: "Billing contact state code.\n\n * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).\n * For all other regions and provinces around the world, this is a free text field.\n\n  Example:\n\n  * `AZ`\n\n * `Cambridgeshire`"
-        cardHolderName:
-          type: string
-          pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
-          description: The name on your customer's card. This is not a mandatory field however it is recommended that you supply this to improve authorization rates. If not supplied, the default is "Not Supplied". Must not contain only numeric characters.
-    payouts_query_200_response:
-      required:
-      - outcome
-      - receivedAt
-      - _links
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: outcome of payouts query request
-        scheme:
-          $ref: '#/components/schemas/scheme'
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt
     payouts_basicDisbursement_500_response:
       type: object
       properties:
@@ -1200,20 +1265,6 @@ components:
           type: string
           description: Error message
           example: An error occurred within the service (potentially due to an interaction with a downstream service)
-    payouts_fastAccess_422_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: fieldHasInvalidValue
-        message:
-          type: string
-          description: Error message
-          example: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
-        jsonPath:
-          type: string
-          example: $.merchant.entity
     payouts_basicDisbursement:
       required:
       - instruction
@@ -1291,230 +1342,6 @@ components:
           minLength: 1
           pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
           description: A unique reference generated by you, used to identify a payout throughout its lifecycle.
-    payouts_fastAccess_400_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: bodyDoesNotMatchSchema
-        message:
-          type: string
-          description: Error message
-          example: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-          type: array
-          description: Further error details
-          items:
-            type: object
-            properties:
-              errorName:
-                type: string
-                example: fieldHasInvalidValue
-              message:
-                type: string
-                example: The identified field does not contain an expected value. This field must contain one of the expected valid values.
-              jsonPath:
-                type: string
-                example: $.instruction.value.currency
-    payouts_basicDisbursement_201_response:
-      required:
-      - _links
-      - outcome
-      - receivedAt
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: Outcome of payouts request.
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt.
-        _links:
-          type: object
-          properties:
-            payouts:payout:
-              type: object
-              description: Your card payout resource.
-              properties:
-                href:
-                  type: string
-                  description: Your card payout resource.
-                  example: https://try.access.worldpay.com/payouts/Mjp4VmNLR1YyYzJTYWtvTkdRS25adStRPT06QEVTL0NCRy9QS0NTMVBhZGRpfmc6a0NZTDVlQno3bDRRNWJtdGlpTlNpTlgtYnAFRmEwVFA2eFhBWlRyREtPRG1xdUJhE0JKamh6dmJhV1p2dmlOdlJBTkcrZXhIQmIrOEg3V2ZxajVud2hkQWFIMFCkQjVrencyc4VGL3gZU0k9
-    card_networkToken:
-      required:
-      - type
-      - tokenNumber
-      - expiryDate
-      type: object
-      description: Network Payment Token details.
-      properties:
-        type:
-          type: string
-        tokenNumber:
-          type: string
-          description: The network payment token number.
-          maxLength: 19
-          minLength: 12
-          pattern: ^[0-9]*$
-          example: '4444333322221111'
-        expiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: The expiry date of the network token. Must be a date in the future.
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-    payouts_fastAccess_500_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: internalErrorOccurred
-        message:
-          type: string
-          description: Error message
-          example: An error occurred within the service (potentially due to an interaction with a downstream service)
-    payouts_payouts_200_response:
-      required:
-      - outcome
-      - receivedAt
-      - _links
-      type: object
-      properties:
-        outcome:
-          type: string
-          description: Outcome of payout request.
-        scheme:
-          $ref: '#/components/schemas/scheme'
-        receivedAt:
-          type: string
-          description: A timestamp of receivedAt.
-    payouts_basicDisbursement_400_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: bodyDoesNotMatchSchema
-        message:
-          type: string
-          description: Error message
-          example: There were field validation errors. The errors that occurred are within the validationErrors array.
-        validationErrors:
-          type: array
-          description: Further error details
-          items:
-            type: object
-            properties:
-              errorName:
-                type: string
-                example: fieldHasInvalidValue
-              message:
-                type: string
-                example: The identified field does not contain an expected value. This field must contain one of the expected valid values.
-              jsonPath:
-                type: string
-                example: $.instruction.value.currency
-    card_plain:
-      required:
-      - type
-      - cardNumber
-      - cardExpiryDate
-      type: object
-      description: Plain card details.
-      properties:
-        type:
-          type: string
-        cardNumber:
-          type: string
-          description: Your customer's payout card number.
-          maxLength: 19
-          minLength: 12
-          pattern: ^[0-9]*$
-        cardExpiryDate:
-          required:
-          - month
-          - year
-          type: object
-          description: The expiry date of your customer's card. Must be a date in the future.
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-        cardHolderName:
-          type: string
-          pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
-          description: The name on your customer's card. This is not a mandatory field, however it is recommended that you supply this to improve authorization rates. If not supplied, the default is "Not Supplied". Must not contain only numeric characters.
-        billingAddress:
-          required:
-          - countryCode
-          - postalCode
-          type: object
-          description: An object containing the billing address information. We recommend you provide `billingAddress` fields for all Payout requests.
-          properties:
-            countryCode:
-              type: string
-              description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
-            postalCode:
-              type: string
-            address1:
-              type: string
-              description: First line of the address. Required if `city` is provided.
-            address2:
-              type: string
-              description: Second line of the address.
-            address3:
-              type: string
-              description: Third line of the address.
-            city:
-              type: string
-              description: City. Required if `address1` is provided.
-            state:
-              type: string
-              description: "Billing contact state code.\n\n * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).\n * For all other regions and provinces around the world, this is a free text field.\n\n  Example:\n\n  * `AZ`\n\n * `Cambridgeshire`"
-    payouts_basicDisbursement_422_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: fieldHasInvalidValue
-        message:
-          type: string
-          description: Error message
-          example: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
-        jsonPath:
-          type: string
-          example: $.merchant.entity
-    payouts_payouts_401_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: accessDenied
-        message:
-          type: string
-          description: Error message
-          example: Access to the requested resource has been denied
-    payouts_payouts_404_response:
-      type: object
-      properties:
-        errorName:
-          type: string
-          description: Error name
-          example: resourceNotFound
-        message:
-          type: string
-          description: Error message
-          example: The resource you are trying to access does not exist.
     payouts_fastAccess:
       required:
       - instruction
@@ -1609,6 +1436,179 @@ components:
           minLength: 1
           pattern: ^[-A-Za-z0-9_!@#$%()*=.:;?\[\]{}~`/+]*$
           description: A unique reference generated by you, used to identify a payout throughout its lifecycle.
+    payouts_basicDisbursement_400_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          description: Error message
+          example: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+                example: fieldHasInvalidValue
+              message:
+                type: string
+                example: The identified field does not contain an expected value. This field must contain one of the expected valid values.
+              jsonPath:
+                type: string
+                example: $.instruction.value.currency
+    payouts_payouts_401_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: accessDenied
+        message:
+          type: string
+          description: Error message
+          example: Access to the requested resource has been denied
+    payouts_payouts_200_response:
+      required:
+      - outcome
+      - receivedAt
+      - _links
+      type: object
+      properties:
+        outcome:
+          type: string
+          description: Outcome of payout request.
+        scheme:
+          $ref: '#/components/schemas/scheme'
+        receivedAt:
+          type: string
+          description: A timestamp of receivedAt.
+    applepay_decrypted:
+      required:
+      - type
+      - dpan
+      - cardExpiryDate
+      type: object
+      description: Wallet details.
+      properties:
+        type:
+          type: string
+        dpan:
+          type: string
+          description: The device primary account number (DPAN).
+          maxLength: 19
+          minLength: 12
+          pattern: ^[0-9]*$
+          example: '4444333322221111'
+        cardExpiryDate:
+          required:
+          - month
+          - year
+          type: object
+          description: The expiry date of the payout DPAN. Must be a date in the future.
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        billingAddress:
+          required:
+          - countryCode
+          - postalCode
+          type: object
+          description: An object containing the billing address information. We recommend you provide `billingAddress` fields for all Payout requests.
+          properties:
+            countryCode:
+              type: string
+              description: Must be provided in [ISO 3166-1 Alpha-2 format](/products/reference/supported-countries-currencies#iso-country-codes).
+            postalCode:
+              type: string
+            address1:
+              type: string
+              description: First line of the address. Required if `city` is provided.
+            address2:
+              type: string
+              description: Second line of the address.
+            address3:
+              type: string
+              description: Third line of the address.
+            city:
+              type: string
+              description: City. Required if `address1` is provided.
+            state:
+              type: string
+              description: "Billing contact state code.\n\n * For North America, you must use the two-letter state abbreviations as defined in the latter part of the [ISO 3166-2 standard](https://www.iso.org/obp/ui/#iso:code:3166:US).\n * For all other regions and provinces around the world, this is a free text field.\n\n  Example:\n\n  * `AZ`\n\n * `Cambridgeshire`"
+        cardHolderName:
+          type: string
+          pattern: ^(?=.*[A-Za-z])[-A-Za-z0-9_ ]*$
+          description: The name on your customer's card. This is not a mandatory field however it is recommended that you supply this to improve authorization rates. If not supplied, the default is "Not Supplied". Must not contain only numeric characters.
+    payouts_payouts_404_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: resourceNotFound
+        message:
+          type: string
+          description: Error message
+          example: The resource you are trying to access does not exist.
+    payouts_fastAccess_422_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: fieldHasInvalidValue
+        message:
+          type: string
+          description: Error message
+          example: Your merchant boarding process has not enabled payouts for this merchant entity. Please contact support, or use a valid entity.
+        jsonPath:
+          type: string
+          example: $.merchant.entity
+    payouts_fastAccess_400_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: bodyDoesNotMatchSchema
+        message:
+          type: string
+          description: Error message
+          example: There were field validation errors. The errors that occurred are within the validationErrors array.
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+                example: fieldHasInvalidValue
+              message:
+                type: string
+                example: The identified field does not contain an expected value. This field must contain one of the expected valid values.
+              jsonPath:
+                type: string
+                example: $.instruction.value.currency
+    payouts_fastAccess_500_response:
+      type: object
+      properties:
+        errorName:
+          type: string
+          description: Error name
+          example: internalErrorOccurred
+        message:
+          type: string
+          description: Error message
+          example: An error occurred within the service (potentially due to an interaction with a downstream service)
   securitySchemes:
     BasicAuth:
       type: http

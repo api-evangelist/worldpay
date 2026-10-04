@@ -320,6 +320,22 @@ paths:
                 message: An unexpected error occurred.
 components:
   schemas:
+    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
+      type: object
+      properties:
+        errorName:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+        jsonPath:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.GetOriginalItemResponse:
       type: object
       properties:
@@ -331,24 +347,6 @@ components:
             $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem'
         pagination:
           $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination'
-      additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
-      type: object
-      properties:
-        errorName:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-        validationErrors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V2.Models.Pagination:
       required:
@@ -375,7 +373,7 @@ components:
           description: Total number of items listed across all pages.
           format: int32
       additionalProperties: false
-    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel:
+    WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwBodyErrorModel:
       type: object
       properties:
         errorName:
@@ -386,10 +384,12 @@ components:
           type:
           - string
           - 'null'
-        jsonPath:
+        validationErrors:
           type:
-          - string
+          - array
           - 'null'
+          items:
+            $ref: '#/components/schemas/WP.FXT.SinglePayoutApi.Domain.Shared.ErrorModels.AwJsonPathErrorModel'
       additionalProperties: false
     WP.FXT.SinglePayoutApi.Domain.PayoutItemSearch.V3.Models.OriginalItem:
       required:

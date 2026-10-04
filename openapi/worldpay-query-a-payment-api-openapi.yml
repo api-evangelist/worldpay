@@ -235,6 +235,25 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errorName:
+          type: string
+        message:
+          type: string
+        validationErrors:
+          type: array
+          description: Further error details
+          items:
+            type: object
+            properties:
+              errorName:
+                type: string
+              message:
+                type: string
+              jsonPath:
+                type: string
     ErrorResponse:
       type: object
       properties:
@@ -304,25 +323,6 @@ components:
             Refunded: The card issuer has received the refund request and they will return the funds to your customer's account. This event is only available in certain use cases.
             Error: The payment wasn't completed. You may want to reattempt the payment.
             Expired: The authorization validity period ended before a settlement or cancel request was made.
-    ValidationErrorResponse:
-      type: object
-      properties:
-        errorName:
-          type: string
-        message:
-          type: string
-        validationErrors:
-          type: array
-          description: Further error details
-          items:
-            type: object
-            properties:
-              errorName:
-                type: string
-              message:
-                type: string
-              jsonPath:
-                type: string
   securitySchemes:
     BasicAuth:
       type: http

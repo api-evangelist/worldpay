@@ -108,7 +108,84 @@ paths:
       tags:
       - AchVerifications
 components:
+  parameters:
+    achAcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/vnd.worldpay.achVerifications-v6+json
+    achContentTypeHeader:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        example: application/vnd.worldpay.achVerifications-v6+json
   schemas:
+    validationError:
+      type: object
+      required:
+      - errorName
+      - message
+      properties:
+        errorName:
+          type: string
+          description: A machine and human readable error type for clarity and semantic understanding of the error.
+          enum:
+          - fieldIsMissing
+          - fieldMustBeString
+          - fieldMustBeNumber
+          - fieldMustBeInteger
+          - fieldMustBeBoolean
+          - fieldMustBeObject
+          - fieldMustBeArray
+          - fieldIsNull
+          - fieldIsEmpty
+          - fieldHasInvalidValue
+          - fieldIsNotAllowed
+          - numberIsTooSmall
+          - integerIsTooLarge
+          - stringIsTooShort
+          - stringIsTooLong
+          - stringFailedRegexCheck
+          - panFailedLuhnCheck
+          - dateHasInvalidFormat
+          example: fieldIsNotAllowed
+        message:
+          type: string
+          description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+          example: Field at path is not allowed.
+        jsonPath:
+          type: string
+          description: This field represents the JSON path of the element within the request body associated with the error.
+          example: $.transactionRef
+    lastName:
+      type: string
+      description: surname
+      maxLength: 85
+      minLength: 1
+      example: Holmes
+    verifications_ach:
+      required:
+      - merchant
+      - paymentInstrument
+      - transactionReference
+      type: object
+      properties:
+        merchant:
+          required:
+          - entity
+          type: object
+          properties:
+            entity:
+              type: string
+              description: Used to route the verification request in Access Worldpay, created as part of on-boarding.
+        paymentInstrument:
+          $ref: '#/components/schemas/bankAccountUS'
+        transactionReference:
+          type: string
     bankAccountUS:
       required:
       - type
@@ -179,78 +256,16 @@ components:
             telephoneNumber:
               type: string
               description: An identifier for the telephoneNumber being used.
-    postalCode:
+    firstName:
       type: string
-      description: Recipient's postal code.
-      maxLength: 15
+      description: given name
+      maxLength: 85
       minLength: 1
-      example: NW1 6XE
+      example: Alice
     checkedAt:
       type: string
       example: '2024-03-26T19:38:29.543195Z'
       pattern: ^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3,})Z$
-    validationError:
-      type: object
-      required:
-      - errorName
-      - message
-      properties:
-        errorName:
-          type: string
-          description: A machine and human readable error type for clarity and semantic understanding of the error.
-          enum:
-          - fieldIsMissing
-          - fieldMustBeString
-          - fieldMustBeNumber
-          - fieldMustBeInteger
-          - fieldMustBeBoolean
-          - fieldMustBeObject
-          - fieldMustBeArray
-          - fieldIsNull
-          - fieldIsEmpty
-          - fieldHasInvalidValue
-          - fieldIsNotAllowed
-          - numberIsTooSmall
-          - integerIsTooLarge
-          - stringIsTooShort
-          - stringIsTooLong
-          - stringFailedRegexCheck
-          - panFailedLuhnCheck
-          - dateHasInvalidFormat
-          example: fieldIsNotAllowed
-        message:
-          type: string
-          description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-          example: Field at path is not allowed.
-        jsonPath:
-          type: string
-          description: This field represents the JSON path of the element within the request body associated with the error.
-          example: $.transactionRef
-    verifications_ach:
-      required:
-      - merchant
-      - paymentInstrument
-      - transactionReference
-      type: object
-      properties:
-        merchant:
-          required:
-          - entity
-          type: object
-          properties:
-            entity:
-              type: string
-              description: Used to route the verification request in Access Worldpay, created as part of on-boarding.
-        paymentInstrument:
-          $ref: '#/components/schemas/bankAccountUS'
-        transactionReference:
-          type: string
-    lastName:
-      type: string
-      description: surname
-      maxLength: 85
-      minLength: 1
-      example: Holmes
     verifications_ach_201_response:
       required:
       - outcome
@@ -268,109 +283,13 @@ components:
           type: string
         checkedAt:
           $ref: '#/components/schemas/checkedAt'
-    firstName:
+    postalCode:
       type: string
-      description: given name
-      maxLength: 85
+      description: Recipient's postal code.
+      maxLength: 15
       minLength: 1
-      example: Alice
-  examples:
-    validationError:
-      value:
-        errorName: bodyDoesNotMatchSchema
-        message: A JSON body matching the expected schema must be provided.
-        validationErrors:
-        - errorName: fieldIsNotAllowed
-          message: Field at path is not allowed.
-          jsonPath: $.transactionRef
-    headerError:
-      value:
-        errorName: headerIsMissing
-        message: A valid header must be provided.
-        headerName: Content-Type
+      example: NW1 6XE
   responses:
-    '415':
-      description: Invalid content-type HTTP header
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          schema:
-            title: error415
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: headerHasInvalidValue
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: A valid header must be provided.
-              headerName:
-                type: string
-                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
-                example: Content-Type
-    '500':
-      description: An error occurred processing the request on our side.
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          schema:
-            title: error500
-            type: object
-            required:
-            - errorName
-            - message
-            properties:
-              errorName:
-                type: string
-                enum:
-                - internalServerError
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: internalServerError
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: An internal server error occurred
-    '401':
-      description: Client is not authorized due to missing or invalid Authorization header.
-      headers:
-        WP-CorrelationId:
-          schema:
-            type: string
-          description: Generated identifier for the request and response. When contacting support please include this.
-          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
-      content:
-        application/json:
-          schema:
-            title: error401
-            type: object
-            required:
-            - errorName
-            - message
-            - headerName
-            properties:
-              errorName:
-                type: string
-                description: A machine and human readable error type for clarity and semantic understanding of the error.
-                example: accessDenied
-              message:
-                type: string
-                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
-                example: Access to the requested resource has been denied
     '404':
       description: Not Found - unable to locate requested record
       headers:
@@ -401,6 +320,62 @@ components:
           example:
             errorName: resourceNotFound
             message: Unable to verify the historic outcome from the data provided
+    '500':
+      description: An error occurred processing the request on our side.
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error500
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                enum:
+                - internalServerError
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: internalServerError
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: An internal server error occurred
+    '415':
+      description: Invalid content-type HTTP header
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error415
+            type: object
+            required:
+            - errorName
+            - message
+            properties:
+              errorName:
+                type: string
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: headerHasInvalidValue
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: A valid header must be provided.
+              headerName:
+                type: string
+                description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
+                example: Content-Type
     '400':
       description: Bad Request
       headers:
@@ -447,21 +422,46 @@ components:
                 type: string
                 description: If the header is missing or does not contain an expected value, this field will be populated with the incorrect header name.
                 example: Content-Type
-  parameters:
-    achAcceptHeader:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        example: application/vnd.worldpay.achVerifications-v6+json
-    achContentTypeHeader:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        example: application/vnd.worldpay.achVerifications-v6+json
+    '401':
+      description: Client is not authorized due to missing or invalid Authorization header.
+      headers:
+        WP-CorrelationId:
+          schema:
+            type: string
+          description: Generated identifier for the request and response. When contacting support please include this.
+          example: 4c195ce9-3dbd-4bc8-9c94-3d3393842323
+      content:
+        application/json:
+          schema:
+            title: error401
+            type: object
+            required:
+            - errorName
+            - message
+            - headerName
+            properties:
+              errorName:
+                type: string
+                description: A machine and human readable error type for clarity and semantic understanding of the error.
+                example: accessDenied
+              message:
+                type: string
+                description: A human readable message giving a corrective action for the error.  *This is not for machine consumption*
+                example: Access to the requested resource has been denied
+  examples:
+    headerError:
+      value:
+        errorName: headerIsMissing
+        message: A valid header must be provided.
+        headerName: Content-Type
+    validationError:
+      value:
+        errorName: bodyDoesNotMatchSchema
+        message: A JSON body matching the expected schema must be provided.
+        validationErrors:
+        - errorName: fieldIsNotAllowed
+          message: Field at path is not allowed.
+          jsonPath: $.transactionRef
   securitySchemes:
     BasicAuth:
       type: http
