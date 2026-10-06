@@ -35,7 +35,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/worldpay.p
 url: https://raw.githubusercontent.com/api-evangelist/worldpay/refs/heads/main/apis.yml
 version: '0.19'
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-10-06'
 tags:
 - Payments
 - Payment Processing
@@ -765,6 +765,8 @@ apis:
   - type: Documentation
     url: https://docs.worldpay.com/access/apis
 common:
+- url: https://www.worldpay.com/en/insights
+  type: Blog
 - type: Pricing
   url: https://go.worldpay.com/pricing
 - type: Website
