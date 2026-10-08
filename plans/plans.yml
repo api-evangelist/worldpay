@@ -53,3 +53,57 @@ plans:
   price: 15
   currency: GBP
   period: month
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - subscription
+  units:
+  - transaction
+  plans:
+  - name: Authorisation fee per transaction
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - transaction
+    periods:
+    - other
+  - name: Chargeback fee
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Point-of-sale terminal (per terminal per month)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Gateway
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: PCI DSS service fee
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Minimum monthly service charge (MMSC)
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
