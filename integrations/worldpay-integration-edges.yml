@@ -1,5 +1,5 @@
 generated: '2026-10-12'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/worldpay/integrations
 - https://n8n.io/integrations/worldpay/
@@ -9,8 +9,26 @@ checked:
 - https://composio.dev/toolkits/worldpay
 - https://monid.ai/tools/worldpay
 - https://n8n.io/integrations/worldpay/
+- https://www.openbanking.org.uk/regulated-providers/worldpay-ap-ltd/
 - https://zapier.com/apps/worldpay/integrations
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: UK Open Banking
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.openbanking.org.uk/regulated-providers/worldpay-ap-ltd/
+  contract_reference:
+    register: UK Open Banking regulated providers (OBL directory)
+    spec_file: null
+    role: Third Party Providers
+    registered_name: WorldPay AP Ltd
+    register_id: https://register.fca.org.uk/ShPo_FirmDetailsPage?id=001b000000MgGDbAAN
+    matched_domain: worldpay.com
+    api_families: null
+    detected_by: sweep-standard-registers.py
+    detected: '2026-10-12'
 templates: []
