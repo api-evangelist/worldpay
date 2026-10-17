@@ -781,18 +781,6 @@ paths:
       - Foreign Exchange
 components:
   schemas:
-    ErrorResponse400Contract:
-      type: object
-      required:
-      - errorName
-      - message
-      properties:
-        errorName:
-          description: The unique error name
-          type: string
-        message:
-          description: Error description message
-          type: string
     ExternalPostQuoteResponse:
       type: object
       properties:
@@ -809,84 +797,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ExternalQuoteItems'
-    putActivatedContractItems:
-      required:
-      - status
-      - entity
-      type: object
-      properties:
-        status:
-          description: New status of the contract.
-          enum:
-          - ACTIVE
-          - CANCELLED
-          type: string
-        entity:
-          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process
-          example: '100001'
-          type: string
-    CurrencyCode:
-      type: string
-      minLength: 3
-      maxLength: 3
-      pattern: ^[A-Z]*$
-    ErrorResponse400QuoteItem:
-      type: object
-      required:
-      - jsonPath
-      - errorName
-      - message
-      properties:
-        jsonPath:
-          description: Parameter for which the error occurred
-          type: string
-        errorName:
-          description: Unique name of the validation error
-          type: string
-        message:
-          description: Error description message
-          type: string
-    ErrorResponse:
-      type: object
-      required:
-      - errorName
-      - message
-      properties:
-        errorName:
-          description: The unique error name
-          type: string
-        message:
-          description: Error description message
-          type: string
-    postCreateQuoteItems:
-      required:
-      - entity
-      - intent
-      - sourceCurrency
-      - targetCurrency
-      type: object
-      properties:
-        entity:
-          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process
-          example: '100001'
-          type: string
-        intent:
-          description: Transaction type (intention) for which rates should be retrieved.
-          type: string
-          enum:
-          - PAYOUT
-          - FX DEAL
-          - MULTI-CURRENCY PRICING
-          - CONSUMER RATES
-          - PAYOUT LIVE RATE
-        sourceCurrency:
-          description: The debit currency.
-          example: USD
-          type: string
-        targetCurrency:
-          description: The credit currency.
-          example: EUR
-          type: string
     ErrorResponse400:
       type: object
       required:
@@ -905,64 +815,34 @@ components:
         message:
           description: Error description message
           type: string
-    ExternalGetMarkupResponse:
+    ErrorResponse:
       type: object
+      required:
+      - errorName
+      - message
       properties:
-        sourceCurrency:
-          description: The debit currency.
+        errorName:
+          description: The unique error name
           type: string
-          example: EUR
-        targetCurrency:
-          description: The credit currency.
+        message:
+          description: Error description message
           type: string
-          example: GBP
-        paymentMethod:
-          description: Payment method.
-          type: string
-          example: ENDCONSUMERRATES
-        entity:
-          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process.
-          type: string
-          example: '100001'
-        value:
-          description: Markup value setup.
-          type: string
-          example: '1.234'
-    ExternalQuoteItems:
+    ErrorResponse400Item:
       type: object
+      required:
+      - queryParameter
+      - errorName
+      - message
       properties:
-        quoteId:
-          description: Unique quote id.
+        queryParameter:
+          description: Parameter for which the error occurred
           type: string
-          example: Q000000001
-        sourceCurrency:
-          description: The debit currency.
+        errorName:
+          description: Unique name of the validation error
           type: string
-          example: EUR
-        targetCurrency:
-          description: The credit currency.
+        message:
+          description: Error description message
           type: string
-          example: GBP
-        rateId:
-          description: Unique rate id.
-          type: string
-          example: '12345678'
-        rate:
-          description: Rate amount.
-          type: string
-          example: '1.2345'
-        quoteExpiryTime:
-          description: Quote start time.
-          type: string
-          example: '2025-01-10T12:00:00.000Z'
-    ExternalRateResponse:
-      type: object
-      properties:
-        rates:
-          description: A collection of rates items.
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalRateItems'
     ErrorResponse400Quote:
       type: object
       required:
@@ -981,6 +861,56 @@ components:
         message:
           description: Error description message
           type: string
+    putActivatedContractItems:
+      required:
+      - status
+      - entity
+      type: object
+      properties:
+        status:
+          description: New status of the contract.
+          enum:
+          - ACTIVE
+          - CANCELLED
+          type: string
+        entity:
+          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process
+          example: '100001'
+          type: string
+    ExternalPostContractResponse:
+      type: object
+      properties:
+        contractId:
+          description: Unique ID of the contract.
+          type: string
+          example: C000000001
+        targetAmount:
+          description: Crediting currency code.
+          type: string
+          example: EUR
+        sourceAmount:
+          description: Debiting currency code.
+          type: string
+          example: GBP
+        status:
+          description: Status of the contract.
+          type: string
+          example: PENDING
+        effectiveDate:
+          description: Datetime representation in UTC of when the contract starts.
+          type: string
+          example: '2025-01-01T00:00:00.000Z'
+        customerReference:
+          description: A reference generated by you representing the payer who funds the FX contract.
+          type:
+          - string
+          - 'null'
+          example: Customer 001
+        quote:
+          description: A collection of quote items.
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalContractQuoteItems'
     ExternalContractQuoteItems:
       type: object
       properties:
@@ -1016,69 +946,45 @@ components:
           description: Quote start time.
           type: string
           example: 2025-01-015T23:59:59.999Z
-    postCreateContractItems:
+    putMarkupRequestItems:
       required:
-      - effectiveDate
       - sourceCurrency
       - targetCurrency
-      - targetAmount
-      - entity
+      - markup
       type: object
       properties:
-        effectiveDate:
-          description: A future date when the contract becomes available and can be used. Date must be within 30 days in the future.
-          example: '2025-12-31T00:00:00.000Z'
-          type: string
         sourceCurrency:
           description: The transaction currency code. If not supplied, the response contains rates for all source currencies against the target currency.
-          example: USD
+          example: AUD
         targetCurrency:
           description: Your funding (settlement) currency code. If not supplied, the response contains rates for all target currencies against the source currency.
-          example: EUR
-        targetAmount:
-          description: The total amount for your forward FX contract and future payout request in the targetCurrency.
+          example: GBP
+        markup:
+          description: The additional margin percentage set up on FX rates.
           example: 1.23
-        entity:
-          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process
-          example: '100001'
-        customerReference:
-          description: A reference generated by you representing the payer who funds the FX contract.
-          example: Customer 001
-          maxLength: 35
-    ExternalPostContractResponse:
+    ExternalGetMarkupResponse:
       type: object
       properties:
-        contractId:
-          description: Unique ID of the contract.
-          type: string
-          example: C000000001
-        targetAmount:
-          description: Crediting currency code.
+        sourceCurrency:
+          description: The debit currency.
           type: string
           example: EUR
-        sourceAmount:
-          description: Debiting currency code.
+        targetCurrency:
+          description: The credit currency.
           type: string
           example: GBP
-        status:
-          description: Status of the contract.
+        paymentMethod:
+          description: Payment method.
           type: string
-          example: PENDING
-        effectiveDate:
-          description: Datetime representation in UTC of when the contract starts.
+          example: ENDCONSUMERRATES
+        entity:
+          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process.
           type: string
-          example: '2025-01-01T00:00:00.000Z'
-        customerReference:
-          description: A reference generated by you representing the payer who funds the FX contract.
-          type:
-          - string
-          - 'null'
-          example: Customer 001
-        quote:
-          description: A collection of quote items.
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalContractQuoteItems'
+          example: '100001'
+        value:
+          description: Markup value setup.
+          type: string
+          example: '1.234'
     ExternalRateItems:
       type: object
       properties:
@@ -1127,22 +1033,132 @@ components:
           type: string
           format: date-time
           example: '2025-01-10T12:00:00.000Z'
-    putMarkupRequestItems:
+    CurrencyCode:
+      type: string
+      minLength: 3
+      maxLength: 3
+      pattern: ^[A-Z]*$
+    postCreateQuoteItems:
       required:
+      - entity
+      - intent
       - sourceCurrency
       - targetCurrency
-      - markup
       type: object
       properties:
+        entity:
+          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process
+          example: '100001'
+          type: string
+        intent:
+          description: Transaction type (intention) for which rates should be retrieved.
+          type: string
+          enum:
+          - PAYOUT
+          - FX DEAL
+          - MULTI-CURRENCY PRICING
+          - CONSUMER RATES
+          - PAYOUT LIVE RATE
+        sourceCurrency:
+          description: The debit currency.
+          example: USD
+          type: string
+        targetCurrency:
+          description: The credit currency.
+          example: EUR
+          type: string
+    ErrorResponse400Contract:
+      type: object
+      required:
+      - errorName
+      - message
+      properties:
+        errorName:
+          description: The unique error name
+          type: string
+        message:
+          description: Error description message
+          type: string
+    ExternalQuoteItems:
+      type: object
+      properties:
+        quoteId:
+          description: Unique quote id.
+          type: string
+          example: Q000000001
+        sourceCurrency:
+          description: The debit currency.
+          type: string
+          example: EUR
+        targetCurrency:
+          description: The credit currency.
+          type: string
+          example: GBP
+        rateId:
+          description: Unique rate id.
+          type: string
+          example: '12345678'
+        rate:
+          description: Rate amount.
+          type: string
+          example: '1.2345'
+        quoteExpiryTime:
+          description: Quote start time.
+          type: string
+          example: '2025-01-10T12:00:00.000Z'
+    ErrorResponse400QuoteItem:
+      type: object
+      required:
+      - jsonPath
+      - errorName
+      - message
+      properties:
+        jsonPath:
+          description: Parameter for which the error occurred
+          type: string
+        errorName:
+          description: Unique name of the validation error
+          type: string
+        message:
+          description: Error description message
+          type: string
+    ExternalRateResponse:
+      type: object
+      properties:
+        rates:
+          description: A collection of rates items.
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalRateItems'
+    postCreateContractItems:
+      required:
+      - effectiveDate
+      - sourceCurrency
+      - targetCurrency
+      - targetAmount
+      - entity
+      type: object
+      properties:
+        effectiveDate:
+          description: A future date when the contract becomes available and can be used. Date must be within 30 days in the future.
+          example: '2025-12-31T00:00:00.000Z'
+          type: string
         sourceCurrency:
           description: The transaction currency code. If not supplied, the response contains rates for all source currencies against the target currency.
-          example: AUD
+          example: USD
         targetCurrency:
           description: Your funding (settlement) currency code. If not supplied, the response contains rates for all target currencies against the source currency.
-          example: GBP
-        markup:
-          description: The additional margin percentage set up on FX rates.
+          example: EUR
+        targetAmount:
+          description: The total amount for your forward FX contract and future payout request in the targetCurrency.
           example: 1.23
+        entity:
+          description: 6-digit reference given to you by your Worldpay Implementation Manager during the onboarding process
+          example: '100001'
+        customerReference:
+          description: A reference generated by you representing the payer who funds the FX contract.
+          example: Customer 001
+          maxLength: 35
     ExternalGetQuoteResponse:
       type: object
       properties:
@@ -1159,22 +1175,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ExternalQuoteItems'
-    ErrorResponse400Item:
-      type: object
-      required:
-      - queryParameter
-      - errorName
-      - message
-      properties:
-        queryParameter:
-          description: Parameter for which the error occurred
-          type: string
-        errorName:
-          description: Unique name of the validation error
-          type: string
-        message:
-          description: Error description message
-          type: string
   securitySchemes:
     basicAuth:
       type: http
