@@ -140,6 +140,11 @@ apis:
   - 3D Secure
   - Authentication
   - Regulatory Compliance
+  - Software Composition Analysis
+  tags_raw:
+  - 3D Secure
+  - Authentication
+  - Regulatory Compliance
   - SCA
   properties:
   - type: Documentation
