@@ -18,6 +18,8 @@ checked:
 - https://www.openbanking.org.uk/regulated-providers/worldpay-ap-ltd/
 - https://zapier.com/apps/worldpay/integrations
 - https://listings.pcisecuritystandards.org/assessors_and_solutions
+- bigcommerce/integrations/bigcommerce-integration-edges.yml
+- salesforce-commerce-cloud/integrations/salesforce-commerce-cloud-integration-edges.yml
 summary: null
 marketplace_apps: []
 edges:
@@ -144,4 +146,38 @@ edges:
     identity_note: register-name 'worldpay' = worldpay; no wikidata P856
   detected_by: sweep-compliance-assurance.py
   first_seen: '2026-10-20'
+- partner_name: BigCommerce (own)
+  partner: bigcommerce
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.bigcommerce.com/apps/worldpay-wpg/
+  mirror_of: bigcommerce/integrations/bigcommerce-integration-edges.yml
+  apps:
+  - Worldpay WPG
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: Payments & Security, Payment Processors & Gateways
+- partner_name: Salesforce Commerce Cloud (own)
+  partner: salesforce-commerce-cloud
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://appexchange.salesforce.com/appxListingDetail?listingId=b84e930e-9eb7-49b6-9868-cfc251a0a7b7
+  mirror_of: salesforce-commerce-cloud/integrations/salesforce-commerce-cloud-integration-edges.yml
+  apps:
+  - Worldpay Payments Cartridge for B2C Commerce
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: eCommerce, paymentsProcessing
 templates: []

@@ -129,3 +129,29 @@
     identity_note: register-name 'worldpay' = worldpay; no wikidata P856
   status: not-a-workflow
   arazzo: null
+- slug: worldpay-bigcommerce-own
+  label: BigCommerce (own)
+  partner: bigcommerce
+  partner_name: BigCommerce (own)
+  category: Payments & Security, Payment Processors & Gateways
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.bigcommerce.com/apps/worldpay-wpg/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: worldpay-salesforce-commerce-cloud-own
+  label: Salesforce Commerce Cloud (own)
+  partner: salesforce-commerce-cloud
+  partner_name: Salesforce Commerce Cloud (own)
+  category: eCommerce, paymentsProcessing
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://appexchange.salesforce.com/appxListingDetail?listingId=b84e930e-9eb7-49b6-9868-cfc251a0a7b7
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
